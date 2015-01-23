@@ -1,0 +1,1 @@
+/vagrant/www/app/views/schedules/index.blade.php

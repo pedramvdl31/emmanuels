@@ -1,0 +1,1 @@
+/vagrant/www/app/views/taxes/index.blade.php
