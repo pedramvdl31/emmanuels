@@ -18,6 +18,7 @@ class ResourcesController extends \BaseController {
         $this->controller = strtolower(str_replace('Controller', '', $routes[0]));
         $this->method = $routes[1];
         $this->parameters = Route::current()->parameters();
+        $this->company_id = 1;
 
 		// Set the layout
 		switch(Auth::user()->roles){
@@ -124,10 +125,10 @@ public function getIndex() {
 	        	->withInput();
 	    }
 	}
-	public function getEdit($id = null) {
+	public function getEdit() {
 
-		$companies = Company::find($id);
-		$path = 'img'.DIRECTORY_SEPARATOR.$id;
+		$companies = Company::find($this->company_id);
+		$path = 'img'.DIRECTORY_SEPARATOR.$this->company_id;
 		$resources = glob($path.DIRECTORY_SEPARATOR.'*.*');
 		// $this->layout = View::make('layouts.admin_company'); // Override controller layout
 		$this->layout->content = View::make('resources.edit')
@@ -141,7 +142,7 @@ public function getIndex() {
 
 		$owner_id = (isset(Auth::user()->parent_id)) ? Auth::user()->parent_id : Auth::user()->id;	    	
         // validation has passed, save user in DB
-		$id = Input::get('id');
+		$id = $this->company_id;
 		$company = Company::find($id);
 		$company->name = Input::get('name');
 		$company->nick_name = Input::get('nick_name');
@@ -170,7 +171,7 @@ public function getIndex() {
 		error_reporting(E_ALL | E_STRICT);
 		$upload_handler = new UploadHandler();
 		$this->layout = '';
-		$company_id = Input::get('id');
+		$company_id = $this->company_id;
 		$path = 'tmp/img';
 		// Loop through the tmp/img folder and move all uploaded images to their respective folders
 		foreach (glob($path.DIRECTORY_SEPARATOR.'*.*') as $file) {

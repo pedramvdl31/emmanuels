@@ -115,13 +115,12 @@
 	<div id="top" class="jumbotron">
 		<h1>Resources</h1>
 		<ol class="breadcrumb">
-			<li><a href="/resources">Resources Home</a></li>
-			<li class="active">Edit Resources</li>
+			<li class="active">Manage Resources</li>
 		</ol>
 	</div>
 
 	{{ Form::open(array('action' => 'ResourcesController@postEdit', 'id'=>'fileupload','role'=>"form",'files'=> true)) }}
-	{{ Form::hidden('id', $companies['id']) }}	
+
 	<div id="step1" class="panel panel-default">
 		
 		<div class="panel-heading">
