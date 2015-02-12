@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.40, for debian-linux-gnu (i686)
+-- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (i686)
 --
 -- Host: localhost    Database: emmanuels
 -- ------------------------------------------------------
--- Server version	5.5.40-0ubuntu0.12.04.1
+-- Server version	5.5.41-0ubuntu0.12.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -173,6 +173,29 @@ INSERT INTO `migrations` VALUES ('2014_11_21_053316_create_users_table',1),('201
 UNLOCK TABLES;
 
 --
+-- Table structure for table `password_reminders`
+--
+
+DROP TABLE IF EXISTS `password_reminders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_reminders` (
+  `email` varchar(225) NOT NULL,
+  `token` varchar(225) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reminders`
+--
+
+LOCK TABLES `password_reminders` WRITE;
+/*!40000 ALTER TABLE `password_reminders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reminders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `resources`
 --
 
@@ -269,10 +292,11 @@ CREATE TABLE `users` (
   `deleted_at` datetime DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_username_unique` (`username`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -281,7 +305,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'onedough83','Wondo','Choung','wondo@eyelevate.com','$2y$10$0y.zvCjkdPlrfoNrQlqut.MLc5UK.vEqSWWpELFq0ys9FMA4bpMBO','uKfsjH9VXyxqz2Z2PFJgSGvCeuCFIRZEkj8qaopbFjLU2AKpjgXkbfVKBoEH',1,NULL,'2014-11-21 07:50:57','2015-02-12 00:51:52'),(2,'tsand','Thea','Sand','tsand@yahoo.com','$2y$10$VZvsyO4aTnw84brG7rRSte6faeU8SmOnl8bibNj9262SxTi5KIYaa',NULL,2,NULL,'2015-02-02 13:28:55','2015-02-02 13:28:55'),(3,'pedram','Pedram','Pedram','pedram@eyelevate.com','$2y$10$0y.zvCjkdPlrfoNrQlqut.MLc5UK.vEqSWWpELFq0ys9FMA4bpMBO',NULL,1,NULL,'2015-02-12 00:00:00','2015-02-12 00:00:00');
+INSERT INTO `users` VALUES (1,'onedough83','Wondo','Choung','wondo@eyelevate.com','$2y$10$0y.zvCjkdPlrfoNrQlqut.MLc5UK.vEqSWWpELFq0ys9FMA4bpMBO','uKfsjH9VXyxqz2Z2PFJgSGvCeuCFIRZEkj8qaopbFjLU2AKpjgXkbfVKBoEH',1,NULL,'2014-11-21 07:50:57','2015-02-12 00:51:52',''),(2,'tsand','Thea','Sand','tsand@yahoo.com','$2y$10$VZvsyO4aTnw84brG7rRSte6faeU8SmOnl8bibNj9262SxTi5KIYaa',NULL,2,NULL,'2015-02-02 13:28:55','2015-02-02 13:28:55',''),(3,'pedram','Pedram','Pedram','pedram@eyelevate.com','$2y$10$i6C5BqEoG0qQVumzcwPK3.tp5e94qYj.GdpNYunxjwS6ndKhjbXwi','0xHYWPha17fQN6fuql1bPHmdEdIXrpcrQ85dkJWpBEebfTi8vRhtznCLwELS',1,NULL,'2015-02-12 00:00:00','2015-02-12 03:06:01','019f99458553423e9b2ac57e71b2e0110d3adc72'),(4,'usertest','testfname','testlname','test@gmail.com','$2y$10$la6E9tyxXJ9GP1Xknsh1ju/slgUVDZvM8M.U4CEebQjI.67gzyyxK',NULL,1,NULL,'2015-02-12 01:56:36','2015-02-12 01:56:36',''),(5,'testusername','testfname','testlname','testdd@gmail.com','$2y$10$VpkAPzOphbxbQY3TwgVveu2bnCLBKrFkngLp/.8gdiTr9GR.WL0J.',NULL,1,NULL,'2015-02-12 01:57:42','2015-02-12 01:57:42','');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -327,4 +351,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-12  1:42:46
+-- Dump completed on 2015-02-12  3:16:58

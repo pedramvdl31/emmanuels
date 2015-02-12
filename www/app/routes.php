@@ -25,6 +25,8 @@
 	Route::get('/contactus', 'HomeController@contactus'); 
 	Route::post('/reminders/forgot', 'RemindersController@postForgot');
 	Route::get('/reminders/forgot', 'RemindersController@getForgot');
+	Route::get('/reminders/reset/{token}', 'RemindersController@getReset');
+	Route::post('/reminders/reset', 'RemindersController@postReset');
 
 	// // API CONTROLLER
 	// Route::controller('api','ApisController');

@@ -44,6 +44,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
 	    'password'=>'between:6,25|confirmed',
 	    'password_confirmation'=>'between:6,25'
 	);
+		public static $rules_reset = array(
+		'email'=>'required|email',
+	    'password'=>'required|between:6,25|confirmed',
+	    'password_confirmation'=>'required|between:6,25'
+	);
 	public static function getOwnerId($member_id) {
 		$owner_id = (isset($member_id)) ? (isset(Auth::user()->parent_id)) ? Auth::user()->parent_id : Auth::user()->id : null;
 		return $owner_id;
