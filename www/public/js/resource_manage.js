@@ -27,12 +27,14 @@ resource = {
 			$("#step2_panel").append(newSlide);
 
 		});
-		console.log('here');
 		$(document).on('click','.deleteImage',function(){
-			var src = $(this).attr('data-src');
-			element = $(this);
-			var delete_status = resource.request_delete(src, element);
-			console.log(delete_status);
+			if(confirm('Are you sure you wish to delete this file?')) {
+				var src = $(this).attr('data-src');
+				element = $(this);
+				var delete_status = resource.request_delete(src, element);
+				console.log(delete_status);
+			}
+			
 		});
 
 		$('.popup-link').magnificPopup({

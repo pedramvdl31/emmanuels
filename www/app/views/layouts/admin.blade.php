@@ -53,7 +53,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> Company <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li>{{ HTML::link('/companies', 'View Company') }}</li>
+                <li>{{ HTML::link('/companies/view', 'View Company') }}</li>
               </ul>
             </li>
             <li class="dropdown">
