@@ -39,6 +39,9 @@
 	            <span class='help-block'>{{ $message }}</span>
 	        @endforeach
 	  	</div>	
+	  	<div>
+	  		<p><a href="{{ action('AdminsController@getForgot') }}">Forgot your password?</a></p>
+	  	</div>
 
 	    {{ Form::submit('Login', array('class'=>'btn btn-large btn-primary btn-block'))}}
 	{{ Form::close() }}

@@ -108,5 +108,87 @@ class AdminsController extends \BaseController {
 			->with('message','You have safely logged out!')
 			->with('alert_type','alert-warning');
 	}
+		public function getAdd(){
+		$roles = Admin::roles();
+		$this->layout->content = View::make('admins.add')
+			 ->with('roles',$roles);
+	}
+	public function postAdd(){
+		$validator = Validator::make(Input::all(), User::$rules_add);
+
+	    if ($validator->passes()) {
+ 			$user = new User;
+ 			$user->roles = Input::get('roles');
+	        $user->username = Input::get('username');
+		    $user->firstname = Input::get('firstname');
+		    $user->lastname = Input::get('lastname');
+		    $user->email = Input::get('email');
+		    $user->password = Hash::make(Input::get('password'));
+		    
+		     if($user->save()) { // Save the user and redirect to owners home
+			    return Redirect::back()
+			    	->with('message', 'New Admin'.$user->username.'Successfully Registered!')
+			    	->with('alert_type','alert-success');
+		    }
+
+	    } else {
+	        // validation has failed, display error messages    
+	        return Redirect::back()
+	        	->with('message', 'The following errors occurred')
+	        	->with('alert_type','alert-danger')
+	        	->withErrors($validator)
+	        	->withInput();	    	
+	    }				
+	}
+	public function getEdit($id = null) {
+		$roles = Admin::roles();
+		$admins = User::find($id);
+		$this->layout->content = View::make('admins.edit')
+			->with('roles',$roles)
+			->with('admins',$admins);
+	}
+	public function postEdit(){
+		$validator = Validator::make(Input::all(), User::$rules_edit);
+	    if ($validator->passes()) {
+	    	$id = Input::get('id');
+	        // validation has passed, save user in DB
+	        $user = User::find($id);
+	    	$user->roles = Input::get('roles');
+	        $user->username = Input::get('username');
+		    $user->firstname = Input::get('firstname');
+		    $user->lastname = Input::get('lastname');
+		    $user->email = Input::get('email');
+		    if(Input::get('password') != ''){    
+		   		$user->password = Hash::make(Input::get('password'));
+			}
+
+		    if($user->save()) {
+				return Redirect::action('AdminsController@getEdit',$id)
+			    	->with('message', 'Admin Successfully Updated')
+			    	->with('alert_type','alert-success');
+
+		    } else {
+		        // Could not save changes  
+	            return Redirect::to('admins/index')
+	        		->with('message', 'ops, somthing went wrong. Please try again.')
+	        		->with('alert_type','alert-danger');	
+		   	}
+
+		   	
+
+	    } else {
+	        // validation has failed, display error messages    
+	        return Redirect::back()
+	        	->with('message', 'The following errors occurred')
+	        	->with('alert_type','alert-danger')
+	        	->withErrors($validator)
+	        	->withInput();	
+	    }			
+	}
+		public function getForgot() {
+
+		$this->layout->content = View::make('admins.forgot');
+			
+	}
 
 }

@@ -46,5 +46,14 @@ class Admin extends \Eloquent {
 
         return $authorized;
     }
+    public static function roles()
+    {
+        $roles = array(
+            '' => 'Select Administrator Type',
+            1 => 'Superadmin',
+            2 => 'Admin'
+        );
+        return $roles;
+    }
 
 }
