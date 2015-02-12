@@ -3,19 +3,25 @@
 	"description": "The Laravel Framework.",
 	"keywords": ["framework", "laravel"],
 	"license": "MIT",
-	"type": "project",
 	"require-dev": {
     	"way/generators": "2.*"
 	},
 	"require": {
+		"php":">=5.4.0",
+        "laravelbook/ardent": "2.4.x",
 		"laravel/framework": "4.*",
-		"laravelbook/ardent": "2.4.x",
 		"twitter/bootstrap": "*",
 		"spekkionu/laravel-zend-acl": "dev-master",
 		"bllim/datatables": "*",
-		"thujohn/pdf": "dev-master"
+		"thujohn/pdf": "dev-master",
+		"giggsey/libphonenumber-for-php": "~7.0",
+		"ext-curl": "*",
+		"ext-json": "*",
+		"paypal/rest-api-sdk-php" : "*"
 	},
+
 	"autoload": {
+
 		"classmap": [
 			"app/commands",
 			"app/controllers",
@@ -41,5 +47,5 @@
 	"config": {
 		"preferred-install": "dist"
 	},
-	"minimum-stability": "stable"
+	"minimum-stability": "dev"
 }

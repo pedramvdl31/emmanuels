@@ -7,15 +7,16 @@
     <title>Emmanuels - Admin</title>
 
     <!-- Bootstrap -->
-	  {{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
+	{{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
     {{ HTML::style('css/admin_login.css')}}
+    {{ HTML::style('css/home_layout.css')}}
     @yield('stylesheets')
   </head>
   <body>
 
     <div class="container">
     	<div class="row-fluid">
-				@yield('content')
+			@yield('content')
 	    </div><!--/row-->
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

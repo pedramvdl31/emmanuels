@@ -10,7 +10,7 @@ class AdminsController extends \BaseController {
 					$this->layout = "layouts.admin";
 				break;
 				case 3:
-					$this->layout = "layouts.admin_owners";
+					$this->layout = "layouts.admin_owner";
 				break;
 				case 4:
 					$this->layout = "layouts.admin_employees";
@@ -23,9 +23,27 @@ class AdminsController extends \BaseController {
 				break;
 
 			}
+
+			// Check if user is authorized to view the page
+			$routes = explode("@", Route::currentRouteAction(), 2);     
+	        $this->controller = strtolower(str_replace('Controller', '', $routes[0]));
+	        $this->method = $routes[1];
+	        $this->parameters = Route::current()->parameters();
+
+	     
+	     	// Page content setup
+	        
+	        $role_id = (isset($member_id)) ? Auth::user()->roles : null;
+	        $role_name = Admin::getRoleName($role_id);
+		
+	        View::share('role',$role_name);
+	       	View::share('controller',$this->controller);
+			View::share('action',$this->method);
 		}
 
-	    $this->beforeFilter('csrf', array('on'=>'post'));
+		// Set protection
+		$this->beforeFilter('csrf', array('on'=>'post'));
+
 
 
 	}
@@ -36,18 +54,10 @@ class AdminsController extends \BaseController {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function getIndex()
 	{
-		/**
-		* ACL Required page
-		**/
-		
-		if(Acl::isAllowed(Admin::getRoleName(Auth::user()->roles), 'admins', 'index') == false) {
-			return Redirect::back()->with('message','You are not authorized to view this page!')->with('alert_type','alert-danger')->withInput();
-		}
-		/**
-		* Begin Page Processing
-		**/
+		$role_name = Admin::getRoleName(Auth::user()->roles);
+		$this->layout->content = View::make('admins.index');		
 	}
 
 	/**
@@ -74,7 +84,7 @@ class AdminsController extends \BaseController {
 	public function postLogin()
 	{
 		if (Auth::attempt(array('username'=>Input::get('username'), 'password'=>Input::get('password')))) {
-		    return Redirect::action('AdminsController@index')
+		    return Redirect::action('AdminsController@getIndex')
 		    	->with('message', 'You are now logged in!')
 		    	->with('alert_type', 'alert-success');
 		} else {

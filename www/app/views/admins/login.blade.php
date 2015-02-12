@@ -6,12 +6,19 @@
 @section('content')
 	{{ Form::open(array('action'=>'AdminsController@postLogin', 'class'=>'form-signin')) }}
         @if(Session::has('message'))
+    	<div class="row">
             <div class="alert {{ Session::get('alert_type') }} alert-dismissable">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               {{ Session::get('message') }}
             </div>
-        @endif
-	    <h2 class="form-signup-heading">Admin Login</h2>
+    	</div>
+        @endif        
+        <div class="col-md-12">
+
+            <a href="{{ action('AdminsController@getLogin') }}" class="my-svg-container">
+                <img src="/img/emmanuels_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
+            </a>
+        </div>
 
 	  	<div class="form-group {{ $errors->has('username') ? 'has-error' : false }}">
 	    	<div class="input-group">

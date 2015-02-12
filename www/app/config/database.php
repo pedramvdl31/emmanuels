@@ -57,7 +57,7 @@ return array(
 			'host'      => 'localhost',
 			'database'  => 'emmanuels',
 			'username'  => 'root',
-			'password'  => 'eyelevate123!em',
+			'password'  => 'pass',
 			'charset'   => 'utf8',
 			'collation' => 'utf8_unicode_ci',
 			'prefix'    => '',

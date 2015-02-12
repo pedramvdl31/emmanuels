@@ -1,26 +1,37 @@
 <?php
 
-use Illuminate\Auth\UserTrait;
 use Illuminate\Auth\UserInterface;
-use Illuminate\Auth\Reminders\RemindableTrait;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Zend\Permissions\Acl\Role\RoleInterface;
 
 class User extends Eloquent implements UserInterface, RemindableInterface, RoleInterface {
 
-	use UserTrait, RemindableTrait;
+	/**
+	 * The database table used by the model.
+	 *
+	 * @var string
+	 */
 	protected $table = 'users';
-	use SoftDeletingTrait;
-	protected $dates = ['deleted_at'];
-
 	public static $rules = array(
 		'username'=>'required|alpha_num|min:4|unique:users',
 	    'firstname'=>'required|alpha|min:2',
 	    'lastname'=>'required|alpha|min:2',
 	    'email'=>'required|email|unique:users',
-	    'password'=>'required|alpha_num|between:6,12|confirmed',
-	    'password_confirmation'=>'required|alpha_num|between:6,12'
+	    'password'=>'required|between:6,25|confirmed',
+	    'password_confirmation'=>'required|between:6,25'
 	);
+	public static $edit_rules = array(
+		'username'=>'required|alpha_num|min:4',
+	    'firstname'=>'required|alpha|min:2',
+	    'lastname'=>'required|alpha|min:2',
+	    'email'=>'required|email',
+	    'password'=>'between:6,25|confirmed',
+	    'password_confirmation'=>'between:6,25'
+	);
+	public static function getOwnerId($member_id) {
+		$owner_id = (isset($member_id)) ? (isset(Auth::user()->parent_id)) ? Auth::user()->parent_id : Auth::user()->id : null;
+		return $owner_id;
+	}
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -100,6 +111,40 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
     public function getRoleId()
     {
         return $this->role;
+    }
+
+    /**
+    * Public methods
+    **/
+    public static function prepareForSelect($data) {
+    	$users = array(''=>'Select an employee');
+    	if(isset($data)) {
+    		foreach ($data as $key => $value) {
+    			$id = $value['id'];
+    			$username = $value['username'];
+    			$first_name = $value['firstname'];
+    			$last_name = $value['lastname'];
+    			$users[$id] = $username.' ['.$first_name.' '.$last_name.']';
+    		}
+    	}
+
+    	return $users;
+    }
+
+    public static function prepareForView($data) {
+
+		if(isset($data['phone'])) {
+			$data['country'];
+			$data['phone'] = Job::format_phone($data['phone'], $data['country']);
+		}
+
+		if(isset($data['billing_type'])) {
+			$data['billing_type_display'] = ($data['billing_type'] == false) ? 'Automatic payments are not set.' : 'Automatic payments are set.';
+		} else {
+			$data['billing_type'] = false;
+			$data['billing_type_display'] = 'Automatic payments are not set.';
+		}
+		return $data;
     }
 
 }

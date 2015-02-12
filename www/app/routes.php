@@ -37,15 +37,13 @@
 	{
 		//ADMINS CONTROLLER
 
-		Route::get('/admins', 'AdminsController@index');	
+		Route::get('/admins', 'AdminsController@getIndex');	
 
 		// Route::post('/api/payables-calendar','ApiController@postPayablesCalendar');
 
 
 		// //COMPANIES CONTROLLER
-		// Route::controller('/companies','CompaniesController');
-		// 	Route::get('/companies/processing-companies/*', 'CompaniesController@getProcessingCompanies');	
-		// 	Route::get('/companies/process-edit/*', 'CompaniesController@getProcessEdit');	
+		Route::controller('/companies','CompaniesController');
 
 		// // INVOICES CONTROLLER
 		// Route::controller('/invoices','InvoicesController');	

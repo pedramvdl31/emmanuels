@@ -37,15 +37,9 @@ Route::filter('auth', function()
 {
 	if (Auth::guest())
 	{
+		Session::flash('redirect', URL::full()); // Grab the intended page 
 		return Redirect::guest('admins.login');
-		// if (Request::ajax())
-		// {
-		// 	return Response::make('Unauthorized', 401);
-		// }
-		// else
-		// {
-		// 	return Redirect::guest('login');
-		// }
+
 	}
 });
 
@@ -60,13 +54,24 @@ Route::filter('acl', function($route, $request)
 {
     // we need this because laravel delete form sends POST request with {_method: 'DELETE'} as parameter
     $method = $request->has('_method') ? $request->input('_method') : $request->server('REQUEST_METHOD');
+	$routes = explode("@", Route::currentRouteAction(), 2);     
+    $controller = strtolower(str_replace('Controller', '', $routes[0]));
+    $method = $routes[1];
+    $parameters = Route::current()->parameters();
 
     if(Auth::guest()) {
+    	Session::flash('redirect', URL::full()); // Grab the intended page 
     	return Redirect::to('admins/login')
-		        ->with('message', 'You do not have access to this content.')
-		        ->with('alert_type','alert-danger')
-		        ->withInput();
-    } 
+	        ->with('message', 'You do not have access to this content.')
+	        ->with('alert_type','alert-danger')
+	        ->withInput();
+    } elseif(Admin::checkAuthorized($controller,$method, $parameters) == false) {
+		return Redirect::to('/admins')
+			->with('message','You are not authorized to view this page!')
+			->with('alert_type','alert-danger')
+			->withInput();
+		
+	} 
 
 });
 

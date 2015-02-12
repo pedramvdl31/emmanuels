@@ -22,14 +22,16 @@
           <button id="menuButton" type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" style="display:block">
             <span class="glyphicon glyphicon-tasks white"></span>
           </button>
-          
+     
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
             <span class="sr-only">Toggle</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand pull-left" href="#">Emmanuels</a>
+          <a class="navbar-brand pull-left" href="{{ action('AdminsController@getIndex') }}">
+            <img src="/img/emmanuels_compact_logo.png" alt="..." height="35" width="136">
+          </a>
         </div>
         <div class="collapse navbar-collapse">
 
@@ -50,8 +52,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> Company <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li>{{ HTML::link('/companies', 'View Companies') }}</li>
-                <li>{{ HTML::link('/companies/add', 'Add Company') }}</li>
+                <li>{{ HTML::link('/companies', 'View Company') }}</li>
               </ul>
             </li>
             <li class="dropdown">
