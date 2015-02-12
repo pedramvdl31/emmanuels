@@ -14,15 +14,18 @@
 	* Frontend Routing with filter
 	*/
 	Route::get('/', array('as' => 'home', 'uses' => 'HomeController@home'));
-		Route::get('/services', 'HomeController@services');
-		Route::get('/marketplace', 'HomeController@marketplace');
-		Route::get('/aboutus', 'HomeController@aboutus');
-		Route::get('/advice', 'HomeController@advice');
-		Route::get('/contactus', 'HomeController@contactus'); 		
-
 	Route::get('/admins/login', 'AdminsController@getLogin');
 	Route::post('/admins/login','AdminsController@postLogin');
 	Route::get('/admins/logout', 'AdminsController@getLogout');
+	Route::get('/admins/forgot', 'AdminsController@getForgot');
+	Route::get('/services', 'HomeController@services');
+	Route::get('/marketplace', 'HomeController@marketplace');
+	Route::get('/aboutus', 'HomeController@aboutus');
+	Route::get('/advice', 'HomeController@advice');
+	Route::get('/contactus', 'HomeController@contactus'); 
+	Route::post('/reminders/forgot', 'RemindersController@postForgot');
+	Route::get('/reminders/forgot', 'RemindersController@getForgot');
+
 	// // API CONTROLLER
 	// Route::controller('api','ApisController');
 
@@ -36,10 +39,8 @@
 	Route::group(array('before' => 'acl'), function()
 	{
 		//ADMINS CONTROLLER
+		Route::controller('/admins','AdminsController');	
 
-		Route::get('/admins', 'AdminsController@getIndex');	
-
-		// Route::post('/api/payables-calendar','ApiController@postPayablesCalendar');
 
 
 		// //COMPANIES CONTROLLER
@@ -70,7 +71,7 @@
 
 		// WEBSITES CONTROLLER
 		Route::controller('websites','WebsitesController');
-	
+
 		
 
 	});
