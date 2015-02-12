@@ -48,7 +48,7 @@ class ResourcesController extends \BaseController {
 
 	}
 
-	public function getIndex() {
+public function getIndex() {
 
 		$path = 'img';
 		$resources = array();

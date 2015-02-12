@@ -19,7 +19,7 @@
     <div class="navbar navbar-static-top navbar-inverse" role="navigation">
       <div class="container">
         <div class="navbar-header">
-          <button id="menuButton" type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" style="display:block">
+          <button id="menuButton" type="button" class="pull-left navbar-toggle" data-toggle="offcanvas" style="display:block; border:none;">
             <span class="glyphicon glyphicon-tasks white"></span>
           </button>
      
@@ -29,7 +29,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand pull-left" href="{{ action('AdminsController@getIndex') }}">
+          <a class="navbar-brand pull-left" href="{{ action('AdminsController@getIndex') }}" style="padding-top:10px;">
             <img src="/img/emmanuels_compact_logo.png" alt="..." height="35" width="136">
           </a>
         </div>
