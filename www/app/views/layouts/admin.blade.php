@@ -45,8 +45,8 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-camera"></span> Resources <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
-                <li>{{ HTML::link('/resources', 'View Resources') }}</li>
-                <li>{{ HTML::link('/resources/add', 'Add Resource') }}</li>
+                <li>{{ HTML::link('/resources/edit', 'Manage Resources') }}</li>
+               
               </ul>
             </li>            
             <li class="dropdown">

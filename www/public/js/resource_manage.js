@@ -11,11 +11,11 @@ resource = {
 		$("img.lazy").lazyload({
 			effect : "fadeIn"
 		});
-		$('#fileupload').fileupload({
-			// Uncomment the following to send cross-domain cookies:
-			//xhrFields: {withCredentials: true},
-			url: '/resources/fileupload'
-		});
+		// $('#fileupload').fileupload({
+		// 	// Uncomment the following to send cross-domain cookies:
+		// 	//xhrFields: {withCredentials: true},
+		// 	url: '/resources/fileupload'
+		// });
 
     },
 
@@ -27,11 +27,12 @@ resource = {
 			$("#step2_panel").append(newSlide);
 
 		});
+		console.log('here');
 		$(document).on('click','.deleteImage',function(){
 			var src = $(this).attr('data-src');
 			element = $(this);
 			var delete_status = resource.request_delete(src, element);
-
+			console.log(delete_status);
 		});
 
 		$('.popup-link').magnificPopup({
