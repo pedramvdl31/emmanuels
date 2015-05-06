@@ -44,11 +44,16 @@ class InventoriesController extends \BaseController {
 		
 	}
 
-	public function getEdit()
+	public function getEdit($id = null)
 	{
 		$this->layout->content = View::make('inventories.edit');
 	}
 	public function postEdit()
+	{
+		
+	}
+
+	public function postDelete()
 	{
 		
 	}

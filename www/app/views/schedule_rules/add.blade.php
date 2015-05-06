@@ -4,9 +4,9 @@
 @stop
 @section('content')
 	<div class="jumbotron">
-		<h1>Schedule-rules Edit</h1>
+		<h1>Schedule-rules Add</h1>
 		<ol class="breadcrumb">
-			<li class="active">Schedule-rules Edit</li>
+			<li class="active">Schedule-rules Add</li>
 			<li><a href="{{ action('ScheduleRulesController@getIndex') }}">Schedule-rules Overview</a></li>
 		</ol>
 	</div>

@@ -1,1 +1,0 @@
-/var/www/app/views/delivery_rules/show.blade.php

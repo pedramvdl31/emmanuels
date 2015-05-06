@@ -1,86 +1,60 @@
 <?php
 
 class ScheduleRulesController extends \BaseController {
-
+	protected $layout = 'layouts.admin';
 	/**
 	 * Display a listing of the resource.
-	 * GET /schedulerules
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
+	public function __construct() {
+		// switch(Auth::user()->roles){
+		// 	case 2:
+		// 		$this->layout = "layouts.admin";
+		// 	break;
+		// 	case 3:
+		// 		$this->layout = "layouts.admin_owners";
+		// 	break;
+		// 	case 4:
+		// 		$this->layout = "layouts.admin_employees";
+		// 	break;
+		// 	case 5:
+		// 		$this->layout = "layouts.admin_members";
+		// 	break;
+		// 	case 6:
+		// 		$this->layout = "layouts.admin";
+		// 	break;
+		// }
+        $this->beforeFilter('csrf', array('on'=>'post'));
+
+	    
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /schedulerules/create
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function getIndex()
 	{
-		//
+		$this->layout->content = View::make('schedule_rules.index');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /schedulerules
-	 *
-	 * @return Response
-	 */
-	public function store()
+	public function getAdd()
 	{
-		//
+		$this->layout->content = View::make('schedule_rules.add');
+	}
+	public function postAdd()
+	{
+		
 	}
 
-	/**
-	 * Display the specified resource.
-	 * GET /schedulerules/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
+	public function getEdit($id = null)
 	{
-		//
+		$this->layout->content = View::make('schedule_rules.edit');
+	}
+	public function postEdit()
+	{
+		
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /schedulerules/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+	public function postDelete()
 	{
-		//
+		
 	}
-
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /schedulerules/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /schedulerules/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 }

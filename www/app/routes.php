@@ -57,26 +57,27 @@
 		//INVENTORIES CONTROLLER
 		Route::controller('inventories', 'InventoriesController');
 		//INVENTORY ITEMS CONTROLLER
-		Route::controller('inventory_items', 'InventoryItemsController');
+		Route::controller('inventory-items', 'InventoryItemsController');
 		
 
 		//DELIVERIES CONTROLLER
 		Route::controller('deliveries', 'DeliveriesController');
 		//DELIVERY RULES CONTROLLER
-		Route::controller('delivery_rules', 'DeliveryRulesController');
+		Route::controller('/delivery-rules', 'DeliveryRulesController');
 
 		//SCHEDULES CONTROLLER
 		Route::controller('schedules', 'SchedulesController');
+		
 		//SCHEDULE RULES CONTROLLER
-		Route::controller('schedule_rules', 'ScheduleRulesController');
+		Route::controller('schedule-rules', 'ScheduleRulesController');
 
 		// RESOURCES CONTROLLER
 		Route::controller('/resources','ResourcesController');
 
-		// // TAXES CONTROLLER
-		// Route::controller('/taxes','TaxesController');
+		// TAXES CONTROLLER
+		Route::controller('/taxes','TaxesController');
 
-		// //USERS CONTROLLER
+		//USERS CONTROLLER
 		Route::controller('users', 'UsersController');
 
 
