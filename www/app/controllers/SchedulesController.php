@@ -25,14 +25,21 @@ class SchedulesController extends \BaseController {
 		// 		$this->layout = "layouts.admin";
 		// 	break;
 		// }
-        $this->beforeFilter('csrf', array('on'=>'post'));
+		$this->beforeFilter('csrf', array('on'=>'post'));
+		$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
 
-	    
 	}
 
 	public function getIndex()
 	{
-		$this->layout->content = View::make('schedules.index');
+
+		// if ($this->role_id < 3) {
+		// 	$companies = Company::find(1);
+		// 	$schedules = Schedule::prepare(Schedule::where('status',1)->get());
+			$this->layout->content = View::make('schedules.index');
+			// ->with('schedules',$schedules)
+			// ->with('companies',$companies);
+		// }
 	}
 
 	public function getAdd()

@@ -32,7 +32,9 @@ protected $layout = 'layouts.admin';
 
 	public function getIndex()
 	{
-		$this->layout->content = View::make('taxes.index');
+		$taxes = Tax::prepareForView(Tax::orderBy('zipcode')->get());
+		$this->layout->content = View::make('taxes.index')
+			->with('taxes',$taxes);
 	}
 
 	public function getAdd()
@@ -55,6 +57,16 @@ protected $layout = 'layouts.admin';
 
 	public function postDelete()
 	{
-		
+		$tax_id = Input::get('tax_id');
+		$tax = Tax::find($tax_id);
+		if($tax->delete()) {
+			return Redirect::action('TaxesController@getIndex')
+			->with('message', 'Successfully deleted!')
+			->with('alert_type','alert-success');
+		} else {
+			return Redirect::back()
+			->with('message', 'Oops, somthing went wrong. Please try again.')
+			->with('alert_type','alert-danger');	
+		}
 	}
 }
