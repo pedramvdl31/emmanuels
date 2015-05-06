@@ -54,12 +54,21 @@
 		// // INVOICE ITEMS CONTROLLER
 		// Route::controller('/invoice-items','InvoiceItemsController');
 
-		// //MENUS CONTROLLER
-		// Route::controller('menus', 'MenusController');
-		// 	Route::get('/menus/organize/*', 'MenuController@getOrganize');	
-		// //MENU ITEMS CONTROLLER
-		// Route::controller('menu-items', 'MenuItemsController');
+		//INVENTORIES CONTROLLER
+		Route::controller('inventories', 'InventoriesController');
+		//INVENTORY ITEMS CONTROLLER
+		Route::controller('inventory_items', 'InventoryItemsController');
 		
+
+		//DELIVERIES CONTROLLER
+		Route::controller('deliveries', 'DeliveriesController');
+		//DELIVERY RULES CONTROLLER
+		Route::controller('delivery_rules', 'DeliveryRulesController');
+
+		//SCHEDULES CONTROLLER
+		Route::controller('schedules', 'SchedulesController');
+		//SCHEDULE RULES CONTROLLER
+		Route::controller('schedule_rules', 'ScheduleRulesController');
 
 		// RESOURCES CONTROLLER
 		Route::controller('/resources','ResourcesController');

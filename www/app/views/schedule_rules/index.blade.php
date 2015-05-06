@@ -1,0 +1,1 @@
+/var/www/app/views/schedule_rules/index.blade.php
