@@ -38,9 +38,134 @@ class Page extends \Eloquent {
 		}
 		return $data;
 	}
-	public static function prepareContentArea() {
+	public static function prepareContentArea($count) {
+
 		$html = '';
-		$html .= '<input type="text" class="requested_area" readonly="readonly" name="requested_area" value=""/>';
+		$html .= '<div class="panel panel-success content-set" style="margin-top:10px;">';
+		$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+		$html .= 'data-parent="#accordion" href="#accordion-'.$count.'" aria-expanded="true" aria-controls="collapseOne"';
+		$html .= 'style="cursor: pointer;">';
+		$html .= '<h4 class="panel-title">';
+		$html .= '<a>';
+		$html .= 'Content '.($count+1).' <i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+		$html .= '</a>';
+		$html .= '</h4>';
+		$html .= '</div>';
+		$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
+		$html .= '<div class="panel-body">';
+		$html .= '<div class="form-group">';
+		$html .= '<label class="control-label" for="title">Title</label>';
+		$html .= '<input type="text" name="content['.$count.'][content_title]" class="form-control content-title" placeholder="Content Title">';
+		$html .= '</div>';
+		$html .= '<div class="form-group">';
+		$html .= '<label class="control-label" for="content">Content</label>';
+		$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" placeholder="Content Title"></textarea>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+
 		return $html;
+	}
+
+	public static function prepareForPreview($content) {
+		// Job::dump($content);
+		$html = '';
+		if (isset($content)) {
+			foreach ($content as $ckey => $cvalue) {
+				$html .= '<h3>'.$cvalue['content-title'].'</h3>';
+				$html .= '<p>'.$cvalue['content-body'].'</p>';
+				
+			}
+		}
+		return $html;
+	}
+
+	public static function prepareAddFormSession($form) {
+		// Job::dump($content);
+		$data_array = [];
+		if (isset($form)) {
+			$data_array['title'] = $form['title'];
+			$data_array['description'] = $form['description'];
+			$data_array['url'] = $form['url'];
+			$data_array['keywords'] = $form['keywords'];
+			$data_array['html'] = '';
+			$i = 0;
+			foreach ($form['content'] as $ckey => $cvalue) {
+				// for ($i=0; $i < count($form['content']); $i++) { 
+
+					$data_array['html'][$i] = '';
+					$data_array['html'][$i] .= '<div class="panel panel-default content-set" style="margin-top:10px;">';
+					$data_array['html'][$i] .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+					$data_array['html'][$i] .= 'data-parent="#accordion" href="#accordion-'.$i.'" aria-expanded="true" aria-controls="collapseOne"';
+					$data_array['html'][$i] .= 'style="cursor: pointer;">';
+					$data_array['html'][$i] .= '<h4 class="panel-title">';
+					$data_array['html'][$i] .= '<a>';
+					$data_array['html'][$i] .= 'Content '.($i+1).' <i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+					$data_array['html'][$i] .= '</a>';
+					$data_array['html'][$i] .= '</h4>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '<div id="accordion-'.$i.'" this_set="'.$i.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">';
+					$data_array['html'][$i] .= '<div class="panel-body">';
+					$data_array['html'][$i] .= '<div class="form-group">';
+					$data_array['html'][$i] .= '<label class="control-label" for="title">Title</label>';
+					$data_array['html'][$i] .= '<input type="text" name="content['.$i.'][content_title]" value="'.$cvalue['content_title'].'" class="form-control content-title" placeholder="Content Title">';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '<div class="form-group">';
+					$data_array['html'][$i] .= '<label class="control-label" for="content">Content</label>';
+					$data_array['html'][$i] .= '<textarea name="content['.$i.'][content_body]" style="resize:none;" class="form-control content-body" placeholder="Content Title">'.$cvalue['content_body'].'</textarea>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$i++;
+				// }
+				
+			}
+			
+		}
+		// Job::dump($form['content']);
+		return $data_array;
+	}
+
+		public static function prepareForEdit($page) {
+		// Job::dump($content);
+		$data_array = [];
+		if (isset($page)) {
+			$i = 0 ;
+			foreach ($page as $ckey => $cvalue) {
+				// for ($i=0; $i < count($form['content']); $i++) { 
+					$data_array['html'][$i] = '';
+					$data_array['html'][$i] .= '<div class="panel panel-default content-set" style="margin-top:10px;">';
+					$data_array['html'][$i] .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+					$data_array['html'][$i] .= 'data-parent="#accordion" href="#accordion-'.$i.'" aria-expanded="true" aria-controls="collapseOne"';
+					$data_array['html'][$i] .= 'style="cursor: pointer;">';
+					$data_array['html'][$i] .= '<h4 class="panel-title">';
+					$data_array['html'][$i] .= '<a>';
+					$data_array['html'][$i] .= 'Content '.($i+1).' <i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+					$data_array['html'][$i] .= '</a>';
+					$data_array['html'][$i] .= '</h4>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '<div id="accordion-'.$i.'" this_set="'.$i.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">';
+					$data_array['html'][$i] .= '<div class="panel-body">';
+					$data_array['html'][$i] .= '<div class="form-group">';
+					$data_array['html'][$i] .= '<label class="control-label" for="title">Title</label>';
+					$data_array['html'][$i] .= '<input type="text" name="content['.$i.'][content-title]" value="'.$cvalue->content_title.'" class="form-control content-title" placeholder="Content Title">';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '<div class="form-group">';
+					$data_array['html'][$i] .= '<label class="control-label" for="content">Content</label>';
+					$data_array['html'][$i] .= '<textarea name="content['.$i.'][content-body]" style="resize:none;" class="form-control content-body" placeholder="Content Title">'.$cvalue->content_body.'</textarea>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$data_array['html'][$i] .= '</div>';
+					$i++;
+				// }
+				
+			}
+			
+		}
+		// Job::dump($form['content']);
+		return $data_array;
 	}
 }

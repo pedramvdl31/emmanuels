@@ -68,6 +68,7 @@
 		//PAGES CONTROLLER
 		Route::controller('pages', 'PagesController');
 			Route::post('/pages/content-add','PagesController@postContentAdd');
+			Route::post('/pages/load-preview','PagesController@postLoadPreview');
 
 
 		//SCHEDULES CONTROLLER
