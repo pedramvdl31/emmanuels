@@ -9,8 +9,11 @@ page = {
 			headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
 		});
 		tinymce.init({
-			selector: ".content-body"
+			fontsize_formats: "8pt 10pt 12pt 14pt",
+			selector: ".content-body",
+			toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
 		});
+
 	},
 	stepy: function() {
 		$("#deliveryStepy li a").click(function(e){
@@ -58,18 +61,33 @@ page = {
 			$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
 			$(this).removeClass('panel-default').addClass('panel-success');
 		});
-$("#add-content").click(function(){
-	var content_set_count = $(document).find('#content .panel-collapse').length;
-	$(document).find('#content .panel-collapse').removeClass('in');
-	$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
-	request.add_content(content_set_count);
-});
-$("#preview-btn").click(function(){
+		$("#add-content").click(function(){
+			var content_set_count = $(document).find('#content .panel-collapse').length;
+			$(document).find('#content .panel-collapse').removeClass('in');
+			$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
+			request.add_content(content_set_count);
+		});
+		$("#preview-btn").click(function(){
 			// var serialized_data = $("#add-form").serialize();
 			// request.load_preview(serialized_data);
 		});
-
-}
+		$(document).on('click','.remove-collapse',function(){
+			// console.log($(document).find('.content-area .content-set').length);
+			var count = 1;
+			$( ".content-area .content-set" ).each(function( index ) {
+			  $(this).find('.panel-title a .this-title').html('Content '+count);
+			  count++;
+			});
+			$(this).parents('.content-set').remove();
+			var count = $('#content_count').val();
+			if (count == 0) {
+				count = null;
+			} else {
+				count--;
+			}
+			$('#content_count').val(count);
+		});
+	}
 };
 request = {
 	add_content: function(content_set_count) {
@@ -90,7 +108,10 @@ request = {
 					$('#content_count').val((content_set_count--));
 					$('.content-area').append(html);
 					tinymce.init({
-						selector: ".content-body"
+						fontsize_formats: "8pt 10pt 12pt 14pt",
+						selector: ".content-body",
+						
+						toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
 					});
 					break;
 
@@ -100,27 +121,4 @@ request = {
 			}
 			);
 	}
-	// load_preview: function(serialized_data) {
-	// 	var token = $('meta[name=_token]').attr('content');
-	// 	$.post(
-	// 		'/pages/load-preview',
-	// 		{
-	// 			"_token": token,
-	// 			"serialized_data": serialized_data
-	// 		},
-	// 		function(results){
-	// 			var status = results.status;
-	// 			// var html = results.html;
-	// 			switch(status) {
-	// 				case 200: // Approved
-
-	// 				break;
-
-
-	// 				default:
-	// 				break;
-	// 			}
-	// 		}
-	// 		);
-	// }
 };

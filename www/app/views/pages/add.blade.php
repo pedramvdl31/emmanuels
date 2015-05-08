@@ -42,7 +42,7 @@
 				</div>
 				<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
 					<label class="control-label" for="url">Url</label>
-					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('class'=>'form-control','readonly'=>'readonly','placeholder'=>'Url','id'=>'url')) }}
+					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
 					@foreach($errors->get('url') as $message)
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach
@@ -60,11 +60,12 @@
 			</div>
 		</div>
 		<div id="content" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Content Management</strong></div>
 			<div class="panel-body">
-				<button type="button" id="add-content" class=" btn btn-success btn-block" >Add Content&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i></button>
+				<button type="button" id="add-content" class=" btn btn-success btn-block" >Add Section&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i></button>
 				<div class="content-area">
 					<div class="content-area-session  {{isset($form_data['html'])?'':'hide'}}">
-						@if(isset($form_data['html']))
+						@if(!empty($form_data['html']))
 							@foreach($form_data['html'] as $data)
 								{{$data}}
 							@endforeach

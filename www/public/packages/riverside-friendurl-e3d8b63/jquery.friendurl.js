@@ -109,7 +109,7 @@
     				url = convert(url);
     			}
 
-				url = url
+				url = "/"+url
     				.toLowerCase() // change everything to lowercase
     				.replace(/^\s+|\s+$/g, "") // trim leading and trailing spaces		
     				.replace(/[_|\s]+/g, "-") // change all spaces and underscores to a hyphen
@@ -118,6 +118,8 @@
     				.replace(/^-+|-+$/g, "") // trim leading and trailing hyphens
     				.replace(/[-]+/g, options.divider)				
     			;
+
+
     			
     			var $el = $('#' + options.id);
 
