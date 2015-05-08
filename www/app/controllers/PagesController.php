@@ -183,7 +183,7 @@ class PagesController extends \BaseController {
 			$page->content_data = json_encode($form_data['content']);
 			$page->status = 1;
 
-		    if($page->save()) { // Save the user and redirect to freelancers home
+		    if($page->save()) { // Save
 		    	if(Session::get('data_session')) Session::forget('data_session');
 		    	return Redirect::action('PagesController@getIndex')
 		    	->with('message', 'Successfully added a page')

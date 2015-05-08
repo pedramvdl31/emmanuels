@@ -65,6 +65,13 @@
 		//DELIVERY RULES CONTROLLER
 		Route::controller('/delivery-rules', 'DeliveryRulesController');
 
+		//MENU CONTROLLER
+		Route::controller('/menus', 'MenusController');
+			Route::post('/menu/count-items','PagesController@postCountItems');
+
+		//MENU ITEMS CONTROLLER
+		Route::controller('/menu-items', 'MenuItemsController');
+
 		//PAGES CONTROLLER
 		Route::controller('pages', 'PagesController');
 			Route::post('/pages/content-add','PagesController@postContentAdd');

@@ -240,4 +240,17 @@ class Page extends \Eloquent {
 			'2' => 'Public'
 			);
 	} 
+ 
+	public static function prepareForSelect($data) {
+		$pages = array('0'=>'All Pages');
+		if(isset($data)) {
+			foreach ($data as $key => $value) {
+				$page_id = $value['id'];
+				$page_title = $value['title'];
+				$pages[$page_id] = $page_title; 
+			}
+		}
+
+		return $pages;
+	}
 }

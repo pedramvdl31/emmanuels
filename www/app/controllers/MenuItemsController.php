@@ -1,86 +1,120 @@
 <?php
 
 class MenuItemsController extends \BaseController {
-
+	protected $layout = 'layouts.admin';
 	/**
 	 * Display a listing of the resource.
-	 * GET /menuitems
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
+	public function __construct() {
+		// switch(Auth::user()->roles){
+		// 	case 2:
+		// 		$this->layout = "layouts.admin";
+		// 	break;
+		// 	case 3:
+		// 		$this->layout = "layouts.admin_owners";
+		// 	break;
+		// 	case 4:
+		// 		$this->layout = "layouts.admin_employees";
+		// 	break;
+		// 	case 5:
+		// 		$this->layout = "layouts.admin_members";
+		// 	break;
+		// 	case 6:
+		// 		$this->layout = "layouts.admin";
+		// 	break;
+		// }
+		$this->beforeFilter('csrf', array('on'=>'post'));
+		$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
+		
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /menuitems/create
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function getIndex()
 	{
-		//
+		// //Clearing all sessions
+		// if(Session::get('invoice_items')) Session::forget('invoice_items');
+		// if(Session::get('invoice_items_edit')) Session::forget('invoice_items_edit');
+		// if(Session::get('schedule_edit')) Session::forget('schedule_edit');
+		// if(Session::get('schedule_add_session')) Session::forget('schedule_add_session');
+		// if(Session::get('insert_range')) Session::forget('insert_range');
+
+		if ($this->role_id < 3) {
+			$companies = Company::find(1);
+			$menu_items = MenuItem::prepare(MenuItem::where('status',1)->get());
+			$this->layout->content = View::make('menu_items.index')
+			->with('menu_items',$menu_items)
+			->with('companies',$companies);
+		}
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /menuitems
-	 *
-	 * @return Response
-	 */
-	public function store()
+	public function getAdd()
 	{
-		//
+		$pages = Page::where('status',2)->get();
+		$menus = Menu::where('status',1)->get();
+		$pages_prepared = Page::prepareForSelect($pages);
+		$menus_prepared = Menu::prepareForSelect($menus);
+
+		$this->layout->content = View::make('menu_items.add')
+		->with('pages_prepared',$pages_prepared)
+		->with('menus_prepared',$menus_prepared);
+
+	}
+	public function postAdd()
+	{
+		$validator = Validator::make(Input::all(), MenuItem::$rules_add);
+		if ($validator->passes()) {
+			$name = Input::get('name');
+			$menus = Input::get('menus');
+			$page_id = Input::get('page_id');
+			$menu = new MenuItem;
+			$menu->name = $name;
+			$menu->menu_id = $menus;
+			$menu->page_id = $page_id;
+			$menu->status = 1;
+			 if($menu->save()) { // Save
+			 	return Redirect::action('MenuItemsController@getIndex')
+			 	->with('message', 'Successfully added a page')
+			 	->with('alert_type','alert-success');
+			 } else {
+			 	return Redirect::back()
+			 	->with('message', 'Oops, somthing went wrong. Please try again.')
+			 	->with('alert_type','alert-danger');	
+			 }
+
+			} 	else {
+	        // validation has failed, display error messages    
+				return Redirect::back()
+				->with('message', 'The following errors occurred')
+				->with('alert_type','alert-danger')
+				->withErrors($validator)
+				->withInput();	    	
+
+			}
 	}
 
-	/**
-	 * Display the specified resource.
-	 * GET /menuitems/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
+	public function getEdit($id = null)
 	{
-		//
+		$this->layout->content = View::make('menu_items.edit');
+	}
+	public function postEdit()
+	{
+		
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /menuitems/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+	public function postDelete()
 	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /menuitems/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /menuitems/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		$menuitems_id = Input::get('menuitems_id');
+		$menuitems = MenuItem::find($menuitems_id);
+		if($menuitems->delete()) {
+			return Redirect::action('MenuItemsController@getIndex')
+			->with('message', 'Successfully deleted!')
+			->with('alert_type','alert-success');
+		} else {
+			return Redirect::back()
+			->with('message', 'Oops, somthing went wrong. Please try again.')
+			->with('alert_type','alert-danger');	
+		}
 	}
 
 }
