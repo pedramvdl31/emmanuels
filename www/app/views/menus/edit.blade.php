@@ -1,6 +1,8 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+{{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
+{{ HTML::script('js/menus_edit.js') }}
 @stop
 @section('content')
 <div class="jumbotron">
@@ -27,10 +29,18 @@
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
-		<div class="form-group {{ $errors->has('page_id') ? 'has-error' : false }}">
+		<div class="form-group page-field {{(!isset($menus->page_id)&&(!$errors->has('page_id')))?'hide':''}} {{ $errors->has('page_id') ? 'has-error' : false }}">
 			<label class="control-label" for="page_id">Page_id</label>
 			{{ Form::select('page_id', $pages_prepared, (isset($menus->page_id)?$menus->page_id:0), array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false)); }}
 			@foreach($errors->get('page_id') as $message)
+			<span class='help-block'>{{ $message }}</span>
+			@endforeach
+		</div>
+
+		<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
+			<label class="control-label" for="url">Url</label>
+			{{ Form::text('url', "/".$menus->url, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+			@foreach($errors->get('url') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>

@@ -95,18 +95,54 @@ class MenuItemsController extends \BaseController {
 
 	public function getEdit($id = null)
 	{
-		$this->layout->content = View::make('menu_items.edit');
+		$pages = Page::where('status',2)->get();
+		$menus = Menu::where('status',1)->get();
+		$pages_prepared = Page::prepareForSelect($pages);
+		$menus_prepared = Menu::prepareForSelect($menus);
+		$menu_item = MenuItem::find($id);
+		$this->layout->content = View::make('menu_items.edit')
+			->with('pages_prepared',$pages_prepared)
+			->with('menu_item',$menu_item)
+			->with('menus_prepared',$menus_prepared);
 	}
 	public function postEdit()
 	{
-		
+		$validator = Validator::make(Input::all(), MenuItem::$rules_add);
+		if ($validator->passes()) {
+			$menu_item_id = Input::get('menu_items_id');
+			$name = Input::get('name');
+			$page_id = Input::get('page_id');
+			$menu_id = Input::get('menus');
+			$menu_items = MenuItem::find($menu_item_id);
+			$menu_items->name = $name;
+			$menu_items->menu_id = $menu_id;
+			$menu_items->page_id = $page_id;
+			$menu_items->status = 1;
+			 if($menu_items->save()) { // Save
+			 	return Redirect::action('MenuItemsController@getIndex')
+			 	->with('message', 'Successfully added a page')
+			 	->with('alert_type','alert-success');
+			 } else {
+			 	return Redirect::back()
+			 	->with('message', 'Oops, somthing went wrong. Please try again.')
+			 	->with('alert_type','alert-danger');	
+			 }
+			} 	else {
+	        // validation has failed, display error messages    
+				return Redirect::back()
+				->with('message', 'The following errors occurred')
+				->with('alert_type','alert-danger')
+				->withErrors($validator)
+				->withInput();	    	
+
+			}
 	}
 
 	public function postDelete()
-	{
-		$menuitems_id = Input::get('menuitems_id');
-		$menuitems = MenuItem::find($menuitems_id);
-		if($menuitems->delete()) {
+	{	
+		$menu_items_id = Input::get('menu_item_id');
+		$menu_items = MenuItem::find($menu_items_id);
+		if($menu_items->delete()) {
 			return Redirect::action('MenuItemsController@getIndex')
 			->with('message', 'Successfully deleted!')
 			->with('alert_type','alert-success');

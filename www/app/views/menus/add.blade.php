@@ -1,6 +1,8 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+{{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
+{{ HTML::script('js/menus_add.js') }}
 @stop
 @section('content')
 <div class="jumbotron">
@@ -22,15 +24,22 @@
 		</div>
 		<div class="form-group {{ $errors->has('kind') ? 'has-error' : false }}">
 			<label class="control-label" for="kind">Kind</label>
-			{{ Form::select('kind', $prepared_select, null, array('class'=>'form-control kind','not_empty'=>'true','kind'=>false)); }}
+			{{ Form::select('kind', $prepared_select, null, array('class'=>'form-control kind','not_empty'=>'true','id'=>false)); }}
 			@foreach($errors->get('keyword') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
-		<div class="form-group {{ $errors->has('page_id') ? 'has-error' : false }}">
+		<div class="form-group page-field {{ $errors->has('page_id') ? 'has-error' : false }}">
 			<label class="control-label" for="page_id">Page_id</label>
 			{{ Form::select('page_id', $pages_prepared, null, array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false)); }}
 			@foreach($errors->get('page_id') as $message)
+			<span class='help-block'>{{ $message }}</span>
+			@endforeach
+		</div>
+		<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
+			<label class="control-label" for="url">Url</label>
+			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+			@foreach($errors->get('url') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>

@@ -10,6 +10,12 @@ class MenuItem extends \Eloquent {
 		'page_id'=>'required|min:1'
 		);
 
+		public static $rules_edit = array(
+		'name'=>'required|min:1',
+		'menus'=>'required|min:1',
+		'page_id'=>'required|min:1'
+		);
+
 	public static function prepare($data){
 		if(isset($data)){
 			foreach ($data as $key => $value) {

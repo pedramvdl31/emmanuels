@@ -31,7 +31,7 @@
 				<td>{{ $menu->id }}</td>
 				<td>{{ $menu->name }}</td>
 				<td>{{ $menu->order }}</td>
-				<td>{{ (isset($menu->page_id)&&($menu->page_id!=0))?$menu->page_id:"-" }}</td>
+				<td>{{ $menu->page_title }}</td>
 				<td>{{ $menu->status_html }}</td>
 				<td><a href="{{ action('MenusController@getEdit',$menu->id) }}">Edit</a>/
 					{{ Form::open(array('action' => 'MenusController@postDelete', 'class'=>'remove-form','id'=>'form-'.$menu->id,'role'=>"form",'files'=> true)) }}

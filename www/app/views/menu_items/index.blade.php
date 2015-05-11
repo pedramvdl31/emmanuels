@@ -35,7 +35,7 @@
 				<td>{{  $menu_item->status_html }}</td>
 				<td><a href="{{ action('MenuItemsController@getEdit',$menu_item->id) }}">Edit</a>/
 					{{ Form::open(array('action' => 'MenuItemsController@postDelete', 'class'=>'remove-form','id'=>'form-'.$menu_item->id,'role'=>"form",'files'=> true)) }}
-					{{ Form::hidden('menu-item_id', $menu_item->id) }}
+					{{ Form::hidden('menu_item_id', $menu_item->id) }}
 					<a class="remove"  data-toggle="modal" data-target="#myModal" menu-item-id="{{$menu_item->id}}" >Remove</a></td>
 					{{ Form::close() }}</td>
 				</tr>

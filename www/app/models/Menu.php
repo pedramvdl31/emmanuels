@@ -6,9 +6,14 @@ class Menu extends \Eloquent {
 
 		public static $rules_add = array(
 		'name'=>'required|min:1',
+		'kind'=>'required|min:1'
+		);
+		public static $rules_add_link = array(
+		'name'=>'required|min:1',
 		'kind'=>'required|min:1',
 		'page_id'=>'required|min:1'
 		);
+
 
 		public static function prepare($data){
 		if(isset($data)){
@@ -32,9 +37,10 @@ class Menu extends \Eloquent {
 				if(isset($data[$key]['end'])) {
 					$data[$key]['end'] = date ( 'n/d/Y g:ia',  strtotime($data[$key]['end']) );
 				}
+				$data[$key]['page_title'] = "-";
 				if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
 					$page = Page::find($data[$key]['page_id']);
-					$data[$key]['page_id'] = $page->title;
+					$data[$key]['page_title'] = $page->title;
 				}
 
 			}
@@ -46,13 +52,14 @@ class Menu extends \Eloquent {
 		public static function prepareSelect()
 	{
 		return array(
-			'1'	=> 'link',
-			'2' => 'not'
+			'' => 'Select Kind',
+			'1'	=> 'Link',
+			'2' => 'Menu group'
 			);
 	}
 
 	public static function prepareForSelect($data) {
-		$pages = array('0'=>'All Menus');
+		$pages = array(''=>'All Menus');
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
 				$page_id = $value['id'];
