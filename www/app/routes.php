@@ -14,6 +14,7 @@
 	* Frontend Routing with filter
 	*/
 	Route::get('/', array('as' => 'home', 'uses' => 'HomeController@home'));
+
 	Route::get('/admins/login', 'AdminsController@getLogin');
 	Route::post('/admins/login','AdminsController@postLogin');
 	Route::get('/admins/logout', 'AdminsController@getLogout');
@@ -35,6 +36,12 @@
 	// //WORLDS CONTROLLER	
 	// Route::controller('worlds','WorldsController');
 	// 	Route::post('/worlds/cities', 'WorldsController@getCities');
+
+
+
+
+
+
 	/**
 	* ACL route filtering
 	*/
@@ -79,6 +86,7 @@
 			Route::post('/pages/change-status','PagesController@postChangeStatus');
 
 
+
 		//SCHEDULES CONTROLLER
 		Route::controller('schedules', 'SchedulesController');
 		
@@ -101,4 +109,6 @@
 		
 
 	});
-
+	// Belongs at the bottom. Reason is because if no other link exists this must be true
+	Route::get('/{param1}','PagesController@getPage');
+	Route::get('/{param1}/{param2}','PagesController@getPage');

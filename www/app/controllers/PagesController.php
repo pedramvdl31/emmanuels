@@ -274,5 +274,20 @@ class PagesController extends \BaseController {
 				));
 		}
 	}
+	/**
+	* getPage Method
+	* retrieves content from url by parameter and displays page based on user input from pages/add || pages/edit
+	* Home page being the only special route we need to keep in mind for routing
+	* @param $param1 = menu group
+	* @param $param2 = menu item
+	**/
+	public function getPage($param1 = null, $param2 = null) {
+		// Set layout
+
+		// Controller determined by param1
+		Job::dump($param1);
+		Job::dump($param2);
+
+	}
 
 }
