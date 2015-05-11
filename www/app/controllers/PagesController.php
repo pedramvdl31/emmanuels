@@ -201,7 +201,7 @@ class PagesController extends \BaseController {
 
 	}
 
-		public function getPreviewEdit()
+	public function getPreviewEdit()
 	{
 
 		if (Session::get('data_session')) {
@@ -283,10 +283,35 @@ class PagesController extends \BaseController {
 	**/
 	public function getPage($param1 = null, $param2 = null) {
 		// Set layout
+		$this->layout = View::make('layouts.pages');
 
-		// Controller determined by param1
-		Job::dump($param1);
-		Job::dump($param2);
+		if (!isset($param2)) {
+			$page = Page::where('param_one',$param1)->first();
+			if (isset($page)){
+				//PAGE FOUND
+				$page_content=  json_decode($page->content_data);
+
+				$this->layout->content = View::make('pages.page')
+				->with('page_content',$page_content);
+			} else {
+				$this->layout->content = View::make('errors.missing');
+			}
+		} elseif (isset($param1) && isset($param2)) {
+			$page = Page::where('param_one',$param1)->where('param_two',$param2)->first();
+			
+			if (isset($page)){
+				//PAGE FOUND
+				$page_content=  json_decode($page->content_data);
+
+				$this->layout->content = View::make('pages.page')
+				->with('page_content',$page_content);
+			} else {
+				//PAGE NOT FOUND 404
+				$this->layout->content = View::make('errors.missing');
+			}
+		}
+
+
 
 	}
 

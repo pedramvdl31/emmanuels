@@ -48,7 +48,22 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+  if (App::isDownForMaintenance()) {
+        return Response::make("Maintenance, brb.", 503);
+    }
+
+    if (Config::get('app.debug')) return;
+
+    switch ($code)
+    {
+        case 403: /* permission denied */
+        case 404: /* not found */
+            return View::make('errors.missing');
+
+        case 500: /* internal error */
+        default:
+            return View::make('_layouts.error_500');
+    }
 });
 
 /*

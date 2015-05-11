@@ -24,42 +24,40 @@ class Page extends \Eloquent {
 		return $data;
 	}
 	public static function prepareContentArea($count) {
-
 		$html = '';
-		$html .= '<div class="panel panel-success content-set" style="margin-top:10px;">';
-		$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
-		$html .= 'data-parent="#accordion" href="#accordion-'.$count.'" aria-expanded="true" aria-controls="collapseOne"';
-		$html .= 'style="cursor: pointer;">';
-		$html .= '<h4 class="panel-title">';
-		$html .= '<a class="this-title">';
-		$html .= 'Section '.($count+1);
-		$html .= '</a>';
-		$html .= '<a>';
-		$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
-		$html .= '</a>';
-		$html .= '</h4>';
+		$html .= '<div class="panel panel-success content-set" this_set="'.$count.'" style="margin-top:10px;">';
+			
+				$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+					$html .= 'data-parent="#accordion" href="#accordion-'.$count.'" aria-expanded="true" aria-controls="collapseOne"';
+					$html .= 'style="cursor: pointer;">';
+					$html .= '<h4 class="panel-title">';
+					$html .= '<a class="this-title">';
+					$html .= 'Section '.($count+1);
+					$html .= '</a>';
+					$html .= '<a>';
+					$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+					$html .= '</a>';
+					$html .= '</h4>';
+				$html .= '</div>';
+				//here is the bug
+				$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
+					$html .= '<div class="panel-body panel-input">';
+						$html .= '<div class="form-group">';
+							$html .= '<label class="control-label" for="title">Title</label>';
+							$html .= '<input type="text" name="content['.$count.'][content_title]" class="form-control content-title" placeholder="Content Title">';
+						$html .= '</div>';
+						$html .= '<div class="form-group">';
+							$html .= '<label class="control-label" for="content">Content</label>';
+							$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" id="content-body-'.$count.'" placeholder="Content Title"></textarea>';
+						$html .= '</div>';
+					$html .= '</div>';
+				$html .= '</div>';
+					$html .= '';
+				$html .= '<div class="panel-footer clearfix">';
+					$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
+				$html .= '</div>';
+			
 		$html .= '</div>';
-		$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
-		$html .= '<div class="panel-body">';
-		$html .= '<div class="form-group">';
-		$html .= '<label class="control-label" for="title">Title</label>';
-		$html .= '<input type="text" name="content['.$count.'][content_title]" class="form-control content-title" placeholder="Content Title">';
-		$html .= '</div>';
-		$html .= '<div class="form-group">';
-		$html .= '<label class="control-label" for="content">Content</label>';
-		$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" placeholder="Content Title"></textarea>';
-		$html .= '</div>';
-		$html .= '</div>';
-		$html .= '</div>';
-
-
-		$html .= '<div class="panel-footer clearfix">';
-		$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
-		$html .= '</div>';
-
-		$html .= '</div>';
-
-
 		return $html;
 	}
 

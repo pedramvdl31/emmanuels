@@ -38,7 +38,6 @@ class MenuItemsController extends \BaseController {
 		// if(Session::get('schedule_edit')) Session::forget('schedule_edit');
 		// if(Session::get('schedule_add_session')) Session::forget('schedule_add_session');
 		// if(Session::get('insert_range')) Session::forget('insert_range');
-
 		if ($this->role_id < 3) {
 			$companies = Company::find(1);
 			$menu_items = MenuItem::prepare(MenuItem::where('status',1)->get());
@@ -47,11 +46,13 @@ class MenuItemsController extends \BaseController {
 			->with('companies',$companies);
 		}
 	}
-
 	public function getAdd()
 	{
-		$pages = Page::where('status',2)->get();
-		$menus = Menu::where('status',1)->get();
+		//get the pages that are not linked by other menus
+		$pages = Page::whereNotNull('param_one')->whereNotNull('param_two')
+			->orWhere('param_one',null)->where('param_two',null)->get();
+		//only the menu groups
+		$menus = Menu::where('page_id',null)->get();
 		$pages_prepared = Page::prepareForSelect($pages);
 		$menus_prepared = Menu::prepareForSelect($menus);
 
@@ -67,14 +68,24 @@ class MenuItemsController extends \BaseController {
 			$name = Input::get('name');
 			$menus = Input::get('menus');
 			$page_id = Input::get('page_id');
-			$menu = new MenuItem;
-			$menu->name = $name;
-			$menu->menu_id = $menus;
-			$menu->page_id = $page_id;
-			$menu->status = 1;
-			 if($menu->save()) { // Save
+			$menu_item = new MenuItem;
+			$menu_item->name = $name;
+			$menu_item->menu_id = $menus;
+			$menu_item->page_id = $page_id;
+
+			//FIND PAGE
+			$page = Page::find($page_id);
+			$page_url = substr($page->url, 1);
+			$page->param_two = $page_url;
+
+			//FIND MENU
+			$menu = Menu::find($menus);
+			$page->param_one = $menu->url;
+
+			$menu_item->status = 1;
+			 if($menu_item->save() && $page->save()) { // Save
 			 	return Redirect::action('MenuItemsController@getIndex')
-			 	->with('message', 'Successfully added a page')
+			 	->with('message', 'Successfully added a menu item')
 			 	->with('alert_type','alert-success');
 			 } else {
 			 	return Redirect::back()
@@ -89,14 +100,16 @@ class MenuItemsController extends \BaseController {
 				->with('alert_type','alert-danger')
 				->withErrors($validator)
 				->withInput();	    	
-
 			}
 	}
 
 	public function getEdit($id = null)
 	{
-		$pages = Page::where('status',2)->get();
-		$menus = Menu::where('status',1)->get();
+		//get the pages that are not linked by other menus
+		$pages = Page::whereNotNull('param_one')->whereNotNull('param_two')
+			->orWhere('param_one',null)->where('param_two',null)->get();
+		//only the menu groups
+		$menus = Menu::where('page_id',null)->get();
 		$pages_prepared = Page::prepareForSelect($pages);
 		$menus_prepared = Menu::prepareForSelect($menus);
 		$menu_item = MenuItem::find($id);
@@ -117,8 +130,18 @@ class MenuItemsController extends \BaseController {
 			$menu_items->name = $name;
 			$menu_items->menu_id = $menu_id;
 			$menu_items->page_id = $page_id;
+
+			//FIND PAGE
+			$page = Page::find($page_id);
+			$page_url = substr($page->url, 1);
+			$page->param_two = $page_url;
+
+			//FIND MENU
+			$menu = Menu::find($menus);
+			$page->param_one = $menu->url;
+
 			$menu_items->status = 1;
-			 if($menu_items->save()) { // Save
+			 if($menu_items->save() && $page->save()) { // Save
 			 	return Redirect::action('MenuItemsController@getIndex')
 			 	->with('message', 'Successfully added a page')
 			 	->with('alert_type','alert-success');

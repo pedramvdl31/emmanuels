@@ -1,6 +1,8 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+{{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
+{{ HTML::script('js/menu_items_add.js') }}
 @stop
 @section('content')
 <div class="jumbotron">
@@ -31,6 +33,13 @@
 			<label class="control-label" for="page_id">Page_id</label>
 			{{ Form::select('page_id', $pages_prepared, null, array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false)); }}
 			@foreach($errors->get('page_id') as $message)
+			<span class='help-block'>{{ $message }}</span>
+			@endforeach
+		</div>
+		<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
+			<label class="control-label" for="url">Url</label>
+			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+			@foreach($errors->get('url') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>

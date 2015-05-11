@@ -72,20 +72,21 @@ page = {
 			// request.load_preview(serialized_data);
 		});
 		$(document).on('click','.remove-collapse',function(){
+
 			// console.log($(document).find('.content-area .content-set').length);
 			var count = 1;
 			$( ".content-area .content-set" ).each(function( index ) {
 			  $(this).find('.panel-title a .this-title').html('Content '+count);
 			  count++;
 			});
-			$(this).parents('.content-set').remove();
+			var this_set = $(this).parents('.content-set').attr('this_set');
+
+			tinymce.remove('#content-body-'+this_set);
+			$(this).parents('.content-set:first').remove();
 			var count = $('#content_count').val();
-			if (count == 0) {
-				count = null;
-			} else {
-				count--;
-			}
-			$('#content_count').val(count);
+			re_count = (count == 0) ? null : count--;
+
+			$('#content_count').val(re_count);
 		});
 	}
 };
@@ -107,17 +108,18 @@ request = {
 
 					$('#content_count').val((content_set_count--));
 					$('.content-area').append(html);
-					tinymce.init({
-						fontsize_formats: "8pt 10pt 12pt 14pt",
-						selector: ".content-body",
-						
-						toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
-					});
+						tinymce.init({
+							fontsize_formats: "8pt 10pt 12pt 14pt",
+							selector: ".content-body",
+							toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
+						});
+
 					break;
 
 					default:
 					break;
 				}
+
 			}
 			);
 	}

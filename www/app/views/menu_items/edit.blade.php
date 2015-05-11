@@ -1,6 +1,8 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+{{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
+{{ HTML::script('js/menus_items_edit.js') }}
 @stop
 @section('content')
 <div class="jumbotron">
