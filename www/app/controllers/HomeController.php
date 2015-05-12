@@ -38,7 +38,10 @@ class HomeController extends BaseController {
 			$contactus_nav_active = ($this->method == 'contactus') ? 'selected="selected"' : '';
 
 
-		$nav_html = Website::prepareMenuBar();
+		$menu_html = Website::prepareMenuBar();
+		View::share('menu_html',$menu_html);
+
+		$nav_html = Website::prepareNavBar();
 		View::share('nav_html',$nav_html);
 
         View::share('home_active',$home_active);

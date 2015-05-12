@@ -46,6 +46,10 @@ class PagesController extends \BaseController {
 		$contactus_active = ($this->method == 'contactus') ? 'current' : '';
 		$contactus_nav_active = ($this->method == 'contactus') ? 'selected="selected"' : '';
 
+		
+		$nav_html = Website::prepareNavBar();
+		View::share('nav_html',$nav_html);
+
 		View::share('home_active',$home_active);
 		View::share('services_active',$services_active);
 		View::share('market_active',$market_active);

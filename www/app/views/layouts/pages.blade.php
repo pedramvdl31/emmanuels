@@ -42,14 +42,7 @@
 	        </div>
 	        
 	        <div class="collapse navbar-collapse">
-	          <ul class="nav navbar-nav navbar-right" >
-	          	<li class="{{ $home_nav_active }}"><a href="/"> Home</a></li>
-	            <li class="{{ $services_nav_active }}"><a href="/services"> Services</a></li>
-	            <li class="{{ $market_nav_active }}"><a href="/marketplace"> Marketplace</a></li>
-	            <li class="{{ $aboutus_nav_active }}"><a href="/aboutus"> About Us</a></li>
-	            <li class="{{ $advice_nav_active }}"><a href="/advice"> Advice</a></li>
-	            <li class="{{ $contactus_nav_active }}"><a href="/contactus"> Contact Us</a></li>
-	          </ul>
+                {{$nav_html}}
 	        </div>
 	      </div>
 	    </nav>  

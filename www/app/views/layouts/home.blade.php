@@ -36,13 +36,10 @@
       <a href="/" class="my-svg-container">
         <img src="/img/emmanuels_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
       </a>
-      <nav class="top-nav center">
-    {{$nav_html}}
-
-
-
+      <nav class="top-nav text-center">
+        {{$menu_html}}
         <select id="mainMenuSelect" class="form-control">
-          
+
           <option value="/" {{ $home_nav_active }}>Home</option>
           <option value="/services" {{ $services_nav_active }}>Services</option>
           <option value="/marketplace" {{ $market_nav_active }}>Marketplace</option>
@@ -81,16 +78,8 @@
         <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
       </a>
     </div>
-
     <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right" >
-        <li class="{{ $home_nav_active }}"><a href="/"> Home</a></li>
-        <li class="{{ $services_nav_active }}"><a href="/services"> Services</a></li>
-        <li class="{{ $market_nav_active }}"><a href="/marketplace"> Marketplace</a></li>
-        <li class="{{ $aboutus_nav_active }}"><a href="/aboutus"> About Us</a></li>
-        <li class="{{ $advice_nav_active }}"><a href="/advice"> Advice</a></li>
-        <li class="{{ $contactus_nav_active }}"><a href="/contactus"> Contact Us</a></li>
-      </ul>
+      {{$nav_html}}
     </div>
   </div>
 </nav>    

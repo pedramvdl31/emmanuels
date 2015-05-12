@@ -3,8 +3,6 @@ header{
   min-height:275px;
 
 }
-
-
 footer {
 	border-top:1px solid #025502;
 	background-color:#D1EEDC;
@@ -103,6 +101,7 @@ footer p {
 }
 .top-nav ul li:not(.current) a:hover { 
   color: red; 
+  background: none;
 }
 
 .top-nav .current a {
