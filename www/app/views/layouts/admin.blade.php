@@ -61,6 +61,9 @@
               <ul class="dropdown-menu" role="menu">
                 <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
                 <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
+                <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
+                <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
+                <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
               </ul>
             </li>
 

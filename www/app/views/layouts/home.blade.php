@@ -85,73 +85,148 @@
 </nav>    
 <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
 
-<div style="width:100%;" data-parallax="scroll" data-image-src="/img/black-silver.jpg">
+<div style="min-height: 50px;">
   <!-- Jssor Slider Begin -->
-  <!-- You can move inline styles to css file or css block. -->
-  <div id="slider1_container" >
-    <!-- Loading Screen -->
-    <div class="slider_loading" u="loading">
-      <div id="slider_block1">
-      </div>
-      <div id="slider_block2">
-      </div>
-    </div>
-    <!-- Slides Container -->
-    <div class="slides_container" u="slides" style="">
-      <div class="fullscreen background" style="background-image:url('http://lorempixel.com/1300/500/');" data-img-width="1300" data-img-height="500"></div>
-      <div class="fullscreen background" style="background-image:url('http://lorempixel.com/1300/500/');" data-img-width="1300" data-img-height="500"></div>
-      <div class="fullscreen background" style="background-image:url('http://lorempixel.com/1300/500/');" data-img-width="1300" data-img-height="500"></div>
-    </div>
-
-    <!-- bullet navigator container -->
-    <div u="navigator" class="jssorb21">
-      <!-- bullet navigator item prototype -->
-      <div u="prototype"></div>
-    </div>
-    <!-- Bullet Navigator Skin End -->
-
-    <!-- Arrow Left -->
-    <span u="arrowleft" class="jssora21l">
-    </span>
-    <!-- Arrow Right -->
-    <span u="arrowright" class="jssora21r">
-    </span>
-
+  <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
+  <!-- ================================================== -->
+  <div id="slider1_container" style="display: none; position: relative; margin: 0 auto;
+  top: 0px; left: 0px; width: 1300px; height: 500px; overflow: hidden;">
+  <!-- Loading Screen -->
+  <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+    <div style="filter: alpha(opacity=70); opacity: 0.7; position: absolute; display: block;
+    top: 0px; left: 0px; width: 100%; height: 100%;">
   </div>
-  <!-- Jssor Slider End -->
+  <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
+  top: 0px; left: 0px; width: 100%; height: 100%;">
 </div>
-
-
-<div class="container-fluid">
-  <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
-    <div id="contentDiv" class="col-md-8 col-md-offset-2" >
-      @if(Session::has('message'))
-      <div class="alert {{ Session::get('alert_type') }} alert-dismissable">
-        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-        {{ Session::get('message') }}
-      </div>
-      @endif
-      @yield('content')
-    </div><!--/row-->
+</div>
+<!-- Slides Container -->
+<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1300px; height: 500px; overflow: hidden;">
+  <div>
+    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/01.jpg" />
+  </div>
+  <div>
+    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/02.jpg" />
+  </div>
+  <div>
+    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/03.jpg" />
   </div>
 </div>
-<footer class="row-fluid clearfix">
-  <p>&copy; emmanuel's {{ date('Y') }}</p>
-</footer>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js"></script>
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-{{ HTML::script('packages/jssor/js/jssor.js') }}
-{{ HTML::script('packages/jssor/js/jssor.slider.min.js') }}
-{{ HTML::script('packages/modernizr/modernizr.custom.20702.js') }}
-{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
-{{ HTML::script('packages/waypoints/waypoints.min.js') }}
-{{ HTML::script('packages/history/scripts/compressed/history.js') }}
-{{ HTML::script('packages/lazyload/jquery.lazyload.min.js')}}
-{{ HTML::script('packages/parallax/parallax.min.js') }}
-{{ HTML::script('packages/lightbox/lightbox.min.js') }}
-{{ HTML::script('js/home_layout.js') }}
-@yield('scripts')
-</body>
-</html>
+
+<!--#region Bullet Navigator Skin Begin -->
+<!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+<style>
+/* jssor slider bullet navigator skin 21 css */
+                /*
+                .jssorb21 div           (normal)
+                .jssorb21 div:hover     (normal mouseover)
+                .jssorb21 .av           (active)
+                .jssorb21 .av:hover     (active mouseover)
+                .jssorb21 .dn           (mousedown)
+                */
+                .jssorb21 {
+                  position: absolute;
+                }
+                .jssorb21 div, .jssorb21 div:hover, .jssorb21 .av {
+                  position: absolute;
+                  /* size of bullet elment */
+                  width: 19px;
+                  height: 19px;
+                  text-align: center;
+                  line-height: 19px;
+                  color: white;
+                  font-size: 12px;
+                  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/b21.png) no-repeat;
+                  overflow: hidden;
+                  cursor: pointer;
+                }
+                .jssorb21 div { background-position: -5px -5px; }
+                .jssorb21 div:hover, .jssorb21 .av:hover { background-position: -35px -5px; }
+                .jssorb21 .av { background-position: -65px -5px; }
+                .jssorb21 .dn, .jssorb21 .dn:hover { background-position: -95px -5px; }
+                </style>
+                <!-- bullet navigator container -->
+                <div u="navigator" class="jssorb21" style="bottom: 26px; right: 6px;">
+                  <!-- bullet navigator item prototype -->
+                  <div u="prototype"></div>
+                </div>
+                <!--#endregion Bullet Navigator Skin End -->
+
+                <!--#region Arrow Navigator Skin Begin -->
+                <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
+                <style>
+                /* jssor slider arrow navigator skin 21 css */
+                /*
+                .jssora21l                  (normal)
+                .jssora21r                  (normal)
+                .jssora21l:hover            (normal mouseover)
+                .jssora21r:hover            (normal mouseover)
+                .jssora21l.jssora21ldn      (mousedown)
+                .jssora21r.jssora21rdn      (mousedown)
+                */
+                .jssora21l, .jssora21r {
+                  display: block;
+                  position: absolute;
+                  /* size of arrow element */
+                  width: 55px;
+                  height: 55px;
+                  cursor: pointer;
+                  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/a11.png) center center no-repeat;
+                  overflow: hidden;
+                }
+                .jssora21l { background-position: -3px -33px; }
+                .jssora21r { background-position: -63px -33px; }
+                .jssora21l:hover { background-position: -123px -33px; }
+                .jssora21r:hover { background-position: -183px -33px; }
+                .jssora21l.jssora21ldn { background-position: -243px -33px; }
+                .jssora21r.jssora21rdn { background-position: -303px -33px; }
+                </style>
+                <!-- Arrow Left -->
+                <span u="arrowleft" class="jssora21l" style="top: 123px; left: 8px;">
+                </span>
+                <!-- Arrow Right -->
+                <span u="arrowright" class="jssora21r" style="top: 123px; right: 8px;">
+                </span>
+                <!--#endregion Arrow Navigator Skin End -->
+                <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+              </div>
+              <!-- Jssor Slider End -->
+            </div>
+
+
+            <div class="container-fluid">
+              <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
+                <div id="contentDiv" class="col-md-8 col-md-offset-2" >
+                  @if(Session::has('message'))
+                  <div class="alert {{ Session::get('alert_type') }} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                    {{ Session::get('message') }}
+                  </div>
+                  @endif
+                  @yield('content')
+                </div><!--/row-->
+              </div>
+            </div>
+            <footer class="row-fluid clearfix">
+              <p>&copy; emmanuel's {{ date('Y') }}</p>
+            </footer>
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script src="https://maps.googleapis.com/maps/api/js"></script>
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+            {{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jquery-1.9.1.min.js') }}
+            {{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
+            {{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/docs.min.js') }}
+            {{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/ie10-viewport-bug-workaround.js') }}
+            {{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jssor.slider.mini.js') }}
+            {{ HTML::script('packages/modernizr/modernizr.custom.20702.js') }}
+
+            {{ HTML::script('packages/waypoints/waypoints.min.js') }}
+            {{ HTML::script('packages/history/scripts/compressed/history.js') }}
+            {{ HTML::script('packages/lazyload/jquery.lazyload.min.js')}}
+            {{ HTML::script('packages/parallax/parallax.min.js') }}
+            {{ HTML::script('packages/lightbox/lightbox.min.js') }}
+            {{ HTML::script('js/home_layout.js') }}
+            @yield('scripts')
+          </body>
+          </html>

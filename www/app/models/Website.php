@@ -12,24 +12,23 @@ class Website extends \Eloquent {
 		$menu_items = MenuItem::where('status',1)->orderBy('order', 'ASC')->get();
 		if (isset($menus,$menu_items)) {
 			$html .= '<ul id="mainMenuList" class="dropdown mainMenuListFull">';
+			$html .= '<li class="dropdown current">';              
+					$html .=  '<a class="home_a li_a" style="margin-right:10px;" href="/">Home</a>';
+			$html .= '</li>';
 			foreach ($menus as $key => $value) {
 					if (isset($value->page_id)) { //MENU LINKS
 						$this_page = Page::find($value->page_id);
-						$html .= '<li >';
-						$html .= '<div class="dropdown">';              
-						$html .= '<button style="border:none;" class="btn btn-default" type="button">';
-						$html .=  '<a  href="'.$url.'/'.$this_page->param_one.'" style="color:#333;">'. $value->name.'</a>';
-						$html .= '</button>'; 
-						$html .= '</div>';
+				
+						$html .= '<li class="dropdown">';              
+						$html .=  '<a class="li_a" href="'.$url.'/'.$this_page->param_one.'" style="color:#333;">'. $value->name.'</a>';
 						$html .= '</li>';
 					} else { //MENU GROUPS
 						$html .= '<li>';
-						$html .= '<div class="dropdown">';               
-						$html .= '<button  style="border:none"  class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">';
+						$html .= '<li class="dropdown">';
+						$html .= '<a class="dropdown-toggle li_a" data-toggle="dropdown">';               
 						$html .=  $value->name.' ';
-						$html .=  '<span class="caret"></span>';
-						$html .= '</button>'; 
-						$html .= '<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">';
+						$html .=  '<span class="caret"></span></a>';
+						$html .= '<ul class="dropdown-menu ul_a" role="menu" aria-labelledby="dropdownMenu1">';
 								foreach ($menu_items as $mikey => $mivalue) { //FOR EACH MENU ITEMS
 									if ($mivalue->menu_id == $value->id) { //THIS MENU ITEM BELONGS TO THIS GROUP
 										$this_page = Page::find($mivalue->page_id);
@@ -37,7 +36,6 @@ class Website extends \Eloquent {
 									}
 								}
 								$html .= '</ul>';
-								$html .= '</div>';
 								$html .= '</li>';
 							}
 				}//End of menus for loop
@@ -56,7 +54,7 @@ class Website extends \Eloquent {
 			if (isset($menus,$menu_items)) {
 				$html .= '<ul class="nav navbar-nav navbar-right">';
 				$html .= '<li class="dropdown">';              
-					$html .=  '<a  href=""></a>';
+					$html .=  '<a  href="/"> Home</a>';
 				$html .= '</li>';
 				foreach ($menus as $key => $value) {
 					if (isset($value->page_id)) { //MENU LINKS

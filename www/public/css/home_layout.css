@@ -109,6 +109,11 @@ footer p {
   color: #fff;
   border-radius: 5px;
 }
+.top-nav  .li_a:hover {
+  background: #025502 !important;
+  color: #fff !important;
+  border-radius: 5px !important;
+}
 
 
 /* right nav */
