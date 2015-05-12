@@ -10,18 +10,18 @@ pages = {
         /* Navigation Scripts */
         // top menu navigation
         $(".top-nav li a, .nav li a").click(function(e){
-            
-            var ahref = $(this).attr('href');
-            $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
-            e.preventDefault();
+            // alert();
+            // var ahref = $(this).attr('href');
+            // $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
+            // e.preventDefault();
         });
         
         // twitter navigation scripts
         $(".nav a").click(function(){
-            $(this).parents('.navbar-collapse:first').removeClass('in').parents('.container:first').find('.navbar-toggle').addClass('collapsed');
-            var ahref = $(this).attr('href');
-            $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
-            e.preventDefault();
+            // $(this).parents('.navbar-collapse:first').removeClass('in').parents('.container:first').find('.navbar-toggle').addClass('collapsed');
+            // var ahref = $(this).attr('href');
+            // $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
+            // e.preventDefault();
         });
 
 		$('#nav-wrapper').height($("#nav").height());

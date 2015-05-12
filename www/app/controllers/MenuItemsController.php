@@ -130,6 +130,7 @@ class MenuItemsController extends \BaseController {
 			$menu_items->name = $name;
 			$menu_items->menu_id = $menu_id;
 			$menu_items->page_id = $page_id;
+			$menus = Input::get('menus');
 
 			//FIND PAGE
 			$page = Page::find($page_id);

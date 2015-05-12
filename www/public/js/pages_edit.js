@@ -13,6 +13,7 @@ page = {
 			selector: ".content-body",
 			toolbar: "undo redo pastetext| bold italic | styleselect | fontsizeselect"
 		});
+		
 	},
 	stepy: function() {
 		$("#deliveryStepy li a").click(function(e){

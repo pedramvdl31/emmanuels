@@ -231,6 +231,36 @@ public function postAdd()
 		}
 	}
 
+		public function getOrder()
+	{
+		$menus = Menu::where('status',1)->orderBy('order', 'ASC')->get();
+		$menu_items = MenuItem::where('status',1)->orderBy('order', 'ASC')->get();
+		$list_html = Menu::prepareNestable($menus,$menu_items);
+		$this->layout->content = View::make('menus.order')
+			->with('list_html',$list_html);
+
+	}
+
+		public function postOrder()
+	{
+		$menus_arranged = Input::get('menu');
+		foreach ($menus_arranged as $key => $value) {
+			$menus = Menu::find($key);
+			$menus->order = $value['order'];
+			if (isset($value['item'])) {
+				foreach ($value['item'] as $ikey => $ivalue) {
+					$menu_items = MenuItem::find($ikey);
+					$menu_items->order = $ivalue['order'];
+					$menu_items->save();
+				}
+			}
+			$menus->save();
+		}
+		return Redirect::action('MenusController@getIndex')
+			->with('message', 'Successfully Saved')
+			->with('alert_type','alert-success');
+	}
+
 	public function postCountItems() {
 		if(Request::ajax()) {
 			$status = 200;
