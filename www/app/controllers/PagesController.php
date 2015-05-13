@@ -325,4 +325,62 @@ class PagesController extends \BaseController {
 		}
 	}
 
+	public function postImageTemp() {
+		if(Request::ajax()) {
+
+			$image = json_decode(Input::get('file'));
+
+			$jpeg_quality = 100;
+
+			$dir = "img/temp";
+			$output_filename = $image->name;
+
+			if (!file_exists($dir)) {
+				@mkdir($dir);
+			}
+			imagejpeg($image, $dir);
+
+			// // uncomment line below to save the cropped image in the same location as the original image.
+			// //$output_filename = dirname($imgUrl). "/croppedImg_".rand();
+
+			// $what = getimagesize($imgUrl);
+
+			// switch(strtolower($what['mime']))
+			// {
+			// 	case 'image/png':
+			// 	$img_r = imagecreatefrompng($imgUrl);
+			// 	$source_image = imagecreatefrompng($imgUrl);
+			// 	$type = '.png';
+			// 	break;
+			// 	case 'image/jpeg':
+			// 	$img_r = imagecreatefromjpeg($imgUrl);
+			// 	$source_image = imagecreatefromjpeg($imgUrl);
+			// 	error_log("jpg");
+			// 	$type = '.jpeg';
+			// 	break;
+			// 	case 'image/gif':
+			// 	$img_r = imagecreatefromgif($imgUrl);
+			// 	$source_image = imagecreatefromgif($imgUrl);
+			// 	$type = '.gif';
+			// 	break;
+			// 	default: die('image type not supported');
+			// }
+
+			// if(!is_writable(dirname($savePath))){
+			// 	$response = Array(
+			// 		"status" => 'error',
+			// 		"message" => 'Can`t Write'
+			// 		);	
+			// }else{
+
+			// 	imagejpeg($image,$output_filename, $jpeg_quality);
+			// 	// $image_url = asset($cropPath . DIRECTORY_SEPARATOR. $output_filename . $type);
+				$response = [
+				"status" => 'success'
+				];
+			// }
+			return Response::json($response);
+		}
+	}
+
 }

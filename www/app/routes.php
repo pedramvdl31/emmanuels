@@ -80,6 +80,7 @@
 			Route::post('/pages/load-preview','PagesController@postLoadPreview');
 			Route::post('/pages/change-status','PagesController@postChangeStatus');
 			Route::post('/pages/content-image','PagesController@postContentImage');
+			Route::post('/pages/image-temp','PagesController@postImage-temp');
 
 
 

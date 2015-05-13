@@ -81,6 +81,18 @@ page = {
 			// var serialized_data = $("#add-form").serialize();
 			// request.load_preview(serialized_data);
 		});
+
+		$("#img-submit").change(function () {
+			var file = $(this)[0].files[0];	
+			if(file != undefined){
+				formData= new FormData();
+				if(!!file.type.match(/image.*/)){
+					formData.append("image", file);
+				}
+			}
+   			request.save_image_temp(JSON.stringify(formData));
+   		});
+
 		$(document).on('click','.remove-collapse',function(){
 			
 			$(this).parents('.content-set').remove();
@@ -126,8 +138,7 @@ request = {
 			}
 			);
 	},
-		add_content_slider: function() {
-		
+	add_content_slider: function() {
 		var token = $('meta[name=_token]').attr('content');
 		$.post(
 			'/pages/content-image',
@@ -138,18 +149,42 @@ request = {
 				var status = results.status;
 				var html = results.html;
 				switch(status) {
-					case 200: // Approved
+						case 200: // Approved
 
-					// $('#content_count').val((content_set_count--));
-					// $('.content-area').append(html);
-					break;
+						// $('#content_count').val((content_set_count--));
+						// $('.content-area').append(html);
+						break;
 
-					default:
-					break;
+						default:
+						break;
+					}
 				}
-			}
-			);
+				);
+	},
+	save_image_temp: function(file) {
+		var token = $('meta[name=_token]').attr('content');
+		$.post(
+			'/pages/image-temp',
+			{
+				"_token": token,
+				"file":file
+			},
+			function(results){
+				var status = results.status;
+				switch(status) {
+						case 200: // Approved
+						// $('#content_count').val((content_set_count--));
+						// $('.content-area').append(html);
+						break;
+
+						default:
+						break;
+					}
+				}
+				);
 	}
+
+
 	// load_preview: function(serialized_data) {
 	// 	var token = $('meta[name=_token]').attr('content');
 	// 	$.post(
