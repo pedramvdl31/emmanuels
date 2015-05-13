@@ -54,5 +54,13 @@ class Tax extends \Eloquent {
 		return $data;
 	}
 
+		public static function taxStatus()
+	{
+		return array(
+			'' => 'Select Status',
+			'1'	=> 'Active'
+			);
+	}
+
 
 }

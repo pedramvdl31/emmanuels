@@ -39,7 +39,9 @@ protected $layout = 'layouts.admin';
 
 	public function getAdd()
 	{
-		$this->layout->content = View::make('taxes.add');
+		$tax_status = Tax::taxStatus();
+		$this->layout->content = View::make('taxes.add')
+			->with('tax_status',$tax_status);
 	}
 	public function postAdd()
 	{
