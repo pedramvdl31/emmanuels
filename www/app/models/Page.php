@@ -192,16 +192,12 @@ class Page extends \Eloquent {
 				$data_array['html'][$i] .= 'data-parent="#accordion" href="#accordion-'.$i.'" aria-expanded="true" aria-controls="collapseOne"';
 				$data_array['html'][$i] .= 'style="cursor: pointer;">';
 				$data_array['html'][$i] .= '<h4 class="panel-title">';
-
 				$data_array['html'][$i] .= '<a class="this-title">';
 				$data_array['html'][$i] .= 'Section '.($i+1);
 				$data_array['html'][$i] .= '</a>';
 				$data_array['html'][$i] .= '<a>';
 				$data_array['html'][$i] .= '<i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
 				$data_array['html'][$i] .= '</a>';
-
-
-
 				$data_array['html'][$i] .= '</h4>';
 				$data_array['html'][$i] .= '</div>';
 				$data_array['html'][$i] .= '<div id="accordion-'.$i.'" this_set="'.$i.'" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">';
@@ -227,8 +223,6 @@ class Page extends \Eloquent {
 		// Job::dump($form['content']);
 		return $data_array;
 	}
-
-
 
 	public static function prepareStatus()
 	{

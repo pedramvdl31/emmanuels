@@ -1,4 +1,4 @@
-p<?php
+<?php
 
 class HomeController extends BaseController {
 	//set layout
@@ -61,14 +61,17 @@ class HomeController extends BaseController {
 	public function home()
 	{
 		$web_data = array();
-		$this->layout->content = View::make('home.home')->with('web_data',$web_data);
+		$home = Page::find(1);
+		$home_content = json_decode($home->content_data);
+		$this->layout->content = View::make('home.home')->with('web_data',$web_data)
+			->with('home_content',$home_content);
 
 	}
 	public function services()
 	{
 		$web_data = array();
 		$this->layout = View::make('layouts.pages'); //set the layout 
-		$this->layout->content = View::make('home.home')->with('web_data',$web_data);
+		$this->layout->content = View::make('home.hdome')->with('web_data',$web_data);
 
 	}
 	public function marketplace()

@@ -2,8 +2,6 @@
 /**
 * Declare or set any page wide variables here
 */
-
-
 ?>
 
 <!DOCTYPE html>

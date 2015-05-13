@@ -145,20 +145,7 @@
 			<div class="panel-heading" style="font-size:17px;"><h3>Slider Image</h3></div>
 			<div class="panel-body">
 
-				<button type="button" id="add-content-slider" class=" btn btn-success btn-block" >Add Image <input type="file" id="img-submit"; style="position: absolute;
-					top: 0;
-					right: 0;
-					min-width: 100%;
-					min-height: 100%;
-					font-size: 100px;
-					text-align: right;
-					filter: alpha(opacity=0);
-					opacity: 0;
-					outline: none;
-					background: white;
-					cursor: inherit;
-					display: block;">
-					<i class="glyphicon glyphicon-plus"></i></button>
+			<input type="file" class="btn " name="fileToUpload" id="fileToUpload">
 
 
 
