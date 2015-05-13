@@ -330,16 +330,17 @@ class PagesController extends \BaseController {
 
 			$image = json_decode(Input::get('file'));
 
-			$jpeg_quality = 100;
+			Job::dump($image);
+			// // $jpeg_quality = 100;
 
-			$dir = "img/temp";
-			$output_filename = $image->name;
+			// $dir = "img/temp";
 
-			if (!file_exists($dir)) {
-				@mkdir($dir);
-			}
-			imagejpeg($image, $dir);
+			// if (!file_exists($dir)) {
+			// 	@mkdir($dir);
+			// }
 
+			// imagejpeg($image->name, $dir);
+			
 			// // uncomment line below to save the cropped image in the same location as the original image.
 			// //$output_filename = dirname($imgUrl). "/croppedImg_".rand();
 
@@ -375,12 +376,12 @@ class PagesController extends \BaseController {
 
 			// 	imagejpeg($image,$output_filename, $jpeg_quality);
 			// 	// $image_url = asset($cropPath . DIRECTORY_SEPARATOR. $output_filename . $type);
-				$response = [
-				"status" => 'success'
-				];
+$response = [
+"status" => 'success'
+];
 			// }
-			return Response::json($response);
-		}
-	}
+return Response::json($response);
+}
+}
 
 }

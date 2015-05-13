@@ -144,59 +144,68 @@
 		<div id="slider" class="steps panel panel-success hide">
 			<div class="panel-heading" style="font-size:17px;"><h3>Slider Image</h3></div>
 			<div class="panel-body">
+				<span class="btn btn-success btn-file btn-block" style="position: relative;
+				overflow: hidden;">
+				Add Image&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i><input type="file" id="img-submit" style="position: absolute;
+				top: 0;
+				right: 0;
+				max-height:100%;
+				max-width:100%;
+				min-width: 100%;
+				min-height: 100%;
+				font-size: 100px;
+				text-align: right;
+				filter: alpha(opacity=0);
+				opacity: 0;
+				outline: none;
+				background: white;
+				cursor: inherit;
+				display: block;">
+				</span>
 
-			<input type="file" class="btn " name="fileToUpload" id="fileToUpload">
+			<!-- The table listing the files available for upload/download -->
+			<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
+			<div class="content-area-slider">
+				<div class="dd" id="nestable3" style="width:50% !important;max-width:none !important">
+					<ol class="dd-list">
+						<li class="dd-item dd3-item" data-id="1">
+							<input type="hidden" class="menu menu-link" name="1" value="">
+							<input type="hidden" class="menu-order" name="menu['.$value->id.'][order]" value="">
+							<div class="dd-handle dd3-handle">Drag</div>
+							<div class="dd3-content " style="display:table !important">
 
-
-
-					<!-- The table listing the files available for upload/download -->
-					<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-					<div class="content-area-slider">
-						<div class="dd" id="nestable3" style="width:50% !important;max-width:none !important">
-							<ol class="dd-list">
-								<li class="dd-item dd3-item" data-id="1">
-									<input type="hidden" class="menu menu-link" name="1" value="">
-									<input type="hidden" class="menu-order" name="menu['.$value->id.'][order]" value="">
-									<div class="dd-handle dd3-handle">Drag</div>
-									<div class="dd3-content " style="display:table !important">
-
-										<div class="row-fluid" style="">
-											<div class="col-md-12" >
-												<a href="#" class="thumbnail">
-													<img src="/img/slider-image/home/IMG_3134.jpg" alt="...">
-												</a>
-												<div class="caption">
-													<button type="button" class="btn btn-danger pull-right">Remove <i class="glyphicon glyphicon-trash"></i></button>	
-												</div>
-											</div>
-										</div>	
-										<div class="image-info pull-right" style="">
-
+								<div class="row-fluid" style="">
+									<div class="col-md-12" >
+										<a href="#" class="thumbnail">
+											<img src="/img/slider-image/home/IMG_3134.jpg" alt="...">
+										</a>
+										<div class="caption">
+											<button type="button" class="btn btn-danger pull-right">Remove <i class="glyphicon glyphicon-trash"></i></button>	
 										</div>
-
-
 									</div>
-								</li>
-							</ol>
-						</div>
+								</div>	
+								<div class="image-info pull-right" style="">
 
-
-
-						<div class="content-area-session-slider  {{isset($form_data['html-slider'])?'':'hide'}}">
-						</div>
-					</div>
+								</div>
+							</div>
+						</li>
+					</ol>
 				</div>
-				<div class="panel-footer">
-					<button type="button" class="previous btn btn-default" step="2"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
-					<button type="submit" class="btn btn-primary pull-right submit-btn">Preview</button>
+				<div class="content-area-session-slider  {{isset($form_data['html-slider'])?'':'hide'}}">
 				</div>
 			</div>
-
+		</div>
+		<div class="panel-footer">
+			<button type="button" class="previous btn btn-default" step="2"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
+			<button type="submit" class="btn btn-primary pull-right submit-btn">Preview</button>
 		</div>
 	</div>
-	{{ Form::hidden('page_id',isset($form_data['page_id'])?$form_data['page_id']:$page_id,['id'=>'page_id']); }}
-	{{ Form::hidden('content_count',null,['id'=>'content_count']); }}
-	{{ Form::close() }}
+
+</div>
+</div>
+{{ Form::hidden('page_id',isset($form_data['page_id'])?$form_data['page_id']:$page_id,['id'=>'page_id']); }}
+{{ Form::hidden('content_count',null,['id'=>'content_count']); }}
+{{ Form::close() }}
 
 
-	@stop
+@stop

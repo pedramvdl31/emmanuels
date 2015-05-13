@@ -82,16 +82,23 @@ page = {
 			// request.load_preview(serialized_data);
 		});
 
-		$("#img-submit").change(function () {
-			var file = $(this)[0].files[0];	
-			if(file != undefined){
-				formData= new FormData();
-				if(!!file.type.match(/image.*/)){
-					formData.append("image", file);
-				}
-			}
-   			request.save_image_temp(JSON.stringify(formData));
+		$("#image1").change(function () {
+			// var ajaxData = new FormData();
+			// ajaxData.append('photo', $(this)[0].files[0]);
+			
+			
+			// var file = $(this)[0].files[0];	
+
+			// if(file != undefined){
+			// 	formData= new FormData();
+			// 	if(!!file.type.match(/image.*/)){
+			// 		formData.append("image", file);
+			// 	}
+			// }
+   			// request.save_image_temp(JSON.stringify(ajaxData));
    		});
+
+
 
 		$(document).on('click','.remove-collapse',function(){
 			// console.log($(document).find('.content-area .content-set').length);
