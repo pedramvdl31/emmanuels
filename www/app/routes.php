@@ -37,11 +37,6 @@
 	// Route::controller('worlds','WorldsController');
 	// 	Route::post('/worlds/cities', 'WorldsController@getCities');
 
-
-
-
-
-
 	/**
 	* ACL route filtering
 	*/
@@ -84,6 +79,7 @@
 			Route::post('/pages/content-add','PagesController@postContentAdd');
 			Route::post('/pages/load-preview','PagesController@postLoadPreview');
 			Route::post('/pages/change-status','PagesController@postChangeStatus');
+			Route::post('/pages/content-image','PagesController@postContentImage');
 
 
 

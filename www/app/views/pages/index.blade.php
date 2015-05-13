@@ -38,11 +38,18 @@
 				<td>{{ $page->description }}</td>
 				<td>{{ $page->keywords }}</td>
 				<td>{{ $page->url }}</td>
+				@if($page->id == 1)
+				<td>-</td>
+				@else
 				<td>{{ Form::select('status', $prepared_status, $page->status, array('class'=>'form-control status status-'.$page->id,'not_empty'=>'true','status'=>false)); }}</td>
-				<td><a href="{{ action('PagesController@getEdit',$page->id) }}">Edit</a>/
+				@endif
+				<td><a href="{{ action('PagesController@getEdit',$page->id) }}">Edit</a>
 					{{ Form::open(array('action' => 'PagesController@postDelete', 'class'=>'remove-form','id'=>'form-'.$page->id,'role'=>"form",'files'=> true)) }}
 					{{ Form::hidden('page_id', $page->id) }}
+					@if($page->id != 1)
+					/
 					<a class="remove"  data-toggle="modal" data-target="#myModal" page-id="{{$page->id}}" count="{{$page->item_count}}">Remove</a></td>
+					@endif
 					{{ Form::close() }}
 				</td>
 					

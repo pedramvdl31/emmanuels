@@ -34,7 +34,7 @@ public function getIndex()
 {
 	if ($this->role_id < 3) {
 		$companies = Company::find(1);
-		$menus = Menu::prepare(Menu::where('status',1)->get());
+		$menus = Menu::prepare(Menu::where('status',1)->whereNotIn('id',[1])->get());
 		$this->layout->content = View::make('menus.index')
 		->with('menus',$menus);
 	}

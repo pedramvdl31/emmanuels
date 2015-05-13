@@ -740,6 +740,7 @@
             }
             // The chunk upload method:
             upload = function () {
+              
                 // Clone the options object for each chunk upload:
                 var o = $.extend({}, options),
                     currentLoaded = o._progress.loaded;

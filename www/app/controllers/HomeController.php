@@ -1,4 +1,4 @@
-<?php
+p<?php
 
 class HomeController extends BaseController {
 	//set layout

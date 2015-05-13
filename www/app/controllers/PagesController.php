@@ -156,6 +156,7 @@ class PagesController extends \BaseController {
 	}
 	public function postEdit()
 	{
+		
 		$this->layout = View::make('layouts.pages');
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
@@ -315,8 +316,13 @@ class PagesController extends \BaseController {
 			}
 		}
 
-
-
+	}
+	public function postContentImage() {
+		if(Request::ajax()) {
+			return Response::json(array(
+				'status' => 200
+				));
+		}
 	}
 
 }

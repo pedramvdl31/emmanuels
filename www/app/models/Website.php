@@ -12,15 +12,15 @@ class Website extends \Eloquent {
 		$menu_items = MenuItem::where('status',1)->orderBy('order', 'ASC')->get();
 		if (isset($menus,$menu_items)) {
 			$html .= '<ul id="mainMenuList" class="dropdown mainMenuListFull">';
-			$html .= '<li class="dropdown current">';              
-					$html .=  '<a class="home_a li_a" style="margin-right:10px;" href="/">Home</a>';
-			$html .= '</li>';
+			// $html .= '<li class="dropdown current">';              
+			// 		$html .=  '<a class="home_a li_a" style="margin-right:10px;" href="/">Home</a>';
+			// $html .= '</li>';
 			foreach ($menus as $key => $value) {
 					if (isset($value->page_id)) { //MENU LINKS
 						$this_page = Page::find($value->page_id);
 				
 						$html .= '<li class="dropdown">';              
-						$html .=  '<a class="li_a" href="'.$url.'/'.$this_page->param_one.'" style="color:#333;">'. $value->name.'</a>';
+						$html .=  '<a class="li_a" href="'.URL::to('/').'/'.$this_page->param_one.'" style="color:#333;">'. $value->name.'</a>';
 						$html .= '</li>';
 					} else { //MENU GROUPS
 						$html .= '<li>';
@@ -32,7 +32,7 @@ class Website extends \Eloquent {
 								foreach ($menu_items as $mikey => $mivalue) { //FOR EACH MENU ITEMS
 									if ($mivalue->menu_id == $value->id) { //THIS MENU ITEM BELONGS TO THIS GROUP
 										$this_page = Page::find($mivalue->page_id);
-										$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="'.$url.'/'.$this_page->param_one.'/'.$this_page->param_two.'">'.$mivalue->name.'</a></li>';
+										$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="'.URL::to('/').'/'.$this_page->param_one.'/'.$this_page->param_two.'">'.$mivalue->name.'</a></li>';
 									}
 								}
 								$html .= '</ul>';
@@ -53,14 +53,14 @@ class Website extends \Eloquent {
 			$menu_items = MenuItem::where('status',1)->orderBy('order', 'ASC')->get();
 			if (isset($menus,$menu_items)) {
 				$html .= '<ul class="nav navbar-nav navbar-right">';
-				$html .= '<li class="dropdown">';              
-					$html .=  '<a  href="/"> Home</a>';
-				$html .= '</li>';
+				// $html .= '<li class="dropdown">';              
+				// 	$html .=  '<a  href="/"> Home</a>';
+				// $html .= '</li>';
 				foreach ($menus as $key => $value) {
 					if (isset($value->page_id)) { //MENU LINKS
 						$this_page = Page::find($value->page_id);
 						$html .= '<li class="dropdown">';              
-						$html .=  '<a  href="'.$url.'/'.$this_page->param_one.'" ">'. $value->name.'</a>';
+						$html .=  '<a  href="'.URL::to('/').'/'.$this_page->param_one.'" ">'. $value->name.'</a>';
 						$html .= '</li>';
 
 					} else { //MENU GROUPS
@@ -73,7 +73,7 @@ class Website extends \Eloquent {
 									foreach ($menu_items as $mikey => $mivalue) { //FOR EACH MENU ITEMS
 										if ($mivalue->menu_id == $value->id) { //THIS MENU ITEM BELONGS TO THIS GROUP
 											$this_page = Page::find($mivalue->page_id);
-											$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="'.$url.'/'.$this_page->param_one.'/'.$this_page->param_two.'">'.$mivalue->name.'</a></li>';
+											$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="'.URL::to('/').'/'.$this_page->param_one.'/'.$this_page->param_two.'">'.$mivalue->name.'</a></li>';
 										}
 									}
 							$html .= '</ul>';

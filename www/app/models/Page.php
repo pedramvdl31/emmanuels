@@ -96,7 +96,7 @@ class Page extends \Eloquent {
 					$data_array['html'][$i] .= 'Section '.($i+1);
 					$data_array['html'][$i] .= '</a>';
 					$data_array['html'][$i] .= '<a>';
-					$data_array['html'][$i] .= '<i class="glyphicon glyphicon-remove pull-right"></i><i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
+					$data_array['html'][$i] .= '<i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
 					$data_array['html'][$i] .= '</a>';
 					$data_array['html'][$i] .= '</h4>';
 					$data_array['html'][$i] .= '</div>';
@@ -136,7 +136,7 @@ class Page extends \Eloquent {
 			$data_array['description'] = $form['description'];
 			$data_array['url'] = $form['url'];
 			$data_array['keywords'] = $form['keywords'];
-			$data_array['status'] = $form['status'];
+			$data_array['status'] = ($form['page_id']!=1)?$form['status']:null;
 			$data_array['html'] = '';
 			$i = 0;
 			if (isset($form['content'])) {
@@ -151,7 +151,7 @@ class Page extends \Eloquent {
 					$data_array['html'][$i] .= 'Section '.($i+1);
 					$data_array['html'][$i] .= '</a>';
 					$data_array['html'][$i] .= '<a>';
-					$data_array['html'][$i] .= '<i class="glyphicon glyphicon-remove pull-right"></i><i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
+					$data_array['html'][$i] .= '<i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
 					$data_array['html'][$i] .= '</a>';
 					$data_array['html'][$i] .= '</h4>';
 					$data_array['html'][$i] .= '</div>';
@@ -197,7 +197,7 @@ class Page extends \Eloquent {
 				$data_array['html'][$i] .= 'Section '.($i+1);
 				$data_array['html'][$i] .= '</a>';
 				$data_array['html'][$i] .= '<a>';
-				$data_array['html'][$i] .= '<i class="glyphicon glyphicon-remove pull-right"></i><i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
+				$data_array['html'][$i] .= '<i class="glyphicon glyphicon-chevron-down pull-right">&nbsp;&nbsp;</i>';
 				$data_array['html'][$i] .= '</a>';
 
 
@@ -221,16 +221,15 @@ class Page extends \Eloquent {
 				$data_array['html'][$i] .= '</div>';
 				$data_array['html'][$i] .= '</div>';
 				$i++;
-				// }
-				
-			}
-			
+				// }	
+			}	
 		}
-
-
 		// Job::dump($form['content']);
 		return $data_array;
 	}
+
+
+
 	public static function prepareStatus()
 	{
 		return array(
