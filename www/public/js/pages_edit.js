@@ -120,16 +120,7 @@ page = {
 		$("#addSlide").click(function(){
 
 		});
-	    $("#file-0").fileinput({
-	    	uploadUrl: '/pages/image-temp',
-	    	uploadAsync: true,
-	        allowedFileExtensions : ['jpg', 'png','gif'],
-	    }).on('fileimageloaded', function(event, previewId) {
-	    	console.log(previewId);
-	    	console.log(event);
-	    	//upload the data
-		    //$(document).find("#"+previewId).parents('.dd-list').find('.kv-fileinput-upload').click();
-		});
+
 	}
 };
 request = {

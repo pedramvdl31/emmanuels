@@ -12,7 +12,7 @@
 {{ HTML::script('packages/Nestable-master/jquery.nestable.js') }}
 {{ HTML::script('packages/tinymce2/js/tinymce/tinymce.min.js') }}
 {{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
-{{ HTML::script('packages/bootstrap-fileinput/js/fileinput.js') }}
+{{ HTML::script('packages/bootstrap-fileinput/js/fileinput.min.js') }}
 {{ HTML::script('js/pages_edit.js') }}
 @stop
 @section('content')
@@ -164,7 +164,7 @@
 									<div class="row-fluid" style="">
 										<div class="col-md-12" >
 
-												<input id="file-0" type="file" data-overwrite-initial="false" class="file-loading" data-min-file-count="1">
+											<input id="slider-0" type="file" data-overwrite-initial="false" class="file" data-upload-url="/pages/image-temp" data-max-file-count="1">
 
 										</div>
 									</div>	
