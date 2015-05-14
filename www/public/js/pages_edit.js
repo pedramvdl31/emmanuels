@@ -117,6 +117,12 @@ page = {
 			$('#content_count').val(re_count);		
 		});
 
+		$("#addSlide").click(function(){
+
+		});
+	    $("#file-0").fileinput({
+	        'allowedFileExtensions' : ['jpg', 'png','gif'],
+	    });
 	}
 };
 request = {
@@ -152,10 +158,12 @@ request = {
 	},
 	add_content_slider: function() {
 		var token = $('meta[name=_token]').attr('content');
+		var order = $("#sliderDiv ol li").length +1;
 		$.post(
-			'/pages/content-image',
+			'/pages/add-slider',
 			{
-				"_token": token
+				"_token": token,
+				"order": order
 			},
 			function(results){
 				var status = results.status;
