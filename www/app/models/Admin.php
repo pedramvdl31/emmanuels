@@ -51,7 +51,9 @@ class Admin extends \Eloquent {
         $roles = array(
             '' => 'Select Administrator Type',
             1 => 'Superadmin',
-            2 => 'Admin'
+            2 => 'Admin',
+            3 => 'Employee',
+            4 => 'Member',
         );
         return $roles;
     }

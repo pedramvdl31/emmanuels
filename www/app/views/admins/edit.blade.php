@@ -9,16 +9,15 @@
 
 @section('content')
 	<div class="jumbotron">
-		<h1>Admin Setup</h1>
+		<h1>User Edit</h1>
 		<ol class="breadcrumb">
-			<li><a href="/admins">Admin Overview</a></li>
-			<li class="active">Edit Admin</li>
+			<li class="active">User Edit</li>
+			<li><a href="/admins">Users Overview</a></li>
 		</ol>
 	</div>
 	{{ Form::open(array('action' => 'AdminsController@postEdit', 'class'=>'','role'=>"form")) }}
 	{{ Form::hidden('id',$admins['id']) }}
-	<div id="admin-info" class="panel panel-info">
-	<div class="panel-heading">Admin Edit Personal Info</div>
+	<div id="admin-info" class="panel panel-success">
 	<div class="panel-body">
 	<div class="form-group {{ $errors->has('roles') ? 'has-error' : false }}">
 	    <label class="control-label" for="roles">Roles</label>
@@ -74,11 +73,11 @@
 		</div>
 		</div>    	
 	</div>
-
-	</div>
-		<div class="panel-footer">
-			{{ Form::submit('Update', array('class'=>'btn btn-large btn-primary'))}}
+		<div class="panel-footer clearfix">
+			{{ Form::submit('Update', array('class'=>'btn btn-large btn-primary pull-right'))}}
 		</div>
+	</div>
+
 	</div>
 
 

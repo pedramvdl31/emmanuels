@@ -8,11 +8,15 @@
 @stop
 
 @section('content')
+<div class="jumbotron">
+	<h1>User Add</h1>
+	<ol class="breadcrumb">
+		<li class="active">User Add</li>
+		<li><a href="{{ action('AdminsController@getIndex') }}">Users Overview</a></li>
+	</ol>
+</div>
 {{ Form::open(array('action'=>'AdminsController@postAdd', 'class'=>'form-signup','role'=>"form")) }}
 <div id="admin-info" class="panel panel-success">
-	<div class="panel-heading">
-		<h4>Please Register</h4>
-	</div>
 	<div class="panel-body">
 		<div class="form-group {{ $errors->has('username') ? 'has-error' : false }}">
 			<label class="control-label" for="roles">Roles</label>

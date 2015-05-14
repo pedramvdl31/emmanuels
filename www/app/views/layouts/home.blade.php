@@ -19,6 +19,7 @@
   {{ HTML::style('http://fonts.googleapis.com/css?family=Lobster|Oswald:400,300,700') }}
   {{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
   {{ HTML::style('css/image_lightbox.css') }}
+  {{ HTML::style('packages/totop/css/ui.totop.css') }}
   {{ HTML::style('css/home_layout.css')}}
   @yield('stylesheets')
 
@@ -83,46 +84,46 @@
 </nav>    
 <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
 
-    <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-    <div class="container">
-        <!-- Jssor Slider Begin -->
-        <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
-        <!-- ================================================== -->
-        <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
+<!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
+<div class="container">
+  <!-- Jssor Slider Begin -->
+  <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
+  <!-- ================================================== -->
+  <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
 
-            <!-- Loading Screen -->
-            <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-                <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+    <!-- Loading Screen -->
+    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+      <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
 
-                background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
-                </div>
-                <div style="position: absolute; display: block; background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/loading.gif) no-repeat center center;
+      background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
+    </div>
+    <div style="position: absolute; display: block; background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/loading.gif) no-repeat center center;
 
-                top: 0px; left: 0px;width: 100%;height:100%;">
-                </div>
-            </div>
+    top: 0px; left: 0px;width: 100%;height:100%;">
+  </div>
+</div>
 
-            <!-- Slides Container -->
-            <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
-            overflow: hidden;">
-                <div>
-                    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/01.jpg" />
-                </div>
-                <div>
-                    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/02.jpg" />
-                </div>
-                <div>
-                    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/03.jpg" />
-                </div>
-                <div>
-                    <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/04.jpg" />
-                </div>
-            </div>
-            
-            <!--#region Bullet Navigator Skin Begin -->
-            <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
-            <style>
-                /* jssor slider bullet navigator skin 05 css */
+<!-- Slides Container -->
+<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
+overflow: hidden;">
+<div>
+  <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/01.jpg" />
+</div>
+<div>
+  <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/02.jpg" />
+</div>
+<div>
+  <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/03.jpg" />
+</div>
+<div>
+  <img u="image" src2="packages/jssor.carousel.slider.for.bootstrap.example/img/home/04.jpg" />
+</div>
+</div>
+
+<!--#region Bullet Navigator Skin Begin -->
+<!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+<style>
+/* jssor slider bullet navigator skin 05 css */
                 /*
                 .jssorb05 div           (normal)
                 .jssorb05 div:hover     (normal mouseover)
@@ -131,32 +132,32 @@
                 .jssorb05 .dn           (mousedown)
                 */
                 .jssorb05 {
-                    position: absolute;
+                  position: absolute;
                 }
                 .jssorb05 div, .jssorb05 div:hover, .jssorb05 .av {
-                    position: absolute;
-                    /* size of bullet elment */
-                    width: 16px;
-                    height: 16px;
-                    background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
-                    overflow: hidden;
-                    cursor: pointer;
+                  position: absolute;
+                  /* size of bullet elment */
+                  width: 16px;
+                  height: 16px;
+                  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
+                  overflow: hidden;
+                  cursor: pointer;
                 }
                 .jssorb05 div { background-position: -7px -7px; }
                 .jssorb05 div:hover, .jssorb05 .av:hover { background-position: -37px -7px; }
                 .jssorb05 .av { background-position: -67px -7px; }
                 .jssorb05 .dn, .jssorb05 .dn:hover { background-position: -97px -7px; }
-            </style>
-            <!-- bullet navigator container -->
-            <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
-                <!-- bullet navigator item prototype -->
-                <div u="prototype"></div>
-            </div>
-            <!--#endregion Bullet Navigator Skin End -->
-            
-            <!--#region Arrow Navigator Skin Begin -->
-            <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
-            <style>
+                </style>
+                <!-- bullet navigator container -->
+                <div u="navigator" class="jssorb05" style="bottom: 16px; right: 6px;">
+                  <!-- bullet navigator item prototype -->
+                  <div u="prototype"></div>
+                </div>
+                <!--#endregion Bullet Navigator Skin End -->
+
+                <!--#region Arrow Navigator Skin Begin -->
+                <!-- Help: http://www.jssor.com/development/slider-with-arrow-navigator-jquery.html -->
+                <style>
                 /* jssor slider arrow navigator skin 11 css */
                 /*
                 .jssora11l                  (normal)
@@ -167,14 +168,14 @@
                 .jssora11r.jssora11rdn      (mousedown)
                 */
                 .jssora11l, .jssora11r {
-                    display: block;
-                    position: absolute;
-                    /* size of arrow element */
-                    width: 37px;
-                    height: 37px;
-                    cursor: pointer;
-                    background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/a11.png) no-repeat;
-                    overflow: hidden;
+                  display: block;
+                  position: absolute;
+                  /* size of arrow element */
+                  width: 37px;
+                  height: 37px;
+                  cursor: pointer;
+                  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/a11.png) no-repeat;
+                  overflow: hidden;
                 }
                 .jssora11l { background-position: -11px -41px; }
                 .jssora11r { background-position: -71px -41px; }
@@ -182,18 +183,18 @@
                 .jssora11r:hover { background-position: -191px -41px; }
                 .jssora11l.jssora11ldn { background-position: -251px -41px; }
                 .jssora11r.jssora11rdn { background-position: -311px -41px; }
-            </style>
-            <!-- Arrow Left -->
-            <span u="arrowleft" class="jssora11l" style="top: 123px; left: 8px;">
-            </span>
-            <!-- Arrow Right -->
-            <span u="arrowright" class="jssora11r" style="top: 123px; right: 8px;">
-            </span>
-            <!--#endregion Arrow Navigator Skin End -->
-            <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
-        </div>
-        <!-- Jssor Slider End -->
-    </div>
+                </style>
+                <!-- Arrow Left -->
+                <span u="arrowleft" class="jssora11l" style="top: 123px; left: 8px;">
+                </span>
+                <!-- Arrow Right -->
+                <span u="arrowright" class="jssora11r" style="top: 123px; right: 8px;">
+                </span>
+                <!--#endregion Arrow Navigator Skin End -->
+                <a style="display: none" href="http://www.jssor.com">Bootstrap Slider</a>
+              </div>
+              <!-- Jssor Slider End -->
+            </div>
 
 
             <div class="container-fluid">
@@ -228,7 +229,15 @@
             {{ HTML::script('packages/lazyload/jquery.lazyload.min.js')}}
             {{ HTML::script('packages/parallax/parallax.min.js') }}
             {{ HTML::script('packages/lightbox/lightbox.min.js') }}
+            {{ HTML::script('packages/totop/js/easing.js') }}
+            {{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
             {{ HTML::script('js/home_layout.js') }}
             @yield('scripts')
+
+            <script type="text/javascript">
+              $(document).ready(function() {      
+                $().UItoTop({ easingType: 'easeOutQuart' });
+              });
+            </script>
           </body>
           </html>

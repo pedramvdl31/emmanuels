@@ -4,7 +4,7 @@
 @stop
 @section('content')
 	<div class="jumbotron">
-		<h1>Users Setup</h1>
+		<h1>Usddders Setdddddddup</h1>
 		<ol class="breadcrumb">
 			<li><a href="{{ action('UsersController@getIndex') }}">Users Overview</a></li>
 			<li class="active">Create New User</li>

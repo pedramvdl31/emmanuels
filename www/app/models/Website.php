@@ -18,9 +18,11 @@ class Website extends \Eloquent {
 			foreach ($menus as $key => $value) {
 					if (isset($value->page_id)) { //MENU LINKS
 						$this_page = Page::find($value->page_id);
-				
-						$html .= '<li class="dropdown">';              
-						$html .=  '<a class="li_a" href="'.URL::to('/').'/'.$this_page->param_one.'" style="color:#333;">'. $value->name.'</a>';
+						$page_class = ($value->page_id == 1) ?"current":"";
+						$homepage_class = ($value->page_id == 1) ?"home_a":"";
+						$page_color = ($value->page_id == 1) ?"#FFFFFF":"#333";
+						$html .= '<li class="dropdown '.$page_class.' ">';              
+						$html .=  '<a class="li_a '.$homepage_class.'" href="'.URL::to('/').'/'.$this_page->param_one.'" style="color:'.$page_color.';">'. $value->name.'</a>';
 						$html .= '</li>';
 					} else { //MENU GROUPS
 						$html .= '<li>';
