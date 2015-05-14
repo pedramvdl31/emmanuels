@@ -317,10 +317,14 @@ class PagesController extends \BaseController {
 		}
 
 	}
-	public function postContentImage() {
+	public function postAddSlider() {
 		if(Request::ajax()) {
+			$order = Input::get('order');
+			$slider = Page::createSlider($order);
+
 			return Response::json(array(
-				'status' => 200
+				'status' => 200,
+				'slider' => $slider
 				));
 		}
 	}

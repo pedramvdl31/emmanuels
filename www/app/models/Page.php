@@ -244,4 +244,11 @@ class Page extends \Eloquent {
 
 		return $pages;
 	}
+
+	public static function createSlider($order) {
+		$slider = '';
+		
+
+		return $slider;
+	}
 }
