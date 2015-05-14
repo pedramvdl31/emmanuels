@@ -1802,7 +1802,6 @@
                 }
                 self.filestack.push(file);
             }
-
             readFile(0);
             self.updateFileDetails(numFiles, false);
         },
