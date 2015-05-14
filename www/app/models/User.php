@@ -28,6 +28,14 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
 		'password'=>'between:6,25|confirmed',
 		'password_confirmation'=>'between:6,25'
 		);
+	public static $rules_edit_name = array(
+		'username'=>'required|alpha_num|min:4',
+		'firstname'=>'required|alpha|min:2',
+		'lastname'=>'required|alpha|min:2',
+		'email'=>'required|email',
+		'password'=>'between:6,25|confirmed',
+		'password_confirmation'=>'between:6,25'
+		);
 	public static $rules = array(
 		'username'=>'required|alpha_num|min:4|unique:users',
 		'firstname'=>'required|alpha|min:2',

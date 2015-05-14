@@ -17,7 +17,7 @@ page = {
 		$('.dd').nestable({
 			maxDepth:1
 		});
-		
+
 	},
 	stepy: function() {
 		$("#deliveryStepy li a").click(function(e){
@@ -121,8 +121,15 @@ page = {
 
 		});
 	    $("#file-0").fileinput({
-	        'allowedFileExtensions' : ['jpg', 'png','gif'],
-	    });
+	    	uploadUrl: '/pages/image-temp',
+	    	uploadAsync: true,
+	        allowedFileExtensions : ['jpg', 'png','gif'],
+	    }).on('fileimageloaded', function(event, previewId) {
+	    	console.log(previewId);
+	    	console.log(event);
+	    	//upload the data
+		    //$(document).find("#"+previewId).parents('.dd-list').find('.kv-fileinput-upload').click();
+		});
 	}
 };
 request = {
@@ -229,3 +236,4 @@ request = {
 	// 		);
 	// }
 };
+

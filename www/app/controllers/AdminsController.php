@@ -57,13 +57,8 @@ class AdminsController extends \BaseController {
 	 */
 	public function getIndex()
 	{
-		if ($this->role_id < 3) {
-			$user_id = Auth::user()->id;
-			$users = User::prepare(User::all());
-			$this->layout->content = View::make('admins.index')
-			->with('user_id',$user_id)
-			->with('users',$users);
-		}
+		$this->layout->content = View::make('admins.index');
+
 		
 	}
 	/**
@@ -115,9 +110,7 @@ class AdminsController extends \BaseController {
 		->with('alert_type','alert-warning');
 	}
 	public function getAdd(){
-		$roles = Admin::roles();
-		$this->layout->content = View::make('admins.add')
-		->with('roles',$roles);
+
 	}
 	public function postAdd(){
 		$validator = Validator::make(Input::all(), User::$rules_add);
@@ -147,11 +140,7 @@ class AdminsController extends \BaseController {
 		 }				
 		}
 		public function getEdit($id = null) {
-			$roles = Admin::roles();
-			$admins = User::find($id);
-			$this->layout->content = View::make('admins.edit')
-			->with('roles',$roles)
-			->with('admins',$admins);
+
 		}
 		public function postEdit(){
 			$validator = Validator::make(Input::all(), User::$rules_edit);
@@ -193,24 +182,24 @@ class AdminsController extends \BaseController {
 		public function postDelete()
 		{
 
-			$user_id = Input::get('user_id');
-			$current_user_id = Auth::user()->id;
-			if ($current_user_id != $user_id) {
-				$user = User::find($user_id);
-				if($user->delete()) {
-					return Redirect::action('AdminsController@getIndex')
-					->with('message', 'Successfully deleted!')
-					->with('alert_type','alert-success');
-				} else {
-					return Redirect::back()
-					->with('message', 'Oops, somthing went wrong. Please try again.')
-					->with('alert_type','alert-danger');	
-				}
-			} else {
-				return Redirect::back()
-				->with('message', 'Permission denied.')
-				->with('alert_type','alert-danger');
-			}
+			// $user_id = Input::get('user_id');
+			// $current_user_id = Auth::user()->id;
+			// if ($current_user_id != $user_id) {
+			// 	$user = User::find($user_id);
+			// 	if($user->delete()) {
+			// 		return Redirect::action('AdminsController@getIndex')
+			// 		->with('message', 'Successfully deleted!')
+			// 		->with('alert_type','alert-success');
+			// 	} else {
+			// 		return Redirect::back()
+			// 		->with('message', 'Oops, somthing went wrong. Please try again.')
+			// 		->with('alert_type','alert-danger');	
+			// 	}
+			// } else {
+			// 	return Redirect::back()
+			// 	->with('message', 'Permission denied.')
+			// 	->with('alert_type','alert-danger');
+			// }
 
 		}
 

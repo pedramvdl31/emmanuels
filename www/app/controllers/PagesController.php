@@ -331,10 +331,7 @@ class PagesController extends \BaseController {
 
 	public function postImageTemp() {
 		if(Request::ajax()) {
-
-			$image = json_decode(Input::get('file'));
-
-			Job::dump($image);
+			Job::dump(Input::all());
 			// // $jpeg_quality = 100;
 
 			// $dir = "img/temp";
@@ -380,11 +377,10 @@ class PagesController extends \BaseController {
 
 			// 	imagejpeg($image,$output_filename, $jpeg_quality);
 			// 	// $image_url = asset($cropPath . DIRECTORY_SEPARATOR. $output_filename . $type);
-$response = [
-"status" => 'success'
-];
-			// }
-return Response::json($response);
+			
+			return Response::json(array(
+				'status' => 200
+				));
 }
 }
 

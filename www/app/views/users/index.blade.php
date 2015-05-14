@@ -1,60 +1,65 @@
 @section('stylesheets')
+{{ HTML::style('packages/DataTables-Bootstrap3/BS3/assets/css/datatables.css') }}
 @stop
 @section('scripts')
+{{ HTML::script('js/users_index.js') }}
 @stop
 @section('content')
-	<div class="jumbotron">
-		<h1>Users Setup</h1>
-		<ol class="breadcrumb">
-			<li class="active">Users Overview</li>
-			<li><a href="{{ action('UsersController@getAdd') }}">Create New User</a></li>
-		</ol>
-	</div>
-	{{ Form::open(array('action'=>'UsersController@postAdd', 'class'=>'form-signup','role'=>"form")) }}
-	    <h2 class="form-signup-heading">Please Register</h2>
+<div class="jumbotron">
+	<h1>Users</h1>
+	<ol class="breadcrumb">
+		<li class="active">Users Overview</li>
+		<li><a href="{{ action('AdminsController@getAdd') }}">Add User</a></li>
+	</ol>
+</div>
 
-	  	<div class="form-group {{ $errors->has('username') ? 'has-error' : false }}">
-	    	<label class="control-label" for="username">Username</label>
-	    	{{ Form::text('username', null, array('class'=>'form-control', 'placeholder'=>'Username')) }}
-	        @foreach($errors->get('username') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>
-	  	<div class="form-group {{ $errors->has('firstname') ? 'has-error' : false }}">
-	    	<label class="control-label" for="firstname">First Name</label>
-	    	{{ Form::text('firstname', null, array('class'=>'form-control', 'placeholder'=>'First Name')) }}
-	        @foreach($errors->get('firstname') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>
-	  	<div class="form-group {{ $errors->has('lastname') ? 'has-error' : false }}">
-	    	<label class="control-label" for="lastname">Last Name</label>
-	    	{{ Form::text('lastname', null, array('class'=>'form-control', 'placeholder'=>'Last Name')) }}
-	        @foreach($errors->get('lastname') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>	 	
-	  	<div class="form-group {{ $errors->has('email') ? 'has-error' : false }}">
-	    	<label class="control-label" for="email">Email</label>
-	    	{{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'Email Address')) }}
-	        @foreach($errors->get('email') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>	    
-	  	<div class="form-group {{ $errors->has('password') ? 'has-error' : false }}">
-	    	<label class="control-label" for="password">Password</label>
-	    	{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}
-	        @foreach($errors->get('password') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>	
-	  	<div class="form-group {{ $errors->has('password') ? 'has-error' : false }}">
-	    	<label class="control-label" for="password_confirmation">Password</label>
-	    	{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')) }}
-	        @foreach($errors->get('password_confirmation') as $message)
-	            <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>
-	    {{ Form::submit('Register', array('class'=>'btn btn-large btn-primary btn-block'))}}
-	{{ Form::close() }}
+<div class="table-responsive">
+	<table id="user_table" class="table table-striped table-bordered table-hover table-responsive">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Username</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Role</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody id="user_table_body">
+			@foreach($users as $user)
+			<tr> 
+				<td>{{ $user->id }}</td>
+				<td>{{ $user->username }}</td>
+				<td>{{ $user->firstname }} {{$user->lastname}}</td>
+				<td>{{ $user->email }}</td>
+				<td>{{ $user->roles_formated }}</td>
+				<td><a href="{{ action('UsersController@getEdit',$user->id) }}">Edit</a>
+					@if($user_id != $user->id)
+						{{ Form::open(array('action' => 'UsersController@postDelete', 'class'=>'remove-form','id'=>'form-'.$user->id,'role'=>"form",'files'=> true)) }}
+						{{ Form::hidden('user_id', $user->id) }}
+						<a class="remove" data-toggle="modal" data-target="#myModal"  user-id="{{$user->id}}" >/ Remove</a></td>
+						{{ Form::close() }}</td>
+					@endif
+				</tr>
+				@endforeach
+			</tbody>
+		</table>
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header alert alert-warning">
+						Warnning!
+					</div>
+					<div class="modal-body">
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						<button type="button" class="btn btn-danger remove-btn">Remove</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 @stop

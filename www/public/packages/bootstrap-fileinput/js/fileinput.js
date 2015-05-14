@@ -206,7 +206,7 @@
             removeClass: 'btn btn-xs btn-default',
             removeTitle: 'Remove file',
             uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
-            uploadClass: 'btn btn-xs btn-default',
+            uploadClass: 'btn btn-xs btn-default hide',
             uploadTitle: 'Upload file',
             indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning"></i>',
             indicatorSuccess: '<i class="glyphicon glyphicon-ok-sign file-icon-large text-success"></i>',
