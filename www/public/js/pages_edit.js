@@ -18,71 +18,74 @@ page = {
 			maxDepth:1
 		});
 
+
+		
+
 	},
-	stepy: function() {
-		$("#deliveryStepy li a").click(function(e){
-			previous_step = $("#deliveryStepy .active");
-			e.preventDefault();
-			var href = $(this).attr('href');
-			$("#deliveryStepy li").removeClass('active');
-			$(this).parents('li:first').addClass('active');
-			$(".steps").addClass('hide');
-			$(href).removeClass('hide');
+stepy: function() {
+	$("#deliveryStepy li a").click(function(e){
+		previous_step = $("#deliveryStepy .active");
+		e.preventDefault();
+		var href = $(this).attr('href');
+		$("#deliveryStepy li").removeClass('active');
+		$(this).parents('li:first').addClass('active');
+		$(".steps").addClass('hide');
+		$(href).removeClass('hide');
 			// if ((href == "#billingInfo")) {
 			// 	if (previous_step.hasClass('customerInfo') || previous_step.hasClass('menuSelection')) {
 			// 	}
 			// }
 		});
 
-		$(".next").click(function(){
+	$(".next").click(function(){
 
-			$("#deliveryStepy .active").next('li').addClass('row-active');
-			$("#deliveryStepy li").removeClass('active');
-			$(document).find(".row-active").addClass('active').removeClass('row-active');
-			var href = $(document).find('#deliveryStepy .active a').attr('href');
-			$(".steps").addClass('hide');
-			$(href).removeClass('hide');
+		$("#deliveryStepy .active").next('li').addClass('row-active');
+		$("#deliveryStepy li").removeClass('active');
+		$(document).find(".row-active").addClass('active').removeClass('row-active');
+		var href = $(document).find('#deliveryStepy .active a').attr('href');
+		$(".steps").addClass('hide');
+		$(href).removeClass('hide');
 	// if($(this).attr('step') == 4) {//this step is billing info
 	// 	setDeliveryAddress();
 	// }
 
 });
-		$(".previous").click(function(){
-			$("#deliveryStepy .active").prev('li').addClass('row-active');
-			$("#deliveryStepy li").removeClass('active');
-			$(document).find(".row-active").addClass('active').removeClass('row-active');
-			var href = $(document).find('#deliveryStepy .active a').attr('href');
-			$(".steps").addClass('hide');
-			$(href).removeClass('hide');
+	$(".previous").click(function(){
+		$("#deliveryStepy .active").prev('li').addClass('row-active');
+		$("#deliveryStepy li").removeClass('active');
+		$(document).find(".row-active").addClass('active').removeClass('row-active');
+		var href = $(document).find('#deliveryStepy .active a').attr('href');
+		$(".steps").addClass('hide');
+		$(href).removeClass('hide');
 	// if($(this).attr('step') == 5) {//coming from deliverySetup
 	// 	updateBillingInfo();
 	// }
 });
-	},
-	events: function(){
-		$('#title').friendurl({id : 'url'});
-		$(document).on('click','#content .panel',function(){
-			$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
-			$(this).removeClass('panel-default').addClass('panel-success');
-		});
-		$("#add-content").click(function(){
-			var content_set_count = $(document).find('#content .panel-collapse').length;
-			$(document).find('#content .panel-collapse').removeClass('in');
-			$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
-			request.add_content(content_set_count);
-		});
-		$("#add-content-slider").click(function(){
+},
+events: function(){
+	$('#title').friendurl({id : 'url'});
+	$(document).on('click','#content .panel',function(){
+		$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
+		$(this).removeClass('panel-default').addClass('panel-success');
+	});
+	$("#add-content").click(function(){
+		var content_set_count = $(document).find('#content .panel-collapse').length;
+		$(document).find('#content .panel-collapse').removeClass('in');
+		$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
+		request.add_content(content_set_count);
+	});
+	$("#add-content-slider").click(function(){
 			// var content_set_count = $(document).find('#slider .panel-collapse').length;
 			// $(document).find('#content .panel-collapse').removeClass('in');
 			// $(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
 			request.add_content_slider();
 		});
-		$("#preview-btn").click(function(){
+	$("#preview-btn").click(function(){
 			// var serialized_data = $("#add-form").serialize();
 			// request.load_preview(serialized_data);
 		});
 
-		$("#image1").change(function () {
+	$("#image1").change(function () {
 			// var ajaxData = new FormData();
 			// ajaxData.append('photo', $(this)[0].files[0]);
 			
@@ -100,12 +103,12 @@ page = {
 
 
 
-		$(document).on('click','.remove-collapse',function(){
+	$(document).on('click','.remove-collapse',function(){
 			// console.log($(document).find('.content-area .content-set').length);
 			var count = 1;
 			$( ".content-area .content-set" ).each(function( index ) {
-			  $(this).find('.panel-title a .this-title').html('Content '+count);
-			  count++;
+				$(this).find('.panel-title a .this-title').html('Content '+count);
+				count++;
 			});
 			var this_set = $(this).parents('.content-set').attr('this_set');
 
@@ -117,11 +120,11 @@ page = {
 			$('#content_count').val(re_count);		
 		});
 
-		$("#addSlide").click(function(){
+	$("#addSlide").click(function(){
+		request.add_slide();
+	});
 
-		});
-
-	}
+}
 };
 request = {
 	add_content: function(content_set_count) {
@@ -151,6 +154,7 @@ request = {
 					default:
 					break;
 				}
+
 			}
 			);
 	},
@@ -193,6 +197,83 @@ request = {
 						case 200: // Approved
 						// $('#content_count').val((content_set_count--));
 						// $('.content-area').append(html);
+						break;
+
+						default:
+						break;
+					}
+				}
+				);
+	},
+	add_slide: function() {
+		var token = $('meta[name=_token]').attr('content');
+		$.post(
+			'/pages/insert-slide',
+			{
+				"_token": token
+			},
+			function(results){
+				var status = results.status;
+				var html = results.html;
+				switch(status) {
+						case 200: // Approved
+						
+						$('.slider-body').append(html);
+						// $('#content_count').val((content_set_count--));
+						// $('.content-area').append(html);
+
+
+var $el2 = $("#input-706");
+
+	// custom footer template for the scenario
+	// the custom tags are in braces
+	var footerTemplate = '<div class="file-thumbnail-footer">\n' +
+	'   <div style="margin:5px 0">\n' +
+	'       <input class="kv-input kv-new form-control input-sm {TAG_CSS_NEW}" value="{caption}" placeholder="Enter caption...">\n' +
+	'       <input class="kv-input kv-init form-control input-sm {TAG_CSS_INIT}" value="{TAG_VALUE}" placeholder="Enter caption...">\n' +
+	'   </div>\n' +
+	'   {actions}\n' +
+	'</div>';
+
+
+
+	$el2.fileinput({
+		uploadUrl: '/pages/image-temp',
+		uploadAsync: false,
+		maxFilesNum: 1,
+		maxFileCount: 1,
+		overwriteInitial: false,
+		layoutTemplates: {footer: footerTemplate},
+		previewThumbTags: {
+	        '{TAG_VALUE}': '',        // no value
+	        '{TAG_CSS_NEW}': '',      // new thumbnail input
+	        '{TAG_CSS_INIT}': 'hide'  // hide the initial input
+	    },
+	    initialPreview: [
+	    ],
+	    initialPreviewConfig: [
+
+	    ],
+	    initialPreviewThumbTags: [
+
+	        ],
+	    uploadExtraData: function() {  // callback example
+	    	var out = {}, key, i = 0;
+	    	$('.kv-input:visible').each(function() {
+	    		$el = $(this);
+	    		key = $el.hasClass('kv-new') ? 'new_' + i : 'init_' + i;
+	    		out[key] = $el.val();
+	    		i++;
+	    	});
+	    	return out;
+	    }
+	}).on("filebatchselected", function(event, files) {
+	    // trigger upload method immediately after files are selected
+	    $el2.fileinput("upload");
+	});
+
+
+						
 						break;
 
 						default:

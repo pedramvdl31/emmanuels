@@ -245,9 +245,30 @@ class Page extends \Eloquent {
 		return $pages;
 	}
 
-	public static function createSlider($order) {
+	public static function prepareImage() {
 		$slider = '';
-		
+		$slider .= '<div id="sliderDiv" class="content-area-slider col-md-12 col-lg-12">';
+		$slider .= '<div class="dd " id="nestable3" style="width: 100% !important">';
+		$slider .= '<ol class="dd-list">';
+		$slider .= '<li class="dd-item dd3-item" data-id="1">';
+		$slider .= '<input type="hidden" class="menu menu-link" name="1" value="">';
+		$slider .= '<input type="hidden" class="menu-order" name="menu[s][order]" value="">';
+		$slider .= '<div class="dd-handle dd3-handlse"><i class="glyphicon glyphicon-move"></i> &nbsp;Image 1</div>';
+		$slider .= '<div class="dd3-content " style="display:table !important;padding: 5px 10px 5px 40px !important;">';
+		$slider .= '<div class="row-fluid" style="">';
+		$slider .= '<div class="col-md-12" >';
+		$slider .= '<input id="input-706" name="kartik-input-706[]" type="file" class="file-loading">';
+		$slider .= '</div>';
+		$slider .= '</div>';
+		$slider .= '<div class="image-info pull-right" style="">';
+		$slider .= '</div>';
+		$slider .= '</div>';
+		$slider .= '</li>';
+		$slider .= '</ol>';
+		$slider .= '</div>';
+		$slider .= '<div class="content-area-session-slider">';
+		$slider .= '</div>';
+		$slider .= '</div>';
 
 		return $slider;
 	}
