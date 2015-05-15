@@ -26,37 +26,37 @@ class Page extends \Eloquent {
 	public static function prepareContentArea($count) {
 		$html = '';
 		$html .= '<div class="panel panel-success content-set" this_set="'.$count.'" style="margin-top:10px;">';
-			
-				$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
-					$html .= 'data-parent="#accordion" href="#accordion-'.$count.'" aria-expanded="true" aria-controls="collapseOne"';
-					$html .= 'style="cursor: pointer;">';
-					$html .= '<h4 class="panel-title">';
-					$html .= '<a class="this-title">';
-					$html .= 'Section '.($count+1);
-					$html .= '</a>';
-					$html .= '<a>';
-					$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
-					$html .= '</a>';
-					$html .= '</h4>';
-				$html .= '</div>';
+
+		$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+		$html .= 'data-parent="#accordion" href="#accordion-'.$count.'" aria-expanded="true" aria-controls="collapseOne"';
+		$html .= 'style="cursor: pointer;">';
+		$html .= '<h4 class="panel-title">';
+		$html .= '<a class="this-title">';
+		$html .= 'Section '.($count+1);
+		$html .= '</a>';
+		$html .= '<a>';
+		$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+		$html .= '</a>';
+		$html .= '</h4>';
+		$html .= '</div>';
 				//here is the bug
-				$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
-					$html .= '<div class="panel-body panel-input">';
-						$html .= '<div class="form-group">';
-							$html .= '<label class="control-label" for="title">Title</label>';
-							$html .= '<input type="text" name="content['.$count.'][content_title]" class="form-control content-title" placeholder="Content Title">';
-						$html .= '</div>';
-						$html .= '<div class="form-group">';
-							$html .= '<label class="control-label" for="content">Content</label>';
-							$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" id="content-body-'.$count.'" placeholder="Content Title"></textarea>';
-						$html .= '</div>';
-					$html .= '</div>';
-				$html .= '</div>';
-					$html .= '';
-				$html .= '<div class="panel-footer clearfix">';
-					$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
-				$html .= '</div>';
-			
+		$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
+		$html .= '<div class="panel-body panel-input">';
+		$html .= '<div class="form-group">';
+		$html .= '<label class="control-label" for="title">Title</label>';
+		$html .= '<input type="text" name="content['.$count.'][content_title]" class="form-control content-title" placeholder="Content Title">';
+		$html .= '</div>';
+		$html .= '<div class="form-group">';
+		$html .= '<label class="control-label" for="content">Content</label>';
+		$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" id="content-body-'.$count.'" placeholder="Content Title"></textarea>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '</div>';
+		$html .= '';
+		$html .= '<div class="panel-footer clearfix">';
+		$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
+		$html .= '</div>';
+
 		$html .= '</div>';
 		return $html;
 	}
@@ -231,7 +231,7 @@ class Page extends \Eloquent {
 			'2' => 'Public'
 			);
 	} 
- 
+
 	public static function prepareForSelect($data) {
 		$pages = array(''=>'All Pages');
 		if(isset($data)) {
@@ -245,31 +245,41 @@ class Page extends \Eloquent {
 		return $pages;
 	}
 
-	public static function prepareImage() {
+	public static function prepareImage($order) {
 		$slider = '';
-		$slider .= '<div id="sliderDiv" class="content-area-slider col-md-12 col-lg-12">';
-		$slider .= '<div class="dd " id="nestable3" style="width: 100% !important">';
-		$slider .= '<ol class="dd-list">';
-		$slider .= '<li class="dd-item dd3-item" data-id="1">';
-		$slider .= '<input type="hidden" class="menu menu-link" name="1" value="">';
-		$slider .= '<input type="hidden" class="menu-order" name="menu[s][order]" value="">';
-		$slider .= '<div class="dd-handle dd3-handlse"><i class="glyphicon glyphicon-move"></i> &nbsp;Image 1</div>';
-		$slider .= '<div class="dd3-content " style="display:table !important;padding: 5px 10px 5px 40px !important;">';
+		
+		$slider .= '<li class="dd-item dd3-item" data-id="'.$order.'">';
+		$slider .= '<div  order="'.$order.'" class="dd-handle dd3-handdle"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$order.'</div>';
+
+		$slider .= '<div class="dd3-content" style="display:table !important;padding: 5px 10px 5px 40px !important;">';
 		$slider .= '<div class="row-fluid" style="">';
 		$slider .= '<div class="col-md-12" >';
-		$slider .= '<input id="input-706" name="kartik-input-706[]" type="file" class="file-loading">';
+		$slider .= '<input id="input-706-'.$order.'" name="kartik-input-706[]" type="file" class="file-loading">';
 		$slider .= '</div>';
-		$slider .= '</div>';
-		$slider .= '<div class="image-info pull-right" style="">';
 		$slider .= '</div>';
 		$slider .= '</div>';
 		$slider .= '</li>';
-		$slider .= '</ol>';
-		$slider .= '</div>';
-		$slider .= '<div class="content-area-session-slider">';
-		$slider .= '</div>';
-		$slider .= '</div>';
 
+
+		return $slider;
+	}
+
+	public static function prepareSliderImagesForEditPage($slider_image) {
+		$slider = '';
+		if (isset($slider_image)) {
+			foreach ($slider_image as $key => $value) {
+				$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'">';
+				$slider .= '<div image_path="'.$value.'"  order="'.$key.'" class="dd-handle dd3-handdle"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.'</div>';
+				$slider .= '<div class="dd3-content" style="display:table !important;padding: 5px 10px 5px 40px !important;">';
+				$slider .= '<div class="row-fluid" style="">';
+				$slider .= '<div class="col-md-12" >';
+				$slider .= '<input id="input-706-'.$key.'" name="kartik-input-706[]" type="file" class="file-loading">';
+				$slider .= '</div>';
+				$slider .= '</div>';
+				$slider .= '</div>';
+				$slider .= '</li>';
+			}
+		}
 		return $slider;
 	}
 }

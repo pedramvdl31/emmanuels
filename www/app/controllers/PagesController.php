@@ -73,6 +73,7 @@ class PagesController extends \BaseController {
 	{
 		
 		if(Session::get('data_session')) Session::forget('data_session');
+		if(Session::get('slider_images')) Session::forget('slider_images');
 		$user_role = Auth::user()->roles;
 		$pages = (isset($id)) ? Page::preparePages(Page::where('company_id',$id)->get()) : Page::preparePages(Page::all());
 		$companies = Company::find(1);
@@ -143,6 +144,8 @@ class PagesController extends \BaseController {
 			$keywords = $page->keywords;
 			$status = $page->status;
 			$content =  Page::prepareForEdit(json_decode($page->content_data)); 
+
+			$slider_images = Page::prepareSliderImagesForEditPage(json_decode($page->slider_image));
 		}
 		$this->layout->content = View::make('pages.edit')
 		->with('page_id',$page_id)
@@ -152,7 +155,8 @@ class PagesController extends \BaseController {
 		->with('keywords',$keywords )
 		->with('content',$content)
 		->with('form_data',$form_data)
-		->with('status',$status);
+		->with('status',$status)
+		->with('slider_images',$slider_images);
 	}
 	public function postEdit()
 	{
@@ -218,7 +222,11 @@ class PagesController extends \BaseController {
 			$page->url = $form_data['url'];
 			$page->keywords = $form_data['keywords'];
 			$page->content_data = isset($form_data['content'])?json_encode($form_data['content']):null;
-			$page->status = $form_data['status'];
+			$page->status =  ($form_data['page_id'] == 1)?1:$form_data['status'];
+
+			if (Session::get('slider_images')) {
+				$page->slider_image = json_encode(Session::get('slider_images'));
+			}
 
 		    if($page->save()) { // Save the user and redirect to freelancers home
 		    	if(Session::get('data_session')) Session::forget('data_session');
@@ -331,9 +339,10 @@ class PagesController extends \BaseController {
 
 	public function postImageTemp() {
 		if(Request::ajax()) {
-			$imagePath = "img/tmp";
+			$imagePath = "img/tmp/";
 			$imagename = $_FILES["kartik-input-706"]['name'];
 			$imagetemp = $_FILES["kartik-input-706"]['tmp_name'];
+			$order = Input::get('order');
 
 			if (!file_exists($imagePath)) {
 				@mkdir($imagePath);
@@ -344,7 +353,9 @@ class PagesController extends \BaseController {
 					"message" => 'Can`t write cropped File'
 					);	
 			}else{
-				Session::put('slider_images[]',Input::get('items'));
+				$final_path = $imagePath . $imagename[0];
+
+				Session::put('slider_images.'.$order,$final_path);
 				move_uploaded_file($imagetemp[0], $imagePath . $imagename[0]);
 				return Response::json(array(
 					'status' => 200
@@ -356,11 +367,27 @@ class PagesController extends \BaseController {
 	public function postInsertSlide() {
 		if(Request::ajax()) {
 
-			$html = Page::prepareImage();
+			$order = Input::get('order');
+			$html = Page::prepareImage($order);
 
 			return Response::json(array(
 				'status' => 200,
-				'html' => $html
+				'html' => $html,
+				'order' => $order
+				));
+		}
+	}
+
+	public function postSessionReindex() {
+		if(Request::ajax()) {
+			$session_data = Input::get('session_data');
+			
+			Session::put('slider_images',$session_data);
+			
+			Job::dump(Session::get('slider_images'));
+
+			return Response::json(array(
+				'status' => 200
 				));
 		}
 	}

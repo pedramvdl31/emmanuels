@@ -82,6 +82,7 @@
 			Route::post('/pages/content-image','PagesController@postContentImage');
 			Route::post('/pages/image-temp','PagesController@postImage-temp');
 			Route::post('/pages/insert-slide','PagesController@postInsertSlide');
+			Route::post('/pages/session-reindex','PagesController@postSessionReindex');
 
 
 

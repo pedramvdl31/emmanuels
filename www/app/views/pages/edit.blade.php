@@ -150,10 +150,13 @@
 					<button id="addSlide" class="btn btn-lg pull-right" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
 				</div>
 
-
-
-
-
+				<div id="sliderDiv" class="content-area-slider col-md-12 col-lg-12">
+					<div class="dd" id="nestable3" style="width: 100% !important">
+						<ol class="dd-list">
+							{{$slider_images}}
+						</ol>
+					</div>
+				</div>
 
 			</div>
 			<div class="panel-footer">
