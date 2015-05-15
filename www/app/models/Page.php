@@ -248,10 +248,17 @@ class Page extends \Eloquent {
 	public static function prepareImage($order) {
 		$slider = '';
 		
-		$slider .= '<li class="dd-item dd3-item" data-id="'.$order.'">';
-		$slider .= '<div  order="'.$order.'" class="dd-handle dd3-handdle"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$order.'</div>';
+		$slider .= '<li class="dd-item dd3-item claerfix" data-id="'.$order.'" style ="
 
-		$slider .= '<div class="dd3-content" style="display:table !important;padding: 5px 10px 5px 40px !important;">';
+
+		">';
+		$slider .= '<div  order="'.$order.'" class="dd-handle dd3-handdle col-md-10" style="
+
+
+
+		"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$order.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
+
+		$slider .= '<div class="dd3-content" style="">';
 		$slider .= '<div class="row-fluid" style="">';
 		$slider .= '<div class="col-md-12" >';
 		$slider .= '<input id="input-706-'.$order.'" name="kartik-input-706[]" type="file" class="file-loading">';
@@ -268,9 +275,9 @@ class Page extends \Eloquent {
 		$slider = '';
 		if (isset($slider_image)) {
 			foreach ($slider_image as $key => $value) {
-				$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'">';
-				$slider .= '<div image_path="'.$value.'"  order="'.$key.'" class="dd-handle dd3-handdle"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.'</div>';
-				$slider .= '<div class="dd3-content" style="display:table !important;padding: 5px 10px 5px 40px !important;">';
+				$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'" img-name="'.$value.'">';
+				$slider .= '<div image_path="'.$value.'"  order="'.$key.'" class="dd-handle dd3-handdle col-md-10" style=""><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
+				$slider .= '<div class="dd3-content" style="">';
 				$slider .= '<div class="row-fluid" style="">';
 				$slider .= '<div class="col-md-12" >';
 				$slider .= '<input id="input-706-'.$key.'" name="kartik-input-706[]" type="file" class="file-loading">';

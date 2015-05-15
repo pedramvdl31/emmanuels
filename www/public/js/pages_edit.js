@@ -25,8 +25,16 @@
 		        var count_onload = $(".dd ol li .dd-handle").length;
 		        if (count_onload > 0) 
 		        	{
+
+		        		if ($('#is_session').val() == 1) {
+		        			var is_session = 1;
+		        			set_slider_images_onload(is_session);
+		        		} else {
+		        			var is_session = 0;
+		        			set_slider_images_onload(is_session);
+		        		}
 		        		//initiate fileinput and fill the images
-		        		set_slider_images_onload();
+		        		
 
 		        		//disable the browse btns
 		        		set_browse_btn();
@@ -88,7 +96,6 @@
 		            request.add_content(content_set_count);
 		        });
 		        $("#addSlide").click(function() {
-
 		            request.add_slider_image();
 		        });
 		        $("#preview-btn").click(function() {
@@ -113,7 +120,18 @@
 		            $('#content_count').val(re_count);
 		        });
 
-		         $(document).on('click', '.fileinput-remove', function() {
+
+		         $(document).on('click', '.remove-img', function() {
+		         	var img_name = $(this).parents(".dd-item").attr('img-name');
+		         	request.remove_image_temp(img_name);
+		         	if ($(this).parents('li:first').remove()) {
+		         		list_reindex();
+		         	};
+		        });
+
+		         $(document).on('click', '.fileinput-remove', function() {	
+		         	var img_name = $(this).parents(".dd-item").attr('img-name');
+		         	request.remove_image_temp(img_name);
 		         	set_browse_btn();
 		        });
 
@@ -148,6 +166,26 @@
 		                        break;
 		                }
 
+		            }
+		        );
+		    },
+		     remove_image_temp: function(img_name) {
+		        var token = $('meta[name=_token]').attr('content');
+		        $.post(
+		            '/pages/remove-temp', {
+		                "_token": token,
+		                "img_name": img_name
+		            },
+		            function(results) {
+		                var status = results.status;
+		                switch (status) {
+		                    case 200: // Approved
+		                    	session_reindex();
+		                        break;
+
+		                    default:
+		                        break;
+		                }
 		            }
 		        );
 		    },
@@ -264,6 +302,8 @@
 		        // trigger upload method immediately after files are selected
 		        $el2.fileinput("upload");
 		        session_reindex();
+		        set_browse_btn();
+		        set_image_name(order,files[0]['name']);
 		    });
 
 		}
@@ -273,11 +313,10 @@
 		    var session_data = {
 
 		    };
-		    if (div_count > 1) {
 
 		        $('.dd > ol > li > .dd-handle ').each(function(e) {
 		            var count = e + 1;
-		            $(this).html('<i class="glyphicon glyphicon-move"></i>&nbsp;' + count + '');
+		            $(this).html('<i class="glyphicon glyphicon-move"></i>&nbsp;'+count+'');
 		            $(this).attr('order', count);
 		        });
 		        $('.dd > ol > li').each(function(e) {
@@ -288,7 +327,6 @@
 		            }
 		        });
 		        request.session_reindex(session_data);
-		    };
 		}
 
 		function session_reindex() {
@@ -296,7 +334,6 @@
 		    var session_data = {
 
 		    };
-		    if (div_count > 1) {
 
 		        $('.dd > ol > li').each(function(e) {
 		            var order = $(this).find('.dd-handle').attr('order');
@@ -307,15 +344,13 @@
 		        });
 		        request.session_reindex(session_data);
 
-		    };
 		}
 
-		function set_slider_images_onload() {
+		function set_slider_images_onload(is_session) {
 		    $('.dd > ol > li').each(function(e) {
 		        var order = $(this).find('.dd-handle').attr('order');
 		        var image_path = $(this).find('.dd-handle').attr('image_path');
-
-		        file_input_init_onload(order, image_path);
+		        file_input_init_onload(order, image_path,is_session);
 		    });
 
 		     session_reindex();
@@ -332,7 +367,11 @@
 		    });
 		}
 
-		function file_input_init_onload(order, image_path) {
+		function set_image_name(order,img_name) {
+			$(document).find('.dd > ol .dd-item[data-id = '+order+']').attr('img-name',img_name);
+		}
+
+		function file_input_init_onload(order, image_path,is_session) {
 		    var $el2 = $("#input-706-" + order);
 
 		    // custom footer template for the scenario
@@ -344,8 +383,12 @@
 		        '   </div>\n' +
 		        '   {actions}\n' +
 		        '</div>';
-
-
+			var this_path = '';
+			if (is_session == 1 ) {
+				this_path = '/img/tmp/'+image_path;
+			} else {
+				this_path = '/img/slider/'+image_path;
+			}
 		    $el2.fileinput({
 		        uploadUrl: '/pages/image-temp',
 		        uploadAsync: false,
@@ -361,7 +404,9 @@
 		            '{TAG_CSS_INIT}': '' // hide the initial input
 		        },
 		        initialPreview: [
-		            "<img src='/img/tmp/" + image_path + "' class='file-preview-image' alt='The Moon' title='The Moon'>"
+
+		        	"<img src='"+this_path+"' class='file-preview-image' alt='The Moon' title='The Moon'>"
+
 		        ],
 		        initialCaption: image_path,
 		        initialPreviewConfig: [{
@@ -395,6 +440,9 @@
 		        // trigger upload method immediately after files are selected
 		        $el2.fileinput("upload");
 		        session_reindex();
+		        set_browse_btn();
+		        set_image_name();
+
 		    });
 
 		}

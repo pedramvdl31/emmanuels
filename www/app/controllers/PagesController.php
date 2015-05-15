@@ -125,9 +125,14 @@ class PagesController extends \BaseController {
 	{
 
 		$form_data  = null;
+
 		if (Session::get('data_session')) {
 			$form_data = Page::prepareEditFormSession(Session::get('data_session'));
-			Session::forget('data_session');
+			$slider_images = null;
+			if (Session::get('slider_images')) {
+				$slider_images = Page::prepareSliderImagesForEditPage(Session::get('slider_images'));
+			}
+			$is_session = 1;
 			$title = null;
 			$description = null;
 			$url = null;
@@ -136,6 +141,7 @@ class PagesController extends \BaseController {
 			$page_id = null;
 			$status = null;
 		} else {
+			$is_session = null;
 			$page = Page::find($id);
 			$page_id = $page->id;
 			$title = $page->title;
@@ -156,7 +162,8 @@ class PagesController extends \BaseController {
 		->with('content',$content)
 		->with('form_data',$form_data)
 		->with('status',$status)
-		->with('slider_images',$slider_images);
+		->with('slider_images',$slider_images)
+		->with('is_session',$is_session);
 	}
 	public function postEdit()
 	{
@@ -225,7 +232,24 @@ class PagesController extends \BaseController {
 			$page->status =  ($form_data['page_id'] == 1)?1:$form_data['status'];
 
 			if (Session::get('slider_images')) {
+
 				$page->slider_image = json_encode(Session::get('slider_images'));
+
+				$new_path = 'img/slider/';
+				if (!file_exists($new_path)) {
+					@mkdir($new_path);
+				}
+				$images = Session::get('slider_images');
+
+				
+				foreach ($images as $ikey => $ivalue) {
+					$this_file_path = 'img/tmp/'.$ivalue;
+					while (file_exists($this_file_path)) {
+						rename('img/tmp/'.$ivalue, $new_path.$ivalue);
+					}
+				}
+			} else {
+				$page->slider_image = null;
 			}
 
 		    if($page->save()) { // Save the user and redirect to freelancers home
@@ -336,6 +360,36 @@ class PagesController extends \BaseController {
 				));
 		}
 	}
+	public function postRemoveTemp() {
+		if(Request::ajax()) {
+			$image_name = Input::get('img_name');
+
+			if (isset($image_name)) {
+				$tmp_path = 'img/tmp/';
+				$slider_path = 'img/slider/';
+
+				$tmp_img = 'img/tmp/'.$image_name;
+				$slider_img = 'img/slider/'.$image_name;
+
+				if (file_exists($tmp_path)) {
+					if (file_exists($tmp_img)) {
+						unlink($tmp_img);
+
+					}
+				}
+				if (file_exists($slider_path)) {
+					if (file_exists($slider_img)) {
+						unlink($slider_img);
+					}
+				}
+			}
+
+
+			return Response::json(array(
+				'status' => 200
+				));
+		}
+	}
 
 	public function postImageTemp() {
 		if(Request::ajax()) {
@@ -353,7 +407,7 @@ class PagesController extends \BaseController {
 					"message" => 'Can`t write cropped File'
 					);	
 			}else{
-				$final_path = $imagePath . $imagename[0];
+				$final_path = $imagename[0];
 
 				Session::put('slider_images.'.$order,$final_path);
 				move_uploaded_file($imagetemp[0], $imagePath . $imagename[0]);
@@ -381,11 +435,7 @@ class PagesController extends \BaseController {
 	public function postSessionReindex() {
 		if(Request::ajax()) {
 			$session_data = Input::get('session_data');
-			
 			Session::put('slider_images',$session_data);
-			
-			Job::dump(Session::get('slider_images'));
-
 			return Response::json(array(
 				'status' => 200
 				));

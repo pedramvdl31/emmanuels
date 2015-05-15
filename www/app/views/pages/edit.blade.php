@@ -3,8 +3,8 @@
 {{ HTML::style('packages/fileupload-9.8.0/css/jquery.fileupload.css') }}
 {{ HTML::style('packages/fileupload-9.8.0/css/jquery.fileupload-ui.css') }}
 {{ HTML::style('packages/Nestable-master/css.nestable.css') }}
-{{ HTML::style('packages/bootstrap-fileinput/css/fileinput
-.css')}}
+{{ HTML::style('packages/bootstrap-fileinput/css/fileinput.css')}}
+{{ HTML::style('css/pages_edit.css')}}
 
 @stop
 @section('scripts')
@@ -141,21 +141,18 @@
 				@endif
 			</div>
 		</div>
-
 		<div id="slider" class="steps panel panel-success hide">
 			<div class="panel-heading" style="font-size:17px;"><h3>Slider Image</h3></div>
 			<div class="panel-body clearfix slider-body">
-
-				<div class="row-fluid">
-					<button id="addSlide" class="btn btn-lg pull-right" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
-				</div>
-
-				<div id="sliderDiv" class="content-area-slider col-md-12 col-lg-12">
+				<div id="sliderDiv" class="content-area-slider col-md-10 col-lg-10 pull-left">
 					<div class="dd" id="nestable3" style="width: 100% !important">
 						<ol class="dd-list">
 							{{$slider_images}}
 						</ol>
 					</div>
+				</div>
+				<div class="row-fluid col-lg-2">
+					<button id="addSlide" class="btn btn-lg btn-primary pull-right" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
 				</div>
 
 			</div>
@@ -169,6 +166,7 @@
 </div>
 {{ Form::hidden('page_id',isset($form_data['page_id'])?$form_data['page_id']:$page_id,['id'=>'page_id']); }}
 {{ Form::hidden('content_count',null,['id'=>'content_count']); }}
+{{ Form::hidden('is_session',$is_session,['id'=>'is_session']); }}
 {{ Form::close() }}
 
 
