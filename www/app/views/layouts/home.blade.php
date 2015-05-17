@@ -35,26 +35,24 @@
       <a href="/" class="my-svg-container">
         <img src="/img/emmanuels_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
       </a>
-      <nav class="top-nav text-center">
+<nav class="top-nav text-center ">
         {{$menu_html}}
-        <select id="mainMenuSelect" class="form-control">
+      <button type="button" class="navbar-menu-toggle clearfix" data-toggle="collapse" data-target=".navbar-collapse-menu">
+        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+        <span class="home-tag pull-left">Home</span>
+        <span class="icon-bar"></span>
+      </button>
 
-          <option value="/" {{ $home_nav_active }}>Home</option>
-          <option value="/services" {{ $services_nav_active }}>Services</option>
-          <option value="/marketplace" {{ $market_nav_active }}>Marketplace</option>
-          <option value="aboutus" {{ $aboutus_nav_active }}>About Us</option>
-          <option value="advice" {{ $advice_nav_active }}>Advice</option>
-          <option value="contactus" {{ $contactus_nav_active }}>Contact Us</option>
-        </select>
-<!--           <ul >
-<li class="{{ $home_active }}"><a href="/"> Home</a></li>
-<li class="{{ $services_active }}"><a href="/services"> Services</a></li>
-<li class="{{ $market_active }}"><a href="/marketplace"> Marketplace</a></li>
-<li class="{{ $aboutus_active }}"><a href="/aboutus"> About Us</a></li>
-<li class="{{ $advice_active }}"><a href="/advice"> Advice</a></li>
-<li class="{{ $contactus_active }}"><a href="/contactus"> Contact Us</a></li>
-</ul> -->
 </nav>
+<nav class="navbar navbar-default menu-nav-toggle hide" role="navigation" status="0">
+  <div class="container">
+    <div class="navbar-header">
+    </div>
+    <div class="collapse navbar-collapse-menu">
+      {{$nav_html}}
+    </div>
+  </div>
+</nav> 
 
 
 
@@ -81,7 +79,6 @@
     </div>
     <div class="collapse navbar-collapse">
       {{$nav_html}}
-      
     </div>
   </div>
 </nav>    

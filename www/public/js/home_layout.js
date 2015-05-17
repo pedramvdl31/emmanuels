@@ -37,11 +37,22 @@ pages = {
 
 
         // twitter navigation scripts
-        $(".nav a").click(function(){
-            // $(this).parents('.navbar-collapse:first').removeClass('in').parents('.container:first').find('.navbar-toggle').addClass('collapsed');
-            // var ahref = $(this).attr('href');
-            // $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
-            // e.preventDefault();
+
+        $(".navbar-menu-toggle").click(function(){
+            var status = $('.menu-nav-toggle').attr('status');
+
+            switch(parseInt(status)){
+                case 0:
+                 
+                    $('.menu-nav-toggle').attr('status',1);
+                    $('.menu-nav-toggle').addClass('show').removeClass('hide');
+                break;
+                case 1:
+  
+                    $('.menu-nav-toggle').attr('status',0);
+                    $('.menu-nav-toggle').addClass('hide').removeClass('show');
+                break;
+            }
         });
 
         $('#nav-wrapper').height($("#nav").height());

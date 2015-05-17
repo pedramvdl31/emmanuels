@@ -108,7 +108,7 @@ class Website extends \Eloquent {
 					if (isset($value->page_id)) { //MENU LINKS
 						$this_page = Page::find($value->page_id);
 						$html .= '<li class="dropdown">';              
-						$html .=  '<a  href="#" ">'. $value->name.'</a>';
+						$html .=  '<a  href="'.URL::to('/').'/'.$this_page->param_one.'" ">'. $value->name.'</a>';
 						$html .= '</li>';
 
 					} else { //MENU GROUPS
@@ -121,7 +121,7 @@ class Website extends \Eloquent {
 									foreach ($menu_items as $mikey => $mivalue) { //FOR EACH MENU ITEMS
 										if ($mivalue->menu_id == $value->id) { //THIS MENU ITEM BELONGS TO THIS GROUP
 											$this_page = Page::find($mivalue->page_id);
-											$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">'.$mivalue->name.'</a></li>';
+											$html .= '<li role="presentation"><a role="menuitem" tabindex="-1" href="'.URL::to('/').'/'.$this_page->param_one.'/'.$this_page->param_two.'">'.$mivalue->name.'</a></li>';
 										}
 									}
 									$html .= '</ul>';
