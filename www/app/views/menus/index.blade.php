@@ -10,7 +10,7 @@
 	<ol class="breadcrumb">
 		<li class="active">Menus Overview</li>
 		<li><a href="{{ action('MenusController@getAdd') }}">Add Menu</a></li>
-		<li><a href="{{ action('MenusController@getOrder') }}">Page Order</a></li>
+		<li><a href="{{ action('MenusController@getOrder') }}">Menu Order</a></li>
 	</ol>
 </div>
 
