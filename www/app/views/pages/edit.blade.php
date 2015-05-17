@@ -151,8 +151,8 @@
 						</ol>
 					</div>
 				</div>
-				<div class="row-fluid col-lg-2">
-					<button id="addSlide" class="btn btn-lg btn-primary pull-right" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
+				<div class="row-fluid col-sm-2 col-lg-2 pull-right">
+					<button id="addSlide" class="btn btn-lg btn-primary" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
 				</div>
 
 			</div>

@@ -10,34 +10,32 @@ pages = {
         $('.parallax-window').parallax({imageSrc: ''});
         /* Navigation Scripts */
         // top menu navigation
-        $(".top-nav li a, .nav li a").click(function(e){
-            // alert();
-            // var ahref = $(this).attr('href');
-            // $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
-            // e.preventDefault();
-        });
+        // $(".top-nav li a, .nav li a").click(function(e){
+        //     // alert();
+        //     // var ahref = $(this).attr('href');
+        //     // $('html, body').animate({scrollTop:$(ahref).offset().top}, 'slow');
+        //     // e.preventDefault();
+        // });
 
-        $( ".top-nav li a" ).mouseover(function() {
-            $('.top-nav li a').css('background','none');
-            $('.top-nav li a').css('color','#333');
+        // $( ".top-nav .li_a" ).mouseover(function() {
+        //     // $('.top-nav li a').css('background','none');
+        //     $(this).css('border-radius','5px');
+        //     $(this).css('background-color','#e6e6e6');
 
-        });
+        // });
 
-        $( ".top-nav .ul_a" ).mouseover(function() {
-            $('.top-nav li a').css('background','none');
-            $('.top-nav li a').css('color','#333');
-        });
-
-        $( ".top-nav .ul_a" ).mouseout(function() {
-            $('.home_a').css('background','#025502');
-            $('.home_a').css('color','#fff');
-        });
-
-        $( ".top-nav li a" ).mouseout(function() {
-            $('.home_a').css('background','#025502');
-            $('.home_a').css('color','#fff');
-        });
+        // $( ".top-nav .li_a" ).mouseout(function() {
+        //     // $('.home_a').css('background','#025502');
+        //    $(this).css('background-color','white');
+        // });
         
+
+        // $( ".top-nav .ul_a" ).mouseout(function() {
+        //     // $('.home_a').css('background','#025502');
+        //     // $('.home_a').css('color','#fff');
+        // });
+
+
         // twitter navigation scripts
         $(".nav a").click(function(){
             // $(this).parents('.navbar-collapse:first').removeClass('in').parents('.container:first').find('.navbar-toggle').addClass('collapsed');

@@ -252,11 +252,11 @@ class Page extends \Eloquent {
 
 
 		">';
-		$slider .= '<div  order="'.$order.'" class="dd-handle dd3-handdle col-md-10" style="
+		$slider .= '<div  order="'.$order.'" class="dd-handle dd3-handdle col-xs-10 col-sm-10 col-lg-10" style="
 
 
 
-		"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$order.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
+		"><i class="glyphicon glyphicon-move"></i>&nbsp;'.$order.' </div><div class="remove-img-div col-xs-10 col-sm-2 col-lg-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
 
 		$slider .= '<div class="dd3-content" style="">';
 		$slider .= '<div class="row-fluid" style="">';

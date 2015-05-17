@@ -81,6 +81,7 @@
     </div>
     <div class="collapse navbar-collapse">
       {{$nav_html}}
+      
     </div>
   </div>
 </nav>    

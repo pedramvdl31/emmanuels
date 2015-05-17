@@ -384,11 +384,8 @@
 		        '   {actions}\n' +
 		        '</div>';
 			var this_path = '';
-			if (is_session == 1 ) {
-				this_path = '/img/tmp/'+image_path;
-			} else {
-				this_path = '/img/slider/'+image_path;
-			}
+			this_path = '/img/slider/'+image_path;
+
 		    $el2.fileinput({
 		        uploadUrl: '/pages/image-temp',
 		        uploadAsync: false,

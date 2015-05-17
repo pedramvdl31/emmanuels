@@ -44,7 +44,7 @@ public function getAdd()
 {	
 //previously was where status 2 but i dont think we need it
 //		$pages = Page::where('status',2)->get();
-	$pages = Page::all();
+	$pages = Page::where('status',2)->get();
 	$pages_prepared = Page::prepareForSelect($pages);
 	$prepared_select = Menu::prepareSelect();
 	$this->layout->content = View::make('menus.add')
@@ -204,14 +204,19 @@ public function postAdd()
 	{
 		$menu_id = Input::get('menu_id');
 		$menu = Menu::find($menu_id);
-		$count = count(MenuItem::where('menu_id',$menu_id)->first());
+		$count = count(MenuItem::where('menu_id',$menu_id)->get());
 		if($count>0){
-			$menu_items = MenuItem::where('menu_id',$menu_id)->get();
-			if($menu->delete() && $menu_items->delete()) {
-				return Redirect::back()
-				->with('message', 'Successfully Deleted!')
-				->with('alert_type','alert-success');
-
+			$menu_items = MenuItem::where('menu_id',$menu_id);
+			if($menu->delete()) {
+				if ($menu_items->delete()) {
+					return Redirect::back()
+					->with('message', 'Successfully Deleted!')
+					->with('alert_type','alert-success');
+				} else {
+					return Redirect::back()
+					->with('message', 'Oops, somthing went wrong. Please try again. items and menus')
+					->with('alert_type','alert-danger');
+				}
 			} else {
 				return Redirect::back()
 				->with('message', 'Oops, somthing went wrong. Please try again. items and menus')
@@ -231,17 +236,17 @@ public function postAdd()
 		}
 	}
 
-		public function getOrder()
+	public function getOrder()
 	{
 		$menus = Menu::where('status',1)->orderBy('order', 'ASC')->get();
 		$menu_items = MenuItem::where('status',1)->orderBy('order', 'ASC')->get();
 		$list_html = Menu::prepareNestable($menus,$menu_items);
 		$this->layout->content = View::make('menus.order')
-			->with('list_html',$list_html);
+		->with('list_html',$list_html);
 
 	}
 
-		public function postOrder()
+	public function postOrder()
 	{
 		$menus_arranged = Input::get('menu');
 		foreach ($menus_arranged as $key => $value) {
@@ -257,15 +262,15 @@ public function postAdd()
 			$menus->save();
 		}
 		return Redirect::action('MenusController@getIndex')
-			->with('message', 'Successfully Saved')
-			->with('alert_type','alert-success');
+		->with('message', 'Successfully Saved')
+		->with('alert_type','alert-success');
 	}
 
 	public function postCountItems() {
 		if(Request::ajax()) {
 			$status = 200;
 			$id = Input::get('id');
-			$items_count = count(MenuItem::where('menu_id',$id)->first());
+			$items_count = count(MenuItem::where('menu_id',$id)->get());
 
 			return Response::json(array(
 				'status' => 200,

@@ -123,9 +123,7 @@ class PagesController extends \BaseController {
 
 	public function getEdit($id = null)
 	{
-
 		$form_data  = null;
-
 		if (Session::get('data_session')) {
 			$form_data = Page::prepareEditFormSession(Session::get('data_session'));
 			$slider_images = null;
@@ -168,13 +166,26 @@ class PagesController extends \BaseController {
 	public function postEdit()
 	{
 		
-		$this->layout = View::make('layouts.pages');
+		
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
 		if ($validator->passes()) {
+			$page_id = Input::get('page_id');
 			$content = Page::prepareForPreview(Input::get('content'));
-			$this->layout->content = View::make('pages.preview_edit')
-			->with('content',$content);
+			if ($page_id == 1) {//HOME EDIT
+				$slider_images = (Session::get('slider_images'))?Session::get('slider_images'):null;
+				View::share('slider_images',$slider_images);
+				$menu_html = Website::prepareMenuBarHomeEdit();
+				View::share('menu_html',$menu_html);
+				$this->layout = View::make('layouts.home_edit');
+				$this->layout->content = View::make('pages.preview_edit_home')
+				->with('content',$content);
+			} else {
+				$this->layout = View::make('layouts.pages');
+				$this->layout->content = View::make('pages.preview_edit')
+				->with('content',$content);
+			}
+
 		} 	else {
 	        // validation has failed, display error messages    
 			return Redirect::back()
@@ -242,12 +253,12 @@ class PagesController extends \BaseController {
 				$images = Session::get('slider_images');
 
 				
-				foreach ($images as $ikey => $ivalue) {
-					$this_file_path = 'img/tmp/'.$ivalue;
-					while (file_exists($this_file_path)) {
-						rename('img/tmp/'.$ivalue, $new_path.$ivalue);
-					}
-				}
+				// foreach ($images as $ikey => $ivalue) {
+				// 	$this_file_path = 'img/tmp/'.$ivalue;
+				// 	while (file_exists($this_file_path)) {
+				// 		rename('img/tmp/'.$ivalue, $new_path.$ivalue);
+				// 	}
+				// }
 			} else {
 				$page->slider_image = null;
 			}
@@ -365,18 +376,18 @@ class PagesController extends \BaseController {
 			$image_name = Input::get('img_name');
 
 			if (isset($image_name)) {
-				$tmp_path = 'img/tmp/';
+				// $tmp_path = 'img/tmp/';
 				$slider_path = 'img/slider/';
 
-				$tmp_img = 'img/tmp/'.$image_name;
+				// $tmp_img = 'img/tmp/'.$image_name;
 				$slider_img = 'img/slider/'.$image_name;
 
-				if (file_exists($tmp_path)) {
-					if (file_exists($tmp_img)) {
-						unlink($tmp_img);
+				// if (file_exists($tmp_path)) {
+				// 	if (file_exists($tmp_img)) {
+				// 		unlink($tmp_img);
 
-					}
-				}
+				// 	}
+				// }
 				if (file_exists($slider_path)) {
 					if (file_exists($slider_img)) {
 						unlink($slider_img);
@@ -393,7 +404,8 @@ class PagesController extends \BaseController {
 
 	public function postImageTemp() {
 		if(Request::ajax()) {
-			$imagePath = "img/tmp/";
+			// $imagePath = "img/tmp/";
+			$imagePath = "img/slider/";
 			$imagename = $_FILES["kartik-input-706"]['name'];
 			$imagetemp = $_FILES["kartik-input-706"]['tmp_name'];
 			$order = Input::get('order');
@@ -434,10 +446,16 @@ class PagesController extends \BaseController {
 
 	public function postSessionReindex() {
 		if(Request::ajax()) {
+			$status = 400;
 			$session_data = Input::get('session_data');
 			Session::put('slider_images',$session_data);
+			$home_page = Page::find(1);
+			$home_page->slider_image = json_encode(Input::get('session_data'));
+			if ($home_page->save()) {
+				$status = 200;
+			}
 			return Response::json(array(
-				'status' => 200
+				'status' => $status
 				));
 		}
 	}
