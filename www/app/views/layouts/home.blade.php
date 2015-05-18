@@ -35,84 +35,82 @@
       <a href="/" class="my-svg-container">
         <img src="/img/emmanuels_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
       </a>
-<nav class="top-nav text-center ">
+      <nav class="top-nav text-center ">
         {{$menu_html}}
-      <button type="button" class="navbar-menu-toggle clearfix" data-toggle="collapse" data-target=".navbar-collapse-menu">
-        <span class="glyphicon glyphicon-chevron-down pull-right"></span>
-        <span class="home-tag pull-left">Home</span>
-        <span class="icon-bar"></span>
-      </button>
+        <button type="button" class="navbar-menu-toggle clearfix" data-toggle="collapse" data-target=".navbar-collapse-menu">
+          <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          <span class="home-tag pull-left">Home</span>
+          <span class="icon-bar"></span>
+        </button>
 
-</nav>
-<nav class="navbar navbar-default menu-nav-toggle hide" role="navigation" status="0">
+      </nav>
+      <div class="menu-nav-toggle-div">
+        <nav class="navbar navbar-default menu-nav-toggle hide" role="navigation" status="0">
+          <div class="container">
+            <div class="navbar-header">
+            </div>
+            <div class="collapse navbar-collapse-menu">
+              {{$nav_html}}
+            </div>
+          </div>
+        </nav> 
+      </div>
+    </div>
+
+  </header> 
+
+  <!-- stickyNav -->
+
+  <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+
+      <div class="navbar-header">
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">        	
+          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        {{$nav_html}}
+      </div>
+    </div>
+  </nav>    
+  <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
+
+  <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
   <div class="container">
-    <div class="navbar-header">
-    </div>
-    <div class="collapse navbar-collapse-menu">
-      {{$nav_html}}
-    </div>
-  </div>
-</nav> 
+    <!-- Jssor Slider Begin -->
+    <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
+    <!-- ================================================== -->
+    <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
 
+      <!-- Loading Screen -->
+      <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
 
+        background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
+      </div>
+      <div style="position: absolute; display: block; background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/loading.gif) no-repeat center center;
 
-
-</div>
-
-</header> 
-
-<!-- stickyNav -->
-
-<nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
-  <div class="container">
-
-    <div class="navbar-header">
-
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">        	
-        <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
-      </a>
-    </div>
-    <div class="collapse navbar-collapse">
-      {{$nav_html}}
+      top: 0px; left: 0px;width: 100%;height:100%;">
     </div>
   </div>
-</nav>    
-<section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
 
-<!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-<div class="container">
-  <!-- Jssor Slider Begin -->
-  <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
-  <!-- ================================================== -->
-  <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
-
-    <!-- Loading Screen -->
-    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-      <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-
-      background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
-    </div>
-    <div style="position: absolute; display: block; background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/loading.gif) no-repeat center center;
-
-    top: 0px; left: 0px;width: 100%;height:100%;">
+  <!-- Slides Container -->
+  <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
+  overflow: hidden;">
+  @if(isset($slider_images))
+  @foreach ($slider_images as $image)
+  <div>
+    <img u="image" src2="img/slider/{{$image}}" />
   </div>
-</div>
-
-<!-- Slides Container -->
-<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
-overflow: hidden;">
-@if(isset($slider_images))
-@foreach ($slider_images as $image)
-<div>
-  <img u="image" src2="img/slider/{{$image}}" />
-</div>
-@endforeach
-@endif
+  @endforeach
+  @endif
 
 </div>
 

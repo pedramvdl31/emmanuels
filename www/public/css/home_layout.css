@@ -158,11 +158,20 @@ footer p {
 #mainMenuList {
 	display:block;
 }
-.navbar-menu-toggle{
+.navbar-menu-toggle {
   display:none;
 }
 
+.menu-nav-toggle {
+  display:none;
+}
+.menu-nav-toggle-div {
+  display:none;
+}
 @media screen and (max-width: 600px) {
+  .menu-nav-toggle-div {
+  display:block;
+}
 	#mainMenuSelect {
 		display:block;
 	}

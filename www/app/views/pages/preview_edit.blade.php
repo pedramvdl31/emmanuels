@@ -3,7 +3,7 @@
 @section('scripts')
 @stop
 @section('content')
-	<div class="" style="padding-top:8px;">
+	<div class="" style="padding-top:8px;min-height:600px;">
 		{{$content}}
 	</div>
 	<div class="panel-footer" style="border: 1px solid rgb(231, 231, 231);">

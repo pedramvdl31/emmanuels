@@ -24,7 +24,7 @@
 		</div>
 		<div class="form-group {{ $errors->has('menus') ? 'has-error' : false }}">
 			<label class="control-label" for="menus">Menus</label>
-			{{ Form::select('menus', $menus_prepared, null, array('class'=>'form-control menus','not_empty'=>'true','menus'=>false)); }}
+			{{ Form::select('menus', $menus_prepared, isset($id)?$id:null, array('class'=>'form-control menus','not_empty'=>'true','menus'=>false)); }}
 			@foreach($errors->get('menus') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach

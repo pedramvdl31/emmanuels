@@ -165,8 +165,7 @@ class PagesController extends \BaseController {
 	}
 	public function postEdit()
 	{
-		
-		
+
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
 		if ($validator->passes()) {
@@ -419,10 +418,9 @@ class PagesController extends \BaseController {
 					"message" => 'Can`t write cropped File'
 					);	
 			}else{
-				$final_path = $imagename[0];
-
+				$final_path = preg_replace('#[ -]+#', '-', $imagename[0]);
 				Session::put('slider_images.'.$order,$final_path);
-				move_uploaded_file($imagetemp[0], $imagePath . $imagename[0]);
+				move_uploaded_file($imagetemp[0], $imagePath . $final_path);
 				return Response::json(array(
 					'status' => 200
 					));
@@ -448,12 +446,15 @@ class PagesController extends \BaseController {
 		if(Request::ajax()) {
 			$status = 400;
 			$session_data = Input::get('session_data');
-			Session::put('slider_images',$session_data);
-			$home_page = Page::find(1);
-			$home_page->slider_image = json_encode(Input::get('session_data'));
-			if ($home_page->save()) {
-				$status = 200;
+			foreach ($session_data as $key => $value) {
+				$session_data[$key] = preg_replace('#[ -]+#', '-', $value);
 			}
+			Session::put('slider_images',$session_data);
+			// $home_page = Page::find(1);
+			// $home_page->slider_image = json_encode(Input::get('session_data'));
+			// if ($home_page->save()) {
+			// 	$status = 200;
+			// }
 			return Response::json(array(
 				'status' => $status
 				));

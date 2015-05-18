@@ -40,7 +40,7 @@ class MenuItemsController extends \BaseController {
 			->with('companies',$companies);
 		}
 	}
-	public function getAdd()
+	public function getAdd($id = null)
 	{
 		//check later (it may be okay to enable multiple linking to one page)
 		//get the pages that are not linked by other menus
@@ -53,6 +53,7 @@ class MenuItemsController extends \BaseController {
 
 		$this->layout->content = View::make('menu_items.add')
 		->with('pages_prepared',$pages_prepared)
+		->with('id',$id)
 		->with('menus_prepared',$menus_prepared);
 
 	}

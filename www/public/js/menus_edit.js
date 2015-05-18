@@ -10,6 +10,9 @@ menu = {
 	},
 	events: function(){
 		$('#name').friendurl({id : 'url'});
+		$("#name").on("change", function () {
+			$('#url').val("/"+urlfriendly($("#name").val()));
+		});
 		$(".kind").on("change", function () {
 			var option_selected = $(this).find('option:selected').val();
 			switch(parseInt(option_selected)){

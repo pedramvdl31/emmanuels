@@ -248,7 +248,7 @@ class Page extends \Eloquent {
 	public static function prepareImage($order) {
 		$slider = '';
 		
-		$slider .= '<li class="dd-item dd3-item claerfix" data-id="'.$order.'" style ="
+		$slider .= '<li class="dd-item dd3-item clearfix" data-id="'.$order.'" style ="
 
 
 		">';

@@ -9,7 +9,7 @@
 
 
 
-<div class="" style="padding-top:8px;">
+<div class="" style="padding-top:8px;min-height:600px;">
 
 	{{$content}}
 </div>
