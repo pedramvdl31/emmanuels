@@ -73,7 +73,7 @@ class PagesController extends \BaseController {
 	{
 		
 		if(Session::get('data_session')) Session::forget('data_session');
-		if(Session::get('slider_images')) Session::forget('slider_images');
+		if(Session::get('slider_image_session')) Session::forget('slider_image_session');
 		$user_role = Auth::user()->roles;
 		$pages = (isset($id)) ? Page::preparePages(Page::where('company_id',$id)->get()) : Page::preparePages(Page::all());
 		$companies = Company::find(1);
@@ -126,9 +126,9 @@ class PagesController extends \BaseController {
 		$form_data  = null;
 		if (Session::get('data_session')) {
 			$form_data = Page::prepareEditFormSession(Session::get('data_session'));
-			$slider_images = null;
-			if (Session::get('slider_images')) {
-				$slider_images = Page::prepareSliderImagesForEditPage(Session::get('slider_images'));
+			$session_slider_images = null;
+			if (Session::get('slider_image_session')) {
+				$session_slider_images = Page::prepareSliderImagesForEditPageSession(Session::get('slider_image_session'));
 			}
 			$is_session = 1;
 			$title = null;
@@ -149,7 +149,7 @@ class PagesController extends \BaseController {
 			$status = $page->status;
 			$content =  Page::prepareForEdit(json_decode($page->content_data)); 
 
-			$slider_images = Page::prepareSliderImagesForEditPage(json_decode($page->slider_image));
+			$session_slider_images = Page::prepareSliderImagesForEditPage(json_decode($page->slider_image));
 		}
 		$this->layout->content = View::make('pages.edit')
 		->with('page_id',$page_id)
@@ -160,22 +160,29 @@ class PagesController extends \BaseController {
 		->with('content',$content)
 		->with('form_data',$form_data)
 		->with('status',$status)
-		->with('slider_images',$slider_images)
+		->with('session_slider_images',$session_slider_images)
 		->with('is_session',$is_session);
 	}
 	public function postEdit()
-	{
+	{	
 
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
+
 		if ($validator->passes()) {
 			$page_id = Input::get('page_id');
 			$content = Page::prepareForPreview(Input::get('content'));
 			if ($page_id == 1) {//HOME EDIT
-				$slider_images = (Session::get('slider_images'))?Session::get('slider_images'):null;
-				View::share('slider_images',$slider_images);
+				$session_slider_images = (Session::get('slider_image_session'))?Session::get('slider_image_session'):null;
+
+				View::share('session_slider_images',$session_slider_images);
+
 				$menu_html = Website::prepareMenuBarHomeEdit();
 				View::share('menu_html',$menu_html);
+
+				$nav_html = Website::prepareNavBarHomeEdit();
+				View::share('nav_html',$nav_html);
+				
 				$this->layout = View::make('layouts.home_edit');
 				$this->layout->content = View::make('pages.preview_edit_home')
 				->with('content',$content);
@@ -241,23 +248,24 @@ class PagesController extends \BaseController {
 			$page->content_data = isset($form_data['content'])?json_encode($form_data['content']):null;
 			$page->status =  ($form_data['page_id'] == 1)?1:$form_data['status'];
 
-			if (Session::get('slider_images')) {
+			if (Session::get('slider_image_session')) {
+				$images = Session::get('slider_image_session');
+				foreach ($images as $key => $value) {
+					$images[$key][1] = "slider";
+				}
 
-				$page->slider_image = json_encode(Session::get('slider_images'));
-
+				$page->slider_image = json_encode($images);
 				$new_path = 'img/slider/';
 				if (!file_exists($new_path)) {
 					@mkdir($new_path);
 				}
-				$images = Session::get('slider_images');
 
-				
-				// foreach ($images as $ikey => $ivalue) {
-				// 	$this_file_path = 'img/tmp/'.$ivalue;
-				// 	while (file_exists($this_file_path)) {
-				// 		rename('img/tmp/'.$ivalue, $new_path.$ivalue);
-				// 	}
-				// }
+				foreach ($images as $ikey => $ivalue) {
+					$this_file_path = 'img/tmp/'.$ivalue[0];
+					while (file_exists($this_file_path)) {
+						rename('img/tmp/'.$ivalue[0], $new_path.$ivalue[0]);
+					}
+				}
 			} else {
 				$page->slider_image = null;
 			}
@@ -331,13 +339,11 @@ class PagesController extends \BaseController {
 	public function getPage($param1 = null, $param2 = null) {
 		// Set layout
 		$this->layout = View::make('layouts.pages');
-
 		if (!isset($param2)) {
 			$page = Page::where('param_one',$param1)->first();
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
-
 				$this->layout->content = View::make('pages.page')
 				->with('page_content',$page_content);
 			} else {
@@ -345,11 +351,9 @@ class PagesController extends \BaseController {
 			}
 		} elseif (isset($param1) && isset($param2)) {
 			$page = Page::where('param_one',$param1)->where('param_two',$param2)->first();
-			
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
-
 				$this->layout->content = View::make('pages.page')
 				->with('page_content',$page_content);
 			} else {
@@ -363,7 +367,6 @@ class PagesController extends \BaseController {
 		if(Request::ajax()) {
 			$order = Input::get('order');
 			$slider = Page::createSlider($order);
-
 			return Response::json(array(
 				'status' => 200,
 				'slider' => $slider
@@ -373,28 +376,19 @@ class PagesController extends \BaseController {
 	public function postRemoveTemp() {
 		if(Request::ajax()) {
 			$image_name = Input::get('img_name');
+			$from = Input::get('from');
 
 			if (isset($image_name)) {
 				// $tmp_path = 'img/tmp/';
-				$slider_path = 'img/slider/';
-
+				$slider_path = 'img/'.$from.'/';
 				// $tmp_img = 'img/tmp/'.$image_name;
-				$slider_img = 'img/slider/'.$image_name;
-
-				// if (file_exists($tmp_path)) {
-				// 	if (file_exists($tmp_img)) {
-				// 		unlink($tmp_img);
-
-				// 	}
-				// }
+				$slider_img = 'img/'.$from.'/'.$image_name;
 				if (file_exists($slider_path)) {
 					if (file_exists($slider_img)) {
 						unlink($slider_img);
 					}
 				}
 			}
-
-
 			return Response::json(array(
 				'status' => 200
 				));
@@ -404,11 +398,13 @@ class PagesController extends \BaseController {
 	public function postImageTemp() {
 		if(Request::ajax()) {
 			// $imagePath = "img/tmp/";
-			$imagePath = "img/slider/";
+			$imagePath = "img/tmp/";
 			$imagename = $_FILES["kartik-input-706"]['name'];
 			$imagetemp = $_FILES["kartik-input-706"]['tmp_name'];
 			$order = Input::get('order');
 
+			$now_time = time();
+			$new_imagename = $now_time.'-'.$imagename[0];
 			if (!file_exists($imagePath)) {
 				@mkdir($imagePath);
 			}
@@ -418,11 +414,10 @@ class PagesController extends \BaseController {
 					"message" => 'Can`t write cropped File'
 					);	
 			}else{
-				$final_path = preg_replace('#[ -]+#', '-', $imagename[0]);
-				Session::put('slider_images.'.$order,$final_path);
+				$final_path = preg_replace('#[ -]+#', '-', $new_imagename);
 				move_uploaded_file($imagetemp[0], $imagePath . $final_path);
 				return Response::json(array(
-					'status' => 200
+					"initialPreview" => "<img src='/".$imagePath . $final_path."' class='file-preview-image' alt='".$final_path."' title='Desert'>"
 					));
 			}
 		}
@@ -444,17 +439,15 @@ class PagesController extends \BaseController {
 
 	public function postSessionReindex() {
 		if(Request::ajax()) {
-			$status = 400;
-			$session_data = Input::get('session_data');
-			foreach ($session_data as $key => $value) {
-				$session_data[$key] = preg_replace('#[ -]+#', '-', $value);
+			$status = 200;
+			if(Session::get('slider_image_session')) Session::forget('slider_image_session');
+			$slider_image_session = Input::get('session_data');
+			if (!empty($slider_image_session)) {
+				foreach ($slider_image_session as $key => $value) {
+					$slider_image_session[$key][0] = preg_replace('#[ -]+#', '-', $slider_image_session[$key][0]);
+				}
 			}
-			Session::put('slider_images',$session_data);
-			// $home_page = Page::find(1);
-			// $home_page->slider_image = json_encode(Input::get('session_data'));
-			// if ($home_page->save()) {
-			// 	$status = 200;
-			// }
+			Session::put('slider_image_session',$slider_image_session);
 			return Response::json(array(
 				'status' => $status
 				));

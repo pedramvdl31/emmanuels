@@ -17,12 +17,15 @@ pages = {
 
             switch(parseInt(status)){
                 case 0:
-                 
+                    $(this).css('border-bottom-left-radius','0');
+                    $(this).css('border-bottom-right-radius','0');
+                    $('.menu-nav-toggle-div').css('border-top','solid 2px #025502');
                     $('.menu-nav-toggle').attr('status',1);
                     $('.menu-nav-toggle').addClass('show').removeClass('hide');
                 break;
                 case 1:
-  
+                    $('.menu-nav-toggle-div').css('border-top','none');
+                    $(this).css('border-radius','4px');
                     $('.menu-nav-toggle').attr('status',0);
                     $('.menu-nav-toggle').addClass('hide').removeClass('show');
                 break;

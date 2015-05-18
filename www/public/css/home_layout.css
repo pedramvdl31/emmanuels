@@ -169,8 +169,18 @@ footer p {
   display:none;
 }
 @media screen and (max-width: 600px) {
-  .menu-nav-toggle-div {
+
+.menu-nav-toggle-div {
   display:block;
+}
+
+.navbar-inverse .navbar-nav .open .dropdown-menu>li>a {
+    color: #025502;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a:hover{
+  color:white;
+  background-color: black;
 }
 	#mainMenuSelect {
 		display:block;

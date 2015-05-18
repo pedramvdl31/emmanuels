@@ -25,7 +25,6 @@
 				var count_onload = $(".dd ol li .dd-handle").length;
 				if (count_onload > 0) 
 				{
-
 					if ($('#is_session').val() == 1) {
 						var is_session = 1;
 						set_slider_images_onload(is_session);
@@ -125,18 +124,25 @@
 
 
 		        	$(document).on('click', '.remove-img', function() {
-		        		var img_name = $(this).parents(".dd-item").attr('img-name');
-		        		request.remove_image_temp(img_name);
-		        		if ($(this).parents('li:first').remove()) {
-		        			list_reindex();
-		        		};
+		        		// var img_name = $(this).parents(".dd-item").attr('img-name');
+		        		var _img_name = $(this).parents('li:first').find('img:first').attr('alt');
+		        		var from = $(this).parents('li:first').attr('from');
+		        			request.remove_image_temp(_img_name,from);
+		        			if ($(this).parents('li:first').remove()) {
+		        				list_reindex();
+		        			};
 		        	});
 
-		        	$(document).on('click', '.fileinput-remove', function() {	
-		        		var img_name = $(this).parents(".dd-item").attr('img-name');
-		        		request.remove_image_temp(img_name);
-		        		set_browse_btn();
-		        	});
+		        	// $(document).on('click', '.fileinput-remove', function() {	
+		        	// 	// var img_name = $(this).parents(".dd-item").attr('img-name');
+		        	// 	var _img_name = $(this).parents('li:first').find('img:first').attr('alt');
+		        	// 	var img_count = $(this).parents(".dd").find("img[alt='"+_img_name+"']").length;
+		        	// 	if (parseInt(img_count) == 1) {
+		        	// 		request.remove_image_temp(_img_name);
+		        			
+		        	// 	} 
+		        	// 	set_browse_btn();
+		        	// });
 
 
 		        }
@@ -172,21 +178,25 @@
 		            }
 		            );
 		    	},
-		    	remove_image_temp: function(img_name) {
+		    	remove_image_temp: function(img_name,from) {
 		    		var token = $('meta[name=_token]').attr('content');
+		    		$('.submit-btn').addClass('disabled');
 		    		$.post(
 		    			'/pages/remove-temp', {
 		    				"_token": token,
-		    				"img_name": img_name
+		    				"img_name": img_name,
+		    				"from":from
 		    			},
 		    			function(results) {
 		    				var status = results.status;
 		    				switch (status) {
 		                    case 200: // Approved
 		                    session_reindex();
+		                    $('.submit-btn').removeClass('disabled');
 		                    break;
 
 		                    default:
+		                    $('.submit-btn').removeClass('disabled');
 		                    break;
 		                }
 		            }
@@ -246,77 +256,72 @@
 		    				"session_data": session_data
 		    			},
 		    			function(results) {
-		                // var status = results.status;
-		                // switch (status) {
-		                //                 case 200: // Approved
-
-		                //                     break;
-
-		                //                     default:
-		                //                     break;
-		                //                 }
+		    				var status = results.status;
+		    				switch (status) {
+		                    case 200: // Approved
+		                  	  $('.submit-btn').removeClass('disabled');
+		                    break;
+		                    default:
+		                    break;
+		                }
 		            }
 		            );
 		    	}
 		    };
-
 		    function file_input_init(order) {
 		    	var $el2 = $("#input-706-" + order);
+			    // custom footer template for the scenario
+			    // the custom tags are in braces
+			    var footerTemplate = '<div class="file-thumbnail-footer">\n' +
+			    '   <div style="margin:5px 0">\n' +
+			    '       <input class="kv-input kv-new form-control input-sm {TAG_CSS_NEW}" value="{caption}" placeholder="Enter caption...">\n' +
+			    '       <input class="kv-input kv-init form-control input-sm {TAG_CSS_INIT}" value="{TAG_VALUE}" placeholder="Enter caption...">\n' +
+			    '   </div>\n' +
+			    '   {actions}\n' +
+			    '</div>';
+			    $el2.fileinput({
+			    	uploadUrl: '/pages/image-temp',
+			    	uploadAsync: false,
+			    	maxFilesNum: 1,
+			    	maxFileCount: 1,
+			    	overwriteInitial: false,
+			    	layoutTemplates: {
+			    		footer: footerTemplate
+			    	},
+			    	previewThumbTags: {
+			            '{TAG_VALUE}': '', // no value
+			            '{TAG_CSS_NEW}': '', // new thumbnail input
+			            '{TAG_CSS_INIT}': 'hide' // hide the initial input
+			        },
+			        initialPreview: [],
+			        initialPreviewConfig: [
 
-		    // custom footer template for the scenario
-		    // the custom tags are in braces
-		    var footerTemplate = '<div class="file-thumbnail-footer">\n' +
-		    '   <div style="margin:5px 0">\n' +
-		    '       <input class="kv-input kv-new form-control input-sm {TAG_CSS_NEW}" value="{caption}" placeholder="Enter caption...">\n' +
-		    '       <input class="kv-input kv-init form-control input-sm {TAG_CSS_INIT}" value="{TAG_VALUE}" placeholder="Enter caption...">\n' +
-		    '   </div>\n' +
-		    '   {actions}\n' +
-		    '</div>';
+			        ],
+			        initialPreviewThumbTags: [
 
-
-		    $el2.fileinput({
-		    	uploadUrl: '/pages/image-temp',
-		    	uploadAsync: false,
-		    	maxFilesNum: 1,
-		    	maxFileCount: 1,
-		    	overwriteInitial: false,
-		    	layoutTemplates: {
-		    		footer: footerTemplate
-		    	},
-		    	previewThumbTags: {
-		            '{TAG_VALUE}': '', // no value
-		            '{TAG_CSS_NEW}': '', // new thumbnail input
-		            '{TAG_CSS_INIT}': 'hide' // hide the initial input
-		        },
-		        initialPreview: [],
-		        initialPreviewConfig: [
-
-		        ],
-		        initialPreviewThumbTags: [
-
-		        ],
-		        uploadExtraData: function() { // callback example
-		        	var out = {},
-		        	key = "order";
-		        	out[key] = order;
-		        	return out;
-		        }
-		    }).on("filebatchselected", function(event, files) {
+			        ],
+			        uploadExtraData: function() { // callback example
+			        	var out = {},
+			        	key = "order";
+			        	out[key] = order;
+			        	return out;
+			        }
+			    }).on("filebatchselected", function(event, files) {
 		        // trigger upload method immediately after files are selected
 		        $el2.fileinput("upload");
 		        session_reindex();
 		        set_browse_btn();
 		        set_image_name(order,files[0]['name']);
+		        $('.submit-btn').addClass('disabled');
+		    }).on('filebatchuploadcomplete', function(event, files, extra) {
+
 		    });
-
 		}
-
 		function list_reindex() {
 			var div_count = $(".dd ol li .dd-handle").length;
 			var session_data = {
 
 			};
-
 			$('.dd > ol > li > .dd-handle ').each(function(e) {
 				var count = e + 1;
 				$(this).html('<i class="glyphicon glyphicon-move"></i>&nbsp;'+count+'');
@@ -324,28 +329,36 @@
 			});
 			$('.dd > ol > li').each(function(e) {
 				var order = $(this).find('.dd-handle').attr('order');
-				var image_name = $(this).find('.kv-new').val();
-				if (image_name !== undefined) {
-					session_data[order] = image_name;
+				var image_name = $(this).find('img').attr('alt');
+				var from = $(this).attr('from');
+				var image_name_new = image_name.replace(/\s+/g, "-");
+				if (image_name_new !== undefined) {
+					session_data[order] = [image_name_new];
+					session_data[order].push(from);
 				}
 			});
 			request.session_reindex(session_data);
 		}
 
 		function session_reindex() {
-			var div_count = $(".dd ol li .dd-handle").length;
-			var session_data = {
 
-			};
+			setTimeout(function(){ 
 
-			$('.dd > ol > li').each(function(e) {
-				var order = $(this).find('.dd-handle').attr('order');
-				var image_name = $(this).find('.kv-new').val();
-				if (image_name !== undefined) {
-					session_data[order] = image_name;
-				}
-			});
-			request.session_reindex(session_data);
+				var div_count = $(".dd ol li .dd-handle").length;
+				var session_data = {
+				};
+				$('.dd > ol > li').each(function(e) {
+					var order = $(this).find('.dd-handle').attr('order');
+					var image_name = $(this).find('img').attr('alt');
+					var from = $(this).attr('from');
+					var image_name_new = image_name.replace(/\s+/g, "-");
+					if (image_name_new !== undefined) {
+						session_data[order] = [image_name_new];
+						session_data[order].push(from);
+					}
+				});
+				request.session_reindex(session_data);
+			}, 3000);
 
 		}
 
@@ -353,7 +366,8 @@
 			$('.dd > ol > li').each(function(e) {
 				var order = $(this).find('.dd-handle').attr('order');
 				var image_path = $(this).find('.dd-handle').attr('image_path');
-				file_input_init_onload(order, image_path,is_session);
+				var from = $(this).attr('from');
+				file_input_init_onload(order, image_path,is_session,from);
 			});
 
 			session_reindex();
@@ -374,7 +388,7 @@
 			$(document).find('.dd > ol .dd-item[data-id = '+order+']').attr('img-name',img_name);
 		}
 
-		function file_input_init_onload(order, image_path,is_session) {
+		function file_input_init_onload(order, image_path,is_session,from) {
 			var $el2 = $("#input-706-" + order);
 
 		    // custom footer template for the scenario
@@ -387,7 +401,7 @@
 		    '   {actions}\n' +
 		    '</div>';
 		    var this_path = '';
-		    this_path = '/img/slider/'+image_path;
+		    this_path = '/img/'+from+'/'+image_path;
 
 		    $el2.fileinput({
 		    	uploadUrl: '/pages/image-temp',
@@ -405,7 +419,7 @@
 		        },
 		        initialPreview: [
 
-		        "<img src='"+this_path+"' class='file-preview-image' alt='The Moon' title='The Moon'>"
+		        "<img src='"+this_path+"' class='file-preview-image' alt='"+image_path+"' title=''>"
 
 		        ],
 		        initialCaption: image_path,
@@ -414,12 +428,7 @@
 		        	width: "120px",
 		        	url: "/site/file-delete",
 		        	key: 1
-		        }, {
-		        	caption: "City-2.jpg",
-		        	width: "120px",
-		        	url: "/site/file-delete",
-		        	key: 2
-		        }, ],
+		        }],
 		        initialPreviewThumbTags: [{
 		        	'{TAG_VALUE}': image_path,
 		        	'{TAG_CSS_NEW}': 'hide',
@@ -442,13 +451,16 @@
 		        session_reindex();
 		        set_browse_btn();
 		        set_image_name();
+		        $('.submit-btn').addClass('disabled');
+		    }).on('filebatchuploadcomplete', function(event, files, extra) {
 
+		    	
 		    });
 
 		}
 		function urlfriendly(url)
-{
-	url = url
+		{
+			url = url
 	.toLowerCase() // change everything to lowercase
 	.replace(/^\s+|\s+$/g, "") // trim leading and trailing spaces		
 	.replace(/[_|\s]+/g, "-") // change all spaces and underscores to a hyphen

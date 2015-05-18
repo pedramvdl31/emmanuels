@@ -147,7 +147,7 @@
 				<div id="sliderDiv" class="content-area-slider col-md-10 col-lg-10 pull-left">
 					<div class="dd" id="nestable3" style="width: 100% !important">
 						<ol class="dd-list">
-							{{$slider_images}}
+							{{$session_slider_images}}
 						</ol>
 					</div>
 				</div>

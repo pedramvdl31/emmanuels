@@ -45,7 +45,7 @@
 
       </nav>
       <div class="menu-nav-toggle-div">
-        <nav class="navbar navbar-default menu-nav-toggle hide" role="navigation" status="0">
+        <nav class="navbar navbar-inverse menu-nav-toggle hide" role="navigation" status="0">
           <div class="container">
             <div class="navbar-header">
             </div>
@@ -60,6 +60,7 @@
   </header> 
 
   <!-- stickyNav -->
+  
 
   <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
@@ -107,7 +108,7 @@
   @if(isset($slider_images))
   @foreach ($slider_images as $image)
   <div>
-    <img u="image" src2="img/slider/{{$image}}" />
+    <img u="image" src2="img/slider/{{$image[0]}}" />
   </div>
   @endforeach
   @endif
