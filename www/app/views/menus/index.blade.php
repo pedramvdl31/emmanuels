@@ -11,17 +11,19 @@
 		<li class="active">Menus Overview</li>
 		<li><a href="{{ action('MenusController@getAdd') }}">Add Menu</a></li>
 		<li><a href="{{ action('MenusController@getOrder') }}">Menu Order</a></li>
+		</br>
+		<li><a href="{{ action('MenuItemsController@getIndex') }}">/ Menu Items</a></li>
 	</ol>
 
-			@if(isset($menus))
-			@if(count($menus) == 0)
-			<div class="alert alert-warning" role="alert">
-				<h5 href="#" class="alert-link">Click on the button bellow to add your first menu.</h5>
-				<a href="{{ action('MenusController@getAdd') }}" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu</a>
-				</br>
-			</div>
-			@endif
-			@endif
+		@if(isset($menus))
+		@if(count($menus) <= 1)
+		<div class="alert alert-warning" role="alert">
+			<h5 href="#" class="alert-link">Click on the button bellow to add your first menu.</h5>
+			<a href="{{ action('MenusController@getAdd') }}" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu</a>
+			<button type="button" class="btn btn-primary reload-pages" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload</button> 
+		</div>
+		@endif
+		@endif
 </div>
 
 <div class="table-responsive">
@@ -30,7 +32,7 @@
 			<tr>
 				<th>Id</th>
 				<th>Name</th>
-				<th>Order</th>
+				<th>Kind</th>
 				<th>Page Id</th>
 				<th>Status</th>
 				<th>Action</th>
@@ -42,17 +44,26 @@
 			<tr> 
 				<td>{{ $menu->id }}</td>
 				<td>{{ $menu->name }}</td>
-				<td>{{ $menu->order }}</td>
+				<td>{{ $menu->kind }}</td>
 				<td>{{ $menu->page_title }}</td>
 				<td>{{ $menu->status_html }}</td>
-				<td><a href="{{ action('MenusController@getEdit',$menu->id) }}">Edit</a>
+				<td>
+
+				@if($menu->id != 1)
+					<a href="{{ action('MenusController@getEdit',$menu->id) }}">Edit</a>
 					{{ Form::open(array('action' => 'MenusController@postDelete', 'class'=>'remove-form','id'=>'form-'.$menu->id,'role'=>"form",'files'=> true)) }}
 					{{ Form::hidden('menu_id', $menu->id) }}
 					<a class="remove"  menu-id="{{$menu->id}}" >/ Remove</a>
 					{{ Form::close() }}
 					@if(!isset($menu->page_id))
-					<a class="add-item"  menu-id="{{$menu->id}}" href="{{ action('MenuItemsController@getAdd',$menu->id) }}" >/ Add Menu-Item</a></td>
+					<a class="add-item"  menu-id="{{$menu->id}}" href="{{ action('MenuItemsController@getAdd',$menu->id) }}" >/ Add Menu-Item</a>
 					@endif
+				@else
+					-
+				@endif
+
+				</td>
+					
 				</tr>
 				@endforeach
 			@endif

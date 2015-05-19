@@ -29,7 +29,13 @@ page = {
 			var id = $(this).parents('.modal:first').attr('page-id');
 			$("#form-"+id).submit();
 		});
-
+		$( "#page-add" ).click(function() {
+			var this_url = $(this).attr('this-url');
+			window.open(this_url);
+		});
+		$( ".reload-pages" ).click(function() {
+				location.reload();
+		});
 		$(document).on('change','.status',function(){
 			var id = $(this).parents('tr:first').find('td:first').attr('this-id');
 			var selected_status = $("option:selected", this).attr("value");

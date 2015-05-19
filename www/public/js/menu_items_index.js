@@ -20,6 +20,9 @@ menu_item = {
 			var id = $(this).parents('.modal:first').attr('menu-item');
 			$("#form-"+id).submit();
 		});
+		$( ".reload-pages" ).click(function() {
+		location.reload();
+		});
 
 	}
 };

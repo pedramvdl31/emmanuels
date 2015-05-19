@@ -28,13 +28,15 @@ public function __construct() {
 	$this->beforeFilter('csrf', array('on'=>'post'));
 	$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
 
+	$init_message = Website::WebInit();
+
 }
 
 public function getIndex()
 {
 	if ($this->role_id < 3) {
 		$companies = Company::find(1);
-		$menus = Menu::prepare(Menu::where('status',1)->whereNotIn('id',[1])->get());
+		$menus = Menu::prepare(Menu::where('status',1)->get());
 		$this->layout->content = View::make('menus.index')
 		->with('menus',$menus);
 	}
@@ -43,13 +45,15 @@ public function getIndex()
 public function getAdd()
 {	
 //previously was where status 2 but i dont think we need it
-//		$pages = Page::where('status',2)->get();
-	$pages = Page::where('status',2)->get();
+//		$menus = Page::where('status',2)->get();
+	$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
 	$pages_prepared = Page::prepareForSelect($pages);
 	$prepared_select = Menu::prepareSelect();
 	$this->layout->content = View::make('menus.add')
 	->with('pages_prepared',$pages_prepared)
-	->with('prepared_select',$prepared_select);
+	->with('prepared_select',$prepared_select)
+	->with('pages',$pages);
+
 }
 public function postAdd()
 {	
@@ -64,7 +68,7 @@ public function postAdd()
 				$name = Input::get('name');
 				$page_id = Input::get('page_id');
 
-				//add param_one to pages
+				//add param_one to menus
 				$page = Page::find($page_id);
 				$page_url = substr($page->url, 1);
 				$page->param_one = $page_url;
@@ -121,11 +125,11 @@ public function postAdd()
 	{
 		$menus = Menu::find($id);
 		$is_link = (isset($menus->page_id)?1:2);
-		$pages = Page::all();
-		$pages_prepared = Page::prepareForSelect($pages);
+		$menus = Page::all();
+		$menus_prepared = Page::prepareForSelect($menus);
 		$prepared_select = Menu::prepareSelect();
 		$this->layout->content = View::make('menus.edit')
-		->with('pages_prepared',$pages_prepared )
+		->with('menus_prepared',$menus_prepared )
 		->with('prepared_select',$prepared_select)
 		->with('menus',$menus)
 		->with('menu_id',$menus->id)
@@ -145,7 +149,7 @@ public function postAdd()
 				$name = Input::get('name');
 				$page_id = Input::get('page_id');
 
-				//add param_one to pages
+				//add param_one to menus
 				$page = Page::find($page_id);
 				$page_url = substr($page->url, 1);
 				$page->param_one = $page_url;
@@ -278,5 +282,18 @@ public function postAdd()
 				));
 		}
 	}
+	public function postReloadMenus() {
+		if(Request::ajax()) {
+			$status = 200;
+			$menus = Menu::where('page_id',null)->get();
+			$menus_prepared = Menu::prepareForSelect($menus);
+			$menus_option = Menu::prepareOptions($menus_prepared);
+			return Response::json(array(
+				'status' => 200,
+				'menus_option' => $menus_option
+				));
+		}
+	}
+
 
 }

@@ -36,10 +36,10 @@
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
-		<p>&nbsp;
-			<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;If you're having trouble viewing some pages click here to add or change the statuses
+		<p id="page-info">&nbsp;
+			<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;Click here to add or change the statuses
 			<i class="btn btn-sm btn-default" id="page-index" this-url="{{ action('PagesController@getIndex') }}" href="#">Pages</i>
-			<button type="button" class="btn btn-primary btn-sm" id="reload-pages"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload Pages</button> 
+			<button type="button" class="btn btn-primary btn-sm" id="reload-pages-select"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload Pages</button> 
 		</p>
 		<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
 			<label class="control-label" for="url">Url</label>

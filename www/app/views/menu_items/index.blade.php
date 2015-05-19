@@ -15,9 +15,9 @@
 		@if(isset($menu_items))
 			@if(count($menu_items) == 0)
 			<div class="alert alert-warning" role="alert">
-				<h5 href="#" class="alert-link">Warnning! there is no menu item created for this group. click on the button bellow to add your first item.</h5>
-				<a href="{{ action('MenuItemsController@getAdd') }}" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu Item</a>
-				</br>
+				<h5 href="#" class="alert-link">Click on the button bellow to add your first menu item.</h5>
+				<a href="{{ action('MenuItemsController@getAdd') }}" class="alert-link btn  btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu Item</a>
+				<button type="button" class="btn btn-primary  reload-pages" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload</button>
 			</div>
 			@endif
 		@endif

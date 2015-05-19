@@ -70,6 +70,7 @@
 		//MENU CONTROLLER
 		Route::controller('/menus', 'MenusController');
 			Route::post('/menu/count-items','PagesController@postCountItems');
+			Route::post('/menus/reload-menus','PagesController@postReloadMenus');
 
 		//MENU ITEMS CONTROLLER
 		Route::controller('/menu-items', 'MenuItemsController');
@@ -84,6 +85,7 @@
 			Route::post('/pages/insert-slide','PagesController@postInsertSlide');
 			Route::post('/pages/session-reindex','PagesController@postSessionReindex');
 			Route::post('/pages/remove-temp','PagesController@postRemoveTemp');
+			Route::post('/pages/reload-pages','PagesController@postReloadPages');
 
 
 

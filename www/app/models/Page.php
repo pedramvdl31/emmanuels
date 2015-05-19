@@ -301,4 +301,23 @@ class Page extends \Eloquent {
 		}
 		return $slider;
 	}
+
+	public static function prepareOptions($pages) {
+		// Job::dump($content);
+		$html = '';
+		if (isset($pages)) {
+				$count = 0;
+			foreach ($pages as $key => $value) {
+				if ($count == 0) {
+					$html .= '<option value='.$key.' selected="selected">'.$value.'</option>';
+				}else {
+					$html .= '<option value='.$key.'>'.$value.'</option>';
+				}
+				$count++;
+			}
+		}
+		return $html;
+	}
+
+
 }

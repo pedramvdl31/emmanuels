@@ -44,16 +44,26 @@ class MenuItemsController extends \BaseController {
 	{
 		//check later (it may be okay to enable multiple linking to one page)
 		//get the pages that are not linked by other menus
-		$pages = Page::whereNotNull('param_one')->whereNotNull('param_two')
-			->orWhere('param_one',null)->where('param_two',null)->get();
+		$pages = Page::whereNotNull('param_one')
+					->whereNotNull('param_two')
+					->whereNotIn('id', array(1))
+					->where('status',2)
+					//OR
+					->orWhere('param_one',null)
+					->where('param_two',null)
+					->where('status',2)
+					->whereNotIn('id', array(1))->get();
 		//only the menu groups
 		$menus = Menu::where('page_id',null)->get();
+
 		$pages_prepared = Page::prepareForSelect($pages);
 		$menus_prepared = Menu::prepareForSelect($menus);
 
 		$this->layout->content = View::make('menu_items.add')
 		->with('pages_prepared',$pages_prepared)
 		->with('id',$id)
+		->with('menus',$menus)
+		->with('pages',$pages)
 		->with('menus_prepared',$menus_prepared);
 
 	}

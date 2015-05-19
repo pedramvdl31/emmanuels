@@ -22,15 +22,34 @@ menu = {
 			var this_url = $(this).attr('this-url');
 			window.open(this_url);
 		});
+	
 		$( ".reload-page" ).click(function() {
 			location.reload();
 		});
 
+		$( "#reload-pages-select" ).click(function() {
+			request.reload_pages();
+		});
+
+		$( "#reload-menus-select" ).click(function() {
+			request.reload_menus();
+		});
+
+		$( "#add-menu-group" ).click(function() {
+			var this_url = $(this).attr('this-url');
+			window.open(this_url);
+		});
+
+		$( "#add-page" ).click(function() {
+			var this_url = $(this).attr('this-url');
+			window.open(this_url);
+		});
 
 		$( "#menu-index" ).click(function() {
 			var this_url = $(this).attr('this-url');
 			window.open(this_url);
 		});
+
 
 		$(".page_id").on("change", function () {
 			var page_option_selected = "";
@@ -47,6 +66,50 @@ menu = {
 };
 
 request = {
+			reload_pages: function() {
+		
+		var token = $('meta[name=_token]').attr('content');
+		$.post(
+			'/pages/reload-pages',
+			{
+				"_token": token
+			},
+			function(results){
+				var status = results.status;
+				var pages_option = results.pages_option;
+				switch(status) {
+					case 200: // Approved
+						$('.page_id').html(pages_option);
+					break;
+
+					default:
+					break;
+				}
+			}
+			);
+	},
+		reload_menus: function() {
+		
+		var token = $('meta[name=_token]').attr('content');
+		$.post(
+			'/menus/reload-menus',
+			{
+				"_token": token
+			},
+			function(results){
+				var status = results.status;
+				var menus_option = results.menus_option;
+				switch(status) {
+					case 200: // Approved
+						$('.menus_select').html(menus_option);
+					break;
+
+					default:
+					break;
+				}
+			}
+			);
+	}
 };
 function urlfriendly(url)
 {

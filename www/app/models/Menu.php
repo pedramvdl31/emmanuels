@@ -42,6 +42,12 @@ class Menu extends \Eloquent {
 					$page = Page::find($data[$key]['page_id']);
 					$data[$key]['page_title'] = $page->title;
 				}
+				$data[$key]['kind'] = '';
+				if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
+					$data[$key]['kind'] = 'Link';
+				} else {
+					$data[$key]['kind'] = 'Menu Group';
+				}
 
 			}
 		}
@@ -111,26 +117,22 @@ class Menu extends \Eloquent {
 	}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	public static function prepareOptions($menus) {
+		// Job::dump($content);
+		$html = '';
+		if (isset($menus)) {
+				$count = 0;
+			foreach ($menus as $key => $value) {
+				if ($count == 0) {
+					$html .= '<option value='.$key.' selected="selected">'.$value.'</option>';
+				}else {
+					$html .= '<option value='.$key.'>'.$value.'</option>';
+				}
+				$count++;
+			}
+		}
+		return $html;
+	}
 
 
 

@@ -3,7 +3,38 @@
 class Website extends \Eloquent {
 	protected $fillable = [];
 
-
+	public static  function WebInit()
+	{
+		$message = "Oops, somthing went wrong. Please try again.";
+		$error = null;
+		//add to page
+		$page = Page::find(1);
+		if (!isset($page)) {
+			$error = $message;
+			$page = new Page;
+			$page->title = "Home";
+			$page->description = "Homepage";
+			$page->url = "/home";
+			$page->param_one = null;
+			$page->keywords = "Homepage";
+			$page->content_data = null;
+			$page->status = 2;
+			if ($page->save()) {
+				$error = null;
+				$menu = Menu::find(1);
+				if (!isset($menu)) {
+					$error = $message;
+					$menu = new Menu;
+					$menu->name = "Home";
+					$menu->page_id = 1;
+					$menu->url = "home";
+					$menu->status = 1;
+					if ($menu->save()) $error = null;
+				}
+			}
+		}
+		return $error;
+	}
 	public static  function prepareMenuBar()
 	{
 		$url = Request::url();

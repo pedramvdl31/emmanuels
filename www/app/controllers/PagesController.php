@@ -27,6 +27,7 @@ class PagesController extends \BaseController {
 		// }
 		$this->beforeFilter('csrf', array('on'=>'post'));
 
+		$init_message = Website::WebInit();
 
 		$routes = explode("@", Route::currentRouteAction(), 2);     
 		$this->controller = strtolower(str_replace('Controller', '', $routes[0]));
@@ -108,7 +109,7 @@ class PagesController extends \BaseController {
 			$content = Page::prepareForPreview(Input::get('content'));
 			$this->layout->content = View::make('pages.preview')
 			->with('content',$content);
-		} 	else {
+		} else {
 	        // validation has failed, display error messages    
 			return Redirect::back()
 			->with('message', 'The following errors occurred')
@@ -118,9 +119,6 @@ class PagesController extends \BaseController {
 		}			
 
 	}
-
-	
-
 	public function getEdit($id = null)
 	{
 		$form_data  = null;
@@ -165,10 +163,8 @@ class PagesController extends \BaseController {
 	}
 	public function postEdit()
 	{	
-
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
-
 		if ($validator->passes()) {
 			$page_id = Input::get('page_id');
 			$content = Page::prepareForPreview(Input::get('content'));
@@ -450,6 +446,27 @@ class PagesController extends \BaseController {
 			Session::put('slider_image_session',$slider_image_session);
 			return Response::json(array(
 				'status' => $status
+				));
+		}
+	}
+
+	public function postReloadPages() {
+		if(Request::ajax()) {
+			$status = 200;
+			$pages = Page::whereNotNull('param_one')
+					->whereNotNull('param_two')
+					->whereNotIn('id', array(1))
+					->where('status',2)
+					//OR
+					->orWhere('param_one',null)
+					->where('param_two',null)
+					->where('status',2)
+					->whereNotIn('id', array(1))->get();
+			$pages_prepared = Page::prepareForSelect($pages);
+			$pages_option = Page::prepareOptions($pages_prepared);
+			return Response::json(array(
+				'status' => 200,
+				'pages_option' => $pages_option
 				));
 		}
 	}

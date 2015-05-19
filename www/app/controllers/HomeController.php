@@ -18,6 +18,9 @@ class HomeController extends BaseController {
 	public function __construct() {
 		// Set protection
 		$this->beforeFilter('csrf', array('on'=>'post'));
+
+		$init_message = Website::WebInit();
+		
 		// Check if user is authorized to view the page
 		$routes = explode("@", Route::currentRouteAction(), 2);     
         $this->controller = strtolower(str_replace('Controller', '', $routes[0]));
@@ -66,9 +69,7 @@ class HomeController extends BaseController {
 	{
 		$web_data = array();
 		$home = Page::find(1);
-		$home_content = json_decode($home->content_data);
-
-		
+		$home_content = isset($home)?json_decode($home->content_data):null;
 		$this->layout->content = View::make('home.home')->with('web_data',$web_data)
 			->with('home_content',$home_content);
 

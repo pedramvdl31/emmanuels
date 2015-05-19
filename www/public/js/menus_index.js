@@ -21,7 +21,9 @@ menu = {
 			var id = $(this).parents('.modal:first').attr('menu-id');
 			$("#form-"+id).submit();
 		});
-
+		$( ".reload-pages" ).click(function() {
+			location.reload();
+		});
 
 	}
 };

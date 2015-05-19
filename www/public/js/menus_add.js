@@ -18,6 +18,7 @@ menu = {
 			switch(parseInt(option_selected)){
 				case 1:
 				$('.page-field').addClass('show').removeClass('hide');
+				$('#page-info').addClass('show').removeClass('hide');
 				$('#url').attr('id','url_link');
 				var option_selected = $('.page_id').find('option:selected').text();
 				$('#url_link').val("/");
@@ -27,6 +28,7 @@ menu = {
 				break
 				case 2:
 				$('.page-field').addClass('hide').removeClass('show');
+				$('#page-info').addClass('hide').removeClass('show');
 				$('#url_link').attr('id','url');
 
 				var _name = urlfriendly($('#name').val());
@@ -44,13 +46,42 @@ menu = {
 				var this_url = $(this).attr('this-url');
 				 window.open(this_url);
 			});
-			$( "#reload-pages" ).click(function() {
+			$( "#page-add" ).click(function() {
+				var this_url = $(this).attr('this-url');
+				 window.open(this_url);
+			});
+			$( ".reload-pages" ).click(function() {
 				location.reload();
+			});
+			$( "#reload-pages-select" ).click(function() {
+				request.reload_pages();
 			});
 	}
 };
 
 request = {
+		reload_pages: function() {
+		
+		var token = $('meta[name=_token]').attr('content');
+		$.post(
+			'/pages/reload-pages',
+			{
+				"_token": token
+			},
+			function(results){
+				var status = results.status;
+				var pages_option = results.pages_option;
+				switch(status) {
+					case 200: // Approved
+						$('.page_id').html(pages_option);
+					break;
+
+					default:
+					break;
+				}
+			}
+			);
+	}
 };
 function urlfriendly(url)
 {
