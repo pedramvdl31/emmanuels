@@ -44,6 +44,10 @@ class HomeController extends BaseController {
 		$nav_html = Website::prepareNavBar();
 		View::share('nav_html',$nav_html);
 
+		$home_page = Page::find(1);
+		$slider_images = isset($home_page->slider_image)?json_decode($home_page->slider_image):null;
+		View::share('slider_images',$slider_images);
+
         View::share('home_active',$home_active);
         View::share('services_active',$services_active);
         View::share('market_active',$market_active);
@@ -63,6 +67,8 @@ class HomeController extends BaseController {
 		$web_data = array();
 		$home = Page::find(1);
 		$home_content = json_decode($home->content_data);
+
+		
 		$this->layout->content = View::make('home.home')->with('web_data',$web_data)
 			->with('home_content',$home_content);
 
@@ -71,7 +77,7 @@ class HomeController extends BaseController {
 	{
 		$web_data = array();
 		$this->layout = View::make('layouts.pages'); //set the layout 
-		$this->layout->content = View::make('home.hdome')->with('web_data',$web_data);
+		$this->layout->content = View::make('home.home')->with('web_data',$web_data);
 
 	}
 	public function marketplace()

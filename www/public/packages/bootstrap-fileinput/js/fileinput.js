@@ -208,7 +208,7 @@
             uploadIcon: '<i class="glyphicon glyphicon-upload text-info"></i>',
             uploadClass: 'btn btn-xs btn-default hide',
             uploadTitle: 'Upload file',
-            indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning"></i>',
+            indicatorNew: '<i class="glyphicon glyphicon-hand-down text-warning hide"></i>',
             indicatorSuccess: '<i class="glyphicon glyphicon-ok-sign file-icon-large text-success"></i>',
             indicatorError: '<i class="glyphicon glyphicon-exclamation-sign text-danger"></i>',
             indicatorLoading: '<i class="glyphicon glyphicon-hand-up text-muted"></i>',
@@ -223,14 +223,14 @@
             '   {caption}\n' +
             '   <div class="input-group-btn">\n' +
             '       {remove}\n' +
-            '       {cancel}\n' +
+            '       {cancel hide}\n' +
             '       {upload}\n' +
             '       {browse}\n' +
             '   </div>\n' +
             '</div>',
-        tMain2 = '{preview}\n<div class="kv-upload-progress hide"></div>\n{remove}\n{cancel}\n{upload}\n{browse}\n',
+        tMain2 = '{preview}\n<div class="kv-upload-progress hide"></div>\n{remove}\n{cancel hide}\n{upload}\n{browse}\n',
         tPreview = '<div class="file-preview {class}">\n' +
-            '    <div class="close fileinput-remove">&times;</div>\n' +
+            '    <div class="close fileinput-remove hide">&times;</div>\n' +
             '    <div class="{dropClass}">\n' +
             '    <div class="file-preview-thumbnails">\n' +
             '    </div>\n' +
@@ -274,7 +274,7 @@
             '    <div class="file-upload-indicator" tabindex="-1" title="{indicatorTitle}">{indicator}</div>\n' +
             '    <div class="clearfix"></div>\n' +
             '</div>',
-        tActionDelete = '<button type="button" class="kv-file-remove {removeClass}" ' +
+        tActionDelete = '<button type="button" class="kv-file-remove hide {removeClass}" ' +
             'title="{removeTitle}"{dataUrl}{dataKey}>{removeIcon}</button>\n',
         tActionUpload = '<button type="button" class="kv-file-upload {uploadClass}" title="{uploadTitle}">' +
             '   {uploadIcon}\n</button>\n',
@@ -726,7 +726,7 @@
                 addCss(self.$container.find('.fileinput-remove'), 'hide');
             }
             if (self.showCancel) {
-                self.$container.find('.fileinput-cancel').removeClass('hide');
+                // self.$container.find('.fileinput-cancel').removeClass('hide');
             }
             self.raise('filelock', [self.filestack, self.getExtraData()]);
         },
@@ -740,7 +740,7 @@
                 addCss(self.$container.find('.fileinput-cancel'), 'hide');
             }
             if (self.showRemove) {
-                self.$container.find('.fileinput-remove').removeClass('hide');
+                
             }
             if (reset) {
                 self.resetFileStack();
@@ -2017,7 +2017,7 @@
             return '<button type="button" title="' + self.cancelTitle + '" class="hide ' + css + '">' + self.cancelIcon + self.cancelLabel + '</button>';
         },
         renderUpload: function () {
-            var self = this, css = self.uploadClass + ' kv-fileinput-upload fileinput-upload-button', content = '', status = '';
+            var self = this, css = self.uploadClass + ' kv-fileinput-upload fileinput-upload-button hide', content = '', status = '';
             if (!self.showUpload) {
                 return '';
             }

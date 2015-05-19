@@ -64,12 +64,13 @@
                 <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
                 <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
                 <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
+                <li>{{ HTML::link('/menus/order', 'Menu Order') }}</li>
                 <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
               </ul>
             </li>
 
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> setup <span class="caret"></span></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->username}} <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 @if(!Auth::check())
                 <li>{{ HTML::link('users/register', 'Register') }}</li>   

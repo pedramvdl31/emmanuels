@@ -10,24 +10,27 @@ menu = {
 	},
 	events: function(){
 		$('#name').friendurl({id : 'url'});
+		$("#name").on("change", function () {
+			$('#url').val("/"+urlfriendly($("#name").val()));
+		});
 		$(".kind").on("change", function () {
 			var option_selected = $(this).find('option:selected').val();
 			switch(parseInt(option_selected)){
 				case 1:
-					$('.page-field').addClass('show').removeClass('hide');
-					$('#url').attr('id','url_link');
-					var option_selected = $('.page_id').find('option:selected').text();
-					$('#url_link').val("/");
-					if (option_selected != "All Pages") {
-						$('#url_link').val("/"+urlfriendly(option_selected));
-					};
+				$('.page-field').addClass('show').removeClass('hide');
+				$('#url').attr('id','url_link');
+				var option_selected = $('.page_id').find('option:selected').text();
+				$('#url_link').val("/");
+				if (option_selected != "All Pages") {
+					$('#url_link').val("/"+urlfriendly(option_selected));
+				};
 				break
 				case 2:
-					$('.page-field').addClass('hide').removeClass('show');
-					$('#url_link').attr('id','url');
+				$('.page-field').addClass('hide').removeClass('show');
+				$('#url_link').attr('id','url');
 
-					var _name = urlfriendly($('#name').val());
-					$('#url').val("/"+_name);
+				var _name = urlfriendly($('#name').val());
+				$('#url').val("/"+_name);
 				break;
 			}
 		});

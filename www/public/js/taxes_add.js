@@ -19,7 +19,9 @@ menu = {
 		$( "#rate" ).keyup(function() {
 		  var this_rate = $(this).val();
 		  var new_rate = this_rate * 100;
-		  $('.percentage').html(new_rate);
+		  var fixed_rate = Math.round(new_rate*100)/100;
+		  $('.percentage').html(fixed_rate+" %");
+		  
 		});
 	}
 };

@@ -73,6 +73,7 @@ class PagesController extends \BaseController {
 	{
 		
 		if(Session::get('data_session')) Session::forget('data_session');
+		if(Session::get('slider_image_session')) Session::forget('slider_image_session');
 		$user_role = Auth::user()->roles;
 		$pages = (isset($id)) ? Page::preparePages(Page::where('company_id',$id)->get()) : Page::preparePages(Page::all());
 		$companies = Company::find(1);
@@ -122,11 +123,14 @@ class PagesController extends \BaseController {
 
 	public function getEdit($id = null)
 	{
-
 		$form_data  = null;
 		if (Session::get('data_session')) {
 			$form_data = Page::prepareEditFormSession(Session::get('data_session'));
-			Session::forget('data_session');
+			$session_slider_images = null;
+			if (Session::get('slider_image_session')) {
+				$session_slider_images = Page::prepareSliderImagesForEditPageSession(Session::get('slider_image_session'));
+			}
+			$is_session = 1;
 			$title = null;
 			$description = null;
 			$url = null;
@@ -135,6 +139,7 @@ class PagesController extends \BaseController {
 			$page_id = null;
 			$status = null;
 		} else {
+			$is_session = null;
 			$page = Page::find($id);
 			$page_id = $page->id;
 			$title = $page->title;
@@ -143,6 +148,8 @@ class PagesController extends \BaseController {
 			$keywords = $page->keywords;
 			$status = $page->status;
 			$content =  Page::prepareForEdit(json_decode($page->content_data)); 
+
+			$session_slider_images = Page::prepareSliderImagesForEditPage(json_decode($page->slider_image));
 		}
 		$this->layout->content = View::make('pages.edit')
 		->with('page_id',$page_id)
@@ -152,18 +159,39 @@ class PagesController extends \BaseController {
 		->with('keywords',$keywords )
 		->with('content',$content)
 		->with('form_data',$form_data)
-		->with('status',$status);
+		->with('status',$status)
+		->with('session_slider_images',$session_slider_images)
+		->with('is_session',$is_session);
 	}
 	public function postEdit()
-	{
-		
-		$this->layout = View::make('layouts.pages');
+	{	
+
 		$validator = Validator::make(Input::all(), Page::$pages_add);
 		Session::put('data_session',Input::all());
+
 		if ($validator->passes()) {
+			$page_id = Input::get('page_id');
 			$content = Page::prepareForPreview(Input::get('content'));
-			$this->layout->content = View::make('pages.preview_edit')
-			->with('content',$content);
+			if ($page_id == 1) {//HOME EDIT
+				$session_slider_images = (Session::get('slider_image_session'))?Session::get('slider_image_session'):null;
+
+				View::share('session_slider_images',$session_slider_images);
+
+				$menu_html = Website::prepareMenuBarHomeEdit();
+				View::share('menu_html',$menu_html);
+
+				$nav_html = Website::prepareNavBarHomeEdit();
+				View::share('nav_html',$nav_html);
+				
+				$this->layout = View::make('layouts.home_edit');
+				$this->layout->content = View::make('pages.preview_edit_home')
+				->with('content',$content);
+			} else {
+				$this->layout = View::make('layouts.pages');
+				$this->layout->content = View::make('pages.preview_edit')
+				->with('content',$content);
+			}
+
 		} 	else {
 	        // validation has failed, display error messages    
 			return Redirect::back()
@@ -218,7 +246,29 @@ class PagesController extends \BaseController {
 			$page->url = $form_data['url'];
 			$page->keywords = $form_data['keywords'];
 			$page->content_data = isset($form_data['content'])?json_encode($form_data['content']):null;
-			$page->status = $form_data['status'];
+			$page->status =  ($form_data['page_id'] == 1)?1:$form_data['status'];
+
+			if (Session::get('slider_image_session')) {
+				$images = Session::get('slider_image_session');
+				foreach ($images as $key => $value) {
+					$images[$key][1] = "slider";
+				}
+
+				$page->slider_image = json_encode($images);
+				$new_path = 'img/slider/';
+				if (!file_exists($new_path)) {
+					@mkdir($new_path);
+				}
+
+				foreach ($images as $ikey => $ivalue) {
+					$this_file_path = 'img/tmp/'.$ivalue[0];
+					while (file_exists($this_file_path)) {
+						rename('img/tmp/'.$ivalue[0], $new_path.$ivalue[0]);
+					}
+				}
+			} else {
+				$page->slider_image = null;
+			}
 
 		    if($page->save()) { // Save the user and redirect to freelancers home
 		    	if(Session::get('data_session')) Session::forget('data_session');
@@ -289,13 +339,11 @@ class PagesController extends \BaseController {
 	public function getPage($param1 = null, $param2 = null) {
 		// Set layout
 		$this->layout = View::make('layouts.pages');
-
 		if (!isset($param2)) {
 			$page = Page::where('param_one',$param1)->first();
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
-
 				$this->layout->content = View::make('pages.page')
 				->with('page_content',$page_content);
 			} else {
@@ -303,11 +351,9 @@ class PagesController extends \BaseController {
 			}
 		} elseif (isset($param1) && isset($param2)) {
 			$page = Page::where('param_one',$param1)->where('param_two',$param2)->first();
-			
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
-
 				$this->layout->content = View::make('pages.page')
 				->with('page_content',$page_content);
 			} else {
@@ -321,67 +367,91 @@ class PagesController extends \BaseController {
 		if(Request::ajax()) {
 			$order = Input::get('order');
 			$slider = Page::createSlider($order);
-
 			return Response::json(array(
 				'status' => 200,
 				'slider' => $slider
 				));
 		}
 	}
-
-	public function postImageTemp() {
+	public function postRemoveTemp() {
 		if(Request::ajax()) {
-			Job::dump(Input::all());
-			// // $jpeg_quality = 100;
+			$image_name = Input::get('img_name');
+			$from = Input::get('from');
 
-			// $dir = "img/temp";
-
-			// if (!file_exists($dir)) {
-			// 	@mkdir($dir);
-			// }
-
-			// imagejpeg($image->name, $dir);
-			
-			// // uncomment line below to save the cropped image in the same location as the original image.
-			// //$output_filename = dirname($imgUrl). "/croppedImg_".rand();
-
-			// $what = getimagesize($imgUrl);
-
-			// switch(strtolower($what['mime']))
-			// {
-			// 	case 'image/png':
-			// 	$img_r = imagecreatefrompng($imgUrl);
-			// 	$source_image = imagecreatefrompng($imgUrl);
-			// 	$type = '.png';
-			// 	break;
-			// 	case 'image/jpeg':
-			// 	$img_r = imagecreatefromjpeg($imgUrl);
-			// 	$source_image = imagecreatefromjpeg($imgUrl);
-			// 	error_log("jpg");
-			// 	$type = '.jpeg';
-			// 	break;
-			// 	case 'image/gif':
-			// 	$img_r = imagecreatefromgif($imgUrl);
-			// 	$source_image = imagecreatefromgif($imgUrl);
-			// 	$type = '.gif';
-			// 	break;
-			// 	default: die('image type not supported');
-			// }
-
-			// if(!is_writable(dirname($savePath))){
-			// 	$response = Array(
-			// 		"status" => 'error',
-			// 		"message" => 'Can`t Write'
-			// 		);	
-			// }else{
-
-			// 	imagejpeg($image,$output_filename, $jpeg_quality);
-			// 	// $image_url = asset($cropPath . DIRECTORY_SEPARATOR. $output_filename . $type);
-			
+			if (isset($image_name)) {
+				// $tmp_path = 'img/tmp/';
+				$slider_path = 'img/'.$from.'/';
+				// $tmp_img = 'img/tmp/'.$image_name;
+				$slider_img = 'img/'.$from.'/'.$image_name;
+				if (file_exists($slider_path)) {
+					if (file_exists($slider_img)) {
+						unlink($slider_img);
+					}
+				}
+			}
 			return Response::json(array(
 				'status' => 200
 				));
-}
-}
+		}
+	}
+
+	public function postImageTemp() {
+		if(Request::ajax()) {
+			// $imagePath = "img/tmp/";
+			$imagePath = "img/tmp/";
+			$imagename = $_FILES["kartik-input-706"]['name'];
+			$imagetemp = $_FILES["kartik-input-706"]['tmp_name'];
+			$order = Input::get('order');
+
+			$now_time = time();
+			$new_imagename = $now_time.'-'.$imagename[0];
+			if (!file_exists($imagePath)) {
+				@mkdir($imagePath);
+			}
+			if(!is_writable(dirname($imagePath))){
+				$response = Array(
+					"status" => 'error',
+					"message" => 'Can`t write cropped File'
+					);	
+			}else{
+				$final_path = preg_replace('#[ -]+#', '-', $new_imagename);
+				move_uploaded_file($imagetemp[0], $imagePath . $final_path);
+				return Response::json(array(
+					"initialPreview" => "<img src='/".$imagePath . $final_path."' class='file-preview-image' alt='".$final_path."' title='Desert'>"
+					));
+			}
+		}
+	}
+
+	public function postInsertSlide() {
+		if(Request::ajax()) {
+
+			$order = Input::get('order');
+			$html = Page::prepareImage($order);
+
+			return Response::json(array(
+				'status' => 200,
+				'html' => $html,
+				'order' => $order
+				));
+		}
+	}
+
+	public function postSessionReindex() {
+		if(Request::ajax()) {
+			$status = 200;
+			if(Session::get('slider_image_session')) Session::forget('slider_image_session');
+			$slider_image_session = Input::get('session_data');
+			if (!empty($slider_image_session)) {
+				foreach ($slider_image_session as $key => $value) {
+					$slider_image_session[$key][0] = preg_replace('#[ -]+#', '-', $slider_image_session[$key][0]);
+				}
+			}
+			Session::put('slider_image_session',$slider_image_session);
+			return Response::json(array(
+				'status' => $status
+				));
+		}
+	}
 
 }

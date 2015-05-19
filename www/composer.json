@@ -8,16 +8,18 @@
 	},
 	"require": {
 		"php":">=5.4.0",
+		"illuminate/support": "4.*",
         "laravelbook/ardent": "2.4.x",
-		"laravel/framework": "4.*",
+		"laravel/framework": "4.2.*",
 		"twitter/bootstrap": "*",
-		"spekkionu/laravel-zend-acl": "dev-master",
+		"spekkionu/laravel-zend-acl": "1.x",
 		"bllim/datatables": "*",
 		"thujohn/pdf": "dev-master",
 		"giggsey/libphonenumber-for-php": "~7.0",
 		"ext-curl": "*",
 		"ext-json": "*",
-		"paypal/rest-api-sdk-php" : "*"
+		"paypal/rest-api-sdk-php" : "*",
+		"laracasts/utilities": "~1.0"
 	},
 
 	"autoload": {

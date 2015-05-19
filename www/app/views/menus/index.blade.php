@@ -10,7 +10,7 @@
 	<ol class="breadcrumb">
 		<li class="active">Menus Overview</li>
 		<li><a href="{{ action('MenusController@getAdd') }}">Add Menu</a></li>
-		<li><a href="{{ action('MenusController@getOrder') }}">Page Order</a></li>
+		<li><a href="{{ action('MenusController@getOrder') }}">Menu Order</a></li>
 	</ol>
 </div>
 
@@ -34,11 +34,14 @@
 				<td>{{ $menu->order }}</td>
 				<td>{{ $menu->page_title }}</td>
 				<td>{{ $menu->status_html }}</td>
-				<td><a href="{{ action('MenusController@getEdit',$menu->id) }}">Edit</a>/
+				<td><a href="{{ action('MenusController@getEdit',$menu->id) }}">Edit</a>
 					{{ Form::open(array('action' => 'MenusController@postDelete', 'class'=>'remove-form','id'=>'form-'.$menu->id,'role'=>"form",'files'=> true)) }}
 					{{ Form::hidden('menu_id', $menu->id) }}
-					<a class="remove"  menu-id="{{$menu->id}}" >Remove</a></td>
-					{{ Form::close() }}</td>
+					<a class="remove"  menu-id="{{$menu->id}}" >/ Remove</a>
+					{{ Form::close() }}
+					@if(!isset($menu->page_id))
+						<a class="add-item"  menu-id="{{$menu->id}}" href="{{ action('MenuItemsController@getAdd',$menu->id) }}" >/ Add Menu-Item</a></td>
+					@endif
 					
 				</tr>
 

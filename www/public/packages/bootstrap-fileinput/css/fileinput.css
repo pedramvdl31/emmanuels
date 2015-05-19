@@ -108,7 +108,7 @@
 
 .file-preview {
     border-radius: 5px;
-    border: 1px solid #ddd;
+ /*   border: 1px solid #ddd;*/
     padding: 5px;
     width: 100%;
     margin-bottom: 5px;
@@ -199,13 +199,13 @@
 }
 
 .file-drop-zone {
-    border: 1px dashed #aaa;
-    border-radius: 4px;
+    /*border: 1px dashed #aaa;*/
+/*    border-radius: 4px;
     height: 100%;
     text-align: center;
     vertical-align: middle;
     margin: 12px 15px 12px 12px;
-    padding: 5px;
+    padding: 5px;*/
 }
 
 .file-drop-zone-title {

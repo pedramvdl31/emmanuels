@@ -57,6 +57,10 @@ page = {
 	},
 	events: function(){
 		$('#title').friendurl({id : 'url'});
+		$("#title").on("change", function () {
+			$('#url').val("/"+urlfriendly($("#title").val()));
+		});
+
 		$(document).on('click','#content .panel',function(){
 			$(document).find('#content .panel').removeClass('panel-success').addClass('panel-default');
 			$(this).removeClass('panel-default').addClass('panel-success');
@@ -76,8 +80,8 @@ page = {
 			// console.log($(document).find('.content-area .content-set').length);
 			var count = 1;
 			$( ".content-area .content-set" ).each(function( index ) {
-			  $(this).find('.panel-title a .this-title').html('Content '+count);
-			  count++;
+				$(this).find('.panel-title a .this-title').html('Content '+count);
+				count++;
 			});
 			var this_set = $(this).parents('.content-set').attr('this_set');
 
@@ -108,11 +112,11 @@ request = {
 
 					$('#content_count').val((content_set_count--));
 					$('.content-area').append(html);
-						tinymce.init({
-							fontsize_formats: "8pt 10pt 12pt 14pt",
-							selector: ".content-body",
-							toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
-						});
+					tinymce.init({
+						fontsize_formats: "8pt 10pt 12pt 14pt",
+						selector: ".content-body",
+						toolbar: "undo redo pastetext | styleselect |  bold italic | fontsizeselect"
+					});
 
 					break;
 
@@ -124,3 +128,14 @@ request = {
 			);
 	}
 };
+function urlfriendly(url)
+{
+	url = url
+	.toLowerCase() // change everything to lowercase
+	.replace(/^\s+|\s+$/g, "") // trim leading and trailing spaces		
+	.replace(/[_|\s]+/g, "-") // change all spaces and underscores to a hyphen
+	.replace(/[^a-z\u0400-\u04FF0-9-]+/g, "") // remove all non-cyrillic, non-numeric characters except the hyphen
+	.replace(/[-]+/g, "-") // replace multiple instances of the hyphen with a single instance
+	.replace(/^-+|-+$/g, ""); // trim leading and trailing hyphens
+	return url;
+}

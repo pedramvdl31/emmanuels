@@ -14,6 +14,8 @@ pages = {
 			effect : "fadeIn"
 		});
 
+        
+
 
 	},
 

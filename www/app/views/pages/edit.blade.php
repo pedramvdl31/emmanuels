@@ -3,8 +3,8 @@
 {{ HTML::style('packages/fileupload-9.8.0/css/jquery.fileupload.css') }}
 {{ HTML::style('packages/fileupload-9.8.0/css/jquery.fileupload-ui.css') }}
 {{ HTML::style('packages/Nestable-master/css.nestable.css') }}
-{{ HTML::style('packages/bootstrap-fileinput/css/fileinput.min
-.css')}}
+{{ HTML::style('packages/bootstrap-fileinput/css/fileinput.css')}}
+{{ HTML::style('css/pages_edit.css')}}
 
 @stop
 @section('scripts')
@@ -12,7 +12,7 @@
 {{ HTML::script('packages/Nestable-master/jquery.nestable.js') }}
 {{ HTML::script('packages/tinymce2/js/tinymce/tinymce.min.js') }}
 {{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
-{{ HTML::script('packages/bootstrap-fileinput/js/fileinput.min.js') }}
+{{ HTML::script('packages/bootstrap-fileinput/js/fileinput.js') }}
 {{ HTML::script('js/pages_edit.js') }}
 @stop
 @section('content')
@@ -141,43 +141,20 @@
 				@endif
 			</div>
 		</div>
-
 		<div id="slider" class="steps panel panel-success hide">
 			<div class="panel-heading" style="font-size:17px;"><h3>Slider Image</h3></div>
-			<div class="panel-body clearfix">
-
-				<div class="row-fluid">
-					<button id="addSlide" class="btn btn-lg pull-right" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
-				</div>
-
-				<!-- The table listing the files available for upload/download -->
-				<table role="presentation" class="table table-striped"><tbody class="files"></tbody></table>
-				<div id="sliderDiv" class="content-area-slider">
-					<div class="dd" id="nestable3" style="width:100% !important;max-width:none !important">
+			<div class="panel-body clearfix slider-body">
+				<div id="sliderDiv" class="content-area-slider col-md-10 col-lg-10 pull-left">
+					<div class="dd" id="nestable3" style="width: 100% !important">
 						<ol class="dd-list">
-							<li class="dd-item dd3-item" data-id="1">
-								<input type="hidden" class="menu menu-link" name="1" value="">
-								<input type="hidden" class="menu-order" name="menu['.$value->id.'][order]" value="">
-								<div class="dd-handle dd3-handle">Drag</div>
-								<div class="dd3-content " style="display:table !important">
-
-									<div class="row-fluid" style="">
-										<div class="col-md-12" >
-
-											<input id="slider-0" type="file" data-overwrite-initial="false" class="file" data-upload-url="/pages/image-temp" data-max-file-count="1">
-
-										</div>
-									</div>	
-									<div class="image-info pull-right" style="">
-
-									</div>
-								</div>
-							</li>
+							{{$session_slider_images}}
 						</ol>
 					</div>
-					<div class="content-area-session-slider  {{isset($form_data['html-slider'])?'':'hide'}}">
-					</div>
 				</div>
+				<div class="row-fluid col-sm-2 col-lg-2 pull-right">
+					<button id="addSlide" class="btn btn-lg btn-primary" type="button">Add Slide <i class="glyphicon glyphicon-plus"></i></button>
+				</div>
+
 			</div>
 			<div class="panel-footer">
 				<button type="button" class="previous btn btn-default" step="2"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
@@ -189,6 +166,7 @@
 </div>
 {{ Form::hidden('page_id',isset($form_data['page_id'])?$form_data['page_id']:$page_id,['id'=>'page_id']); }}
 {{ Form::hidden('content_count',null,['id'=>'content_count']); }}
+{{ Form::hidden('is_session',$is_session,['id'=>'is_session']); }}
 {{ Form::close() }}
 
 

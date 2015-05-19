@@ -32,12 +32,6 @@ class MenuItemsController extends \BaseController {
 
 	public function getIndex()
 	{
-		// //Clearing all sessions
-		// if(Session::get('invoice_items')) Session::forget('invoice_items');
-		// if(Session::get('invoice_items_edit')) Session::forget('invoice_items_edit');
-		// if(Session::get('schedule_edit')) Session::forget('schedule_edit');
-		// if(Session::get('schedule_add_session')) Session::forget('schedule_add_session');
-		// if(Session::get('insert_range')) Session::forget('insert_range');
 		if ($this->role_id < 3) {
 			$companies = Company::find(1);
 			$menu_items = MenuItem::prepare(MenuItem::where('status',1)->get());
@@ -46,8 +40,9 @@ class MenuItemsController extends \BaseController {
 			->with('companies',$companies);
 		}
 	}
-	public function getAdd()
+	public function getAdd($id = null)
 	{
+		//check later (it may be okay to enable multiple linking to one page)
 		//get the pages that are not linked by other menus
 		$pages = Page::whereNotNull('param_one')->whereNotNull('param_two')
 			->orWhere('param_one',null)->where('param_two',null)->get();
@@ -58,6 +53,7 @@ class MenuItemsController extends \BaseController {
 
 		$this->layout->content = View::make('menu_items.add')
 		->with('pages_prepared',$pages_prepared)
+		->with('id',$id)
 		->with('menus_prepared',$menus_prepared);
 
 	}

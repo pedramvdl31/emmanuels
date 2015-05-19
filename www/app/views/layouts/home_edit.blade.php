@@ -45,7 +45,7 @@
 
       </nav>
       <div class="menu-nav-toggle-div">
-        <nav class="navbar navbar-inverse menu-nav-toggle hide" role="navigation" status="0">
+        <nav class="navbar navbar-default menu-nav-toggle hide" role="navigation" status="0">
           <div class="container">
             <div class="navbar-header">
             </div>
@@ -58,10 +58,27 @@
     </div>
 
   </header> 
-
   <!-- stickyNav -->
-  
+  <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
 
+      <div class="navbar-header">
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
+          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        {{$nav_html}}
+      </div>
+    </div>
+  </nav> 
+  
   <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
 
@@ -77,48 +94,97 @@
         </a>
       </div>
       <div class="collapse navbar-collapse">
-        {{$nav_html}}
+       <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li>{{ HTML::link('users/index', 'View Users') }}</li>
+            <li>{{ HTML::link('users/edit/2', 'Edit Users') }}</li>
+            <li>{{ HTML::link('users/add', 'Add Users') }}</li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-camera"></span> Resources <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li>{{ HTML::link('/resources/edit', 'Manage Resources') }}</li>
+            
+          </ul>
+        </li>            
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> Company <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li>{{ HTML::link('/companies/view', 'View Company') }}</li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span> Setup <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
+            <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
+            <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
+            <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
+            <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
+          </ul>
+        </li>
+
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {{Auth::user()->username}} <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            @if(!Auth::check())
+            <li>{{ HTML::link('users/register', 'Register') }}</li>   
+            <li>{{ HTML::link('admins/login', 'Login') }}</li>   
+            @else
+            @if(Auth::user()->roles == 3) 
+            <li><a href="/owners/edit/{{ Auth::user()->id }}">Edit User</a></li>
+            @endif
+            @if(Auth::user()->roles == 4)
+            <li><a href="/employees/edit/{{ Auth::user()->id }}">Edit User</a></li>
+            @endif
+
+            <li>{{ HTML::link('admins/logout', 'Logout') }}</li>
+            @endif
+          </ul>
+        </div>
       </div>
+    </nav>    
+    <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
+
+    <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
+    <div class="container">
+      <!-- Jssor Slider Begin -->
+      <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
+      <!-- ================================================== -->
+      <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
+
+        <!-- Loading Screen -->
+        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+          <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+
+          background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
+        </div>
+
     </div>
-  </nav>    
-  <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
 
-  <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-  <div class="container">
-    <!-- Jssor Slider Begin -->
-    <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
-    <!-- ================================================== -->
-    <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
+    <!-- Slides Container -->
+    <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
+    overflow: hidden;">
 
-      <!-- Loading Screen -->
-      <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+    @if(isset($session_slider_images))
 
-        background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
+    @foreach ($session_slider_images as $images)
+      <div>
+        <img u="image" src2="/img/{{$images[1]}}/{{$images[0]}}" />
       </div>
-      <div style="position: absolute; display: block; background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/loading.gif) no-repeat center center;
+    @endforeach
 
-      top: 0px; left: 0px;width: 100%;height:100%;">
-    </div>
+    @endif
+
   </div>
 
-  <!-- Slides Container -->
-  <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
-  overflow: hidden;">
-  @if(isset($slider_images))
-  @foreach ($slider_images as $image)
-  <div>
-    <img u="image" src2="img/slider/{{$image[0]}}" />
-  </div>
-  @endforeach
-  @endif
-
-</div>
-
-<!--#region Bullet Navigator Skin Begin -->
-<!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
-<style>
-/* jssor slider bullet navigator skin 05 css */
+  <!--#region Bullet Navigator Skin Begin -->
+  <!-- Help: http://www.jssor.com/development/slider-with-bullet-navigator-jquery.html -->
+  <style>
+  /* jssor slider bullet navigator skin 05 css */
 /*
 .jssorb05 div           (normal)
 .jssorb05 div:hover     (normal mouseover)
@@ -134,7 +200,7 @@
   /* size of bullet elment */
   width: 16px;
   height: 16px;
-  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
+  background: url(/packages/jssor.carousel.slider.for.bootstrap.example/img/b05.png) no-repeat;
   overflow: hidden;
   cursor: pointer;
 }
@@ -169,7 +235,7 @@
   width: 37px;
   height: 37px;
   cursor: pointer;
-  background: url(packages/jssor.carousel.slider.for.bootstrap.example/img/a11.png) no-repeat;
+  background: url(/packages/jssor.carousel.slider.for.bootstrap.example/img/a11.png) no-repeat;
   overflow: hidden;
 }
 .jssora11l { background-position: -11px -41px; }

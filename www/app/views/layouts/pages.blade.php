@@ -43,54 +43,111 @@
                 </div>
 
                 <div class="collapse navbar-collapse">
-                    {{$nav_html}}
-                </div>
+                  <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
+                      <ul class="dropdown-menu" role="menu">
+                        <li>{{ HTML::link('users/index', 'View Users') }}</li>
+                        <li>{{ HTML::link('users/edit/2', 'Edit Users') }}</li>
+                        <li>{{ HTML::link('users/add', 'Add Users') }}</li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-camera"></span> Resources <span class="caret"></span></a>
+                  <ul class="dropdown-menu" role="menu">
+                    <li>{{ HTML::link('/resources/edit', 'Manage Resources') }}</li>
+                    
+                </ul>
+            </li>            
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> Company <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>{{ HTML::link('/companies/view', 'View Company') }}</li>
+            </ul>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span> Setup <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
+            <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
+            <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
+            <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
+            <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
+        </ul>
+    </li>
+
+    <li class="dropdown">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> setup <span class="caret"></span></a>
+      <ul class="dropdown-menu" role="menu">
+        @if(!Auth::check())
+        <li>{{ HTML::link('users/register', 'Register') }}</li>   
+        <li>{{ HTML::link('admins/login', 'Login') }}</li>   
+        @else
+        @if(Auth::user()->roles == 3) 
+
+        <li><a href="/owners/edit/{{ Auth::user()->id }}">Edit User</a></li>
+        @endif
+        @if(Auth::user()->roles == 4)
+        <li><a href="/employees/edit/{{ Auth::user()->id }}">Edit User</a></li>
+        @endif
+
+        <li>{{ HTML::link('admins/logout', 'Logout') }}</li>
+        @endif
+    </ul>
+</li>
+
+</ul>
+</div>
+</div>
+</nav>  
+
+</header> 
+
+<!-- stickyNav -->  
+<section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
+@yield('slider')
+<div class="container-fluid">
+    <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
+        <div id="contentDiv" class="col-md-8 col-md-offset-2" >
+            @if(Session::has('message'))
+            <div class="alert {{ Session::get('alert_type') }} alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                {{ Session::get('message') }}
             </div>
-        </nav>  
-
-    </header> 
-
-    <!-- stickyNav -->  
-    <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
-
-    <div class="container-fluid">
-        <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
-            <div id="contentDiv" class="col-md-8 col-md-offset-2" >
-                @if(Session::has('message'))
-                <div class="alert {{ Session::get('alert_type') }} alert-dismissable">
-                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                    {{ Session::get('message') }}
-                </div>
-                @endif
-                @yield('content')
-            </div><!--/row-->
-        </div>
+            @endif
+            
+            @yield('content')
+        </div><!--/row-->
     </div>
-    <footer class="row-fluid clearfix">
-        <p>&copy; emmanuel's {{ date('Y') }}</p>
-    </footer>
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    {{ HTML::script('packages/jssor/js/jssor.js') }}
-    {{ HTML::script('packages/jssor/js/jssor.slider.min.js') }}
-    {{ HTML::script('packages/modernizr/modernizr.custom.20702.js') }}
-    {{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
-    {{ HTML::script('packages/waypoints/waypoints.min.js') }}
-    {{ HTML::script('packages/history/scripts/compressed/history.js') }}
-    {{ HTML::script('packages/lazyload/jquery.lazyload.min.js')}}
-    {{ HTML::script('packages/parallax/parallax.min.js') }}
-    {{ HTML::script('packages/lightbox/lightbox.min.js') }}
-    {{ HTML::script('packages/totop/js/easing.js') }}
-    {{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
-    {{ HTML::script('js/pages_layout.js') }}
-    @yield('scripts')
-    <script type="text/javascript">
-    $(document).ready(function() {      
-        $().UItoTop({ easingType: 'easeOutQuart' });
-    });
-    </script>
+</div>
+<footer class="row-fluid clearfix">
+    <p>&copy; emmanuel's {{ date('Y') }}</p>
+</footer>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+{{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jquery-1.9.1.min.js') }}
+{{ HTML::script('packages/bootstrap/js/bootstrap.min.js') }}
+{{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/docs.min.js') }}
+{{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/ie10-viewport-bug-workaround.js') }}
+{{ HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jssor.slider.mini.js') }}
+{{ HTML::script('packages/modernizr/modernizr.custom.20702.js') }}
+
+{{ HTML::script('packages/waypoints/waypoints.min.js') }}
+{{ HTML::script('packages/history/scripts/compressed/history.js') }}
+{{ HTML::script('packages/lazyload/jquery.lazyload.min.js')}}
+{{ HTML::script('packages/parallax/parallax.min.js') }}
+{{ HTML::script('packages/lightbox/lightbox.min.js') }}
+{{ HTML::script('packages/totop/js/easing.js') }}
+{{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
+{{ HTML::script('js/pages_layout.js') }}
+@yield('scripts')
+<script type="text/javascript">
+$(document).ready(function() {      
+    $().UItoTop({ easingType: 'easeOutQuart' });
+});
+</script>
 
 </body>
 </html>

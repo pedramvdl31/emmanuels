@@ -38,6 +38,7 @@
 					{{ Form::hidden('menu_item_id', $menu_item->id) }}
 					<a class="remove"  data-toggle="modal" data-target="#myModal" menu-item-id="{{$menu_item->id}}" >Remove</a></td>
 					{{ Form::close() }}</td>
+					
 				</tr>
 				@endforeach
 			</tbody>
