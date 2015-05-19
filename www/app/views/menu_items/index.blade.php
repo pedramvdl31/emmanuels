@@ -11,6 +11,17 @@
 		<li class="active">Menu-Items Overview</li>
 		<li><a href="{{ action('MenuItemsController@getAdd') }}">Add Menu Item</a></li>
 	</ol>
+	
+		@if(isset($menu_items))
+			@if(count($menu_items) == 0)
+			<div class="alert alert-warning" role="alert">
+				<h5 href="#" class="alert-link">Warnning! there is no menu item created for this group. click on the button bellow to add your first item.</h5>
+				<a href="{{ action('MenuItemsController@getAdd') }}" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu Item</a>
+				</br>
+			</div>
+			@endif
+		@endif
+
 </div>
 
 <div class="table-responsive">
@@ -26,6 +37,7 @@
 			</tr>
 		</thead>
 		<tbody id="menu-item_table_body">
+			@if(isset($menu_items))
 			@foreach($menu_items as $menu_item)
 			<tr> 
 				<td>{{ $menu_item->id }}</td>
@@ -38,9 +50,9 @@
 					{{ Form::hidden('menu_item_id', $menu_item->id) }}
 					<a class="remove"  data-toggle="modal" data-target="#myModal" menu-item-id="{{$menu_item->id}}" >Remove</a></td>
 					{{ Form::close() }}</td>
-					
 				</tr>
 				@endforeach
+				@endif
 			</tbody>
 		</table>
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

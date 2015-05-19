@@ -40,6 +40,13 @@ menu = {
 				$('#url_link').val("/"+urlfriendly(option_selected));
 			}
 		});
+			$( "#page-index" ).click(function() {
+				var this_url = $(this).attr('this-url');
+				 window.open(this_url);
+			});
+			$( "#reload-pages" ).click(function() {
+				location.reload();
+			});
 	}
 };
 
@@ -55,4 +62,8 @@ function urlfriendly(url)
 	.replace(/[-]+/g, "-") // replace multiple instances of the hyphen with a single instance
 	.replace(/^-+|-+$/g, ""); // trim leading and trailing hyphens
 	return url;
+}
+function url_redirect(url)
+{
+
 }

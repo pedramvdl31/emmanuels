@@ -12,6 +12,16 @@
 		<li><a href="{{ action('MenusController@getAdd') }}">Add Menu</a></li>
 		<li><a href="{{ action('MenusController@getOrder') }}">Menu Order</a></li>
 	</ol>
+
+			@if(isset($menus))
+			@if(count($menus) == 0)
+			<div class="alert alert-warning" role="alert">
+				<h5 href="#" class="alert-link">Click on the button bellow to add your first menu.</h5>
+				<a href="{{ action('MenusController@getAdd') }}" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu</a>
+				</br>
+			</div>
+			@endif
+			@endif
 </div>
 
 <div class="table-responsive">
@@ -27,6 +37,7 @@
 			</tr>
 		</thead>
 		<tbody id="menu_table_body">
+			@if(isset($menus))
 			@foreach($menus as $menu)
 			<tr> 
 				<td>{{ $menu->id }}</td>
@@ -40,12 +51,11 @@
 					<a class="remove"  menu-id="{{$menu->id}}" >/ Remove</a>
 					{{ Form::close() }}
 					@if(!isset($menu->page_id))
-						<a class="add-item"  menu-id="{{$menu->id}}" href="{{ action('MenuItemsController@getAdd',$menu->id) }}" >/ Add Menu-Item</a></td>
+					<a class="add-item"  menu-id="{{$menu->id}}" href="{{ action('MenuItemsController@getAdd',$menu->id) }}" >/ Add Menu-Item</a></td>
 					@endif
-					
 				</tr>
-
 				@endforeach
+			@endif
 			</tbody>
 		</table>
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
