@@ -18,6 +18,20 @@ menu = {
 				$('#url').val("/"+urlfriendly(menu_option_selected)+"/"+urlfriendly(page_option_selected));
 			} 
 		});
+		$( "#page-index" ).click(function() {
+			var this_url = $(this).attr('this-url');
+			window.open(this_url);
+		});
+		$( ".reload-page" ).click(function() {
+			location.reload();
+		});
+
+
+		$( "#menu-index" ).click(function() {
+			var this_url = $(this).attr('this-url');
+			window.open(this_url);
+		});
+
 		$(".page_id").on("change", function () {
 			var page_option_selected = "";
 			var menu_option_selected = "";

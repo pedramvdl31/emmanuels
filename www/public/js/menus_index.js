@@ -22,6 +22,7 @@ menu = {
 			$("#form-"+id).submit();
 		});
 
+
 	}
 };
 

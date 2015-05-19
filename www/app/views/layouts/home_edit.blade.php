@@ -59,25 +59,6 @@
 
   </header> 
   <!-- stickyNav -->
-  <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
-    <div class="container">
-
-      <div class="navbar-header">
-
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
-          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
-        </a>
-      </div>
-      <div class="collapse navbar-collapse">
-        {{$nav_html}}
-      </div>
-    </div>
-  </nav> 
   
   <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
@@ -121,9 +102,9 @@
           <ul class="dropdown-menu" role="menu">
             <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
             <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
-            <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
-            <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
-            <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
+            <li>{{ HTML::link('/pages/index', 'View Pages') }}</li>
+            <li>{{ HTML::link('/menus/index', 'View Menus') }}</li>
+            <li>{{ HTML::link('/menu-items/index', 'View Menu Items') }}</li>
           </ul>
         </li>
 
