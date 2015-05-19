@@ -109,7 +109,7 @@
             </div>
         @endif
         @yield('content')
-        @yiled('modals')
+        @yield('modals')
       </div><!--/row-->
 
       <hr>
