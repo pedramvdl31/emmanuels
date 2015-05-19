@@ -17,8 +17,7 @@ menu = {
 			var option_selected = $(this).find('option:selected').val();
 			switch(parseInt(option_selected)){
 				case 1:
-				$('.page-field').addClass('show').removeClass('hide');
-				$('#page-info').addClass('show').removeClass('hide');
+				$('.hide-link').addClass('show').removeClass('hide');
 				$('#url').attr('id','url_link');
 				var option_selected = $('.page_id').find('option:selected').text();
 				$('#url_link').val("/");
@@ -27,8 +26,8 @@ menu = {
 				};
 				break
 				case 2:
-				$('.page-field').addClass('hide').removeClass('show');
-				$('#page-info').addClass('hide').removeClass('show');
+				$('.hide-link').addClass('hide').removeClass('show');
+
 				$('#url_link').attr('id','url');
 
 				var _name = urlfriendly($('#name').val());
@@ -52,16 +51,19 @@ menu = {
 			});
 			$( ".reload-pages" ).click(function() {
 				location.reload();
+
 			});
 			$( "#reload-pages-select" ).click(function() {
 				request.reload_pages();
+				$('#url_link').val("");
 			});
 	}
 };
 
 request = {
 		reload_pages: function() {
-		
+		$('.loading-icon').addClass('hide');
+		$('#loading-gif').removeClass('hide');
 		var token = $('meta[name=_token]').attr('content');
 		$.post(
 			'/pages/reload-pages',
@@ -69,6 +71,8 @@ request = {
 				"_token": token
 			},
 			function(results){
+				$('#loading-gif').addClass('hide');
+				$('.loading-icon').removeClass('hide');
 				var status = results.status;
 				var pages_option = results.pages_option;
 				switch(status) {

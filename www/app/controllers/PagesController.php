@@ -453,15 +453,7 @@ class PagesController extends \BaseController {
 	public function postReloadPages() {
 		if(Request::ajax()) {
 			$status = 200;
-			$pages = Page::whereNotNull('param_one')
-					->whereNotNull('param_two')
-					->whereNotIn('id', array(1))
-					->where('status',2)
-					//OR
-					->orWhere('param_one',null)
-					->where('param_two',null)
-					->where('status',2)
-					->whereNotIn('id', array(1))->get();
+			$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
 			$pages_prepared = Page::prepareForSelect($pages);
 			$pages_option = Page::prepareOptions($pages_prepared);
 			return Response::json(array(

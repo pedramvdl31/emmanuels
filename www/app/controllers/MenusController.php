@@ -8,23 +8,7 @@ class MenusController extends \BaseController {
 * @return Response
 */
 public function __construct() {
-// switch(Auth::user()->roles){
-// 	case 2:
-// 		$this->layout = "layouts.admin";
-// 	break;
-// 	case 3:
-// 		$this->layout = "layouts.admin_owners";
-// 	break;
-// 	case 4:
-// 		$this->layout = "layouts.admin_employees";
-// 	break;
-// 	case 5:
-// 		$this->layout = "layouts.admin_members";
-// 	break;
-// 	case 6:
-// 		$this->layout = "layouts.admin";
-// 	break;
-// }
+
 	$this->beforeFilter('csrf', array('on'=>'post'));
 	$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
 
@@ -123,16 +107,23 @@ public function postAdd()
 	}
 	public function getEdit($id = null)
 	{
-		$menus = Menu::find($id);
-		$is_link = (isset($menus->page_id)?1:2);
 		$menus = Page::all();
 		$menus_prepared = Page::prepareForSelect($menus);
+
+		$this_menu = Menu::find($id);
+		$this_menu_id = isset($this_menu)?$this_menu->id:null;
+		$is_link = (isset($this_menu->page_id)?1:2);
+
+		$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
+		$pages_prepared = Page::prepareForSelect($pages);
+
 		$prepared_select = Menu::prepareSelect();
 		$this->layout->content = View::make('menus.edit')
 		->with('menus_prepared',$menus_prepared )
 		->with('prepared_select',$prepared_select)
-		->with('menus',$menus)
-		->with('menu_id',$menus->id)
+		->with('menus',$this_menu)
+		->with('menu_id',$this_menu_id)
+		->with('pages_prepared',$pages_prepared)
 		->with('is_link',$is_link);
 	}
 	public function postEdit()
