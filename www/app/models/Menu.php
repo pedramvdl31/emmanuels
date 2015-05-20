@@ -40,7 +40,7 @@ class Menu extends \Eloquent {
 				$data[$key]['page_title'] = "-";
 				if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
 					$page = Page::find($data[$key]['page_id']);
-					$data[$key]['page_title'] = $page->title;
+					$data[$key]['page_title'] = isset($page->title)?$page->title:null;
 				}
 				$data[$key]['kind'] = '';
 				if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
@@ -58,14 +58,14 @@ class Menu extends \Eloquent {
 	public static function prepareSelect()
 	{
 		return array(
-			'' => 'Select Kind',
-			'1'	=> 'Link',
-			'2' => 'Menu group'
+			'' => 'Select Type',
+			'1'	=> 'Connect to created page',
+			'2' => 'Creates menu group section'
 			);
 	}
 
 	public static function prepareForSelect($data) {
-		$pages = array(''=>'All Menus');
+		$pages = array(''=>'Select Menu');
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
 				$page_id = $value['id'];

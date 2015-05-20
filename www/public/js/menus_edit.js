@@ -7,6 +7,16 @@ menu = {
 		$.ajaxSetup({
 			headers: { 'X-CSRF-Token' : $('meta[name=csrf-token]').attr('content') }
 		});
+		var selected_page = $(".page_id option:selected").text();
+		if (selected_page != "Select Page") {
+			$('#url').val("/"+urlfriendly(selected_page));
+		};
+		
+		if ($('#is_link').val() == 1) {
+			
+		} else {	
+			$('.hide-link').addClass('hide').removeClass('show');
+		}
 	},
 	events: function(){
 		$('#name').friendurl({id : 'url'});
@@ -21,7 +31,7 @@ menu = {
 				$('#url').attr('id','url_link');
 				var option_selected = $('.page_id').find('option:selected').text();
 				$('#url_link').val("/");
-				if (option_selected != "All Pages") {
+				if (option_selected != "Select Page") {
 					$('#url_link').val("/"+urlfriendly(option_selected));
 				};
 				break
@@ -37,8 +47,10 @@ menu = {
 		});
 		$(".page_id").on("change", function () {
 			var option_selected = $(this).find('option:selected').text();
-			if (option_selected != "All Pages") {
+			if (option_selected != "Select Page") {
 				$('#url_link').val("/"+urlfriendly(option_selected));
+				$('#url').val("/"+urlfriendly(option_selected));
+
 			}
 		});
 			$( "#page-index" ).click(function() {
@@ -62,7 +74,8 @@ menu = {
 
 request = {
 		reload_pages: function() {
-		
+		$('.loading-icon').addClass('hide');
+		$('#loading-gif').removeClass('hide');
 		var token = $('meta[name=_token]').attr('content');
 		$.post(
 			'/pages/reload-pages',
@@ -70,6 +83,8 @@ request = {
 				"_token": token
 			},
 			function(results){
+				$('#loading-gif').addClass('hide');
+				$('.loading-icon').removeClass('hide');
 				var status = results.status;
 				var pages_option = results.pages_option;
 				switch(status) {

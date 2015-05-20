@@ -15,7 +15,7 @@
 		@if(isset($menu_items))
 			@if(count($menu_items) == 0)
 			<div class="alert alert-warning" role="alert">
-				<h5 href="#" class="alert-link">Click on the button bellow to add your first menu item.</h5>
+				<h5 href="#" class="alert-link">To get started click on the (“Add Menu Item”) button below to create you first menu item</h5>
 				<a href="{{ action('MenuItemsController@getAdd') }}" class="alert-link btn  btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu Item</a>
 				<button type="button" class="btn btn-primary  reload-pages" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload</button>
 			</div>

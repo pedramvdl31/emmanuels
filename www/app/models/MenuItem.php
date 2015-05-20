@@ -37,7 +37,7 @@ class MenuItem extends \Eloquent {
 					}
 					if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
 						$page = Page::find($data[$key]['page_id']);
-						$data[$key]['page_id'] = $page->title;
+						$data[$key]['page_id'] = isset($page->title)?$page->title:null;
 					}
 				}
 			}

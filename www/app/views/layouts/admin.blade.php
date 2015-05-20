@@ -37,6 +37,9 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
+              <a href="/"><span class="glyphicon glyphicon-home"></span> Homepage</a>
+            </li>
+            <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li>{{ HTML::link('users/index', 'View Users') }}</li>
@@ -62,7 +65,9 @@
               <ul class="dropdown-menu" role="menu">
                 <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
                 <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
+                <li class="divider"></li>
                 <li>{{ HTML::link('/pages/index', 'View Pages') }}</li>
+                <li class="divider"></li>
                 <li>{{ HTML::link('/menus/index', 'View Menus') }}</li>
                 <li>{{ HTML::link('/menu-items/index', 'View Menu Items') }}</li>
               </ul>

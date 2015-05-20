@@ -32,10 +32,6 @@
 						var is_session = 0;
 						set_slider_images_onload(is_session);
 					}
-		        		//initiate fileinput and fill the images
-		        		
-
-		        		//disable the browse btns
 		        		set_browse_btn();
 		        	};
 

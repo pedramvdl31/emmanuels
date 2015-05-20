@@ -42,7 +42,7 @@
 				</div>
 				<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
 					<label class="control-label" for="url">Url</label>
-					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly','class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
 					@foreach($errors->get('url') as $message)
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach

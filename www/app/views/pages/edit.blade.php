@@ -61,7 +61,7 @@
 				</div>
 				<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
 					<label class="control-label" for="url">Url</label>
-					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:$url, array('class'=>'form-control','readonly'=>'readonly','placeholder'=>'Url','id'=>'url')) }}
+					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:$url, array('readonly'=>'readonly','class'=>'form-control','readonly'=>'readonly','placeholder'=>'Url','id'=>'url')) }}
 					@foreach($errors->get('url') as $message)
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach

@@ -29,77 +29,25 @@
 </head>
 <body >
     <header >
-        <nav id="nav" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">     	
-                        <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
-                    </a>
-                </div>
+  <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
 
-                <div class="collapse navbar-collapse">
-                  <ul class="nav navbar-nav navbar-right">
-                    <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
-                      <ul class="dropdown-menu" role="menu">
-                        <li>{{ HTML::link('users/index', 'View Users') }}</li>
-                        <li>{{ HTML::link('users/edit/2', 'Edit Users') }}</li>
-                        <li>{{ HTML::link('users/add', 'Add Users') }}</li>
-                    </ul>
-                </li>
-                <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-camera"></span> Resources <span class="caret"></span></a>
-                  <ul class="dropdown-menu" role="menu">
-                    <li>{{ HTML::link('/resources/edit', 'Manage Resources') }}</li>
-                    
-                </ul>
-            </li>            
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-list-alt"></span> Company <span class="caret"></span></a>
-              <ul class="dropdown-menu" role="menu">
-                <li>{{ HTML::link('/companies/view', 'View Company') }}</li>
-            </ul>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-wrench"></span> Setup <span class="caret"></span></a>
-          <ul class="dropdown-menu" role="menu">
-            <li>{{ HTML::link('/taxes', 'View Taxes') }}</li>
-            <li>{{ HTML::link('/taxes/add', 'Add Tax') }}</li>
-            <li>{{ HTML::link('/pages/index', 'Pages') }}</li>
-            <li>{{ HTML::link('/menus/index', 'Menus') }}</li>
-            <li>{{ HTML::link('/menu-items/index', 'Menu Items') }}</li>
-        </ul>
-    </li>
+      <div class="navbar-header">
 
-    <li class="dropdown">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span> setup <span class="caret"></span></a>
-      <ul class="dropdown-menu" role="menu">
-        @if(!Auth::check())
-        <li>{{ HTML::link('users/register', 'Register') }}</li>   
-        <li>{{ HTML::link('admins/login', 'Login') }}</li>   
-        @else
-        @if(Auth::user()->roles == 3) 
-
-        <li><a href="/owners/edit/{{ Auth::user()->id }}">Edit User</a></li>
-        @endif
-        @if(Auth::user()->roles == 4)
-        <li><a href="/employees/edit/{{ Auth::user()->id }}">Edit User</a></li>
-        @endif
-
-        <li>{{ HTML::link('admins/logout', 'Logout') }}</li>
-        @endif
-    </ul>
-</li>
-
-</ul>
-</div>
-</div>
-</nav>  
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
+          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        {{$nav_html}}
+      </div>
+    </div>
+  </nav>   
 
 </header> 
 

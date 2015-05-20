@@ -42,17 +42,8 @@ class MenuItemsController extends \BaseController {
 	}
 	public function getAdd($id = null)
 	{
-		//check later (it may be okay to enable multiple linking to one page)
-		//get the pages that are not linked by other menus
-		$pages = Page::whereNotNull('param_one')
-					->whereNotNull('param_two')
-					->whereNotIn('id', array(1))
-					->where('status',2)
-					//OR
-					->orWhere('param_one',null)
-					->where('param_two',null)
-					->where('status',2)
-					->whereNotIn('id', array(1))->get();
+
+		$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
 		//only the menu groups
 		$menus = Menu::where('page_id',null)->get();
 
@@ -111,9 +102,7 @@ class MenuItemsController extends \BaseController {
 
 	public function getEdit($id = null)
 	{
-		//get the pages that are not linked by other menus
-		$pages = Page::whereNotNull('param_one')->whereNotNull('param_two')
-			->orWhere('param_one',null)->where('param_two',null)->get();
+		$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
 		//only the menu groups
 		$menus = Menu::where('page_id',null)->get();
 		$pages_prepared = Page::prepareForSelect($pages);

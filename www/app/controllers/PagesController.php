@@ -8,23 +8,7 @@ class PagesController extends \BaseController {
 	 * @return Response
 	 */
 	public function __construct() {
-		// switch(Auth::user()->roles){
-		// 	case 2:
-		// 		$this->layout = "layouts.admin";
-		// 	break;
-		// 	case 3:
-		// 		$this->layout = "layouts.admin_owners";
-		// 	break;
-		// 	case 4:
-		// 		$this->layout = "layouts.admin_employees";
-		// 	break;
-		// 	case 5:
-		// 		$this->layout = "layouts.admin_members";
-		// 	break;
-		// 	case 6:
-		// 		$this->layout = "layouts.admin";
-		// 	break;
-		// }
+
 		$this->beforeFilter('csrf', array('on'=>'post'));
 
 		$init_message = Website::WebInit();
@@ -209,7 +193,7 @@ class PagesController extends \BaseController {
 			$page->description = $form_data['description'];
 			$page->url = $form_data['url'];
 			$page->keywords = $form_data['keywords'];
-			$page->content_data = json_encode($form_data['content']);
+			$page->content_data = !empty($form_data['content'])?json_encode($form_data['content']):null;
 			$page->status = 1;
 
 		    if($page->save()) { // Save
@@ -288,6 +272,8 @@ class PagesController extends \BaseController {
 	{
 		$page_id = Input::get('page_id');
 		$page = Page::find($page_id);
+		$page->status = 3;
+
 		if($page->delete()) {
 			return Redirect::action('PagesController@getIndex')
 			->with('message', 'Successfully deleted!')

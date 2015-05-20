@@ -1,4 +1,5 @@
 @section('stylesheets')
+{{ HTML::style('css/menu_items_add.css') }}
 @stop
 @section('scripts')
 {{ HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js') }}
@@ -14,9 +15,8 @@
 		@if(isset($menus))
 			@if(count($menus) == 0)
 			<div class="alert alert-warning" role="alert">
-				<h5 href="#" class="alert-link">There is no menu group. Click on the button bellow to add a menu group</h5>
+				<h5 href="#" class="alert-link">There are no menu group set. Please click on the ("Add Menu Group") button below to start this process</h5>
 				<a this-url="{{ action('MenusController@getAdd') }}" id="add-menu-group" class="alert-link btn btn-default" ><i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Menu Group</a>
-				<button type="button" class="btn btn-primary reload-page" ><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload</button> 
 			</div>
 			@endif
 		@endif
@@ -31,40 +31,67 @@
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
-		<div class="form-group {{ $errors->has('menus') ? 'has-error' : false }}" style="margin-bottom: 10px;">
-			<label class="control-label" for="menus">Menus</label>
-			{{ Form::select('menus', $menus_prepared, isset($id)?$id:null, array('class'=>'form-control menus_select menus','not_empty'=>'true','menus'=>false)); }}
-			@foreach($errors->get('menus') as $message)
-			<span class='help-block'>{{ $message }}</span>
-			@endforeach
+		<div class="col-md-12 clearfix clear-padding hide-link">
+			<label class="control-label col-md-12 col-xs-12 clear-padding" for="menus">Menu</label>
+			<div class="col-md-10 col-lg-10 col-xs-7 clear-padding">
+				<div class="form-group menu-field {{ $errors->has('menus') ? 'has-error' : false }}" style="margin-bottom: 10px;">
+					{{ Form::select('menus', $menus_prepared, isset($id)?$id:null, array('class'=>'form-control menus_select menus','not_empty'=>'true','menu_id'=>false)); }}
+					@foreach($errors->get('menus') as $message)
+					<span class='help-block'>{{ $message }}</span>
+					@endforeach
+				</div>
+			</div>
+			<div class="col-md-2 col-lg-2 col-xs-5 clear-right-padding">
+				<button type="button" class="btn btn-primary btn-block" id="reload-menus-select">
+						<i class="glyphicon glyphicon-refresh loading-icon-menu"></i>
+					
+					<img class="hide" src="/img/icons/ajax-loader-2.gif" id="loading-gif-menu" alt="loading" height="15" width="15">
+					
+					&nbsp;Reload Menus</button> 
+			</div>
 		</div>
-		<p>&nbsp;
-			<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;Click here to add or change the statuses
-			<i class="btn btn-sm btn-default" id="menu-index" this-url="{{ action('MenusController@getIndex') }}" href="#">Menus</i>
-			<button type="button" class="btn btn-primary btn-sm" id="reload-menus-select"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload Menus</button> 
-		</p>
-		<div class="form-group {{ $errors->has('page_id') ? 'has-error' : false }}" style="margin-bottom: 10px;">
-			<label class="control-label" for="page_id">Page_id</label>
-			{{ Form::select('page_id', $pages_prepared, null, array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false)); }}
-			@foreach($errors->get('page_id') as $message)
-			<span class='help-block'>{{ $message }}</span>
-			@endforeach
+		<div class="col-md-12 hide-link">
+			<p id="menu-info col-md-12">
+				<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;Click here to change statuses <i class="btn btn-sm btn-success" id="menu-index" this-url="{{ action('MenusController@getIndex') }}" href="#">Menus</i> here.
+			</p>
 		</div>
-		<p>&nbsp;
-			<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;Click here to add or change the statuses
-			<i class="btn btn-sm btn-default" id="page-index" this-url="{{ action('PagesController@getIndex') }}" href="#">Pages</i>
-			<button type="button" class="btn btn-primary btn-sm " id="reload-pages-select"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload Pages</button> 
-		</p>
+		<div class="col-md-12 clearfix clear-padding hide-link">
+			<label class="control-label col-md-12 col-xs-12 clear-padding" for="page_id">Page</label>
+			<div class="col-md-10 col-lg-10 col-xs-7 clear-padding">
+				<div class="form-group page-field {{ $errors->has('page_id') ? 'has-error' : false }}" style="margin-bottom: 10px;">
+					
+					{{ Form::select('page_id', $pages_prepared, null, array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false)); }}
+					@foreach($errors->get('page_id') as $message)
+					<span class='help-block'>{{ $message }}</span>
+					@endforeach
+				</div>
+			</div>
+			<div class="col-md-2 col-lg-2 col-xs-5 clear-right-padding">
+				<button type="button" class="btn btn-primary btn-block" id="reload-pages-select">
+						<i class="glyphicon glyphicon-refresh loading-icon-page"></i>
+					
+					<img class="hide" src="/img/icons/ajax-loader-2.gif" id="loading-gif-page" alt="loading" height="15" width="15">
+					
+					&nbsp;Reload Pages</button> 
+			</div>
+		</div>
+		<div class="col-md-12 hide-link">
+			<p id="page-info col-md-12">
+				<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;In order to display your created page, you must set your page status
+				to public. Please change statuses <i class="btn btn-sm btn-success" id="page-index" this-url="{{ action('PagesController@getIndex') }}" href="#">Pages</i> here.
+				
+			</p>
+		</div>
 		<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
-			<label class="control-label" for="url">Url</label>
-			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+			<label class="control-label" for="url">URL</label>
+			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'URL','id'=>'url')) }}
 			@foreach($errors->get('url') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
 	</div>
 	<div class="panel-footer clearfix">
-		<button type="submit" class="btn btn-primary pull-right">Submit</button>
+		<button type="submit" class="btn btn-primary pull-right">Add</button>
 	</div>
 </div>
 {{Form::close()}}

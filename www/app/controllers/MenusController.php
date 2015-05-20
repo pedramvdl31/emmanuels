@@ -107,23 +107,22 @@ public function postAdd()
 	}
 	public function getEdit($id = null)
 	{
-		$menus = Page::all();
-		$menus_prepared = Page::prepareForSelect($menus);
-
 		$this_menu = Menu::find($id);
 		$this_menu_id = isset($this_menu)?$this_menu->id:null;
 		$is_link = (isset($this_menu->page_id)?1:2);
 
 		$pages = Page::where('status',2)->whereNotIn('id', array(1))->get();
 		$pages_prepared = Page::prepareForSelect($pages);
+		$menu_page_id = ($this_menu->page_id)?$this_menu->page_id:null;
 
 		$prepared_select = Menu::prepareSelect();
+
 		$this->layout->content = View::make('menus.edit')
-		->with('menus_prepared',$menus_prepared )
 		->with('prepared_select',$prepared_select)
 		->with('menus',$this_menu)
 		->with('menu_id',$this_menu_id)
 		->with('pages_prepared',$pages_prepared)
+		->with('menu_page_id',$menu_page_id)
 		->with('is_link',$is_link);
 	}
 	public function postEdit()
@@ -144,6 +143,8 @@ public function postAdd()
 				$page = Page::find($page_id);
 				$page_url = substr($page->url, 1);
 				$page->param_one = $page_url;
+				//param two must be null
+				$page->param_two = null;
 
 				$menu = Menu::find($menu_id);
 				$menu->name = $name;

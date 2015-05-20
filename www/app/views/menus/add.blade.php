@@ -59,15 +59,20 @@
 		</div>
 		
 		<div class="col-md-12 hide-link clear-padding form-group {{ $errors->has('url') ? 'has-error' : false }}">
-			<label class="control-label" for="url">Url</label>
-			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')) }}
+			<label class="control-label" for="url">URL</label>
+			{{ Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Page URL','id'=>'url')) }}
 			@foreach($errors->get('url') as $message)
 			<span class='help-block'>{{ $message }}</span>
 			@endforeach
 		</div>
+		<div class="col-md-12 hide-link">
+			<p id="page-info col-md-12">
+				<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;This is your page URL
+			</p>
+		</div>
 	</div>
 	<div class="panel-footer clearfix">
-		<button type="submit" class="btn btn-primary pull-right">Submit</button>
+		<button type="submit" class="btn btn-primary pull-right">Add</button>
 	</div>
 </div>
 {{Form::close()}}

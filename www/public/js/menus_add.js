@@ -21,7 +21,7 @@ menu = {
 				$('#url').attr('id','url_link');
 				var option_selected = $('.page_id').find('option:selected').text();
 				$('#url_link').val("/");
-				if (option_selected != "All Pages") {
+				if (option_selected != "Select Page") {
 					$('#url_link').val("/"+urlfriendly(option_selected));
 				};
 				break
@@ -37,7 +37,7 @@ menu = {
 		});
 		$(".page_id").on("change", function () {
 			var option_selected = $(this).find('option:selected').text();
-			if (option_selected != "All Pages") {
+			if (option_selected != "Select Page") {
 				$('#url_link').val("/"+urlfriendly(option_selected));
 			}
 		});

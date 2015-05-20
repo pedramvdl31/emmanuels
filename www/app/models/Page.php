@@ -233,7 +233,7 @@ class Page extends \Eloquent {
 	} 
 
 	public static function prepareForSelect($data) {
-		$pages = array(''=>'All Pages');
+		$pages = array(''=>'Select Page');
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
 				$page_id = $value['id'];

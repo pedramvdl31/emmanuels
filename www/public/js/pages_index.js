@@ -15,14 +15,9 @@ page = {
 			var count = $(this).attr('count');
 			var id = $(this).attr('page-id');
 			$(document).find("#myModal").attr('page-id',id);
-			if (count == 1) {
-				$(document).find(".modal-body").html('This page group has '+count+' item. Deleting this page group will result in the loss of all page items that are belong to this group. Press remove to confirm?');
-			} else if (count == 0){
-				$(document).find(".modal-body").html('Are you sure you want to delete this?');
-			}
-			else {
-				$(document).find(".modal-body").html('This page group has '+count+' items.  Deleting this page group will result in the loss of all page items that are belong to this group. Press remove to confirm?');
-			}
+			$(document).find(".modal-body").html('By deleting this page all links connecting to this page will be unlinked. '+
+				'Are you sure you want to delete this page?');
+
 			
 		});
 		$(document).on('click','.remove-btn',function(){
@@ -42,7 +37,13 @@ page = {
 			var this_name = $("option:selected", this).html();
 			$('#status-modal').attr('page_id',id);
 			$('#status-modal').attr('selected_status',selected_status);
-			$('#status-modal').find('.modal-body:first').html('Are you sure you want to change this to '+this_name+'?');
+			if (selected_status == 1) {
+				$('#status-modal').find('.modal-body:first').html('Are you sure you would like to change this status to draft?');
+			} else {
+				$('#status-modal').find('.modal-body:first').html('By changing this status to public all pages will be '+
+				 'viewable on the website. Are you sure you would like to change this status to public?');
+
+			}
 			$('#status-modal').modal('show');
 			
 		});

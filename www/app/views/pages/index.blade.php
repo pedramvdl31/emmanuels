@@ -14,7 +14,7 @@
 	@if(isset($pages))
 	@if(count($pages) <= 1)
 		<div class="alert alert-warning" role="alert">
-			<h5 href="#" class="alert-link">We noticed you haven't created a page yet. Click on the button bellow to add a new page.</h5>
+			<h5 href="#" class="alert-link">To get started click on the (“Add Page”) button below to create you first page</h5>
 			<a this-url="{{ action('PagesController@getAdd') }}" id="page-add" class="alert-link btn btn-default" >
 				<i class="glyphicon glyphicon-plus" aria-hidden="true"></i> Add Page
 			</a>
