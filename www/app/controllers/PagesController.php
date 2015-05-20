@@ -58,7 +58,7 @@ class PagesController extends \BaseController {
 	{
 		
 		if(Session::get('data_session')) Session::forget('data_session');
-		if(Session::get('slider_image_session')) Session::forget('slider_image_session');
+		if(Session::get('slidersession')) Session::forget('slidersession');
 		$user_role = Auth::user()->roles;
 		$pages = (isset($id)) ? Page::preparePages(Page::where('company_id',$id)->get()) : Page::preparePages(Page::all());
 		$companies = Company::find(1);
@@ -109,8 +109,8 @@ class PagesController extends \BaseController {
 		if (Session::get('data_session')) {
 			$form_data = Page::prepareEditFormSession(Session::get('data_session'));
 			$session_slider_images = null;
-			if (Session::get('slider_image_session')) {
-				$session_slider_images = Page::prepareSliderImagesForEditPageSession(Session::get('slider_image_session'));
+			if (Session::get('slidersession')) {
+				$session_slider_images = Page::prepareSliderImagesForEditPageSession(Session::get('slidersession'));
 			}
 			$is_session = 1;
 			$title = null;
@@ -153,7 +153,8 @@ class PagesController extends \BaseController {
 			$page_id = Input::get('page_id');
 			$content = Page::prepareForPreview(Input::get('content'));
 			if ($page_id == 1) {//HOME EDIT
-				$session_slider_images = (Session::get('slider_image_session'))?Session::get('slider_image_session'):null;
+				$session_slider_images = (Session::get('slidersession'))? Session::get('slidersession') :null;
+				Job::dump($session_slider_images);
 
 				View::share('session_slider_images',$session_slider_images);
 
@@ -228,10 +229,28 @@ class PagesController extends \BaseController {
 			$page->content_data = isset($form_data['content'])?json_encode($form_data['content']):null;
 			$page->status =  ($form_data['page_id'] == 1)?1:$form_data['status'];
 
-			if (Session::get('slider_image_session')) {
-				$images = Session::get('slider_image_session');
+			if (Session::get('slidersession')) {
+				$slider_folder = glob('img/slider/*'); // get all file names
+				$images = Session::get('slidersession');
 				foreach ($images as $key => $value) {
 					$images[$key][1] = "slider";
+
+				}
+
+				//erase the deleted files from slider
+				foreach($slider_folder as $file){ // iterate files
+					$deleted = true;
+					if(is_file($file)){
+						$parts=explode("/",$file);
+						foreach ($images as $key => $value) {
+							if ($parts[2] == $images[$key][0]) {
+								$deleted = false;
+							}
+						}
+						if ($deleted == true) {
+							unlink($file);
+						}
+					}
 				}
 
 				$page->slider_image = json_encode($images);
@@ -322,7 +341,7 @@ class PagesController extends \BaseController {
 		// Set layout
 		$this->layout = View::make('layouts.pages');
 		if (!isset($param2)) {
-			$page = Page::where('param_one',$param1)->first();
+			$page = Page::where('status',2)->where('param_one',$param1)->first();
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
@@ -332,7 +351,7 @@ class PagesController extends \BaseController {
 				$this->layout->content = View::make('errors.missing');
 			}
 		} elseif (isset($param1) && isset($param2)) {
-			$page = Page::where('param_one',$param1)->where('param_two',$param2)->first();
+			$page = Page::where('status',2)->where('param_one',$param1)->where('param_two',$param2)->first();
 			if (isset($page)){
 				//PAGE FOUND
 				$page_content=  json_decode($page->content_data);
@@ -359,20 +378,29 @@ class PagesController extends \BaseController {
 		if(Request::ajax()) {
 			$image_name = Input::get('img_name');
 			$from = Input::get('from');
+			$status = 400;
 
 			if (isset($image_name)) {
-				// $tmp_path = 'img/tmp/';
-				$slider_path = 'img/'.$from.'/';
-				// $tmp_img = 'img/tmp/'.$image_name;
-				$slider_img = 'img/'.$from.'/'.$image_name;
-				if (file_exists($slider_path)) {
-					if (file_exists($slider_img)) {
-						unlink($slider_img);
+
+
+				if ($from != "slider") {
+					// $tmp_path = 'img/tmp/';
+					$slider_path = 'img/'.$from.'/';
+					// $tmp_img = 'img/tmp/'.$image_name;
+					$slider_img = 'img/'.$from.'/'.$image_name;
+					if (file_exists($slider_path)) {
+						if (file_exists($slider_img)) {
+							if (unlink($slider_img)) {
+								$status = 200;
+							} 
+						}
 					}
+				} else{//IMAGE IS AT SLIDER FOLDER DO NOT DELETE
+					$status = 201;
 				}
 			}
 			return Response::json(array(
-				'status' => 200
+				'status' => $status
 				));
 		}
 	}
@@ -421,21 +449,49 @@ class PagesController extends \BaseController {
 
 	public function postSessionReindex() {
 		if(Request::ajax()) {
-			$status = 200;
-			if(Session::get('slider_image_session')) Session::forget('slider_image_session');
-			$slider_image_session = Input::get('session_data');
-			if (!empty($slider_image_session)) {
-				foreach ($slider_image_session as $key => $value) {
-					$slider_image_session[$key][0] = preg_replace('#[ -]+#', '-', $slider_image_session[$key][0]);
-				}
+			$status = 400;
+			if((Session::get('slidersession')))
+			{
+				Session::forget('slidersession');
+				$status = 401;
+			} 
+			$slidersession = Input::get('session_data');
+			// if (!empty($slidersession)) {
+			// 	foreach ($slidersession as $key => $value) {
+			// 		$slidersession[$key][0] = preg_replace('#[ -]+#', '-', $slidersession[$key][0]);
+
+			// 	}
+			// }
+			//THE DATA THAT IS GOING TO THE SESSION
+			Job::dump($slidersession);
+
+			Session::put('slidersession',$slidersession);
+
+			if ((Session::get('slidersession'))) {
+				$status = 200;
 			}
-			Session::put('slider_image_session',$slider_image_session);
+
+			//THE SESSION'S DATA
+			Job::dump(Session::get('slidersession'));
 			return Response::json(array(
 				'status' => $status
 				));
 		}
 	}
+	//FOR TESTING THE SESSION
+	public function postTestSession() {
+		if(Request::ajax()) {
 
+			if ((Session::get('slidersession'))) {
+				//THE SESSION
+				Job::dump(Session::get('slidersession'));
+			}
+
+			return Response::json(array(
+				'status' => 200
+				));
+		}
+	}
 	public function postReloadPages() {
 		if(Request::ajax()) {
 			$status = 200;

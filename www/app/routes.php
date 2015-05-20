@@ -87,6 +87,8 @@
 			Route::post('/pages/remove-temp','PagesController@postRemoveTemp');
 			Route::post('/pages/reload-pages','PagesController@postReloadPages');
 
+			Route::post('/pages/test-session','PagesController@postTestSession');
+
 
 
 		//SCHEDULES CONTROLLER

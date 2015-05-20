@@ -9,6 +9,7 @@
 					headers: {
 						'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
 					}
+
 				});
 				tinymce.init({
 					fontsize_formats: "8pt 10pt 12pt 14pt",
@@ -27,13 +28,16 @@
 				{
 					if ($('#is_session').val() == 1) {
 						var is_session = 1;
+
 						set_slider_images_onload(is_session);
 					} else {
 						var is_session = 0;
+
 						set_slider_images_onload(is_session);
 					}
 		        		set_browse_btn();
 		        	};
+
 
 		        },
 		        stepy: function() {
@@ -125,8 +129,14 @@
 		        		var from = $(this).parents('li:first').attr('from');
 		        			request.remove_image_temp(_img_name,from);
 		        			if ($(this).parents('li:first').remove()) {
-		        				list_reindex();
+		        					list_reindex();
 		        			};
+		        	});
+
+
+
+		        	$(document).on('click', '.test-session', function() {
+		        		request.test_session();
 		        	});
 
 		        	// $(document).on('click', '.fileinput-remove', function() {	
@@ -177,6 +187,8 @@
 		    	remove_image_temp: function(img_name,from) {
 		    		var token = $('meta[name=_token]').attr('content');
 		    		$('.submit-btn').addClass('disabled');
+		    		$('.remove-img').addClass('disabled');
+		    		
 		    		$.post(
 		    			'/pages/remove-temp', {
 		    				"_token": token,
@@ -187,8 +199,16 @@
 		    				var status = results.status;
 		    				switch (status) {
 		                    case 200: // Approved
-		                    session_reindex();
-		                    $('.submit-btn').removeClass('disabled');
+		                    	session_reindex();
+			                    $('.submit-btn').removeClass('disabled');
+			                    $('.remove-img').removeClass('disabled');
+		                    break;
+		                    case 201: // Image is located at slider folder do not delete
+			                    $('.submit-btn').removeClass('disabled');
+			                    $('.remove-img').removeClass('disabled');
+		                    break;
+		                    case 400: // error
+		                    	console.log('error');
 		                    break;
 
 		                    default:
@@ -246,6 +266,7 @@
 		    	},
 		    	session_reindex: function(session_data) {
 		    		var token = $('meta[name=_token]').attr('content');
+		    		$('.submit-btn').addClass('disabled');
 		    		$.post(
 		    			'/pages/session-reindex', {
 		    				"_token": token,
@@ -253,9 +274,27 @@
 		    			},
 		    			function(results) {
 		    				var status = results.status;
+		    				$('.submit-btn').removeClass('disabled');
 		    				switch (status) {
 		                    case 200: // Approved
-		                  	  $('.submit-btn').removeClass('disabled');
+		                  	  
+		                    break;
+		                    default:
+		                    break;
+		                }
+		            }
+		            );
+		    	},
+		    		test_session: function() {
+		    		var token = $('meta[name=_token]').attr('content');
+		    		$.post(
+		    			'/pages/test-session', {
+		    				"_token": token
+		    			},
+		    			function(results) {
+		    				switch (status) {
+		                    case 200: // Approved
+		                  	  
 		                    break;
 		                    default:
 		                    break;
@@ -308,12 +347,14 @@
 		        session_reindex();
 		        set_browse_btn();
 		        set_image_name(order,files[0]['name']);
-		        $('.submit-btn').addClass('disabled');
+		       
 		    }).on('filebatchuploadcomplete', function(event, files, extra) {
 
 		    });
 		}
 		function list_reindex() {
+			// $('.submit-btn').addClass('disabled');
+			
 			var div_count = $(".dd ol li .dd-handle").length;
 			var session_data = {
 
@@ -334,12 +375,13 @@
 				}
 			});
 			request.session_reindex(session_data);
+
 		}
 
 		function session_reindex() {
-
+			$('.submit-btn').addClass('disabled');
 			setTimeout(function(){ 
-
+				//xxx
 				var div_count = $(".dd ol li .dd-handle").length;
 				var session_data = {
 				};
@@ -447,7 +489,6 @@
 		        session_reindex();
 		        set_browse_btn();
 		        set_image_name();
-		        $('.submit-btn').addClass('disabled');
 		    }).on('filebatchuploadcomplete', function(event, files, extra) {
 
 		    	

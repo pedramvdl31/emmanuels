@@ -11,7 +11,6 @@
 		<li class="active">Menu-Items Overview</li>
 		<li><a href="{{ action('MenuItemsController@getAdd') }}">Add Menu Item</a></li>
 	</ol>
-	
 		@if(isset($menu_items))
 			@if(count($menu_items) == 0)
 			<div class="alert alert-warning" role="alert">
@@ -21,9 +20,7 @@
 			</div>
 			@endif
 		@endif
-
 </div>
-
 <div class="table-responsive">
 	<table id="menu-item_table" class="table table-striped table-bordered table-hover table-responsive">
 		<thead>

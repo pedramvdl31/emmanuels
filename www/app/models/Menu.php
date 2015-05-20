@@ -44,9 +44,9 @@ class Menu extends \Eloquent {
 				}
 				$data[$key]['kind'] = '';
 				if(isset($data[$key]['page_id'])&&$data[$key]['page_id']!=0) {
-					$data[$key]['kind'] = 'Link';
+					$data[$key]['kind'] = '<span class="label label-primary">Link</span>';
 				} else {
-					$data[$key]['kind'] = 'Menu Group';
+					$data[$key]['kind'] = '<span class="label label-info">Menu Group</span>';
 				}
 
 			}

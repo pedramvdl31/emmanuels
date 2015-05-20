@@ -25,7 +25,7 @@
 </div>
 {{ Form::open(array('action' => 'PagesController@postEdit', 'class'=>'','role'=>"form")) }}
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-2" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li class="active " role="presentation"><a href="#marketing"><span class="badge">1</span> Marketing</a></li>
 			<li class="content-step" role="presentation"><a href="#content"><span class="badge">2</span> Content</a></li>
@@ -44,6 +44,7 @@
 	</div>
 	<div class="col-md-10">
 		<div id="marketing" class="steps panel panel-success">
+			<div class="panel-heading" style="font-size:17px;"><strong>Marketing</strong></div>
 			<div class="panel-body">
 				<div class="form-group {{ $errors->has('title') ? 'has-error' : false }}">
 					<label class="control-label" for="title">Title</label>
@@ -59,6 +60,13 @@
 					<span class='help-block'>{{ $message }}</span>
 					@endforeach
 				</div>
+				@if(isset($url))
+					@if($url == "/home")
+						<?php 
+							$url = "/";
+						?>
+					@endif
+				@endif
 				<div class="form-group {{ $errors->has('url') ? 'has-error' : false }}">
 					<label class="control-label" for="url">Url</label>
 					{{ Form::text('url', isset($form_data['url'])?$form_data['url']:$url, array('readonly'=>'readonly','class'=>'form-control','readonly'=>'readonly','placeholder'=>'Url','id'=>'url')) }}
@@ -164,6 +172,7 @@
 
 	</div>
 </div>
+<button type="button" class="btn btn-primary test-session">Test</button>
 {{ Form::hidden('page_id',isset($form_data['page_id'])?$form_data['page_id']:$page_id,['id'=>'page_id']); }}
 {{ Form::hidden('content_count',null,['id'=>'content_count']); }}
 {{ Form::hidden('is_session',$is_session,['id'=>'is_session']); }}

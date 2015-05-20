@@ -30,9 +30,15 @@ class UsersController extends BaseController {
 		$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
 	}
 	public function getIndex() {
-		if ($this->role_id < 3) {
+		if ($this->role_id == 1) {
 			$user_id = Auth::user()->id;
 			$users = User::prepare(User::all());
+			$this->layout->content = View::make('users.index')
+			->with('user_id',$user_id)
+			->with('users',$users);
+		} else if($this->role_id == 2) {
+			$user_id = Auth::user()->id;
+			$users = User::prepare(User::whereNotIn('roles', array(1))->get());
 			$this->layout->content = View::make('users.index')
 			->with('user_id',$user_id)
 			->with('users',$users);
@@ -82,6 +88,7 @@ class UsersController extends BaseController {
 	}
 
 	public function postEdit() {
+		
 		$current_user_id = Auth::user()->id;
 		$id = Input::get('id');
 		$username = Input::get('username');

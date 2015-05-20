@@ -33,7 +33,7 @@
 		<div class="panel-heading"><h3 style="margin-top:10px;">Owner Information</h3></div>
 		<ol class="breadcrumb" style="border-radius:0">
 		  	<li class="active">Owner home</li>
-		  	<li><a href="/owners/edit/{{ $owners->id }}">Edit Owner</a></li>
+		  	<li><a href="{{ action('UsersController@getEdit',$owners->id)}}">Edit Owner</a></li>
 		</ol>
 		<div class="panel-body">
 			<div class="form-horizontal">
@@ -78,7 +78,7 @@
 			</div>
 		</div>
 		<div class="panel-footer">
-	  		<a href="/owners/edit/{{ $owners['id'] }}" class="btn btn-primary">Edit Owner</a>
+	  		<a href="{{ action('UsersController@getEdit',$owners->id)}}" class="btn btn-primary">Edit Owner</a>
 	  	</div>
 	</div>
 	<div id="company-info" class="panel panel-default">
@@ -172,8 +172,8 @@
   	<div id="menu-info" class="panel panel-default">
 		<div class="panel-heading"><h3 style="margin-top:10px;">Menu Information</h3></div>
 		<ol class="breadcrumb" style="border-radius:0; margin:0px;">
-		  	<li><a href="">Menu Groups Edit</a></li>
-		  	<li><a href="">Menu Items Edit</a></li>
+		  	<li><a href="{{action('MenusController@getIndex')}}">Menu Groups Edit</a></li>
+		  	<li><a href="{{action('MenuItemsController@getIndex')}}">Menu Items Edit</a></li>
 		</ol>
 		<ul class="list-group">
 			@if(isset($menus))
@@ -239,8 +239,8 @@
 
 
 		<div class="panel-footer">
-			<a class="btn btn-primary" href="">Edit Menu Groups</a>
-			<a class="btn btn-info" href="">Edit Menu Items</a>
+			<a class="btn btn-primary" href="{{action('MenusController@getIndex')}}">Edit Menu Groups</a>
+			<a class="btn btn-info" href="{{action('MenuItemsController@getIndex')}}">Edit Menu Items</a>
 		</div>
 	</div>
 

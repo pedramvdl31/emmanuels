@@ -16,7 +16,7 @@
 {{ Form::open(array('action' => 'PagesController@postAdd', 'class'=>'','role'=>"form")) }}
 
 <div class="row">
-	<div class="col-md-2">
+	<div class="col-md-2" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li class="active " role="presentation"><a href="#marketing"><span class="badge">1</span> Marketing</a></li>
 			<li class="content-step" role="presentation"><a href="#content"><span class="badge">2</span> Content</a></li>
@@ -24,7 +24,7 @@
 	</div>
 	<div class="col-md-10">
 		<div id="marketing" class="steps panel panel-success">
-			
+			<div class="panel-heading" style="font-size:17px;"><strong>Marketing</strong></div>
 			<div class="panel-body">
 				<div class="form-group {{ $errors->has('title') ? 'has-error' : false }}">
 					<label class="control-label" for="title">Title</label>

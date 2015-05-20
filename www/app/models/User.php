@@ -14,6 +14,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
 	protected $table = 'users';
 	public static $rules_add = array(
 		'username'=>'required|alpha_num|min:4|unique:users',
+		'roles'=>'required',
 		'firstname'=>'required|alpha|min:2',
 		'lastname'=>'required|alpha|min:2',
 		'email'=>'required|email|unique:users',
@@ -22,19 +23,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
 		);
 	public static $rules_edit = array(
 		'username'=>'required|alpha_num|min:4|unique:users',
+		'roles'=>'required',
 		'firstname'=>'required|alpha|min:2',
 		'lastname'=>'required|alpha|min:2',
 		'email'=>'required|email',
-		'password'=>'between:6,25|confirmed',
-		'password_confirmation'=>'between:6,25'
+		'password'=>'required|between:6,25|confirmed',
+		'password_confirmation'=>'required|between:6,25'
 		);
 	public static $rules_edit_name = array(
 		'username'=>'required|alpha_num|min:4',
+		'roles'=>'required',
 		'firstname'=>'required|alpha|min:2',
 		'lastname'=>'required|alpha|min:2',
 		'email'=>'required|email',
-		'password'=>'between:6,25|confirmed',
-		'password_confirmation'=>'between:6,25'
+		'password'=>'required|between:6,25|confirmed',
+		'password_confirmation'=>'required|between:6,25'
 		);
 	public static $rules = array(
 		'username'=>'required|alpha_num|min:4|unique:users',
