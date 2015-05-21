@@ -31,9 +31,9 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Name</th>
-				<th>Kind</th>
-				<th>Page Id</th>
+				<th>Display Title</th>
+				<th>Type</th>
+				<th>Page</th>
 				<th>Status</th>
 				<th>Action</th>
 			</tr>

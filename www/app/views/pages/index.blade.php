@@ -30,12 +30,11 @@
 			<tr>
 				<th>Id</th>
 				<th>Company name</th>
-				<th>Menus</th>
-				<th>Menu Items</th>
-				<th>Title</th>
+				<th>Page Title</th>
 				<th>Description</th>
-				<th>Keywords</th>
-				<th>Url</th>
+				<th>Menu Groups</th>
+				<th>Menu Items</th>
+				<th>URL</th>
 				<th>Status</th>
 				<th>Action</th>
 			</tr>
@@ -45,19 +44,21 @@
 			<tr>
 				<td this-id="{{$page->id}}">{{ $page->id }}</td>
 				<td>{{ $page->company_name }}</td>
-				@if($page->id == 1)
-				<td class="text-center">-</td>
-				@else
-				<td>{{ $page->param_one }}</td>
-				@endif
-				@if($page->id == 1)
-				<td class="text-center">-</td>
-				@else
-				<td>{{ $page->param_two }}</td>
-				@endif
 				<td>{{ $page->title }}</td>
 				<td>{{ $page->description }}</td>
-				<td>{{ $page->keywords }}</td>
+
+				@if($page->id == 1)
+				<td class="text-center">-</td>
+				@else
+				{{ $page->param_one_formated }}
+				@endif
+
+				@if($page->id == 1)
+				<td class="text-center">-</td>
+				@else
+				{{ $page->param_two_formated }}
+				@endif
+		
 				<td>{{ $page->url }}</td>
 				@if($page->id == 1)
 				<td>-</td>

@@ -75,6 +75,30 @@ page = {
 			// var serialized_data = $("#add-form").serialize();
 			// request.load_preview(serialized_data);
 		});
+		$("#title").keyup(function(){
+			var have_error = false; 
+			var name_array = $(window.controller_names);
+			var dup_val = "";
+			var enterd_title = $(this).val();
+			jQuery.each( name_array, function( i, val ) {
+				if (val == enterd_title && val != "") {
+					dup_val = val;
+					have_error = true;
+				};
+			});
+			if (have_error == true) {
+				$(this).parents('.form-group:first').addClass('has-error');
+				$(this).parents('.form-group:first').find('#title-duplicate').removeClass('hide');
+				$('#accordion-1').collapse('show');
+				$(document).find('#labels-div .'+dup_val).removeClass('label-default').addClass('label-danger');
+				$('.submit-btn').addClass('disabled');
+			} else {
+				$(this).parents('.form-group:first').removeClass('has-error');
+				$(this).parents('.form-group:first').find('#title-duplicate').addClass('hide');
+				$(document).find('#labels-div .label').removeClass('label-danger').addClass('label-default');
+				$('.submit-btn').removeClass('disabled');
+			}
+		});
 		$(document).on('click','.remove-collapse',function(){
 
 			// console.log($(document).find('.content-area .content-set').length);

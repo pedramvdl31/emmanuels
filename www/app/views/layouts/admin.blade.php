@@ -37,7 +37,7 @@
 
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="/"><span class="glyphicon glyphicon-home"></span> Homepage</a>
+              <a href="/" target="_blank"><span class="glyphicon glyphicon-home"></span> Homepage</a>
             </li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
@@ -145,5 +145,7 @@
   </script>
   
   </body>
-
+  <footer>
+      {{ View::make('layouts.partials.javascript_vars'); }}
+  </footer>
 </html>

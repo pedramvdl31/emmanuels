@@ -124,7 +124,8 @@ return array(
 		'Way\Generators\GeneratorsServiceProvider',
 		'Bllim\Datatables\DatatablesServiceProvider',
 		'Spekkionu\ZendAcl\ZendAclServiceProvider',
-		'Thujohn\Pdf\PdfServiceProvider'
+		'Thujohn\Pdf\PdfServiceProvider',
+		'Laracasts\Utilities\UtilitiesServiceProvider'
 	),
 
 	/*

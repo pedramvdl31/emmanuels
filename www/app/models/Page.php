@@ -19,8 +19,28 @@ class Page extends \Eloquent {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
 				$data[$key]['company_name'] = Company::where('id',1)->pluck('name');
+
+				$data[$key]['param_one_formated'] = '';
+				if(isset($data[$key]['param_one'])) {
+					$data[$key]['param_one_formated'] = '<td class="text-center">'.$data[$key]['param_one'].'</td>';
+				} else {
+
+					$data[$key]['param_one_formated'] = '<td class="text-center">-</td>';
+
+				}
+				$data[$key]['param_two_formated'] = '';
+				if(isset($data[$key]['param_two'])) {
+					$data[$key]['param_two_formated'] = '<td class="text-center">'.$data[$key]['param_two'].'</td>';
+				} else {
+
+					$data[$key]['param_two_formated'] = '<td class="text-center">-</td>';
+
+				}
+
 			}
+
 		}
+
 		return $data;
 	}
 	public static function prepareContentArea($count) {
@@ -267,6 +287,7 @@ class Page extends \Eloquent {
 	public static function prepareSliderImagesForEditPage($slider_image) {
 		$slider = '';
 		if (isset($slider_image)) {
+			$session_array = [];
 			foreach ($slider_image as $key => $value) {
 				$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'" img-name="'.$value[0].'" from="slider">';
 				$slider .= '<div image_path="'.$value[0].'"  order="'.$key.'" class="dd-handle dd3-handdle col-md-10" style=""><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
@@ -278,7 +299,10 @@ class Page extends \Eloquent {
 				$slider .= '</div>';
 				$slider .= '</div>';
 				$slider .= '</li>';
+				$session_array[$key][0] = $value[0];
+				$session_array[$key][1] = "slider";
 			}
+			Session::put('slidersession',$session_array);
 		}
 		return $slider;
 	}
@@ -286,17 +310,23 @@ class Page extends \Eloquent {
 	public static function prepareSliderImagesForEditPageSession($slider_image) {
 		$slider = '';
 		if (isset($slider_image)) {
-			foreach ($slider_image as $key => $value) {
-				$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'" img-name="'.$value[0].'" from="'.$value[1].'">';
-				$slider .= '<div image_path="'.$value[0].'"  order="'.$key.'" class="dd-handle dd3-handdle col-md-10" style=""><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
-				$slider .= '<div class="dd3-content" style="">';
-				$slider .= '<div class="row-fluid" style="">';
-				$slider .= '<div class="col-md-12" >';
-				$slider .= '<input id="input-706-'.$key.'" name="kartik-input-706[]" type="file" class="file-loading">';
-				$slider .= '</div>';
-				$slider .= '</div>';
-				$slider .= '</div>';
-				$slider .= '</li>';
+			if ($slider_image != "empty") {
+				$session_array = [];
+				foreach ($slider_image as $key => $value) {
+					$slider .= '<li class="dd-item dd3-item" data-id="'.$key.'" img-name="'.$value[0].'" from="'.$value[1].'">';
+					$slider .= '<div image_path="'.$value[0].'"  order="'.$key.'" class="dd-handle dd3-handdle col-md-10" style=""><i class="glyphicon glyphicon-move"></i>&nbsp;'.$key.' </div><div class="remove-img-div col-md-2 pull-right "><a class="btn btn-danger btn-sm remove-img">Remove</a></div>';
+					$slider .= '<div class="dd3-content" style="">';
+					$slider .= '<div class="row-fluid" style="">';
+					$slider .= '<div class="col-md-12" >';
+					$slider .= '<input id="input-706-'.$key.'" name="kartik-input-706[]" type="file" class="file-loading">';
+					$slider .= '</div>';
+					$slider .= '</div>';
+					$slider .= '</div>';
+					$slider .= '</li>';
+					$session_array[$key][0] = $value[0];
+					$session_array[$key][1] = $value[1];
+				}
+				Session::put('slidersession',$session_array);
 			}
 		}
 		return $slider;
@@ -306,7 +336,7 @@ class Page extends \Eloquent {
 		// Job::dump($content);
 		$html = '';
 		if (isset($pages)) {
-				$count = 0;
+			$count = 0;
 			foreach ($pages as $key => $value) {
 				if ($count == 0) {
 					$html .= '<option value='.$key.' selected="selected">'.$value.'</option>';
@@ -318,6 +348,16 @@ class Page extends \Eloquent {
 		}
 		return $html;
 	}
+
+	public static function start_slider_session($images) {
+		if (isset($images)) {
+			Job::dump($images);
+		}
+		return null;
+	}
+
+
+	
 
 
 }

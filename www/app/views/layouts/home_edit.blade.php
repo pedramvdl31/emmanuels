@@ -150,14 +150,12 @@
     <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
     overflow: hidden;">
 
-    @if(isset($session_slider_images))
-
-    @foreach ($session_slider_images as $images)
-      <div>
-        <img u="image" src2="/img/{{$images[1]}}/{{$images[0]}}" />
-      </div>
-    @endforeach
-
+    @if((isset($session_slider_images)) && ($session_slider_images != "empty"))
+      @foreach ($session_slider_images as $images)
+        <div>
+          <img u="image" src2="/img/{{$images[1]}}/{{$images[0]}}" />
+        </div>
+      @endforeach
     @endif
 
   </div>

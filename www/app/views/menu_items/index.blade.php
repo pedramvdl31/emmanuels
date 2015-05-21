@@ -28,7 +28,7 @@
 				<th>Id</th>
 				<th>Name</th>
 				<th>Menu Name</th>
-				<th>Page Name</th>
+				<th>Page</th>
 				<th>Status</th>
 				<th>Action</th>
 			</tr>
