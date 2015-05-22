@@ -43,7 +43,6 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Users <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li>{{ HTML::link('users/index', 'View Users') }}</li>
-                <li>{{ HTML::link('users/edit/2', 'Edit Users') }}</li>
                 <li>{{ HTML::link('users/add', 'Add Users') }}</li>
               </ul>
             </li>

@@ -68,7 +68,7 @@ class Page extends \Eloquent {
 		$html .= '</div>';
 		$html .= '<div class="form-group">';
 		$html .= '<label class="control-label" for="content">Content</label>';
-		$html .= '<textarea name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" id="content-body-'.$count.'" placeholder="Content Title"></textarea>';
+		$html .= '<textarea rows="13" name="content['.$count.'][content_body]" style="resize:none;" class="form-control content-body" id="content-body-'.$count.'" placeholder="Content Title"></textarea>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '</div>';

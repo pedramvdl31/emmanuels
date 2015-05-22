@@ -370,21 +370,29 @@ public function postChangeStatus()
     {
         // Set layout
     	$this->layout = View::make('layouts.pages');
-    	if (!isset($param2)) {
+    	if (!isset($param2)) { //LINK
     		$page = Page::where('status', 2)->where('param_one', $param1)->first();
     		if (isset($page)) {
                 //PAGE FOUND
+                $title = isset($page->title)?$page->title:null;
     			$page_content          = json_decode($page->content_data);
-    			$this->layout->content = View::make('pages.page')->with('page_content', $page_content);
+    			$this->layout->content = View::make('pages.page')
+                ->with('title',$title)
+                ->with('page_content', $page_content);
     		} else {
     			$this->layout->content = View::make('errors.missing');
     		}
-    	} elseif (isset($param1) && isset($param2)) {
-    		$page = Page::where('status', 2)->where('param_one', $param1)->where('param_two', $param2)->first();
+    	} elseif (isset($param1) && isset($param2)) { //GROUP
+    		$page = Page::where('status', 2)
+            ->where('param_one', $param1)
+            ->where('param_two', $param2)->first();
+            $title = isset($page->title)?$page->title:null;
     		if (isset($page)) {
                 //PAGE FOUND
     			$page_content          = json_decode($page->content_data);
-    			$this->layout->content = View::make('pages.page')->with('page_content', $page_content);
+    			$this->layout->content = View::make('pages.page')
+                ->with('title',$title)
+                ->with('page_content', $page_content);
     		} else {
                 //PAGE NOT FOUND 404
     			$this->layout->content = View::make('errors.missing');
@@ -447,10 +455,9 @@ public function postChangeStatus()
     			@mkdir($imagePath);
     		}
     		if (!is_writable(dirname($imagePath))) {
-    			$response = Array(
-    				"status" => 'error',
-    				"message" => 'Can`t write cropped File'
-    				);
+                return Response::json(array(
+                    "error" => 'Destination Unwritable'
+                    ));
     		} else {
     			$final_path = preg_replace('#[ -]+#', '-', $new_imagename);
     			move_uploaded_file($imagetemp[0], $imagePath . $final_path);
@@ -458,6 +465,10 @@ public function postChangeStatus()
     				"initialPreview" => "<img src='/" . $imagePath . $final_path . "' class='file-preview-image' alt='" . $final_path . "' title='Desert'>"
     				));
     		}
+            return Response::json(array(
+                'status' => 400
+                ));
+
     	}
     }
     
@@ -484,7 +495,7 @@ public function postChangeStatus()
     			Session::forget('slidersession');
     			$status = 401;
     		}
-    		if (!empty(Input::get('session_data'))) {
+    		if (Input::get('session_data')) {
     			$slidersession = Input::get('session_data');
     		} else {
     			$slidersession = "empty";

@@ -32,13 +32,13 @@
 
 				<div class="panel panel-default"  style="margin-top:10px;">
 					<div class="panel-heading" id="acc-head" role="tab" id="headingOne" data-toggle="collapse"
-					data-parent="#accordion" href="#accordion-1" aria-expanded="true" aria-controls="collapseOne"
+					data-parent="#accordion" href="#accordion-pro" aria-expanded="true" aria-controls="collapseOne"
 					style="cursor: pointer;">
 					<h4 class="panel-title">
 						<p>Protacted Titles</p>
 					</h4>
 				</div>
-				<div id="accordion-1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+				<div id="accordion-pro" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
 					<div class="panel-body">
 						<?php
 						$count = 1;
