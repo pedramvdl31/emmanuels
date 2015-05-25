@@ -72,7 +72,9 @@ footer p {
     top: 100px;
   }
 }
-
+p,h3{
+    background-color: transparent !important;
+}
 #contentDiv {
     /* Fallback for web browsers that doesn't support RGBa */
     background: rgb(255, 255, 255);

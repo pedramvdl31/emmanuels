@@ -7,5 +7,9 @@ composer.phar
 Thumbs.db
 
 # Vagrant
-.vagrant
-# Vagrantfile
+/.vagrant
+/.vagrant/*
+Vagrantfile
+
+/public/img
+/public/tmp
