@@ -43,7 +43,7 @@
           <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
         </a>
       </div>
-      <div class="collapse navbar-collapse">
+      <div class="collapse navbar-collapse links">
         {{$nav_html}}
       </div>
     </div>

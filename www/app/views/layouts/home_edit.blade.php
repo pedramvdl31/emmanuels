@@ -20,7 +20,7 @@
   {{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
   {{ HTML::style('css/image_lightbox.css') }}
   {{ HTML::style('packages/totop/css/ui.totop.css') }}
-  {{ HTML::style('css/home_layout.css')}}
+  {{ HTML::style('css/home_alt_layout.css')}}
   @yield('stylesheets')
 
 <!--[if lt IE 9]>
@@ -130,32 +130,31 @@
     </nav>    
     <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
 
+
     <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-    <div class="container">
+    <div class="contaidner">
       <!-- Jssor Slider Begin -->
       <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
       <!-- ================================================== -->
       <div id="slider1_container" style="display: none; position: relative; margin: 0 auto; width: 1140px; height: 442px; overflow: hidden;">
-
         <!-- Loading Screen -->
         <div u="loading" style="position: absolute; top: 0px; left: 0px;">
           <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-
           background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
         </div>
-
+        <div style="position: absolute; display: block; background: url(packages/jssor/img/loading.gif) no-repeat center center;
+        top: 0px; left: 0px;width: 100%;height:100%;">
+      </div>
     </div>
-
     <!-- Slides Container -->
     <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 1140px; height: 442px;
     overflow: hidden;">
-
     @if((isset($session_slider_images)) && ($session_slider_images != "empty"))
-      @foreach ($session_slider_images as $images)
-        <div>
-          <img u="image" src2="/img/{{$images[1]}}/{{$images[0]}}" />
-        </div>
-      @endforeach
+    @foreach ($session_slider_images as $images)
+    <div>
+      <img u="image" src2="/img/{{$images[1]}}/{{$images[0]}}" />
+    </div>
+    @endforeach
     @endif
 
   </div>
@@ -237,6 +236,7 @@
 </div>
 
 
+
 <div class="container-fluid">
   <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
     <div id="contentDiv" class="col-md-8 col-md-offset-2" >
@@ -271,7 +271,7 @@
 {{ HTML::script('packages/lightbox/lightbox.min.js') }}
 {{ HTML::script('packages/totop/js/easing.js') }}
 {{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
-{{ HTML::script('js/home_layout.js') }}
+{{ HTML::script('js/home_alt_layout.js') }}
 @yield('scripts')
 
 <script type="text/javascript">

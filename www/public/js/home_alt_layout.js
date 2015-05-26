@@ -35,7 +35,7 @@ pages = {
 
         $("#nav").click(function(){
             var status = $(this).attr('status');
-          
+            console.log($(this).attr('class'));
             switch(parseInt(status)){
                 case 0:
                 $(this).attr('status',1);
@@ -44,7 +44,7 @@ pages = {
                 break;
                 case 1:
                 $(this).attr('status',0);
-                $(this).removeClass('affix').addClass('affix-top');
+                // $(this).removeClass('affix').addClass('affix-top');
 
                 break;
             }

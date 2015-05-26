@@ -2,7 +2,7 @@
 
 class HomeController extends BaseController {
 	//set layout
-	protected $layout = "layouts.home_alt";
+	protected $layout = "layouts.home";
 	/*
 	|--------------------------------------------------------------------------
 	| Default Home Controller
