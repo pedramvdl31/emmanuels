@@ -20,7 +20,7 @@
   {{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
   {{ HTML::style('css/image_lightbox.css') }}
   {{ HTML::style('packages/totop/css/ui.totop.css') }}
-  {{ HTML::style('css/home_alt_layout.css')}}
+  {{ HTML::style('css/home_edit_layout.css')}}
   @yield('stylesheets')
 
 <!--[if lt IE 9]>
@@ -70,7 +70,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">        	
+        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
           <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
         </a>
       </div>
@@ -129,8 +129,6 @@
       </div>
     </nav>    
     <section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
-
-
     <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
     <div class="contaidner">
       <!-- Jssor Slider Begin -->
@@ -142,7 +140,7 @@
           <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
           background-color: #000; top: 0px; left: 0px;width: 100%; height:100%;">
         </div>
-        <div style="position: absolute; display: block; background: url(packages/jssor/img/loading.gif) no-repeat center center;
+        <div style="position: absolute; display: block; background: url(/packages/jssor/img/loading.gif) no-repeat center center;
         top: 0px; left: 0px;width: 100%;height:100%;">
       </div>
     </div>
@@ -234,9 +232,6 @@
 </div>
 <!-- Jssor Slider End -->
 </div>
-
-
-
 <div class="container-fluid">
   <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
     <div id="contentDiv" class="col-md-8 col-md-offset-2" >
@@ -271,7 +266,7 @@
 {{ HTML::script('packages/lightbox/lightbox.min.js') }}
 {{ HTML::script('packages/totop/js/easing.js') }}
 {{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
-{{ HTML::script('js/home_alt_layout.js') }}
+{{ HTML::script('js/home_layout.js') }}
 @yield('scripts')
 
 <script type="text/javascript">

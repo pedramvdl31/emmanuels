@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../js/jssor.js"></script>
     <script type="text/javascript" src="../js/jssor.slider.js"></script>
     <script>
-        jQuery(document).ready(function ($) {
+    jQuery(document).ready(function ($) {
             //Reference http://www.jssor.com/development/slider-with-slideshow-jquery.html
             //Reference http://www.jssor.com/development/tool-slideshow-transition-viewer.html
 
@@ -52,10 +52,10 @@
                 { $Duration: 1500, x: -0.1, y: -0.7, $Rotate: 0.1, $During: { $Left: [0.6, 0.4], $Top: [0.6, 0.4], $Rotate: [0.6, 0.4] }, $Easing: { $Left: $JssorEasing$.$EaseInQuad, $Top: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2, $Brother: { $Duration: 1000, x: 0.2, y: 0.5, $Rotate: -0.1, $Easing: { $Left: $JssorEasing$.$EaseInQuad, $Top: $JssorEasing$.$EaseInQuad, $Opacity: $JssorEasing$.$EaseLinear, $Rotate: $JssorEasing$.$EaseInQuad }, $Opacity: 2 } },
                 //Extrude Replace
                 { $Duration: 1600, x: -0.2, $Delay: 40, $Cols: 12, $During: { $Left: [0.4, 0.6] }, $SlideOut: true, $Formation: $JssorSlideshowFormations$.$FormationStraight, $Assembly: 260, $Easing: { $Left: $JssorEasing$.$EaseInOutExpo, $Opacity: $JssorEasing$.$EaseInOutQuad }, $Opacity: 2, $Outside: true, $Round: { $Top: 0.5 }, $Brother: { $Duration: 1000, x: 0.2, $Delay: 40, $Cols: 12, $Formation: $JssorSlideshowFormations$.$FormationStraight, $Assembly: 1028, $Easing: { $Left: $JssorEasing$.$EaseInOutExpo, $Opacity: $JssorEasing$.$EaseInOutQuad }, $Opacity: 2, $Round: { $Top: 0.5 } } }
-            ];
+                ];
 
 
-            var options = {
+                var options = {
                 $FillMode: 1,                                       //[Optional] The way to fill image in slide, 0 stretch, 1 contain (keep aspect ratio and put all inside slide), 2 cover (keep aspect ratio and cover whole slide), 4 actual size, 5 contain for large image, actual size for small image, default value is 0
                 $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
                 $AutoPlay: true,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
@@ -97,62 +97,62 @@
             $(window).bind("orientationchange", ScaleSlider);
             //responsive code end
         });
-    </script>
-    <!-- Jssor Slider Begin -->
-    <!-- You can move inline styles to css file or css block. -->
-    <div id="slider1_container" style="position: relative; width: 600px; height: 500px; background-color: #000; overflow: hidden; ">
+</script>
+<!-- Jssor Slider Begin -->
+<!-- You can move inline styles to css file or css block. -->
+<div id="slider1_container" style="position: relative; width: 600px; height: 500px; background-color: #000; overflow: hidden; ">
 
-        <!-- Loading Screen -->
-        <div u="loading" style="position: absolute; top: 0px; left: 0px;">
-            <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
-                background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
-            </div>
-            <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
-                top: 0px; left: 0px;width: 100%;height:100%;">
-            </div>
-        </div>
+    <!-- Loading Screen -->
+    <div u="loading" style="position: absolute; top: 0px; left: 0px;">
+        <div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;
+        background-color: #000; top: 0px; left: 0px;width: 100%;height:100%;">
+    </div>
+    <div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center;
+    top: 0px; left: 0px;width: 100%;height:100%;">
+</div>
+</div>
 
-        <!-- Slides Container -->
-        <div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 500px;
-            overflow: hidden;">
-            <div>
-                <a u=image href="#"><img src="../img/paint/01.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/02.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/03.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/04.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/05.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/06.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/07.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/08.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/09.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/10.jpg" /></a>
-            </div>
-            <div>
-                <a u=image href="#"><img src="../img/paint/11.jpg" /></a>
-            </div>
-        </div>
+<!-- Slides Container -->
+<div u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: 600px; height: 500px;
+overflow: hidden;">
+<div>
+    <a u=image href="#"><img src="../img/paint/01.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/02.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/03.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/04.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/05.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/06.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/07.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/08.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/09.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/10.jpg" /></a>
+</div>
+<div>
+    <a u=image href="#"><img src="../img/paint/11.jpg" /></a>
+</div>
+</div>
 
-        <!-- Bullet Navigator Skin Begin -->
-        <style>
-            /* jssor slider bullet navigator skin 13 css */
+<!-- Bullet Navigator Skin Begin -->
+<style>
+/* jssor slider bullet navigator skin 13 css */
             /*
             .jssorb13 div           (normal)
             .jssorb13 div:hover     (normal mouseover)
@@ -170,9 +170,9 @@
                 background-position: -5px -5px;
             }
 
-                .jssorb13 div:hover, .jssorb13 .av:hover {
-                    background-position: -35px -5px;
-                }
+            .jssorb13 div:hover, .jssorb13 .av:hover {
+                background-position: -35px -5px;
+            }
 
             .jssorb13 .av {
                 background-position: -65px -5px;
@@ -181,15 +181,15 @@
             .jssorb13 .dn, .jssorb13 .dn:hover {
                 background-position: -95px -5px;
             }
-        </style>
-        <!-- bullet navigator container -->
-        <div u="navigator" class="jssorb13" style="position: absolute; bottom: 16px; right: 6px;">
-            <!-- bullet navigator item prototype -->
-            <div u="prototype" style="POSITION: absolute; WIDTH: 21px; HEIGHT: 21px;"></div>
+            </style>
+            <!-- bullet navigator container -->
+            <div u="navigator" class="jssorb13" style="position: absolute; bottom: 16px; right: 6px;">
+                <!-- bullet navigator item prototype -->
+                <div u="prototype" style="POSITION: absolute; WIDTH: 21px; HEIGHT: 21px;"></div>
+            </div>
+            <!-- Bullet Navigator Skin End -->
+            <a style="display: none" href="http://www.jssor.com">Bootstrap Crousel</a>
         </div>
-        <!-- Bullet Navigator Skin End -->
-        <a style="display: none" href="http://www.jssor.com">Bootstrap Crousel</a>
-    </div>
-    <!-- Jssor Slider End -->
-</body>
-</html>
+        <!-- Jssor Slider End -->
+    </body>
+    </html>

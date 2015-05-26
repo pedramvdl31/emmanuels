@@ -1,7 +1,10 @@
 header{
   border:none;
   min-height:275px;
+}
 
+#startContent{
+    background-image: url(/img/background.jpg);
 }
 footer {
 	border-top:1px solid #025502;
@@ -10,6 +13,12 @@ footer {
 	padding:0px;
 	margin:0px;
 
+}
+#slider1_container{
+  max-height: 350px;
+}
+.nav-elem{
+ z-index: 3 !important;
 }
 footer p {
 	padding-top:25px;
@@ -44,6 +53,7 @@ footer p {
   height:0px !important;
 }
 #nav{
+  z-index: 2 !important;
   position: fixed;
   width: 100%;
   top:-50px;
@@ -76,6 +86,7 @@ p,h3{
     background-color: transparent !important;
 }
 #contentDiv {
+    display: flex;
     /* Fallback for web browsers that doesn't support RGBa */
     background: rgb(255, 255, 255);
     background: transparent\9;

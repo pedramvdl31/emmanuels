@@ -28,7 +28,8 @@
 <![endif]-->
 </head>
 <body >
-    <header >
+
+<header>
   <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
     <div class="container">
 
@@ -48,7 +49,6 @@
       </div>
     </div>
   </nav>   
-
 </header> 
 
 <!-- stickyNav -->  

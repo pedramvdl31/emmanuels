@@ -3,17 +3,17 @@ header{
   min-height:275px;
 }
 footer {
-	border-top:1px solid #025502;
-	background-color:#D1EEDC;
-	color:#025502;
-	padding:0px;
-	margin:0px;
+  border-top:1px solid #025502;
+  background-color:#D1EEDC;
+  color:#025502;
+  padding:0px;
+  margin:0px;
 }
 footer p {
-	padding-top:25px;
-	padding-bottom:25px;
-	margin-bottom:0px;
-	text-align:center;
+  padding-top:25px;
+  padding-bottom:25px;
+  margin-bottom:0px;
+  text-align:center;
 }
 
 #slider1_container{
@@ -45,9 +45,6 @@ footer p {
   -webkit-backface-visibility:hidden; 
   -webkit-transform: translateZ(0);
 }
-#nav li{
-cursor:pointer;
-}
 
 #nav.affix {
   background:#D1EEDC;
@@ -70,7 +67,7 @@ cursor:pointer;
 }
 
 #contentDiv {
-    display: flex;
+    display: block;
     /* Fallback for web browsers that doesn't support RGBa */
     background: rgb(255, 255, 255);
     background: transparent\9;
@@ -118,7 +115,6 @@ cursor:pointer;
 }
 
 .top-nav .li_a:hover {
-  cursor: pointer;
   background: #e6e6e6;
   border-radius: 5px;
 }
@@ -133,14 +129,39 @@ cursor:pointer;
   border-radius: 5px;
 }
 
+
+
+
+
+
+
+
+/*.top-nav ul li ul li{
+  background: none;
+
+}*/
+/*.top-nav  .li_a:hover {
+
+  border-radius: 5px !important;
+}
+*/
+
+/* right nav */
+/*.top-nav.right ul {
+  text-align: right;
+}
+
+ center nav 
+.top-nav.center ul {
+  text-align: center;
+}
+*/
 #mainMenuSelect {
-	display:none;
+  display:none;
 }
 #mainMenuList {
-	display:block;
+  display:block;
 }
-
-
 .navbar-menu-toggle {
   display:none;
 }
@@ -164,9 +185,6 @@ cursor:pointer;
   padding-right: 30px;
   
 }
-.navbar-collapse-menu li{
-  cursor:pointer;
-}
 #menu-nave-collapse{
   background-color: #D1EEDC;
   border:solid 1px #025502;
@@ -189,12 +207,12 @@ cursor:pointer;
   color:white;
   background-color: black;
 }
-	#mainMenuSelect {
-		display:block;
-	}
-	#mainMenuList {
-		display:none;
-	}
+  #mainMenuSelect {
+    display:block;
+  }
+  #mainMenuList {
+    display:none;
+  }
   .navbar-menu-toggle {
 display:block;
   width: 100%;
@@ -257,16 +275,16 @@ display:block;
   vertical-align:top;
 }
 .menuMainTableTd3 {
-	width:50px;
-	padding:5px;
-  	text-align: center;
-  	border-left:1px solid #e5e5e5;
+  width:50px;
+  padding:5px;
+    text-align: center;
+    border-left:1px solid #e5e5e5;
 }
 #map_canvas {
-  	min-height:250px;
-  	min-width:250px;
-  	max-height: 500px;
-  	background-color: #CCC;
+    min-height:250px;
+    min-width:250px;
+    max-height: 500px;
+    background-color: #CCC;
 }
 
 /**
@@ -274,72 +292,72 @@ display:block;
 **/
 
 #slider1_container {
-	position: relative; 
-	margin: 0 auto;
-	top: 0px; 
-	left: 0px; 
-	width: 1300px; 
-	height: 500px; 
-	overflow: hidden;
+  position: relative; 
+  margin: 0 auto;
+  top: 0px; 
+  left: 0px; 
+  width: 1300px; 
+  height: 500px; 
+  overflow: hidden;
 }
 .slider_loading {
-	position: absolute; 
-	top: 0px; 
-	left: 0px;
+  position: absolute; 
+  top: 0px; 
+  left: 0px;
 }
 #slider_block1 {
-	filter: alpha(opacity=70); 
-	opacity: 0.7; 
-	position: absolute; 
-	display: block;
+  filter: alpha(opacity=70); 
+  opacity: 0.7; 
+  position: absolute; 
+  display: block;
     top: 0px; 
     left: 0px; 
     width: 100%; 
     height: 100%;
 }
 #slider_block2 {
-	position: absolute; 
-	display: block; 
-	background: url(../packages/jssor/img/loading.gif) no-repeat center center;
+  position: absolute; 
+  display: block; 
+  background: url(../packages/jssor/img/loading.gif) no-repeat center center;
     top: 0px; 
     left: 0px; 
     width: 100%; 
     height: 100%;
 }
 .slides_container {
-	cursor: move; 
-	position: absolute; 
-	left: 0px; 
-	top: 0px; 
-	width: 1300px;
+  cursor: move; 
+  position: absolute; 
+  left: 0px; 
+  top: 0px; 
+  width: 1300px;
     height: 500px; 
     overflow: hidden;
 }
 .jssorb21 {
-	position: absolute; 
-	bottom: 26px; 
-	left: 6px;
+  position: absolute; 
+  bottom: 26px; 
+  left: 6px;
 }
 .jssorb21 div {
-	position: absolute; 
-	width: 19px; 
-	height: 19px; 
-	text-align:center; 
-	line-height:19px; 
-	color:white; 
-	font-size:12px;
+  position: absolute; 
+  width: 19px; 
+  height: 19px; 
+  text-align:center; 
+  line-height:19px; 
+  color:white; 
+  font-size:12px;
 }
 .jssora21l {
-	width: 55px; 
-	height: 55px; 
-	top: 123px; 
-	left: 8px;
+  width: 55px; 
+  height: 55px; 
+  top: 123px; 
+  left: 8px;
 }
 .jssora21r {
-	width: 55px; 
-	height: 55px; 
-	top: 123px; 
-	right: 8px
+  width: 55px; 
+  height: 55px; 
+  top: 123px; 
+  right: 8px
 }
 
 /* jssor slider bullet navigator skin 21 css */
@@ -371,9 +389,9 @@ display:block;
 */
 .jssora21l, .jssora21r, .jssora21ldn, .jssora21rdn
 {
-	position: absolute;
-	cursor: pointer;
-	display: block;
+  position: absolute;
+  cursor: pointer;
+  display: block;
     background: url(../packages/jssor/img/a21.png) center center no-repeat;
     overflow: hidden;
 }
@@ -414,13 +432,13 @@ html, body {
 
 /* content centering styles */
 .content-a {
-	display:table;
+  display:table;
 }
 .content-b {
-	display:table-cell;
+  display:table-cell;
     position:relative;
-	vertical-align:middle;
-	text-align:center;
+  vertical-align:middle;
+  text-align:center;
 }
 
 /* visual styles */

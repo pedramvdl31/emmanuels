@@ -9,7 +9,9 @@
 <div class="page-content" style="padding-top:8px;min-height:600px;">
 	@if(isset($page_content))
 	@if(isset($title))
+
 		@if($title == "contact")
+
 		<div class="row">
 			<div id="map-outer" class="col-xs-12 col-md-12">
 				<div id="info_contact" class="col-md-6">
@@ -18,7 +20,7 @@
 						<p>{{ $content->content_body}}</p>
 						@endforeach
 				</div>
-				<div id="map-canvas" class=" img-thumbnail col-md-6"></div>
+				<div id="map-canvas" class=" img-thumbnail col-xs-12 col-md-6"></div>
 			</div><!-- /map-outer -->
 		</div> <!-- /row -->
 		@else
