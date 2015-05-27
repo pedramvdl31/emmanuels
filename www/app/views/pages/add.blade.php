@@ -35,7 +35,7 @@
 					data-parent="#accordion" href="#accordion-pro" aria-expanded="true" aria-controls="collapseOne"
 					style="cursor: pointer;">
 					<h4 class="panel-title">
-						<p>Protacted Titles</p>
+						<p>Protected Titles</p>
 					</h4>
 				</div>
 				<div id="accordion-pro" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">

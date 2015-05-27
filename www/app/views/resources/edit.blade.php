@@ -183,7 +183,7 @@
 			$idx++;
 			$img = pathinfo('/'.$value);
 			$img_base = $img['basename'];
-			list($width, $height) = getimagesize($value);
+			list($width, $height) = @getimagesize($value);
 			?>
 			<div class="row-fluid">
 				<div class="col-sm-4 col-md-3" >

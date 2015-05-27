@@ -64,7 +64,7 @@ public function postAdd()
 				$menu->status = 1;
 				if($menu->save() && $page->save()) { // Save
 					return Redirect::action('MenusController@getIndex')
-					->with('message', 'Successfully added a page')
+					->with('message', 'Successfully added a menu')
 					->with('alert_type','alert-success');
 				} else {
 					return Redirect::back()
@@ -87,7 +87,7 @@ public function postAdd()
 			$menu->status = 1;
 				if($menu->save()) { // Save
 					return Redirect::action('MenusController@getIndex')
-					->with('message', 'Successfully added a page')
+					->with('message', 'Successfully added a menu')
 					->with('alert_type','alert-success');
 				} else {
 					return Redirect::back()
@@ -153,7 +153,7 @@ public function postAdd()
 				$menu->status = 1;
 				if($menu->save() && $page->save()) { // Save
 					return Redirect::action('MenusController@getIndex')
-					->with('message', 'Successfully added a page')
+					->with('message', 'Successfully Updated!')
 					->with('alert_type','alert-success');
 				} else {
 					return Redirect::back()
@@ -177,7 +177,7 @@ public function postAdd()
 			$menu->status = 1;
 				if($menu->save()) { // Save
 					return Redirect::action('MenusController@getIndex')
-					->with('message', 'Successfully added a page')
+					->with('message', 'Successfully Updated!')
 					->with('alert_type','alert-success');
 				} else {
 					return Redirect::back()

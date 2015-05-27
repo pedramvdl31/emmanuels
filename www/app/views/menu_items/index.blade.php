@@ -56,7 +56,7 @@
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header alert alert-warning">
-						Warnning!
+						Warning!
 					</div>
 					<div class="modal-body">
 

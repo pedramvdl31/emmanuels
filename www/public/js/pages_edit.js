@@ -89,7 +89,7 @@
 						if (have_error == true) {
 							$(this).parents('.form-group:first').addClass('has-error');
 							$(this).parents('.form-group:first').find('#title-duplicate').removeClass('hide');
-							$('#accordion-1').collapse('show');
+							$('#accordion-pro').collapse('show');
 							$(document).find('#labels-div .'+dup_val).removeClass('label-default').addClass('label-danger');
 							$('.submit-btn').addClass('disabled');
 						} else {
