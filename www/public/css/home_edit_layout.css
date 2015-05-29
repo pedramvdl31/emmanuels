@@ -16,10 +16,9 @@ footer p {
   text-align:center;
 }
 
-#slider1_container{
-  max-height: 350px;
+#slider1_container {
+  max-height: 450px;
 }
-
   
 .my-svg-container {
   width:100%;
@@ -128,12 +127,6 @@ footer p {
   background: #e6e6e6;
   border-radius: 5px;
 }
-
-
-
-
-
-
 
 
 /*.top-nav ul li ul li{

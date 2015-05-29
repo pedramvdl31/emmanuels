@@ -444,6 +444,7 @@ public function postChangeStatus()
     {
     	if (Request::ajax()) {
             // $imagePath = "img/tmp/";
+            $status = 400;
     		$imagePath = "img/tmp/";
     		$imagename = $_FILES["kartik-input-706"]['name'];
     		$imagetemp = $_FILES["kartik-input-706"]['tmp_name'];
@@ -455,18 +456,25 @@ public function postChangeStatus()
     			@mkdir($imagePath);
     		}
     		if (!is_writable(dirname($imagePath))) {
+                $status = 401;
                 return Response::json(array(
                     "error" => 'Destination Unwritable'
                     ));
     		} else {
     			$final_path = preg_replace('#[ -]+#', '-', $new_imagename);
-    			move_uploaded_file($imagetemp[0], $imagePath . $final_path);
+                // Job::dump($final_path);
+                // Job::dump($imagetemp[0]);
+                // Job::dump($imagePath . $final_path);
+                if (move_uploaded_file($imagetemp[0], $imagePath . $final_path)) {
+                    $status = 200;
     			return Response::json(array(
+                    'status' => $status,
     				"initialPreview" => "<img src='/" . $imagePath . $final_path . "' class='file-preview-image' alt='" . $final_path . "' title='Desert'>"
-    				));
+    		  		));
+             }
     		}
             return Response::json(array(
-                'status' => 400
+                'error' => 'error'
                 ));
 
     	}

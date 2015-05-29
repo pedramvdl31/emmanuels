@@ -157,8 +157,9 @@
 		            // var img_name = $(this).parents(".dd-item").attr('img-name');
 		            var _img_name = $(this).parents('li:first').find('img:first').attr('alt');
 		            var from = $(this).parents('li:first').attr('from');
-		            request.remove_image_temp(_img_name, from);
-		            $(this).parents('li:first').remove();
+		            var _this = $(this);
+		            request.remove_image_temp(_img_name, from,_this);
+		            
 		        });
 				$(document).on('click', '.test-session', function() {
 					request.test_session();
@@ -196,7 +197,7 @@
 		            }
 		            );
 			},
-			remove_image_temp: function(img_name, from) {
+			remove_image_temp: function(img_name, from,_this) {
 				var token = $('meta[name=_token]').attr('content');
 				$('.submit-btn').addClass('disabled');
 				$('.remove-img').addClass('disabled');
@@ -214,16 +215,40 @@
 		                    session_reindex();
 		                    $('.submit-btn').removeClass('disabled');
 		                    $('.remove-img').removeClass('disabled');
+		                    _this.parents('li:first').remove();
+		                    if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
+		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
+		                    		if ($('.dd-item').remove()) {//CLEAR ALL FRAMES
+		                    			request.add_slider_image();
+		                    		};
+		                    	};
+		                    };
 		                    break;
 		                    case 201: // Image is located at slider folder do not delete
 		                    session_reindex();
 		                    $('.submit-btn').removeClass('disabled');
 		                    $('.remove-img').removeClass('disabled');
+		                    _this.parents('li:first').remove();
+	                  		if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
+		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
+		                    		if ($('.dd-item').remove()) {//CLEAR ALL FRAMES
+		                    			request.add_slider_image();
+		                    		};
+		                    	};
+		                    };
 		                    break;
 		                    case 400: // error
-		                    console.log('error');
+		                    console.log('name not set');
 		                    $('.submit-btn').removeClass('disabled');
 		                    $('.remove-img').removeClass('disabled');
+		                    _this.parents('li:first').remove();
+	                  		if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
+		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
+		                    		if ($('.dd-item').remove()) {//CLEAR ALL FRAMES
+		                    			request.add_slider_image();
+		                    		};
+		                    	};
+		                    };
 		                    break;
 
 		                    default:
@@ -416,7 +441,9 @@ function file_input_init(order) {
 				var order = $(this).find('.dd-handle').attr('order');
 				var image_name = $(this).find('img').attr('alt');
 				var from = $(this).attr('from');
-				var image_name_new = image_name.replace(/\s+/g, "-");
+				if (image_name !== undefined) {
+					var image_name_new = image_name.replace(/\s+/g, "-");
+				};
 				if (image_name_new !== undefined) {
 					session_data[order] = [image_name_new];
 					session_data[order].push(from);
