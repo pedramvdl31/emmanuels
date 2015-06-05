@@ -93,6 +93,7 @@
 
 		//SCHEDULES CONTROLLER
 		Route::controller('schedules', 'SchedulesController');
+		Route::post('/schedules/order-add','SchedulesController@postOrderAdd');
 		
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');
@@ -105,6 +106,7 @@
 
 		//USERS CONTROLLER
 		Route::controller('users', 'UsersController');
+			Route::post('/users/request-users','UsersController@postRequestUsers');
 
 
 		// WEBSITES CONTROLLER

@@ -201,7 +201,6 @@
 				var token = $('meta[name=_token]').attr('content');
 				$('.submit-btn').addClass('disabled');
 				$('.remove-img').addClass('disabled');
-
 				$.post(
 					'/pages/remove-temp', {
 						"_token": token,
@@ -212,9 +211,6 @@
 						var status = results.status;
 						switch (status) {
 		                    case 200: // Approved
-		                    session_reindex();
-		                    $('.submit-btn').removeClass('disabled');
-		                    $('.remove-img').removeClass('disabled');
 		                    _this.parents('li:first').remove();
 		                    if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
 		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
@@ -223,11 +219,12 @@
 		                    		};
 		                    	};
 		                    };
-		                    break;
-		                    case 201: // Image is located at slider folder do not delete
 		                    session_reindex();
 		                    $('.submit-btn').removeClass('disabled');
 		                    $('.remove-img').removeClass('disabled');
+		                    break;
+		                    case 201: // Image is located at slider folder do not delete
+
 		                    _this.parents('li:first').remove();
 	                  		if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
 		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
@@ -236,11 +233,12 @@
 		                    		};
 		                    	};
 		                    };
+		                    session_reindex();
+		                    $('.submit-btn').removeClass('disabled');
+		                    $('.remove-img').removeClass('disabled');
 		                    break;
 		                    case 400: // error
 		                    console.log('name not set');
-		                    $('.submit-btn').removeClass('disabled');
-		                    $('.remove-img').removeClass('disabled');
 		                    _this.parents('li:first').remove();
 	                  		if ($(".dd ol li .dd-handle").length == 1) {//THIS IS THE LAST IMAGE
 		                    	if ($('#sliderDiv img').length == 0) {//THIS IS AN EMPTY IMAGE FRAME
@@ -249,10 +247,14 @@
 		                    		};
 		                    	};
 		                    };
+		                    session_reindex();
+		                    $('.submit-btn').removeClass('disabled');
+		                    $('.remove-img').removeClass('disabled');
 		                    break;
 
 		                    default:
 		                    $('.submit-btn').removeClass('disabled');
+		                    $('.remove-img').removeClass('disabled');
 		                    break;
 		                }
 		            }

@@ -36,7 +36,7 @@ class SchedulesController extends \BaseController {
 		// if ($this->role_id < 3) {
 		// 	$companies = Company::find(1);
 		// 	$schedules = Schedule::prepare(Schedule::where('status',1)->get());
-			$this->layout->content = View::make('schedules.index');
+		$this->layout->content = View::make('schedules.index');
 			// ->with('schedules',$schedules)
 			// ->with('companies',$companies);
 		// }
@@ -44,7 +44,10 @@ class SchedulesController extends \BaseController {
 
 	public function getAdd()
 	{
-		$this->layout->content = View::make('schedules.add');
+
+		$searchBy = Delivery::search_by();
+		$this->layout->content = View::make('schedules.add')
+		->with('search_by',$searchBy);
 	}
 	public function postAdd()
 	{
@@ -63,5 +66,18 @@ class SchedulesController extends \BaseController {
 	public function postDelete()
 	{
 		
+	}
+
+	public function postOrderAdd()
+	{
+		if (Request::ajax()) {
+			$status = 400;
+			$count  = Input::get('content_set_count');
+			$html   = Schedule::prepareOrderForm($count);
+			return Response::json(array(
+				'status' => 200,
+				'html' => $html
+				));
+		}
 	}
 }

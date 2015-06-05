@@ -208,4 +208,23 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
     	return $data;
     }
 
+    public static function prepareForDeliveryTable($data) {
+    	$html = '';
+    	if(isset($data)) {
+    		foreach ($data as $key => $value) {
+    			$html .= '<tr class="table-tr" style="cursor:pointer">';
+    			$html .= '<td>'.$value->id.'</td>';
+    			$html .= '<td>'.$value->username.'</td>';
+    			$html .= '<td>'.$value->firstname.'</td>';
+    			$html .= '<td>'.$value->lastname.'</td>';
+    			$html .= '<td>'.Job::format_phone($value->phone, $value->country).'</td>';
+    			$html .= '<td>'.$value->email.'</td>';
+    			$html .= '<td><input class="checkUser" type="checkbox" value="'.$value->id.'"/> Select</td>';
+    			$html .= '</tr>';
+    		}
+    	}
+
+    	return $html;
+    }
+
 }
