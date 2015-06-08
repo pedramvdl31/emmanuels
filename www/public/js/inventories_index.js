@@ -28,7 +28,7 @@ inventory = {
 		$(document).on('click','.remove-btn',function(){
 			var id = $(this).parents('.modal:first').attr('inventory-id');
 			$("#form-"+id).submit();
-			console.log(id);
+			
 		});
 
 	}

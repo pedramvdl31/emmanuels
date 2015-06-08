@@ -107,6 +107,7 @@
 		//USERS CONTROLLER
 		Route::controller('users', 'UsersController');
 			Route::post('/users/request-users','UsersController@postRequestUsers');
+			Route::post('/user/request-user-information','UsersController@postRequestUserInformation');
 
 
 		// WEBSITES CONTROLLER

@@ -8,6 +8,7 @@ class Schedule extends \Eloquent {
 	public static function prepareOrderForm($count) {
 		$services = Service::all();
 		$inventories = Inventory::all();
+		$inventory_items = InventoryItem::all();
 
 		$html = '';
 		$html .= '<div class="panel panel-success content-set" this_set="'.$count.'" style="margin-top:10px;">';
@@ -28,49 +29,88 @@ class Schedule extends \Eloquent {
 		$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
 		$html .= '<div class="panel-body panel-input">';
 
-		$html .= '<div class="form-group">';
+		$html .= '
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<input type="radio" class="radio-option" name="optionsRadios" id="service-radio" value="1">
+								Services
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<input type="radio" class="radio-option" name="optionsRadios" id="item-radio" value="2">
+								Items
+							</label>
+						</div>
+					</div>';
+
+		$html .= '<div class="form-group hide make-form-'.$count.' ">';
+		$html .= '<label class="control-label" for="make">MAKE</label>';
+		$html .= '<select class="form-control select-make" status="" name="select-make-'.$count.'" id="select-make-'.$count.'">';
+		$html .= '<option value="">Select Service</option>';
+		foreach ($services as $key => $value) {
+			$html .=	'<option value="'.$value->id.'" rate="'.$value->rate.'">'.$value->name.'</option>';
+		}
+		$html .= '</select>';
+		$html .= '</div>';
+
+
+		$html .= '<div class="form-group hide item-form-'.$count.'">';
+		$html .= '<label class="control-label" for="item">ITEM</label>';
+		$html .= '<select class="form-control select-item" status="" name="select-item-'.$count.'" id="select-item-'.$count.'">';
+		$html .= '<option value="">Select Item</option>';
+		foreach ($inventories as $key => $value) {
+			$html .= '<optgroup label='.$value->name.'>';
+			foreach ($inventory_items as $ikey => $ivalue) {
+				if ($ivalue->inventory_id == $value->id) {
+					$html .=	'<option value="'.$ivalue->id.'" rate="'.$ivalue->price.'">'.$ivalue->name.'</option>';
+				}
+			}
+			$html .= '</optgroup>';
+		}
+		$html .= '</select>';
+		$html .= '</div>';
+
+
+		$html .= '<div class="form-group hide qty-form-'.$count.'">';
 		$html .= '<label class="control-label" for="quantity">QUANTITY</label>';
 		$html .= '<div class="input-group">
 					<span class="input-group-addon minus-q"><i class="glyphicon glyphicon-minus"> </i></span>
-					<input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" value="0">
+					<input type="text" class="form-control qty" id="qty-'.$count.'" aria-label="Amount (to the nearest dollar)" value="0" name="qty-'.$count.'">
 					<span class="input-group-addon add-q"><i class="glyphicon glyphicon-plus"> </i></span>
 					</div>';
 		$html .= '</div>';
 
-		$html .= '<div class="form-group">';
-		$html .= '<label class="control-label" for="make">MAKE</label>';
-		$html .= '<select id="select-make" class="form-control" status="" name="search">';
-		$html .= '<option value="">Select Service</option>';
 
-		foreach ($services as $key => $value) {
-			$html .=	'<option value="'.$value->id.'">'.$value->name.'</option>';
-		}
-		$html .= '</select>';
+		$html .= '												
+		<div class="form-group form-inline hide di-form-'.$count.'" >
+			<div class="col-sm-1" style="padding-left:0;">
+				<label class="control-label" >Height</label>
+			</div>
+			<div class="input-group  col-sm-5 col-xs-12 pull-left">
+				<input type="text" class="form-control" name="height-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
+				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-vertical"></i></span>
+			</div>
+			<div class=" col-sm-1">
+				<label class="control-label">Length</label>
+			</div>
+			<div class="input-group  col-sm-5 col-xs-12 pull-left"">
+				<input type="text" class="form-control" name="length-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
+				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
+			</div>
+		</div>';
+
+		$html .= '<div class="form-group hide rate-form-'.$count.'">';
+		$html .= '<label class="control-label" for="rate">RATE</label>';
+		$html .= '<input id="rate-'.$count.'" type="text" name="rate-'.$count.'" class="form-control content-rate" disabled="disabled" placeholder="-">';
 		$html .= '</div>';
 
-
-		$html .= '<div class="form-group">';
-		$html .= '<label class="control-label" for="make">ITEM</label>';
-		$html .= '<select id="select-item" class="form-control" status="" name="search">';
-		$html .= '<option value="">Select Item</option>';
-
-		foreach ($inventories as $key => $value) {
-
-		$html .=	'<option value="'.$key.'">'.$value->name.'</option>';
-
-		}
-		$html .= '</select>';
-		$html .= '</div>';
-
-
-		$html .= '<div class="form-group">';
-		$html .= '<label class="control-label" for="size">SIZE</label>';
-		$html .= '<input type="text" name="content['.$count.'][content_size]" class="form-control content-size" placeholder="Size">';
-		$html .= '</div>';
-
-		$html .= '<div class="form-group">';
+		$html .= '<div class="form-group hide price-form-'.$count.'">';
 		$html .= '<label class="control-label" for="price">PRICE</label>';
-		$html .= '<input type="text" name="content['.$count.'][content_price]" class="form-control content-price" placeholder="PricE">';
+		$html .= '<input type="text" name="total-'.$count.'" class="form-control content-price" id="total-'.$count.'" disabled="disabled" placeholder="00.0 $">';
 		$html .= '</div>';
 
 		$html .= '</div>';

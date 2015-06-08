@@ -168,11 +168,22 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<div class="form-group {{ $errors->has('address') ? 'has-error' : false }}">
-						<label class="control-label" for="address">Address&nbsp;&nbsp;</label>
-						{{ Form::text('address', isset($form_data['address'])?$form_data['address']:null, array('class'=>'form-control', 'placeholder'=>'Address','id'=>'address')) }}
-						<span class='help-block hide' id="address-duplicate">This is a protected address please choose another address</span>
-						@foreach($errors->get('address') as $message)
+					
+
+					<hr>
+					<div class="form-group {{ $errors->has('street') ? 'has-error' : false }}">
+						<label class="control-label" for="street">Street&nbsp;&nbsp;</label>
+						{{ Form::text('street', isset($form_data['street'])?$form_data['street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'street')) }}
+						<span class='help-block hide' id="street-duplicate">This is a protected street please choose another street</span>
+						@foreach($errors->get('street') as $message)
+						<span class='help-block'>{{ $message }}</span>
+						@endforeach
+					</div>
+					<div class="form-group {{ $errors->has('unit') ? 'has-error' : false }}">
+						<label class="control-label" for="unit">Unit&nbsp;&nbsp;</label>
+						{{ Form::text('unit', isset($form_data['unit'])?$form_data['unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'unit')) }}
+						<span class='help-block hide' id="unit-duplicate">This is a protected unit please choose another unit</span>
+						@foreach($errors->get('unit') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
@@ -184,6 +195,14 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
+					<div class="form-group {{ $errors->has('state') ? 'has-error' : false }}">
+						<label class="control-label" for="state">State&nbsp;&nbsp;</label>
+						{{ Form::text('state', isset($form_data['state'])?$form_data['state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'state')) }}
+						<span class='help-block hide' id="state-duplicate">This is a protected state please choose another state</span>
+						@foreach($errors->get('state') as $message)
+						<span class='help-block'>{{ $message }}</span>
+						@endforeach
+					</div>
 					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
 						<label class="control-label" for="zipcode">Zipcode&nbsp;&nbsp;</label>
 						{{ Form::text('zipcode', isset($form_data['zipcode'])?$form_data['zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'zipcode')) }}
@@ -192,7 +211,9 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
+					<hr>
+
+					<div class="form-group {{ $errors->has('will_phone') ? 'has-error' : false }}">
 						<div class="checkbox">
 							<label>
 
@@ -203,27 +224,43 @@
 					</div>
 				</div><!-- Addess END -->
 				<div id="newaddress" class="customerListDiv hide">
-					<div class="form-group {{ $errors->has('address') ? 'has-error' : false }}">
-						<label class="control-label" for="address">Address&nbsp;&nbsp;</label>
-						{{ Form::text('address', isset($form_data['address'])?$form_data['address']:null, array('class'=>'form-control', 'placeholder'=>'Address','id'=>'address')) }}
-						<span class='help-block hide' id="address-duplicate">This is a protected address please choose another address</span>
-						@foreach($errors->get('address') as $message)
+					<div class="form-group {{ $errors->has('new_street') ? 'has-error' : false }}">
+						<label class="control-label" for="new_street">Street&nbsp;&nbsp;</label>
+						{{ Form::text('new_street', isset($form_data['new_street'])?$form_data['new_street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'new_street')) }}
+						<span class='help-block hide' id="new_street-duplicate">This is a protected new_street please choose another new_street</span>
+						@foreach($errors->get('new_street') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<div class="form-group {{ $errors->has('city') ? 'has-error' : false }}">
-						<label class="control-label" for="city">City&nbsp;&nbsp;</label>
-						{{ Form::text('city', isset($form_data['city'])?$form_data['city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'city')) }}
-						<span class='help-block hide' id="city-duplicate">This is a protected city please choose another city</span>
-						@foreach($errors->get('city') as $message)
+					<div class="form-group {{ $errors->has('new_unit') ? 'has-error' : false }}">
+						<label class="control-label" for="new_unit">Unit&nbsp;&nbsp;</label>
+						{{ Form::text('new_unit', isset($form_data['new_unit'])?$form_data['new_unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'new_unit')) }}
+						<span class='help-block hide' id="new_unit-duplicate">This is a protected new_unit please choose another new_unit</span>
+						@foreach($errors->get('new_unit') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
-						<label class="control-label" for="zipcode">Zipcode&nbsp;&nbsp;</label>
-						{{ Form::text('zipcode', isset($form_data['zipcode'])?$form_data['zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'zipcode')) }}
-						<span class='help-block hide' id="zipcode-duplicate">This is a protected zipcode please choose another zipcode</span>
-						@foreach($errors->get('zipcode') as $message)
+					<div class="form-group {{ $errors->has('new_city') ? 'has-error' : false }}">
+						<label class="control-label" for="new_city">City&nbsp;&nbsp;</label>
+						{{ Form::text('new_city', isset($form_data['new_city'])?$form_data['new_city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'new_city')) }}
+						<span class='help-block hide' id="new_city-duplicate">This is a protected new_city please choose another new_city</span>
+						@foreach($errors->get('new_city') as $message)
+						<span class='help-block'>{{ $message }}</span>
+						@endforeach
+					</div>
+					<div class="form-group {{ $errors->has('new_state') ? 'has-error' : false }}">
+						<label class="control-label" for="new_state">State&nbsp;&nbsp;</label>
+						{{ Form::text('new_state', isset($form_data['new_state'])?$form_data['new_state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'new_state')) }}
+						<span class='help-block hide' id="new_state-duplicate">This is a protected new_state please choose another new_state</span>
+						@foreach($errors->get('new_state') as $message)
+						<span class='help-block'>{{ $message }}</span>
+						@endforeach
+					</div>
+					<div class="form-group {{ $errors->has('new_zipcode') ? 'has-error' : false }}">
+						<label class="control-label" for="new_zipcode">Zipcode&nbsp;&nbsp;</label>
+						{{ Form::text('new_zipcode', isset($form_data['new_zipcode'])?$form_data['new_zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'new_zipcode')) }}
+						<span class='help-block hide' id="new_zipcode-duplicate">This is a protected new_zipcode please choose another new_zipcode</span>
+						@foreach($errors->get('new_zipcode') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
@@ -257,4 +294,13 @@
 </div>
 {{ Form::hidden('content_count',null,['id'=>'content_count']); }}
 {{ Form::close() }}
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-body">
+				Loading &nbsp;&nbsp; <img src="/img/gif/ajax-loader.gif">
+			</div>
+		</div>
+	</div>
+</div>
 @stop

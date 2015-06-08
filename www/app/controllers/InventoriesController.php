@@ -51,47 +51,109 @@ class InventoriesController extends \BaseController {
 	}
 	public function postAdd()
 	{
-		
-	}
+		$validator = Validator::make(Input::all(), Inventory::$rules_add);
+		if ($validator->passes()) {
+			$name = Input::get('name');
+			$description = Input::get('description');
 
-	public function getEdit($id = null)
-	{
-		$this->layout->content = View::make('inventories.edit');
-	}
-	public function postEdit()
-	{
-		
-	}
+			$inventory = new Inventory;
+			$inventory->name = $name;
+			$inventory->description = $description;
+			$inventory->owner_id =  Auth::user()->id;
+			$inventory->company_id =  1;
+			$inventory->status =  1;
 
-	public function postDelete()
-	{
-		$inventory_id = Input::get('inventory_id');
-		$inventory = Inventory::find($inventory_id);
-		$count = count(InventoryItem::where('inventory_id',$inventory_id)->where('company_id',$inventory->company_id)->get());
-		$inventory_items = InventoryItem::where('inventory_id',$inventory_id)->where('company_id',$inventory->company_id)->get();
-		if($count>0){
-			if($inventory->delete() && $inventory_items->delete()) {
+
+			 if($inventory->save()) { // Save
+			 	return Redirect::action('InventoriesController@getIndex')
+			 	->with('message', 'Successfully added a menu item')
+			 	->with('alert_type','alert-success');
+			 } else {
+			 	return Redirect::back()
+			 	->with('message', 'Oops, somthing went wrong. Please try again.')
+			 	->with('alert_type','alert-danger');	
+			 }
+
+			} 	else {
+	        // validation has failed, display error messages    
+				return Redirect::back()
+				->with('message', 'The following errors occurred')
+				->with('alert_type','alert-danger')
+				->withErrors($validator)
+				->withInput();	    	
+			}
+		}
+
+		public function getEdit($id = null)
+		{	
+			$inventories = Inventory::find($id);
+			$this->layout->content = View::make('inventories.edit')
+			->with('inventory',$inventories);
+		}
+		public function postEdit()
+		{
+
+			$validator = Validator::make(Input::all(), Inventory::$rules_add);
+			if ($validator->passes()) {
+				$inventory_id = Input::get('id');
+				$name = Input::get('name');
+				$description = Input::get('description');
+
+				$inventory = Inventory::find($inventory_id);
+				$inventory->name = $name;
+				$inventory->description = $description;
+				
+			 if($inventory->save()) { // Save
+			 	return Redirect::action('InventoriesController@getIndex')
+			 	->with('message', 'Successfully added a menu item')
+			 	->with('alert_type','alert-success');
+			 } else {
+			 	return Redirect::back()
+			 	->with('message', 'Oops, somthing went wrong. Please try again.')
+			 	->with('alert_type','alert-danger');	
+			 }
+
+			} 	else {
+	        // validation has failed, display error messages    
+				return Redirect::back()
+				->with('message', 'The following errors occurred')
+				->with('alert_type','alert-danger')
+				->withErrors($validator)
+				->withInput();	    	
+			}
+
+
+		}
+
+		public function postDelete()
+		{
+			$inventory_id = Input::get('inventory_id');
+			$inventory = Inventory::find($inventory_id);
+			$count = count(InventoryItem::where('inventory_id',$inventory_id)->where('company_id',$inventory->company_id)->get());
+			$inventory_items = InventoryItem::where('inventory_id',$inventory_id)->where('company_id',$inventory->company_id)->get();
+			if($count>0){
+				if($inventory->delete() && $inventory_items->delete()) {
+					return Redirect::back()
+					->with('message', 'Successfully Deleted!')
+					->with('alert_type','alert-success');
+
+				} else {
+					return Redirect::back()
+					->with('message', 'Oops, somthing went wrong. Please try again. items and inventories')
+					->with('alert_type','alert-danger');	
+				}
+
+			} elseif($inventory->delete()) {
+
 				return Redirect::back()
 				->with('message', 'Successfully Deleted!')
 				->with('alert_type','alert-success');
 
 			} else {
 				return Redirect::back()
-				->with('message', 'Oops, somthing went wrong. Please try again. items and inventories')
+				->with('message', 'Oops, somthing went wrong. Please try again.')
 				->with('alert_type','alert-danger');	
 			}
-
-		} elseif($inventory->delete()) {
-
-			return Redirect::back()
-			->with('message', 'Successfully Deleted!')
-			->with('alert_type','alert-success');
-
-		} else {
-			return Redirect::back()
-			->with('message', 'Oops, somthing went wrong. Please try again.')
-			->with('alert_type','alert-danger');	
 		}
-	}
 
-}
+	}

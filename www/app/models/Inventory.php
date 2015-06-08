@@ -8,6 +8,10 @@ class Inventory extends \Eloquent {
 	public static $rules_edit = array(
 		'name'=>'required|min:1'
 		);
+	public static $rules_add = array(
+		'name'=>'required|min:1',
+		'description'=>'required|min:1'
+		);
 
 	public static function prepareInventory($data) {
 		if(isset($data)) {

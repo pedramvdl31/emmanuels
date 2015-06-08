@@ -212,4 +212,30 @@ class UsersController extends BaseController {
 				));
 		}
 	}
+	public function postRequestUserInformation() {
+		if(Request::ajax()) {
+			$user_data=[];
+			$id = Input::get('user_id');
+			$users = User::find($id);
+			if (isset($users)) {
+				$user_data['username']  = $users->username;
+				$user_data['firstname'] = $users->firstname;
+				$user_data['lastname']  = $users->lastname;
+				$user_data['email'] = $users->email;
+				$user_data['phone'] = $users->phone;
+				$user_data['roles'] = $users->roles;
+
+				$user_data['street']  = $users->street;
+				$user_data['city']    = $users->city;
+				$user_data['state']   = $users->state;
+				$user_data['zipcode'] = $users->zipcode;
+				$user_data['unit']    = $users->unit;
+
+			}
+			return Response::json(array(
+				'status' => 200,
+				'user_data' => $user_data
+				));
+		}
+	}
 }

@@ -190,4 +190,5 @@ class Job extends \Eloquent {
 
 		return $formatted;
 	}
+
 }
