@@ -98,6 +98,9 @@
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');
 
+		//SCHEDULE RULES CONTROLLER
+		Route::controller('/services', 'ServicesController');
+
 		// RESOURCES CONTROLLER
 		Route::controller('/resources','ResourcesController');
 

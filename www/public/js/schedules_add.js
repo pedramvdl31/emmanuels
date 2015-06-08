@@ -212,7 +212,7 @@ page = {
 			var parents = $(this).parents('.panel:first').attr('this_set');
 			reset_order_form(parents);
 			var element = $("option:selected", this);
-			var rate = parseInt(element.attr("rate"));
+			var rate = parseFloat(element.attr("rate"));
 			if ($(this).find('option:selected').val() != '') {
 				$('#select-item-'+parents).removeAttr('disabled');
 				
