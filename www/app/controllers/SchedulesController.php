@@ -33,13 +33,11 @@ class SchedulesController extends \BaseController {
 	public function getIndex()
 	{
 
-		// if ($this->role_id < 3) {
-		// 	$companies = Company::find(1);
-		// 	$schedules = Schedule::prepare(Schedule::where('status',1)->get());
-		$this->layout->content = View::make('schedules.index');
-			// ->with('schedules',$schedules)
-			// ->with('companies',$companies);
-		// }
+
+		$schedules = Schedule::prepareSchedules(Schedule::where('status',1)->get());
+		$this->layout->content = View::make('schedules.index')
+			->with('schedules',$schedules);
+
 	}
 
 	public function getAdd()
@@ -51,7 +49,7 @@ class SchedulesController extends \BaseController {
 	}
 	public function postAdd()
 	{
-		
+		Job::dump(Input::all());
 	}
 
 	public function getEdit($id = null)
@@ -77,6 +75,23 @@ class SchedulesController extends \BaseController {
 			return Response::json(array(
 				'status' => 200,
 				'html' => $html
+				));
+		}
+	}
+	public function postAjaxValidation() {
+		if(Request::ajax()) {
+			
+			$value = Input::get('value');
+			$type = Input::get('type');
+
+			//CREATE ARRAY FOR VALIDATION
+			$inputs =  array($type => $value);
+
+			//VALIDATION
+			$data = Job::AjaxValidation($inputs,$type);
+
+			return Response::json(array(
+				'data' => $data,
 				));
 		}
 	}

@@ -226,5 +226,6 @@ class User extends Eloquent implements UserInterface, RemindableInterface, RoleI
 
     	return $html;
     }
+    
 
 }

@@ -5,13 +5,13 @@
 @stop
 @section('content')
 <div class="jumbotron">
-	<h1>Pages Add</h1>
+	<h1>Schedules Add</h1>
 	<ol class="breadcrumb">
-		<li class="active">Pages Add</li>
-		<li><a href="{{ action('PagesController@getIndex') }}">Pages Overview</a></li>
+		<li class="active">Schedules Add</li>
+		<li><a href="{{ action('SchedulesController@getIndex') }}">Schedules Overview</a></li>
 	</ol>
 </div>
-{{ Form::open(array('action' => 'PagesController@postAdd', 'class'=>'','role'=>"form")) }}
+{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','role'=>"form")) }}
 
 <div class="row">
 	<div class="col-md-2" style="margin-bottom:5px;">
@@ -113,7 +113,7 @@
 				</tbody>
 			</table>
 			<div class="panel-footer clearfix">
-				<button type="button" class="btn btn-primary pull-right submit-btn next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="first-next" class="btn btn-primary pull-right submit-btn next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 
@@ -130,7 +130,7 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="estimate" value="1">
+								<input type="radio" name="estimate_radio" id="estimate" value="1">
 								ESTIMATE
 							</label>
 						</div>
@@ -138,16 +138,18 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="optionsRadios" id="order" value="2">
+								<input type="radio" name="work_order_radio" id="order" value="1" checked>
 								WORK ORDER
 							</label>
 						</div>
 					</div>
 
-					<div class="form-group {{ $errors->has('name') ? 'has-error' : false }}">
+					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
 						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
 						{{ Form::text('name', isset($form_data['name'])?$form_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
-						<span class='help-block hide' id="name-duplicate">This is a protected name please choose another name</span>
+						  	<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+  							<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+							<span class='help-block val-help hide'></span>
 						@foreach($errors->get('name') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -155,7 +157,9 @@
 					<div class="form-group {{ $errors->has('telephone') ? 'has-error' : false }}">
 						<label class="control-label" for="telephone">Telephone&nbsp;&nbsp;</label>
 						{{ Form::text('telephone', isset($form_data['telephone'])?$form_data['telephone']:null, array('class'=>'form-control', 'placeholder'=>'Telephone','id'=>'telephone')) }}
-						<span class='help-block hide' id="telephone-duplicate">This is a protected telephone please choose another telephone</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('telephone') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -163,7 +167,9 @@
 					<div class="form-group {{ $errors->has('email') ? 'has-error' : false }}">
 						<label class="control-label" for="email">Email&nbsp;&nbsp;</label>
 						{{ Form::text('email', isset($form_data['email'])?$form_data['email']:null, array('class'=>'form-control', 'placeholder'=>'Email','id'=>'email')) }}
-						<span class='help-block hide' id="email-duplicate">This is a protected email please choose another email</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('email') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -174,7 +180,9 @@
 					<div class="form-group {{ $errors->has('street') ? 'has-error' : false }}">
 						<label class="control-label" for="street">Street&nbsp;&nbsp;</label>
 						{{ Form::text('street', isset($form_data['street'])?$form_data['street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'street')) }}
-						<span class='help-block hide' id="street-duplicate">This is a protected street please choose another street</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('street') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -182,7 +190,9 @@
 					<div class="form-group {{ $errors->has('unit') ? 'has-error' : false }}">
 						<label class="control-label" for="unit">Unit&nbsp;&nbsp;</label>
 						{{ Form::text('unit', isset($form_data['unit'])?$form_data['unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'unit')) }}
-						<span class='help-block hide' id="unit-duplicate">This is a protected unit please choose another unit</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('unit') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -190,7 +200,9 @@
 					<div class="form-group {{ $errors->has('city') ? 'has-error' : false }}">
 						<label class="control-label" for="city">City&nbsp;&nbsp;</label>
 						{{ Form::text('city', isset($form_data['city'])?$form_data['city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'city')) }}
-						<span class='help-block hide' id="city-duplicate">This is a protected city please choose another city</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>						
 						@foreach($errors->get('city') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -198,7 +210,9 @@
 					<div class="form-group {{ $errors->has('state') ? 'has-error' : false }}">
 						<label class="control-label" for="state">State&nbsp;&nbsp;</label>
 						{{ Form::text('state', isset($form_data['state'])?$form_data['state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'state')) }}
-						<span class='help-block hide' id="state-duplicate">This is a protected state please choose another state</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('state') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -206,18 +220,18 @@
 					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
 						<label class="control-label" for="zipcode">Zipcode&nbsp;&nbsp;</label>
 						{{ Form::text('zipcode', isset($form_data['zipcode'])?$form_data['zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'zipcode')) }}
-						<span class='help-block hide' id="zipcode-duplicate">This is a protected zipcode please choose another zipcode</span>
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>						
 						@foreach($errors->get('zipcode') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
 					<hr>
-
 					<div class="form-group {{ $errors->has('will_phone') ? 'has-error' : false }}">
 						<div class="checkbox">
 							<label>
-
-								<input type="checkbox" value="">
+								<input type="checkbox" value="1" name="will_phone">
 								WILL PHONE
 							</label>
 						</div>
@@ -268,7 +282,7 @@
 			</div>
 			<div class="panel-footer clearfix">
 				<button type="button" class="previous btn btn-default" step="1"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
-				<button type="button" class="btn btn-primary pull-right submit-btn next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="next-btn" class="btn btn-primary pull-right next disabled" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 		<div id="content" class="steps panel panel-success hide">
@@ -292,7 +306,10 @@
 		</div>
 	</div>
 </div>
-{{ Form::hidden('content_count',null,['id'=>'content_count']); }}
+{{ Form::hidden('content_count',null,['id'=>'content_count'])}}
+{{ Form::hidden('user_id',null,['id'=>'user_id'])}}
+{{ Form::hidden('checklist', null,array('id'=>'checklist')) }}
+{{ Form::hidden('tabs_checklist', "address",array('id'=>'tabs_checklist')) }}
 {{ Form::close() }}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">

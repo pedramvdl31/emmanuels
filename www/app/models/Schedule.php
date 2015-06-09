@@ -2,8 +2,38 @@
 
 class Schedule extends \Eloquent {
 	protected $fillable = [];
+		use SoftDeletingTrait;
 
+		public static $rules_add = array(
+		'name'=>'required|min:1',
+		'description'=>'required|min:1',
+		'rate' => 'required|min:1|numeric',
+		'type' => 'required'
+		);
 
+	public static function prepareSchedules($data) {
+		if(isset($data)) {
+			foreach ($data as $key => $value) {
+				
+				if(isset($data[$key]['status'])) {
+					switch($data[$key]['status']) {
+						case 1:
+						$data[$key]['status_html'] = '<span class="label label-success">active</span>';
+						break;
+
+						case 2:
+						$data[$key]['status_html'] = '<span class="label label-warning">not active</span>';
+						break;
+
+						case 3:
+						$data[$key]['status_html'] = '<span class="label label-danger">errors</span>';
+						break;
+					}
+				}
+			}
+		}
+		return $data;
+	}
 
 	public static function prepareOrderForm($count) {
 		$services = Service::all();
@@ -25,7 +55,7 @@ class Schedule extends \Eloquent {
 		$html .= '</a>';
 		$html .= '</h4>';
 		$html .= '</div>';
-				//here is the bug
+		//here is the bug
 		$html .= '<div id="accordion-'.$count.'" this_set="'.$count.'" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">';
 		$html .= '<div class="panel-body panel-input">';
 
@@ -33,15 +63,13 @@ class Schedule extends \Eloquent {
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" class="radio-option" name="optionsRadios" id="service-radio" value="1">
+								<input type="radio" class="radio-option" name="service_radio" id="service-radio" value="1">
 								Services
 							</label>
 						</div>
-					</div>
-					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" class="radio-option" name="optionsRadios" id="item-radio" value="2">
+								<input type="radio" class="radio-option" name="item_radio" id="item-radio" value="2">
 								Items
 							</label>
 						</div>
@@ -56,8 +84,6 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
-
-
 		$html .= '<div class="form-group hide item-form-'.$count.'">';
 		$html .= '<label class="control-label" for="item">ITEM</label>';
 		$html .= '<select class="form-control select-item" status="" name="select-item-'.$count.'" id="select-item-'.$count.'">';
@@ -73,8 +99,6 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
-
-
 		$html .= '<div class="form-group hide qty-form-'.$count.'">';
 		$html .= '<label class="control-label" for="quantity">QUANTITY</label>';
 		$html .= '<div class="input-group">
@@ -83,22 +107,20 @@ class Schedule extends \Eloquent {
 					<span class="input-group-addon add-q"><i class="glyphicon glyphicon-plus"> </i></span>
 					</div>';
 		$html .= '</div>';
-
-
 		$html .= '												
 		<div class="form-group form-inline hide di-form-'.$count.'" >
 			<div class="col-sm-1" style="padding-left:0;">
 				<label class="control-label" >Height</label>
 			</div>
 			<div class="input-group  col-sm-5 col-xs-12 pull-left">
-				<input type="text" class="form-control" name="height-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
+				<input type="text" class="form-control height" id="height-'.$count.'" name="height-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
 				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-vertical"></i></span>
 			</div>
 			<div class=" col-sm-1">
 				<label class="control-label">Length</label>
 			</div>
 			<div class="input-group  col-sm-5 col-xs-12 pull-left"">
-				<input type="text" class="form-control" name="length-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
+				<input type="text" class="form-control length" id="length-'.$count.'" name="length-'.$count.'" placeholder="0" aria-describedby="basic-addon2">
 				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
 			</div>
 		</div>';
@@ -123,5 +145,6 @@ class Schedule extends \Eloquent {
 		$html .= '</div>';
 		return $html;
 	}
+
 }
 
