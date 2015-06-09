@@ -130,7 +130,7 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="estimate_radio" id="estimate" value="1">
+								<input type="radio" name="info_radio" id="estimate" value="1">
 								ESTIMATE
 							</label>
 						</div>
@@ -138,7 +138,7 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="work_order_radio" id="order" value="1" checked>
+								<input type="radio" name="info_radio" id="order" value="1" checked>
 								WORK ORDER
 							</label>
 						</div>

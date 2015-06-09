@@ -243,7 +243,30 @@ events_after: function() {
 	});
 
 
+	$('.radio-option').click(function() {
+		var this_id = $(this).attr('id');
+		var parents = $(this).parents('.panel:first').attr('this_set');
+		reset_order_form(parents);
+		if (this_id == "service-radio") {
+			$('#select-item-'+parents).attr('disabled','disabled');
 
+			$('.make-form-'+parents).removeClass('hide').addClass('show');
+			$('.item-form-'+parents).removeClass('hide').addClass('show');
+			$('.qty-form-'+parents).addClass('hide').removeClass('show');
+			$('.di-form-'+parents).removeClass('hide').addClass('show');
+			$('.rate-form-'+parents).removeClass('hide').addClass('show');
+			$('.price-form-'+parents).removeClass('hide').addClass('show');
+		} else if (this_id == "item-radio") {
+			$('#select-item-'+parents).removeAttr('disabled');
+
+			$('.make-form-'+parents).removeClass('show').addClass('hide');
+			$('.item-form-'+parents).removeClass('hide').addClass('show');
+			$('.qty-form-'+parents).removeClass('hide').addClass('show');
+			$('.di-form-'+parents).removeClass('show').addClass('hide');
+			$('.rate-form-'+parents).removeClass('show').addClass('hide');
+			$('.price-form-'+parents).removeClass('hide').addClass('show');
+		}
+	});
 
 	//QTY---
 

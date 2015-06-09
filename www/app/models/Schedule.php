@@ -63,13 +63,13 @@ class Schedule extends \Eloquent {
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" class="radio-option" name="service_radio" id="service-radio" value="1">
+								<input type="radio" class="radio-option" name="content_radio" id="service-radio" value="1">
 								Services
 							</label>
 						</div>
 						<div class="radio">
 							<label>
-								<input type="radio" class="radio-option" name="item_radio" id="item-radio" value="2">
+								<input type="radio" class="radio-option" name="content_radio" id="item-radio" value="2">
 								Items
 							</label>
 						</div>
