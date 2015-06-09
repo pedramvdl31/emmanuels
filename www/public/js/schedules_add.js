@@ -14,20 +14,25 @@ page = {
 	},
 	stepy: function() {
 		$("#deliveryStepy li a").click(function(e) {
+			var href = $(this).attr('href');
+			if (!($(this).parents('li:first').hasClass('disabled'))) {
 			previous_step = $("#deliveryStepy .active");
 			e.preventDefault();
-			var href = $(this).attr('href');
 			$("#deliveryStepy li").removeClass('active');
 			$(this).parents('li:first').addClass('active');
 			$(".steps").addClass('hide');
 			$(href).removeClass('hide');
-            if ((href == "#information")) {
-            	if ($('#user_id').val() != "") {
-            		check_all_inputs();
-            	};
-            	
-            }
-        });
+			if ((href == "#information")) {
+				if ($('#user_id').val() != "") {
+					check_all_inputs();
+				};
+			}
+		} else {
+			if ((href == "#content")) {
+					check_all_inputs();
+			}
+		}
+		});
 
 		$(".next").click(function() {
 
@@ -42,9 +47,9 @@ page = {
             // }
 
 
-        	if ($('#user_id').val() != "") {
-        		check_all_inputs();
-        	};
+            if ($('#user_id').val() != "") {
+            	check_all_inputs();
+            };
         });
 		$(".previous").click(function() {
 			$("#deliveryStepy .active").prev('li').addClass('row-active');
@@ -68,10 +73,10 @@ page = {
 			$(tab_href).removeClass('hide');
 			if (tab_href == '#newaddress') {
 				$('#tabs_checklist').val('newaddress');
-            } else {
-            	$('#tabs_checklist').val('address');
-            }
-        });
+			} else {
+				$('#tabs_checklist').val('address');
+			}
+		});
 		$(document).find("#searchBy").change(function() {
 			var search = $(this).find('option:selected').val();
 			$(".searchByFormGroup").addClass('hide');
@@ -229,7 +234,6 @@ events_after: function() {
 		var rate = parseFloat(element.attr("rate"));
 		if ($(this).find('option:selected').val() != '') {
 			$('#select-item-'+parents).removeAttr('disabled');
-
 			var new_rate = rate.toFixed(2)
 			$('#rate-'+parents).val(new_rate+' $');
 		} else {
@@ -240,31 +244,51 @@ events_after: function() {
 	$(".select-item").change(function() {
 		var parents = $(this).parents('.panel:first').attr('this_set');
 		reset_order_form(parents);
+		if ($(this).find('option:selected').val() != '') {
+			$('#height-'+parents).removeAttr('disabled');
+			$('#length-'+parents).removeAttr('disabled');
+		} else {
+			$('#height-'+parents).attr('disabled','disabled');
+			$('#length-'+parents).attr('disabled','disabled');
+		}
+
 	});
-
-
 	$('.radio-option').click(function() {
 		var this_id = $(this).attr('id');
 		var parents = $(this).parents('.panel:first').attr('this_set');
 		reset_order_form(parents);
 		if (this_id == "service-radio") {
-			$('#select-item-'+parents).attr('disabled','disabled');
 
+			$('#select-item-'+parents).attr('disabled','disabled');
 			$('.make-form-'+parents).removeClass('hide').addClass('show');
 			$('.item-form-'+parents).removeClass('hide').addClass('show');
 			$('.qty-form-'+parents).addClass('hide').removeClass('show');
 			$('.di-form-'+parents).removeClass('hide').addClass('show');
 			$('.rate-form-'+parents).removeClass('hide').addClass('show');
 			$('.price-form-'+parents).removeClass('hide').addClass('show');
-		} else if (this_id == "item-radio") {
-			$('#select-item-'+parents).removeAttr('disabled');
 
+			$('#item-'+parents).remove();
+			if ($('#service-'+parents).length == 0) {
+				var html = '<input type="hidden" value="" name="service_'+parents+'" id="service-'+parents+'">';
+			};
+			$('#this-body').append(html);
+
+		} else if (this_id == "item-radio") {
+
+			$('#select-item-'+parents).removeAttr('disabled');
 			$('.make-form-'+parents).removeClass('show').addClass('hide');
 			$('.item-form-'+parents).removeClass('hide').addClass('show');
 			$('.qty-form-'+parents).removeClass('hide').addClass('show');
 			$('.di-form-'+parents).removeClass('show').addClass('hide');
 			$('.rate-form-'+parents).removeClass('show').addClass('hide');
 			$('.price-form-'+parents).removeClass('hide').addClass('show');
+
+			$('#service-'+parents).remove();
+			if ($('#item-'+parents).length == 0) {
+			var html = '<input type="hidden" value="" name="item_'+parents+'" id="item-'+parents+'">';
+			}	
+
+			$('#this-body').append(html);
 		}
 	});
 
@@ -288,22 +312,32 @@ events_after: function() {
 
 	$(".height").keyup(function(){
 		var height = $(this).val();
-		if (height.match(/^\d+$/)) {//CHECK IF IT IS NUMERIC
+		if (height.match(/^\d+$/) && height != "0") {//CHECK IF IT IS NUMERIC
 			var parents = $(this).parents('.panel:first').attr('this_set');
 			var length = $('#length-'+parents).val();
-			if (length.match(/^\d+$/)) {//CHECK IF IT IS NUMERIC
+			if (length.match(/^\d+$/) && length != "0") {//CHECK IF IT IS NUMERIC
+				var element = $("option:selected", $('#select-make-'+parents));
+				var rate = parseFloat(element.attr("rate"));
 
-			}
-		};
+				var total = get_total(rate,height,length);
+
+				$('#total-'+parents).val(total+' $');
+
+			};
+		}
 	});
 
 	$(".length").keyup(function(){
 		var length = $(this).val();
-		if (length.match(/^\d+$/)) {//CHECK IF IT IS NUMERIC
+		if (length.match(/^\d+$/) && length != "0") {//CHECK IF IT IS NUMERIC
 			var parents = $(this).parents('.panel:first').attr('this_set');
 			var height = $('#height-'+parents).val();
-			if (height.match(/^\d+$/)) {//CHECK IF IT IS NUMERIC
+			if (height.match(/^\d+$/) && height != "0") {//CHECK IF IT IS NUMERIC
+				var element = $("option:selected", $('#select-make-'+parents));
+				var rate = parseFloat(element.attr("rate"));
 
+				var total = get_total(rate,height,length);
+				$('#total-'+parents).val(total+' $');
 			}
 
 		};
@@ -460,6 +494,7 @@ search_users: function(company_id, search) {
                     } else {//IS ACTIVE
                     	$('#user_id').val(null);
                     	$(this).removeClass('success').find('.checkUser').removeAttr('checked');
+                    	wipe_user_information();
                         // deliveries.remove_customer_info_data();
                     }
 
@@ -558,6 +593,8 @@ function urlfriendly(url) {
     function reset_order_form(id){
     	$('#qty-'+id).val('0');
     	$('#total-'+id).val('');
+    	$('#length-'+id).val('');
+    	$('#height-'+id).val('');
     }
     function set_price(rate,qty,parents){
     	if (($('#select-make-'+parents).val() != "") || ($('#select-item-'+parents).val() != "")) {
@@ -586,120 +623,146 @@ function urlfriendly(url) {
     		case 1://SUCCESS
     		$('#checklist').attr(type,true);
 
-    	    _this.parents('.form-group:first').addClass('has-success').addClass('has-feedback').removeClass('has-error');
-            _this.parents('.form-group:first').find('.val-error').removeClass('show').addClass('hide');
-            _this.parents('.form-group:first').find('.val-success').removeClass('hide').addClass('show');
-            _this.parents('.form-group:first').find('.val-help').removeClass('show').addClass('hide');
+    		_this.parents('.form-group:first').addClass('has-success').addClass('has-feedback').removeClass('has-error');
+    		_this.parents('.form-group:first').find('.val-error').removeClass('show').addClass('hide');
+    		_this.parents('.form-group:first').find('.val-success').removeClass('hide').addClass('show');
+    		_this.parents('.form-group:first').find('.val-help').removeClass('show').addClass('hide');
 
-            validate_company_checklist();
+    		validate_company_checklist();
     		break;
     		case 2://ERROR
     		$('#checklist').attr(type,false);
 
-            _this.parents('.form-group:first').addClass('has-error').addClass('has-feedback').removeClass('has-success');
-            _this.parents('.form-group:first').find('.val-success').removeClass('show').addClass('hide');
-            _this.parents('.form-group:first').find('.val-error').removeClass('hide').addClass('show');
-            _this.parents('.form-group:first').find('.val-help').removeClass('hide').addClass('show').html(message);
+    		_this.parents('.form-group:first').addClass('has-error').addClass('has-feedback').removeClass('has-success');
+    		_this.parents('.form-group:first').find('.val-success').removeClass('show').addClass('hide');
+    		_this.parents('.form-group:first').find('.val-error').removeClass('hide').addClass('show');
+    		_this.parents('.form-group:first').find('.val-help').removeClass('hide').addClass('show').html(message);
 
-            validate_company_checklist();
+    		validate_company_checklist();
     		break;
     	}
 
     }
     function validate_company_checklist()
+    {
+    	var ch = $('#checklist');
+    	if (ch.attr('name')=="true" &&  
+    		ch.attr('phone')=="true" &&
+    		ch.attr('email')=="true" && 
+    		ch.attr('street')=="true" &&
+    		ch.attr('zipcode')=="true" &&
+    		ch.attr('city')=="true" &&
+    		ch.attr('unit')=="true" &&
+    		ch.attr('state')=="true" 
+    		) {
+    		$('#next-btn').removeClass('disabled');
+    		$('.content-step').removeClass('disabled');
+
+    	
+    } else {
+    	$('#next-btn').addClass('disabled');
+    	$('.content-step').addClass('disabled');
+
+    }
+
+}
+
+
+
+function check_all_inputs()
 {
- var ch = $('#checklist');
- if (ch.attr('name')=="true" &&  
-    ch.attr('phone')=="true" &&
-    ch.attr('email')=="true" && 
-    ch.attr('street')=="true" &&
-    ch.attr('zipcode')=="true" &&
-    ch.attr('city')=="true" &&
-    ch.attr('unit')=="true" &&
-    ch.attr('state')=="true" 
-    ) {
-    $('#next-btn').removeClass('disabled');
-} else {
-	 $('#next-btn').addClass('disabled');
+	var type = "name";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	request.ajax_validation(value, type, _this);
 
+
+	var type = "email";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	request.ajax_validation(value, type, _this);
+
+	var type = "phone";
+	var value = $('#telephone').val();
+	var _this = $('#telephone');
+	request.ajax_validation(value, type, _this);
+
+
+	var type = "street";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	var form_value = _this.val();
+	var message = type + ' is required.'
+	if (form_value != '') {
+		uni_show_validation(_this,message,1,type);
+	} else {
+		uni_show_validation(_this,message,2,type);
+	}
+
+	var type = "unit";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	var form_value = _this.val();
+	var message = type + ' is required.'
+	if (form_value != '') {
+		uni_show_validation(_this,message,1,type);
+	} else {
+		uni_show_validation(_this,message,2,type);
+	}
+
+	var type = "city";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	var form_value = _this.val();
+	var message = type + ' is required.'
+	if (form_value != '') {
+		uni_show_validation(_this,message,1,type);
+	} else {
+		uni_show_validation(_this,message,2,type);
+	}
+
+	var type = "state";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	var form_value = _this.val();
+	var message = type + ' is required.'
+	if (form_value != '') {
+		uni_show_validation(_this,message,1,type);
+	} else {
+		uni_show_validation(_this,message,2,type);		
+	}
+
+	var type = "zipcode";
+	var value = $('#'+type).val();
+	var _this = $('#'+type);
+	var form_value = _this.val();
+	var message = type + ' is required.'
+	if (form_value != '') {
+		uni_show_validation(_this,message,1,type);
+	} else {
+		uni_show_validation(_this,message,2,type);
+	}
+
+	validate_company_checklist();
 }
 
-}
-
-    function check_all_inputs()
+function get_total(rate,height,length)
 {
-		var type = "name";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		request.ajax_validation(value, type, _this);
-
-
-		var type = "email";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		request.ajax_validation(value, type, _this);
-
-		var type = "phone";
-		var value = $('#telephone').val();
-		var _this = $('#telephone');
-		request.ajax_validation(value, type, _this);
-
-		
-		var type = "street";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		var form_value = _this.val();
-		var message = type + ' is required.'
-		if (form_value != '') {
-			uni_show_validation(_this,message,1,type);
-		} else {
-			uni_show_validation(_this,message,2,type);
-		}
-
-		var type = "unit";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		var form_value = _this.val();
-		var message = type + ' is required.'
-		if (form_value != '') {
-			uni_show_validation(_this,message,1,type);
-		} else {
-			uni_show_validation(_this,message,2,type);
-		}
-
-		var type = "city";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		var form_value = _this.val();
-		var message = type + ' is required.'
-		if (form_value != '') {
-			uni_show_validation(_this,message,1,type);
-		} else {
-			uni_show_validation(_this,message,2,type);
-		}
-
-		var type = "state";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		var form_value = _this.val();
-		var message = type + ' is required.'
-		if (form_value != '') {
-			uni_show_validation(_this,message,1,type);
-		} else {
-			uni_show_validation(_this,message,2,type);		
-		}
-
-		var type = "zipcode";
-		var value = $('#'+type).val();
-		var _this = $('#'+type);
-		var form_value = _this.val();
-		var message = type + ' is required.'
-		if (form_value != '') {
-			uni_show_validation(_this,message,1,type);
-		} else {
-			uni_show_validation(_this,message,2,type);
-		}
-
-		validate_company_checklist();
+	var di = height * length;
+	var total = rate * di;
+	var fixed_total = total.toFixed(2);
+	return fixed_total;
 }
 
+function wipe_user_information()
+{
+	$('#name').val('');
+	$('#telephone').val('');
+	$('#email').val('');
+	$('#street').val('');
+	$('#unit').val('');
+	$('#city').val('');
+	$('#state').val('');
+	$('#zipcode').val('');
+	check_all_inputs();
+}

@@ -13,15 +13,15 @@
 </div>
 {{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','role'=>"form")) }}
 
-<div class="row">
-	<div class="col-md-2" style="margin-bottom:5px;">
+<div class="row" id="this-body"> 
+	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li class="active " role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
-			<li class=" " role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
-			<li class="content-step" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
+			<li class="" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
+			<li class="content-step disabled" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
 		</ul>
 	</div>
-	<div class="col-md-10 pull-right">
+	<div class="col-md-9 pull-right">
 
 
 		<div id="search" class="steps panel panel-success">
@@ -310,6 +310,7 @@
 {{ Form::hidden('user_id',null,['id'=>'user_id'])}}
 {{ Form::hidden('checklist', null,array('id'=>'checklist')) }}
 {{ Form::hidden('tabs_checklist', "address",array('id'=>'tabs_checklist')) }}
+
 {{ Form::close() }}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
