@@ -44,6 +44,7 @@ class SchedulesController extends \BaseController {
 	{
 
 		$searchBy = Delivery::search_by();
+		//PUSH IT TO THE SCRIPT FILE
 		$this->layout->content = View::make('schedules.add')
 		->with('search_by',$searchBy);
 	}
