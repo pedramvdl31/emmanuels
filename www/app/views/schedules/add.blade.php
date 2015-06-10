@@ -312,7 +312,6 @@
 {{ Form::hidden('tabs_checklist', "address",array('id'=>'tabs_checklist')) }}
 
 {{ Form::hidden('service_count', 0,array('id'=>'service_count')) }}
-{{ Form::hidden('item_count', 0,array('id'=>'item_count')) }}
 
 {{ Form::close() }}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

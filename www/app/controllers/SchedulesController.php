@@ -72,7 +72,8 @@ class SchedulesController extends \BaseController {
 		if (Request::ajax()) {
 			$status = 400;
 			$count  = Input::get('content_set_count');
-			$html   = Schedule::prepareOrderForm($count);
+			$count_form  = Input::get('count_form');
+			$html   = Schedule::prepareOrderForm($count,$count_form);
 			return Response::json(array(
 				'status' => 200,
 				'html' => $html
