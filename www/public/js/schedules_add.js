@@ -64,6 +64,15 @@ page = {
         });
     },
     events: function() {
+
+        
+        //CLICKED ON PREVIEW BTN, CHECK ALL THE ORDERS, ONLY IF ALL ORDERS ARE COMPLETE PROCEED TO NXT PAGE
+        $(".submit-btn").click(function(e) {
+            e.preventDefault();
+            
+            check_orders_for_preview();
+        });
+
         $("#searchCustomerNavTabs a").click(function(e) {
             e.preventDefault();
             var tab_href = $(this).attr('href');
@@ -853,9 +862,6 @@ function reorder_orders() {
     var set_no = 0;
     $('.this-title').each(function(e) {
         var pre_set =  $(this).parents('.panel:first').find('.panel-collapse').attr('this_set');
-
-        console.log('pre_set'+pre_set);
-
         $(this).html("Order " + count);
         //xxx
         //RESET ATTRIBUTES
@@ -867,4 +873,24 @@ function reorder_orders() {
         count++;
         set_no++;
     });
+}
+
+function check_orders_for_preview() {
+    var flag = false;
+
+    $('.this-title').each(function(e) {//GOING THROUGH ALL ORDERS
+        alert(find_category($(this)));
+
+        if (this_category == 0) {//SERVICE
+
+        } else if (this_category == 1) {//ITEM
+
+
+        } else {//THERE WAS AN UNSET ORDER, NON OF THE RADIO-BOXES WAS SELECTED
+            flag = true;
+        }
+
+
+    });
+
 }

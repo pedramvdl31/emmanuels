@@ -50,7 +50,19 @@ class SchedulesController extends \BaseController {
 	}
 	public function postAdd()
 	{
-		Job::dump(Input::all());
+		
+		$validator = Validator::make(Input::all(), Schedule::$rules_add);
+		if ($validator->passes()) {
+			Job::dump(Input::all());
+		} 	else {
+		// validation has failed, display error messages    
+			return Redirect::back()
+			->with('message', 'The following errors occurred')
+			->with('alert_type','alert-danger')
+			->withErrors($validator)
+			->withInput();	    	
+
+		}	
 	}
 
 	public function getEdit($id = null)

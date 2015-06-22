@@ -6,9 +6,13 @@ class Schedule extends \Eloquent {
 
 		public static $rules_add = array(
 		'name'=>'required|min:1',
-		'description'=>'required|min:1',
-		'rate' => 'required|min:1|numeric',
-		'type' => 'required'
+		'telephone'=>'required|min:1',
+		'street'=>'required|min:1',
+		'unit'=>'required|min:1',
+		'city'=>'required|min:1',
+		'state'=>'required|min:1',
+		'zipcode'=>'required|min:1',
+
 		);
 
 	public static function prepareSchedules($data) {

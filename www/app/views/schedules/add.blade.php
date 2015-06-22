@@ -11,7 +11,7 @@
 		<li><a href="{{ action('SchedulesController@getIndex') }}">Schedules Overview</a></li>
 	</ol>
 </div>
-{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','role'=>"form")) }}
+{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
 
 <div class="row" id="this-body"> 
 	<div class="col-md-3" style="margin-bottom:5px;">
@@ -301,7 +301,7 @@
 			</div>
 			<div class="panel-footer">
 				<button type="button" class="previous btn btn-default" step="2"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
-				<button type="submit" class="btn btn-primary pull-right submit-btn">Preview</button>
+				<button type="button" class="btn btn-primary pull-right submit-btn">Preview</button>
 			</div>
 		</div>
 	</div>
