@@ -63,8 +63,7 @@ class Schedule extends \Eloquent {
 		$html .= '<div id="accordion-'.$count_form.'" this_set="'.$count_form.'" class="panel-collapse collapse in collapse-'.$count_form.'" role="tabpanel" aria-labelledby="headingOne">';
 		$html .= '<div class="panel-body panel-input">';
 
-		$html .= '
-					<div class="form-group">
+		$html .= '	<div class="form-group">
 						<div class="radio">
 							<label>
 								<input type="radio" class="radio-option " name="content_radio_'.$count_form.'" id="service-radio" value="1">
@@ -79,6 +78,9 @@ class Schedule extends \Eloquent {
 						</div>
 					</div>';
 
+		//RADIO ERROR
+		$html .= '<span class="radio-error help-block hide" style="color:#a94442;">Please complete the order</span>';
+
 		$html .= '<div class="form-group form-group-make hide make-form-'.$count_form.' ">';
 		$html .= '<label class="control-label" for="make">MAKE</label>';
 		$html .= '<select class="form-control select-make" status="" name="select-make-'.$count_form.'" id="select-make-'.$count_form.'">';
@@ -88,6 +90,10 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
+		//MAKE ERROR
+		$html .= '<span class="make-error help-block hide" style="color:#a94442;">Service must be selected!</span>';
+
+
 		$html .= '<div class="form-group form-group-item hide item-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="item">ITEM</label>';
 		$html .= '<select class="form-control select-item" status="" name="select-item-'.$count_form.'" id="select-item-'.$count_form.'">';
@@ -103,6 +109,9 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
+		//ITEM ERROR
+		$html .= '<span class="item-error help-block hide" style="color:#a94442;">at least 1 Item must be selected!</span>';
+
 		$html .= '<div class="form-group form-group-qty hide qty-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="quantity">QUANTITY</label>';
 		$html .= '<div class="input-group">
@@ -111,6 +120,11 @@ class Schedule extends \Eloquent {
 					<span class="input-group-addon add-q" parents="'.$count_form.'"><i class="glyphicon glyphicon-plus" > </i></span>
 					</div>';
 		$html .= '</div>';
+		//QTY ERROR
+		$html .= '<span class="qty-error help-block hide" style="color:#a94442;">Please add an item</span>';
+		
+
+
 		$html .= '												
 		<div class="form-group form-group-di form-inline hide di-form-'.$count_form.'" >
 			<div class="col-sm-2" style="padding-left:0;">
@@ -127,7 +141,10 @@ class Schedule extends \Eloquent {
 				<input type="text" disabled="disabled" class="form-control length" id="length-'.$count_form.'" name="length-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
 				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
 			</div>
+			
 		</div>';
+
+		$html .= '<span class="di-error help-block hide" style="color:#a94442;">height and lenght are required</span>';
 
 		$html .= '<div class="form-group form-group-rate hide rate-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="rate">RATE</label>';
