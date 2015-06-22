@@ -63,7 +63,7 @@ class Schedule extends \Eloquent {
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" class="radio-option" name="content_radio_'.$count_form.'" id="service-radio" value="1">
+								<input type="radio" class="radio-option " name="content_radio_'.$count_form.'" id="service-radio" value="1">
 								Services
 							</label>
 						</div>
@@ -75,7 +75,7 @@ class Schedule extends \Eloquent {
 						</div>
 					</div>';
 
-		$html .= '<div class="form-group hide make-form-'.$count_form.' ">';
+		$html .= '<div class="form-group form-group-make hide make-form-'.$count_form.' ">';
 		$html .= '<label class="control-label" for="make">MAKE</label>';
 		$html .= '<select class="form-control select-make" status="" name="select-make-'.$count_form.'" id="select-make-'.$count_form.'">';
 		$html .= '<option value="">Select Service</option>';
@@ -84,7 +84,7 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
-		$html .= '<div class="form-group hide item-form-'.$count_form.'">';
+		$html .= '<div class="form-group form-group-item hide item-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="item">ITEM</label>';
 		$html .= '<select class="form-control select-item" status="" name="select-item-'.$count_form.'" id="select-item-'.$count_form.'">';
 		$html .= '<option value="">Select Item</option>';
@@ -99,7 +99,7 @@ class Schedule extends \Eloquent {
 		}
 		$html .= '</select>';
 		$html .= '</div>';
-		$html .= '<div class="form-group hide qty-form-'.$count_form.'">';
+		$html .= '<div class="form-group form-group-qty hide qty-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="quantity">QUANTITY</label>';
 		$html .= '<div class="input-group">
 					<span class="input-group-addon minus-q" parents="'.$count_form.'"><i class="glyphicon glyphicon-minus" > </i></span>
@@ -108,7 +108,7 @@ class Schedule extends \Eloquent {
 					</div>';
 		$html .= '</div>';
 		$html .= '												
-		<div class="form-group form-inline hide di-form-'.$count_form.'" >
+		<div class="form-group form-group-di form-inline hide di-form-'.$count_form.'" >
 			<div class="col-sm-2" style="padding-left:0;">
 				<label class="control-label" >Height</label>
 			</div>
@@ -125,12 +125,12 @@ class Schedule extends \Eloquent {
 			</div>
 		</div>';
 
-		$html .= '<div class="form-group hide rate-form-'.$count_form.'">';
+		$html .= '<div class="form-group form-group-rate hide rate-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="rate">RATE</label>';
 		$html .= '<input id="rate-'.$count_form.'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="-">';
 		$html .= '</div>';
 
-		$html .= '<div class="form-group hide price-form-'.$count_form.'">';
+		$html .= '<div class="form-group form-group-price hide price-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="price">PRICE</label>';
 		$html .= '<input type="text" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="00.0 $">';
 		$html .= '</div>';

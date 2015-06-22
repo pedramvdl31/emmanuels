@@ -130,6 +130,7 @@ page = {
             var this_set = $(this).parents('.content-set').attr('this_set');
             $(this).parents('.content-set:first').remove();
 
+
             reorder_orders();
         });
 
@@ -199,8 +200,12 @@ page = {
 
         });
         $('.radio-option').click(function() {
+
+            //xxx
+
             var this_id = $(this).attr('id');
-            var parents = $(this).parents('.panel:first').attr('this_set');
+            //changed here 
+            var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             reset_order_form(parents);
             if (this_id == "service-radio") {
 
@@ -222,15 +227,10 @@ page = {
                 $('.di-form-' + parents).removeClass('show').addClass('hide');
                 $('.rate-form-' + parents).removeClass('show').addClass('hide');
                 $('.price-form-' + parents).removeClass('hide').addClass('show');
-
-
-
             }
         });
 
         //QTY---
-
-
         //
 
         $(".height").keyup(function() {
@@ -852,8 +852,18 @@ function reorder_orders() {
     var count = 1;
     var set_no = 0;
     $('.this-title').each(function(e) {
+        var pre_set =  $(this).parents('.panel:first').find('.panel-collapse').attr('this_set');
+
+        console.log('pre_set'+pre_set);
+
         $(this).html("Order " + count);
-        $(this).parents('.panel:first').attr('this_set', set_no);
+        //xxx
+        //RESET ATTRIBUTES
+        $(this).parents('.panel:first').attr('this_set', set_no);  
+
+        // $(this).parents('.panel:first').find('.form-group-make').;
+
+
         count++;
         set_no++;
     });
