@@ -148,7 +148,7 @@ class Schedule extends \Eloquent {
 
 		$html .= '<div class="form-group form-group-rate hide rate-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="rate">RATE</label>';
-		$html .= '<input id="rate-'.$count_form.'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="-">';
+		$html .= '<input id="rate-'.$count_form.'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="00.0 $">';
 		$html .= '</div>';
 
 		$html .= '<div class="form-group form-group-price hide price-form-'.$count_form.'">';

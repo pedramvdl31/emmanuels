@@ -16,9 +16,9 @@
 <div class="row" id="this-body"> 
 	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
-			<li class="active " role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
-			<li class="" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
-			<li class="content-step disabled" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
+			<li  class="active " role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
+			<li id="user-info" class="" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
+			<li id="order-step" class="content-step disabled" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
@@ -113,7 +113,7 @@
 				</tbody>
 			</table>
 			<div class="panel-footer clearfix">
-				<button type="button" id="first-next" class="btn btn-primary pull-right submit-btn next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 
@@ -121,16 +121,15 @@
 			<div class="panel-heading" style="font-size:17px;"><strong>User Information</strong></div>
 			<div class="panel-body">
 				<ul id="searchCustomerNavTabs" class="nav nav-tabs">
-					<li class="active" role="presentation" type="members"><a href="#address">Address</a></li>
-					<li role="presentation" type="guests"><a href="#newaddress">New Address</a></li>
+					<li id="member-tab" class="active" role="presentation" type="members"><a href="#address">Address</a></li>
+					<li id="new-address-tab" role="presentation" type="guests"><a href="#newaddress">New Address</a></li>
 				</ul>
 				<br/>
-
 				<div id="address" class="customerListDiv">
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="info_radio" id="estimate" value="1">
+								<input type="radio" name="estimate_or_order" id="estimate" value="0">
 								ESTIMATE
 							</label>
 						</div>
@@ -138,12 +137,11 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="info_radio" id="order" value="1" checked>
+								<input type="radio" name="estimate_or_order" id="order" value="1" checked>
 								WORK ORDER
 							</label>
 						</div>
 					</div>
-
 					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
 						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
 						{{ Form::text('name', isset($form_data['name'])?$form_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
@@ -174,8 +172,6 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					
-
 					<hr>
 					<div class="form-group {{ $errors->has('street') ? 'has-error' : false }}">
 						<label class="control-label" for="street">Street&nbsp;&nbsp;</label>
@@ -238,6 +234,10 @@
 					</div>
 				</div><!-- Addess END -->
 				<div id="newaddress" class="customerListDiv hide">
+					
+					<!-- new address error -->
+					<span class="new-address-error help-block hide" style="color:#a94442;">Entered address is incomplete. Please fill the information below.</br> If you do not wish to add a new address <a class="btn btn-primary" id="no_new"> Click here</a></span>
+
 					<div class="form-group {{ $errors->has('new_street') ? 'has-error' : false }}">
 						<label class="control-label" for="new_street">Street&nbsp;&nbsp;</label>
 						{{ Form::text('new_street', isset($form_data['new_street'])?$form_data['new_street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'new_street')) }}
@@ -289,6 +289,9 @@
 			<div class="panel-heading" style="font-size:17px;"><strong>Content Management</strong></div>
 			<div class="panel-body">
 				<button type="button" id="add-content" class=" btn btn-success btn-block" >Add Order&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i></button>
+				
+				<span class="empty-order-error help-block hide" style="color:#a94442;">Nothing to preview. In order to continue please add an order</span>
+
 				<div class="content-area">
 					<div class="content-area-session  {{isset($form_data['html'])?'':'hide'}}">
 						@if(!empty($form_data['html']))

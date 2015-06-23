@@ -52,8 +52,41 @@ class SchedulesController extends \BaseController {
 	{
 		
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
-		if ($validator->passes()) {
+		if ($validator->passes()) { //VALIDATION PASSED
 			Job::dump(Input::all());
+			//GET ADDRESS START
+			if ( 	Input::get('new_street') &&
+					Input::get('new_unit') &&
+					Input::get('new_city') &&
+					Input::get('new_state') &&
+					Input::get('new_zipcode')
+				) { //NEW ADDRESS WAS SET
+				$street = Input::get('new_street') ;
+				$unit = Input::get('new_unit') ;
+				$city = Input::get('new_city') ;
+				$state = Input::get('new_state') ;
+				$zipcode = Input::get('new_zipcode') ;
+				
+			} else { //OLD ADDRESS
+				$street = Input::get('street') ;
+				$unit = Input::get('unit') ;
+				$city = Input::get('city') ;
+				$state = Input::get('state') ;
+				$zipcode = Input::get('zipcode') ;
+			} 
+			//GET ADDRESS END
+
+			//GET OTHER INFORMATION
+
+			$will_phone = (Input::get('will_phone') == 1)?true:false;
+			$estimate_or_order = Input::get('estimate_or_order');
+		
+
+
+
+
+
+			
 		} 	else {
 		// validation has failed, display error messages    
 			return Redirect::back()

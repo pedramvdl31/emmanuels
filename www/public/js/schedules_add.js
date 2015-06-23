@@ -69,7 +69,6 @@ page = {
         //CLICKED ON PREVIEW BTN, CHECK ALL THE ORDERS, ONLY IF ALL ORDERS ARE COMPLETE PROCEED TO NXT PAGE
         $(".submit-btn").click(function(e) {
             e.preventDefault();
-            
             check_orders_for_preview();
         });
 
@@ -215,7 +214,7 @@ $('.radio-option').click(function() {
             var this_id = $(this).attr('id');
             //changed here 
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
-            reset_order_form(parents);
+            reset_select_boxes(parents);
             if (this_id == "service-radio") {
 
                 $('#select-item-' + parents).attr('disabled', 'disabled');
@@ -292,19 +291,20 @@ $(".length").keyup(function() {
         });
         //QTY---
         $('.minus-q').click(function() {
-            var parents = $(this).parents('.panel:first').attr('this_set');
+            //xxx
+            var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
                 var this_category = find_category($(this));
                 //THIS_CATEGOR 0 = SERVICES, 1 = ITEMS
                 if (this_category == 0) { //SERVICE
-                    var this_e = $(this).parents('.panel:first').find('.select-item');
-                    var this_rate = $("option:selected", this_e).attr('rate');
-                    var qty = parseInt($(this).parents('.input-group:first').find('input').val());
-                    var new_qty = 0;
-                    if (qty > 0) {
-                        new_qty = qty - 1;
-                    };
-                    $(this).parents('.input-group:first').find('input').val(new_qty);
+                    // var this_e = $(this).parents('.panel:first').find('.select-item');
+                    // var this_rate = $("option:selected", this_e).attr('rate');
+                    // var qty = parseInt($(this).parents('.input-group:first').find('input').val());
+                    // var new_qty = 0;
+                    // if (qty > 0) {
+                    //     new_qty = qty - 1;
+                    // };
+                    // $(this).parents('.input-group:first').find('input').val(new_qty);
                 } else if (this_category == 1) { //ITEMS
                     var this_e = $(this).parents('.panel:first').find('.select-item');
                     var this_rate = $("option:selected", this_e).attr('rate');
@@ -317,25 +317,25 @@ $(".length").keyup(function() {
                     set_price(this_rate, new_qty, parents);
                     //GATHER DATA AND SAVE IT INTO A FORM
                     var this_item_id = $("option:selected", this_e).val();
-                    store_items(this_category, new_qty, parents, this_item_id, null);
+                    
+                    //remove form
+                    remove_single_order(parents);
+
                 };
             };
         });
 
 
 $('.add-q').click(function() {
-
-    var parents = $(this).parents('.panel:first').attr('this_set');
+    //xxx
+    var parents = $(this).parents('.panel-collapse:first').attr('this_set');
     var this_category = find_category($(this));
-
     var this_parents = $(this).attr('parents');
-            //YOU WERE HERE
-            console.log(parents);
-            console.log(this_parents);
-            if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
+
+    if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
 
                 //THIS_CATEGOR 0 = SERVICES, 1 = ITEMS
-                if (this_category == 0) {
+                if (this_category == 0) {//SERVICE
                 	
                     var this_e = $(this).parents('.panel:first').find('.select-make');
                     var this_rate = $("option:selected", this_e).attr('rate');
@@ -343,7 +343,7 @@ $('.add-q').click(function() {
                     var new_qty = 0;
                     var new_qty = qty + 1;
                     $(this).parents('.input-group:first').find('input').val(new_qty);
-                } else if (this_category == 1) {
+                } else if (this_category == 1) {//ITEM
 
                     var this_e = $(this).parents('.panel:first').find('.select-item');
                     var this_rate = $("option:selected", this_e).attr('rate');
@@ -360,42 +360,42 @@ $('.add-q').click(function() {
             		$('#select-make-' + parents).parents('.form-group:first').addClass('has-error');
             		setTimeout(function(){ 
             			$('#select-make-' + parents).parents('.form-group:first').removeClass('has-error');
-                 }, 1000);
+                   }, 1000);
             	} else {
             		$('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
             		setTimeout(function(){ 
             			$('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
-                 }, 1000);
+                   }, 1000);
             	}
             }
 
         });
 
 $(".qty").keyup(function() {
-   var parents = $(this).parents('.panel:first').attr('this_set');
+ var parents = $(this).parents('.panel:first').attr('this_set');
             if ($(this).val().match(/^\d+$/)) { //CHECK IF IT IS NUMERIC
             	if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
-                   var this_category = find_category($(this));
+                 var this_category = find_category($(this));
 	                //THIS_CATEGOR 0 = SERVICES, 1 = ITEMS
 	                if (this_category == 0) {
 
 	                } else if (this_category == 1) {
-                       var parents = $(this).parents('.panel:first').attr('this_set');
-                       var this_e = $(this).parents('.panel:first').find('.select-item');
-                       var this_rate = $("option:selected", this_e).attr('rate');
-                       var this_qty = parseInt($(this).val());
-                       set_price(this_rate, this_qty, parents);
-                   };
-               } else {
-                  if (this_category == 1) {
-                     $('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
-                     setTimeout(function(){ 
-                        $('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
-                    }, 1000);
-                 } 
-             }
-         };
-     });
+                     var parents = $(this).parents('.panel:first').attr('this_set');
+                     var this_e = $(this).parents('.panel:first').find('.select-item');
+                     var this_rate = $("option:selected", this_e).attr('rate');
+                     var this_qty = parseInt($(this).val());
+                     set_price(this_rate, this_qty, parents);
+                 };
+             } else {
+              if (this_category == 1) {
+               $('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
+               setTimeout(function(){ 
+                $('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
+            }, 1000);
+           } 
+       }
+   };
+});
 
 },
 validation: function() {
@@ -557,9 +557,9 @@ search_users: function(company_id, search) {
             );
 },
 add_content: function(content_set_count) {
-   var count_form = parseInt($('#service_count').val());
-   var token = $('meta[name=_token]').attr('content');
-   $.post(
+ var count_form = parseInt($('#service_count').val());
+ var token = $('meta[name=_token]').attr('content');
+ $.post(
     '/schedules/order-add', {
         "_token": token,
         "content_set_count": content_set_count,
@@ -645,23 +645,33 @@ function urlfriendly(url) {
     }
 
     function reset_order_form(id) {
+
+
         $('#qty-' + id).val('0');
         $('#total-' + id).val('');
         $('#length-' + id).val('');
         $('#height-' + id).val('');
     }
 
-    function set_price(rate, qty, parents) {
-        if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
-            if (qty > 0) {
-                var total = rate * qty;
-                var fixed_total = total.toFixed(2);
-                $('#total-' + parents).val(fixed_total + ' $');
-            } else {
-                $('#total-' + parents).val('00.0 $');
-            }
-        }
+    function reset_select_boxes(id) {
+        $('#select-item-'+id).prop('selectedIndex',0);
+        $('#select-make-'+id).prop('selectedIndex',0);
 
+        $('#qty-' + id).val('0');
+        $('#total-' + id).val('');
+        $('#rate-' + id).val('');
+        $('#length-' + id).val('');
+        $('#height-' + id).val('');
+    }
+
+    function set_price(rate, qty, parents) {
+        if (qty > 0) {
+            var total = rate * qty;
+            var fixed_total = total.toFixed(2);
+            $('#total-' + parents).val(fixed_total + ' $');
+        } else {
+            $('#total-' + parents).val('00.0 $');
+        }
     }
 
     function find_category(_this) {
@@ -835,10 +845,10 @@ function store_items(this_category, new_qty, parents, this_order_id, di) {
         $('.collapse-' + parents).append(html_h);
         $('.collapse-' + parents).append(html_l);
 
-    } else { //ITEM
+    } else { //ITEM 
         var count_form = $('.item-group-' + parents).length;
         var count_i = $('#service_count').val(); //SERVICE COUNT IS SAME AS ITEM COUNT
-        var html = '<input type="hidden" class="item-group-' + parents + ' item-group item-by-count-' + count_i + '" value="' + this_order_id + '" name="item_order[' + parents + '][' + count_form + ']" id="item-' + count_i + '-' + count_form + '" >';
+        var html = '<input type="hidden" class="item-group-' + parents + ' item-group item-by-count-' + count_i + '" value="' + this_order_id + '" name="item_order[' + parents + '][' + count_form + ']" id="item-' + parents + '-' + count_form + '" >';
         $('.collapse-' + parents).append(html);
 
     }
@@ -863,7 +873,6 @@ function reorder_orders() {
     $('.this-title').each(function(e) {
         var pre_set =  $(this).parents('.panel:first').find('.panel-collapse').attr('this_set');
         $(this).html("Order " + count);
-        //xxx
         //RESET ATTRIBUTES
         $(this).parents('.panel:first').attr('this_set', set_no);  
 
@@ -886,18 +895,53 @@ function check_orders_for_preview() {
     $('.form-group-height').removeClass('has-feedback has-error');
     $('.form-group-length').removeClass('has-feedback has-error');
 
-      
+
     $('.radio-error').removeClass('show').addClass('hide');
     $('.make-error').removeClass('show').addClass('hide');
     $('.item-error').removeClass('show').addClass('hide');
     $('.qty-error').removeClass('show').addClass('hide');
     $('.di-error').removeClass('show').addClass('hide');
 
+    $('.empty-order-error').removeClass('show').addClass('hide');
+
+    $('.new-address-error').removeClass('show').addClass('hide');
+
+
+    //CHECK IF THE NEW ADDRESS WAS SET, IF SO MAKE SURE IT IS A COMPETE ADDRESS IF NOW SHOW ERROR
+    if (    ($('#new_street').val() == '') && 
+                ($('#new_unit').val() == '') && 
+                ($('#new_city').val() == '') &&
+                ($('#new_state').val() == '') &&
+                ($('#new_zipcode').val() == '')
+        ) { //SUCCESS
+        
+    } else { 
+        $('.new-address-error').removeClass('hide').addClass('show');
+
+        //ACTIVATE THE SIDEBAR STEPY
+        $('#user-info').addClass('active');
+        $('#order-step').removeClass('active');
+
+        //SHOW AND HIDE THE STEPY PAGES
+        $('#content').removeClass('show').addClass('hide');
+        $('#information').removeClass('hide');
+
+        //ACTIVATE TABS
+        $('#member-tab').removeClass('active');
+        $('#new-address-tab').addClass('active');
+
+        //SHOW AND HIDE TABS
+        $('#address').addClass('hide');
+        $('#newaddress').removeClass('hide');
+
+    }
 
     var flag = false;
 
-    $('.this-title').each(function(e) {//GOING THROUGH ALL ORDERS
-        var this_category = find_category($(this));
+    if ( $('.this-title').length > 0 ) {
+
+            $('.this-title').each(function(e) {//GOING THROUGH ALL ORDERS
+                var this_category = find_category($(this));
         if (this_category == 0) {//SERVICE
 
             //CHECKING SERVICES SELECT
@@ -919,7 +963,6 @@ function check_orders_for_preview() {
 
                 
             };
-
 
             //CHECKING ITEMS SELECT
             var this_i = $(this).parents('.panel:first').find('.select-item');
@@ -974,9 +1017,6 @@ function check_orders_for_preview() {
                 $(this).parents('.panel:first').find('.form-group-length').
                 addClass('has-feedback has-error');
             };
-
-
-
 
         } else if (this_category == 1) {//ITEM
             //CHECKING ITEMS SELECT
@@ -1036,8 +1076,18 @@ function check_orders_for_preview() {
         $('#add-form').submit();
     }
 
+    } else { //THERE IN NO ORDER CREATED YET
+        $('.empty-order-error').removeClass('hide').addClass('show');
+    }
+
+
+
 }
 
-function init_errors() {
+function remove_single_order(parents) {
 
+    //xxx
+    var item_count = $('.item-group-'+parents).length;
+    var new_count = item_count - 1;
+    $('#item-'+parents+'-'+new_count).remove();
 }
