@@ -70,7 +70,7 @@ class Schedule extends \Eloquent {
 								Services
 							</label>
 						</div>
-						<div class="radio">
+						<div class="radio " >
 							<label>
 								<input type="radio" class="radio-option" name="content_radio_'.$count_form.'" id="item-radio" value="2">
 								Items
@@ -130,14 +130,14 @@ class Schedule extends \Eloquent {
 			<div class="col-sm-2" style="padding-left:0;">
 				<label class="control-label" >Height</label>
 			</div>
-			<div class="input-group  col-sm-4 col-xs-12 pull-left">
+			<div class="input-group form-group-height col-sm-4 col-xs-12 pull-left">
 				<input type="text" class="form-control height" disabled="disabled" id="height-'.$count_form.'" name="height-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
 				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-vertical"></i></span>
 			</div>
 			<div class=" col-sm-2">
 				<label class="control-label">Length</label>
 			</div>
-			<div class="input-group  col-sm-4 col-xs-12 pull-left"">
+			<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left"">
 				<input type="text" disabled="disabled" class="form-control length" id="length-'.$count_form.'" name="length-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
 				<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
 			</div>

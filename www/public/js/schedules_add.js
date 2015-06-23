@@ -879,6 +879,14 @@ function check_orders_for_preview() {
     //INIT ALL ERRORS
     $('#content .panel').removeClass('panel-danger').addClass('panel-success');
 
+    $('.radio').removeClass('has-feedback has-error');
+    $('.form-group-make').removeClass('has-feedback has-error');
+    $('.form-group-item').removeClass('has-feedback has-error');
+    $('.form-group-qty').removeClass('has-feedback has-error');
+    $('.form-group-height').removeClass('has-feedback has-error');
+    $('.form-group-length').removeClass('has-feedback has-error');
+
+      
     $('.radio-error').removeClass('show').addClass('hide');
     $('.make-error').removeClass('show').addClass('hide');
     $('.item-error').removeClass('show').addClass('hide');
@@ -904,6 +912,12 @@ function check_orders_for_preview() {
 
                 $(this).parents('.panel:first').find('.make-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR TO SELECT
+                $(this).parents('.panel:first').find('.form-group-make').
+                addClass('has-feedback has-error');
+
+                
             };
 
 
@@ -919,6 +933,10 @@ function check_orders_for_preview() {
 
                 $(this).parents('.panel:first').find('.item-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR TO SELECT
+                $(this).parents('.panel:first').find('.form-group-item').
+                addClass('has-feedback has-error');
             };
 
             //CHECKING HEIGHT
@@ -933,6 +951,10 @@ function check_orders_for_preview() {
 
                 $(this).parents('.panel:first').find('.di-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR
+                $(this).parents('.panel:first').find('.form-group-height').
+                addClass('has-feedback has-error');
             };
 
             //CHECKING length
@@ -947,6 +969,10 @@ function check_orders_for_preview() {
 
                 $(this).parents('.panel:first').find('.di-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR
+                $(this).parents('.panel:first').find('.form-group-length').
+                addClass('has-feedback has-error');
             };
 
 
@@ -965,6 +991,10 @@ function check_orders_for_preview() {
 
                 $(this).parents('.panel:first').find('.item-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR
+                $(this).parents('.panel:first').find('.form-group-item').
+                addClass('has-feedback has-error');
             };
 
             //CHECKING QTY
@@ -972,6 +1002,10 @@ function check_orders_for_preview() {
                 flag = true;
                 $(this).parents('.panel:first').find('.qty-error').
                 removeClass('hide').addClass('show');
+
+                //ADD HAS-ERROR
+                $(this).parents('.panel:first').find('.form-group-qty').
+                addClass('has-feedback has-error');
             };
 
 
@@ -986,6 +1020,9 @@ function check_orders_for_preview() {
             $(this).parents('.panel:first').find('.radio-error').
             removeClass('hide').addClass('show');
             
+            //ADD HAS-ERROR
+            $(this).parents('.panel:first').find('.radio').
+            addClass('has-feedback has-error');
         }
 
 
