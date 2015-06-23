@@ -236,7 +236,7 @@
 				<div id="newaddress" class="customerListDiv hide">
 					
 					<!-- new address error -->
-					<span class="new-address-error help-block hide" style="color:#a94442;">Entered address is incomplete. Please fill the information below.</br> If you do not wish to add a new address <a class="btn btn-primary" id="no_new"> Click here</a></span>
+					<span class="new-address-error help-block hide" style="color:#a94442;">Entered address is incomplete. Please fill the information below.</br> If you do not wish to add a new address <a class="btn btn-primary" id="no-new"> Click here</a></span>
 
 					<div class="form-group {{ $errors->has('new_street') ? 'has-error' : false }}">
 						<label class="control-label" for="new_street">Street&nbsp;&nbsp;</label>

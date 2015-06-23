@@ -72,6 +72,21 @@ page = {
             check_orders_for_preview();
         });
 
+        $("#no-new").click(function(e) {//XXX
+            clear_new_address();
+
+            //ACTIVATE TABS
+            $('#new-address-tab').removeClass('active');
+            $('#member-tab').addClass('active');
+
+            //SHOW AND HIDE TABS
+            $('#newaddress').addClass('hide');
+            $('#address').removeClass('hide');
+
+            //HIDE ERROR
+            $('.new-address-error').removeClass('show').addClass('hide');
+        });
+
         $("#searchCustomerNavTabs a").click(function(e) {
             e.preventDefault();
             var tab_href = $(this).attr('href');
@@ -209,8 +224,6 @@ events_after: function() {
         });
 $('.radio-option').click(function() {
 
-            //xxx
-
             var this_id = $(this).attr('id');
             //changed here 
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
@@ -291,7 +304,6 @@ $(".length").keyup(function() {
         });
         //QTY---
         $('.minus-q').click(function() {
-            //xxx
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
                 var this_category = find_category($(this));
@@ -327,7 +339,6 @@ $(".length").keyup(function() {
 
 
 $('.add-q').click(function() {
-    //xxx
     var parents = $(this).parents('.panel-collapse:first').attr('this_set');
     var this_category = find_category($(this));
     var this_parents = $(this).attr('parents');
@@ -915,7 +926,7 @@ function check_orders_for_preview() {
                 ($('#new_zipcode').val() == '')
         ) { //SUCCESS
         
-    } else { 
+    } else { //NEW ADDRESSES WERE ENTERED BUT WERE INCOMPLETE, SHOW THEM WITH ERROR
         $('.new-address-error').removeClass('hide').addClass('show');
 
         //ACTIVATE THE SIDEBAR STEPY
@@ -1090,4 +1101,13 @@ function remove_single_order(parents) {
     var item_count = $('.item-group-'+parents).length;
     var new_count = item_count - 1;
     $('#item-'+parents+'-'+new_count).remove();
+}
+
+function clear_new_address() {
+$('#new_street').val('');
+$('#new_unit').val('');
+$('#new_state').val('');
+$('#new_city').val('');
+$('#new_zipcode').val('');
+
 }
