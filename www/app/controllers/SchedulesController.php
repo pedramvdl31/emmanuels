@@ -50,7 +50,6 @@ class SchedulesController extends \BaseController {
 	}
 	public function postAdd()
 	{
-		
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
 		if ($validator->passes()) { //VALIDATION PASSED
 			// Job::dump(Input::all());

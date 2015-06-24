@@ -202,11 +202,56 @@ class Schedule extends \Eloquent {
 			
 			//PREPARES ORDERS
 			if (Input::get('service_order') || Input::get('item_order')) {
-
+				$data['subtotal'] = 0;
 				//PREPARE SERVICE ORDERS
-				
-				
-			}
+				if (Input::get('service_order')) {
+					$service_orders = Input::get('service_order');
+					foreach ($service_orders as $key => $s_o) {
+						$services = Service::find($s_o['id']);
+						$data['service_order'][$key]['type']= "Services";
+						$data['service_order'][$key]['name']= $services->name;
+						$data['service_order'][$key]['description']= $services->description;
+						//FIND THE ITEM
+						$items = InventoryItem::find($s_o['item_id']);
+						$data['service_order'][$key]['item_name']= $items->name;
+
+						//SET TWO DECIMAL PLACES
+						$data['service_order'][$key]['rate']= number_format($services->rate, 2);
+						$data['service_order'][$key]['height']= $s_o['height'];
+						$data['service_order'][$key]['length']= $s_o['length'];
+
+						//CALCULATE SUBTOTAL
+						$data['subtotal'] = $data['subtotal'] + $services->rate;
+					}
+				}
+				//PREPARE ITEM ORDERS
+				if (Input::get('item_order')) {
+					$item_orders = Input::get('item_order');
+					foreach ($item_orders as $ikey => $i_o) {
+						//GET ITEM ID
+						$items = InventoryItem::find($i_o[0]);
+						$data['item_order'][$ikey]['name']= $items->name;
+						$data['item_order'][$ikey]['price']= $items->price;
+						$data['item_order'][$ikey]['description']= $items->description;
+						$data['item_order'][$ikey]['qty']= count($i_o);
+						//CALCULATE THE TOTAL 
+						$total = count($i_o) * $items->price;
+						//SET TWO DECIMAL PLACES
+						$data['item_order'][$ikey]['total'] = number_format($total, 2) ;
+						$data['subtotal'] = $data['subtotal'] + $total;
+					}
+				}
+				//SET TAX PRICE, SEATTLE 9.5%
+				$taxes = Tax::find(1);
+				$tax_rate = $taxes->rate;
+				$data['tax_rate'] = $tax_rate * 100;
+				//TAX FOR SALE
+				$taxed = $tax_rate * $data['subtotal'];
+				$data['tax'] = number_format($taxed, 2);
+				//GET TOTAL AFTER TAX
+				$total_after_tax = $data['tax'] + $data['subtotal'];
+				$data['total_after_tax'] = $total_after_tax;
+			}//END OF ORDERS
 
 			
 		}

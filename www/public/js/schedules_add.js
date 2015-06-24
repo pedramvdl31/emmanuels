@@ -262,6 +262,7 @@ $('.radio-option').click(function() {
                 if (length.match(/^\d+$/) && length != "0") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
+                    var element_item = $("option:selected", $('#select-item-' + parents));
                     var rate = parseFloat(element.attr("rate"));
 
                     var total = get_total(rate, height, length);
@@ -273,7 +274,8 @@ $('.radio-option').click(function() {
                         length: length
                     };
                     var this_service_id = element.val();
-                    store_items(this_category, null, parents, this_service_id, di);
+                    var this_item_id = element_item.val();
+                    store_items(this_category, null, parents, this_service_id, di,this_item_id);
 
                 };
             }
@@ -287,6 +289,8 @@ $(".length").keyup(function() {
                 if (height.match(/^\d+$/) && height != "0") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
+
+                    var element_item = $("option:selected", $('#select-item-' + parents));
                     var rate = parseFloat(element.attr("rate"));
 
                     var total = get_total(rate, height, length);
@@ -297,7 +301,8 @@ $(".length").keyup(function() {
                         length: length
                     };
                     var this_service_id = element.val();
-                    store_items(this_category, null, parents, this_service_id, di);
+                    var this_item_id = element_item.val();
+                    store_items(this_category, null, parents, this_service_id, di, this_item_id);
                 }
 
             };
@@ -364,8 +369,8 @@ $('.add-q').click(function() {
                     $(this).parents('.input-group:first').find('input').val(new_qty);
                     set_price(this_rate, new_qty, parents);
                     var this_item_id = this_e.val();
-                    store_items(this_category, new_qty, parents, this_item_id, null);
-                };
+                    store_items(this_category, new_qty, parents, this_item_id, null ,null);
+                }; 
             } else {
             	if (this_category == 0) {
             		$('#select-make-' + parents).parents('.form-group:first').addClass('has-error');
@@ -840,7 +845,7 @@ function wipe_user_information() {
     check_all_inputs();
 }
 
-function store_items(this_category, new_qty, parents, this_order_id, di) {
+function store_items(this_category, new_qty, parents, this_order_id, di, this_item) {//THIS ITEM IS FOR SERVICES ONLY
     var category_name = this_category == 1 ? "item" : "service";
     if (this_category == 0) { //SERVICE
         var count_s = $('#service_count').val();
@@ -850,9 +855,12 @@ function store_items(this_category, new_qty, parents, this_order_id, di) {
         var height = di['height'];
         var length = di['length'];
         var html_i = '<input type="hidden" class="service-group-' + parents + ' service-group service-by-count-' + count_s + '" value="' + this_order_id + '" name="service_order[' + parents + '][id]" id="service-' + count_s + '" >';
+        //ITEM ID ONLY FOR SERVICES
+        var html_i_i = '<input type="hidden" class="service-group-' + parents + ' service-group service-by-count-' + count_s + '" value="' + this_item + '" name="service_order[' + parents + '][item_id]" id="service-' + count_s + '" >';
         var html_h = '<input type="hidden" class="service-group-' + parents + ' service-group service-by-count-' + count_s + '" value="' + height + '" name="service_order[' + parents + '][height]" id="service-' + count_s + '" >';
         var html_l = '<input type="hidden" class="service-group-' + parents + ' service-group service-by-count-' + count_s + '" value="' + length + '" name="service_order[' + parents + '][length]" id="service-' + count_s + '" >';
         $('.collapse-' + parents).append(html_i);
+        $('.collapse-' + parents).append(html_i_i);
         $('.collapse-' + parents).append(html_h);
         $('.collapse-' + parents).append(html_l);
 

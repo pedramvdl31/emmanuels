@@ -56,53 +56,81 @@
                                 <tr>
                                     <td><strong>Name</strong></td>
                                     <td class="text-center"><strong>Type</strong></td>
+                                    <td class="text-center"><strong>Height</strong></td>
+                                    <td class="text-center"><strong>Length</strong></td>
                                     <td class="text-center"><strong>Price</strong></td>
                                     <td class="text-center"><strong>Quantity</strong></td>
                                     <td class="text-right"><strong>Total</strong></td>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody>	
+                            	<!-- FILL THE TABLE -->
+                            	@if(isset($input_all))
+                            		<!-- SERVICES -->
+									@if(isset($input_all['service_order']))
+										@foreach($input_all['service_order'] as $skey => $s_o)
+											<tr>	
+			                                    <td>{{$s_o['name']}} ({{$s_o['item_name']}})</td>
+			                                    <td class="text-center">Services</td>
+			                                    <td class="text-center">{{$s_o['height']}}</td>
+			                                    <td class="text-center">{{$s_o['length']}}</td>
+			                                    <td class="text-center">${{$s_o['rate']}}</td>
+			                                    <td class="text-center"></td>
+			                                    <td class="text-right">${{$s_o['rate']}}</td>
+			                                </tr>
+										@endforeach
+									@endif
+			
+									<!-- ITEMS -->
+									@if(isset($input_all['item_order']))
+										@foreach($input_all['item_order'] as $ikey => $i_o)
+											<tr>	
+			                                    <td>{{$i_o['name']}}</td>
+			                                    <td class="text-center">Items</td>
+			                                    <td class="text-center">-</td>
+			                                    <td class="text-center">-</td>
+			                                    <td class="text-center">${{$i_o['price']}}</td>
+			                                    <td class="text-center">{{$i_o['qty']}}</td>
+			                                    <td class="text-right">${{$i_o['total']}}</td>
+			                                </tr>
+										@endforeach
+									@endif
+								@endif
                                 <tr>
-                                    <td>Samsung Galaxy S5</td>
-                                    <td class="text-center">$900</td>
-                                    <td class="text-center">$900</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$900</td>
-                                </tr>
-                                <tr>
-                                    <td>Samsung Galaxy S5 Extra Battery</td>
-                                    <td class="text-center">$900</td>
-                                    <td class="text-center">$30.00</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$30.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Screen protector</td>
-                                    <td class="text-center">$900</td>
-                                    <td class="text-center">$7</td>
-                                    <td class="text-center">4</td>
-                                    <td class="text-right">$28</td>
-                                </tr>
-                                <tr>
+                                    <td class="highrow"></td>
+                                    <td class="highrow"></td>
                                     <td class="highrow"></td>
                                     <td class="highrow"></td>
                                     <td class="highrow"></td>
                                     <td class="highrow text-center"><strong>Subtotal</strong></td>
-                                    <td class="highrow text-right">$958.00</td>
+                                    <td class="highrow text-right">${{$input_all['subtotal']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
-                                    <td class="emptyrow text-center"><strong>Shipping</strong></td>
-                                    <td class="emptyrow text-right">$20</td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center"><strong>Tax rate</strong></td>
+                                    <td class="emptyrow text-right">{{$input_all['tax_rate']}}%</td>
+                                </tr>
+                                <tr>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow text-center"><strong>Tax due</strong></td>
+                                    <td class="emptyrow text-right">${{$input_all['tax']}}</td>
                                 </tr>
                                 <tr>
                                     <td class="emptyrow"><i class="fa fa-barcode iconbig"></i></td>
                                     <td class="emptyrow"></td>
                                     <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
+                                    <td class="emptyrow"></td>
                                     <td class="emptyrow text-center"><strong>Total</strong></td>
-                                    <td class="emptyrow text-right">$978.00</td>
+                                    <td class="emptyrow text-right">${{$input_all['total_after_tax']}}</td>
                                 </tr>
                             </tbody>
                         </table>
