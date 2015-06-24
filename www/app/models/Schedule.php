@@ -167,5 +167,51 @@ class Schedule extends \Eloquent {
 		return $html;
 	}
 
+	public static function prepareAllForPreview($Input_all) {
+		$data = [];
+
+		if(isset($Input_all)) {
+
+			// CHECK IF THE ADDRESS WAS NEW
+			if ( 	$Input_all['new_street'] &&
+					$Input_all['new_unit'] &&
+					$Input_all['new_city'] &&
+					$Input_all['new_state'] &&
+					$Input_all['new_zipcode']
+				) { //NEW ADDRESS WAS SET
+				$data['is_new'] = true;
+				$data['street'] = Input::get('new_street') ;
+				$data['unit'] = Input::get('new_unit') ;
+				$data['city'] = Input::get('new_city') ;
+				$data['state'] = Input::get('new_state') ;
+				$data['zipcode'] = Input::get('new_zipcode') ;
+				
+			} else { //OLD ADDRESS
+				$data['is_new'] = false;
+				$data['street'] = Input::get('street') ;
+				$data['unit'] = Input::get('unit') ;
+				$data['city'] = Input::get('city') ;
+				$data['state'] = Input::get('state') ;
+				$data['zipcode'] = Input::get('zipcode') ;
+			} 
+			//GET AND SET USER INFORMATION
+		
+			$data['name']= Input::get('name');
+			$data['email']= Input::get('email');
+			$data['phone']= Input::get('telephone');
+			
+			//PREPARES ORDERS
+			if (Input::get('service_order') || Input::get('item_order')) {
+
+				//PREPARE SERVICE ORDERS
+				
+				
+			}
+
+			
+		}
+		return $data;
+	}
+
 }
 

@@ -896,6 +896,7 @@ function reorder_orders() {
 }
 
 function check_orders_for_preview() {
+    var flag = false;
     //INIT ALL ERRORS
     $('#content .panel').removeClass('panel-danger').addClass('panel-success');
 
@@ -919,11 +920,17 @@ function check_orders_for_preview() {
 
 
     //CHECK IF THE NEW ADDRESS WAS SET, IF SO MAKE SURE IT IS A COMPETE ADDRESS IF NOW SHOW ERROR
-    if (    ($('#new_street').val() == '') && 
-                ($('#new_unit').val() == '') && 
-                ($('#new_city').val() == '') &&
-                ($('#new_state').val() == '') &&
-                ($('#new_zipcode').val() == '')
+    if (    (($('#new_street').val() == '') && 
+                    ($('#new_unit').val() == '') && 
+                    ($('#new_city').val() == '') &&
+                    ($('#new_state').val() == '') &&
+                    ($('#new_zipcode').val() == '')) ||
+            (($('#new_street').val() != '') && 
+                        ($('#new_unit').val() != '') && 
+                        ($('#new_city').val() != '') &&
+                        ($('#new_state').val() != '') &&
+                        ($('#new_zipcode').val() != ''))
+
         ) { //SUCCESS
         
     } else { //NEW ADDRESSES WERE ENTERED BUT WERE INCOMPLETE, SHOW THEM WITH ERROR
@@ -944,10 +951,10 @@ function check_orders_for_preview() {
         //SHOW AND HIDE TABS
         $('#address').addClass('hide');
         $('#newaddress').removeClass('hide');
-
+         flag = true;
     }
 
-    var flag = false;
+    
 
     if ( $('.this-title').length > 0 ) {
 
