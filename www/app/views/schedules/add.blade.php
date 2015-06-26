@@ -12,19 +12,21 @@
 	</ol>
 </div>
 {{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
-
+@if(isset($preview_data))
+	{{Job::dump($preview_data)}}
+@endif
 <div class="row" id="this-body"> 
 	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
-			<li  class="active " role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
-			<li id="user-info" class="" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
+			<li  class="{{isset($preview_data)?'':'active'}}" role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
+			<li id="user-info" class="{{isset($preview_data)?'active':''}}" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
 			<li id="order-step" class="content-step disabled" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
 
 
-		<div id="search" class="steps panel panel-success">
+		<div id="search" class="steps panel panel-success {{isset($preview_data)?'hide':''}}">
 			<div class="panel-heading" style="font-size:17px;"><strong>Search</strong></div>
 			<div class="panel-body">
 
@@ -94,8 +96,6 @@
 						</div>			
 					</div>
 				</div>
-
-
 			</div>
 			<table id="userSearchTable" class="table table-hover hide" style="margin-bottom:20px;">
 				<thead>
@@ -116,20 +116,46 @@
 				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
-
-		<div id="information" class="steps panel panel-success hide">
+		<div id="information" class="steps panel panel-success {{isset($preview_data)?'':'hide'}}">
 			<div class="panel-heading" style="font-size:17px;"><strong>User Information</strong></div>
 			<div class="panel-body">
 				<ul id="searchCustomerNavTabs" class="nav nav-tabs">
-					<li id="member-tab" class="active" role="presentation" type="members"><a href="#address">Address</a></li>
-					<li id="new-address-tab" role="presentation" type="guests"><a href="#newaddress">New Address</a></li>
+					<!-- ACTIVATING THE TABS AND CHECKING IF TE NEW ADDRESS WAS SET -->
+					<li id="member-tab" class="
+						@if(isset($preview_data['is_new']))
+							@if($preview_data['is_new'] != true)
+								active
+							@endif
+						@else
+							active
+						@endif
+					" role="presentation" type="members"><a href="#address">Address</a></li>
+					<li id="new-address-tab" class="
+						@if(isset($preview_data['is_new']))
+							@if($preview_data['is_new'] == true)
+								active
+							@endif
+						@endif
+					" role="presentation" type="guests"><a href="#newaddress">New Address</a></li>
 				</ul>
 				<br/>
-				<div id="address" class="customerListDiv">
+				<!-- CHECK IF THE SESSION EXISTS FIRST, IF SO CHECK IF THE ENTERED ADDRESS IS NEW -->
+				<div id="address" class="customerListDiv 
+						@if(isset($preview_data['is_new']))
+							@if($preview_data['is_new'] == true)
+								hide
+							@endif
+						@endif
+				 ">
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="estimate_or_order" id="estimate" value="0">
+								<!-- CHECKING THE SESSION -->
+								<input type="radio" name="estimate_or_order" id="estimate" value="1"
+									@if(isset($preview_data['estimate']))
+										{{$preview_data['estimate']}}
+									@endif
+								>
 								ESTIMATE
 							</label>
 						</div>
@@ -137,14 +163,19 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<input type="radio" name="estimate_or_order" id="order" value="1" checked>
+								<input type="radio" name="estimate_or_order" id="order" value="2" 
+									@if(isset($preview_data['order']))
+										{{$preview_data['order']}}
+									@else
+										checked
+									@endif>
 								WORK ORDER
 							</label>
 						</div>
 					</div>
 					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
 						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
-						{{ Form::text('name', isset($form_data['name'])?$form_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
+						{{ Form::text('name', isset($preview_data['name'])?$preview_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
 						  	<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
   							<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 							<span class='help-block val-help hide'></span>
@@ -154,7 +185,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('telephone') ? 'has-error' : false }}">
 						<label class="control-label" for="telephone">Telephone&nbsp;&nbsp;</label>
-						{{ Form::text('telephone', isset($form_data['telephone'])?$form_data['telephone']:null, array('class'=>'form-control', 'placeholder'=>'Telephone','id'=>'telephone')) }}
+						{{ Form::text('telephone', isset($preview_data['phone'])?$preview_data['phone']:null, array('class'=>'form-control', 'placeholder'=>'Telephone','id'=>'telephone')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>
@@ -164,7 +195,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('email') ? 'has-error' : false }}">
 						<label class="control-label" for="email">Email&nbsp;&nbsp;</label>
-						{{ Form::text('email', isset($form_data['email'])?$form_data['email']:null, array('class'=>'form-control', 'placeholder'=>'Email','id'=>'email')) }}
+						{{ Form::text('email', isset($preview_data['email'])?$preview_data['email']:null, array('class'=>'form-control', 'placeholder'=>'Email','id'=>'email')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>
@@ -175,7 +206,7 @@
 					<hr>
 					<div class="form-group {{ $errors->has('street') ? 'has-error' : false }}">
 						<label class="control-label" for="street">Street&nbsp;&nbsp;</label>
-						{{ Form::text('street', isset($form_data['street'])?$form_data['street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'street')) }}
+						{{ Form::text('street', isset($preview_data['street'])?$preview_data['street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'street')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>
@@ -185,7 +216,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('unit') ? 'has-error' : false }}">
 						<label class="control-label" for="unit">Unit&nbsp;&nbsp;</label>
-						{{ Form::text('unit', isset($form_data['unit'])?$form_data['unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'unit')) }}
+						{{ Form::text('unit', isset($preview_data['unit'])?$preview_data['unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'unit')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>
@@ -195,7 +226,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('city') ? 'has-error' : false }}">
 						<label class="control-label" for="city">City&nbsp;&nbsp;</label>
-						{{ Form::text('city', isset($form_data['city'])?$form_data['city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'city')) }}
+						{{ Form::text('city', isset($preview_data['city'])?$preview_data['city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'city')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>						
@@ -205,7 +236,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('state') ? 'has-error' : false }}">
 						<label class="control-label" for="state">State&nbsp;&nbsp;</label>
-						{{ Form::text('state', isset($form_data['state'])?$form_data['state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'state')) }}
+						{{ Form::text('state', isset($preview_data['state'])?$preview_data['state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'state')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>
@@ -215,7 +246,7 @@
 					</div>
 					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
 						<label class="control-label" for="zipcode">Zipcode&nbsp;&nbsp;</label>
-						{{ Form::text('zipcode', isset($form_data['zipcode'])?$form_data['zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'zipcode')) }}
+						{{ Form::text('zipcode', isset($preview_data['zipcode'])?$preview_data['zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'zipcode')) }}
 						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
 						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 						<span class='help-block val-help hide'></span>						
@@ -227,53 +258,76 @@
 					<div class="form-group {{ $errors->has('will_phone') ? 'has-error' : false }}">
 						<div class="checkbox">
 							<label>
-								<input type="checkbox" value="1" name="will_phone">
+								<!-- IF IS SESSION SET WILL_PHONE -->
+								<input type="checkbox" value="1" name="will_phone" 
+									@if(isset($preview_data['will_phone']))
+										{{$preview_data['will_phone']}}
+									@endif
+								>
 								WILL PHONE
 							</label>
 						</div>
 					</div>
 				</div><!-- Addess END -->
-				<div id="newaddress" class="customerListDiv hide">
-					
+				<div id="newaddress" class="customerListDiv 
+					@if(isset($preview_data['is_new']))
+						@if($preview_data['is_new'] == true)
+						@else
+							hide
+						@endif
+					@else
+						hide
+					@endif
+				">
 					<!-- new address error -->
 					<span class="new-address-error help-block hide" style="color:#a94442;">Entered address is incomplete. Please fill the information below.</br> If you do not wish to add a new address <a class="btn btn-primary" id="no-new"> Click here</a></span>
-
+					<div class="alert alert-danger hide" id="alert-forgotten" role="alert">Name, Phone and Email are required. Click <a class="btn btn-primary" id="set-forgotten-btn">here</a> to set the required fields.</div>
 					<div class="form-group {{ $errors->has('new_street') ? 'has-error' : false }}">
 						<label class="control-label" for="new_street">Street&nbsp;&nbsp;</label>
-						{{ Form::text('new_street', isset($form_data['new_street'])?$form_data['new_street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'new_street')) }}
-						<span class='help-block hide' id="new_street-duplicate">This is a protected new_street please choose another new_street</span>
+						{{ Form::text('new_street', isset($preview_data)?$preview_data['new_street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'new_street')) }}
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('new_street') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
 					<div class="form-group {{ $errors->has('new_unit') ? 'has-error' : false }}">
 						<label class="control-label" for="new_unit">Unit&nbsp;&nbsp;</label>
-						{{ Form::text('new_unit', isset($form_data['new_unit'])?$form_data['new_unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'new_unit')) }}
-						<span class='help-block hide' id="new_unit-duplicate">This is a protected new_unit please choose another new_unit</span>
+						{{ Form::text('new_unit', isset($preview_data)?$preview_data['new_unit']:null, array('class'=>'form-control', 'placeholder'=>'Unit','id'=>'new_unit')) }}
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('new_unit') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
 					<div class="form-group {{ $errors->has('new_city') ? 'has-error' : false }}">
 						<label class="control-label" for="new_city">City&nbsp;&nbsp;</label>
-						{{ Form::text('new_city', isset($form_data['new_city'])?$form_data['new_city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'new_city')) }}
-						<span class='help-block hide' id="new_city-duplicate">This is a protected new_city please choose another new_city</span>
+						{{ Form::text('new_city', isset($preview_data)?$preview_data['new_city']:null, array('class'=>'form-control', 'placeholder'=>'City','id'=>'new_city')) }}
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('new_city') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
 					<div class="form-group {{ $errors->has('new_state') ? 'has-error' : false }}">
 						<label class="control-label" for="new_state">State&nbsp;&nbsp;</label>
-						{{ Form::text('new_state', isset($form_data['new_state'])?$form_data['new_state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'new_state')) }}
-						<span class='help-block hide' id="new_state-duplicate">This is a protected new_state please choose another new_state</span>
+						{{ Form::text('new_state', isset($preview_data)?$preview_data['new_state']:null, array('class'=>'form-control', 'placeholder'=>'State','id'=>'new_state')) }}
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('new_state') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
 					<div class="form-group {{ $errors->has('new_zipcode') ? 'has-error' : false }}">
 						<label class="control-label" for="new_zipcode">Zipcode&nbsp;&nbsp;</label>
-						{{ Form::text('new_zipcode', isset($form_data['new_zipcode'])?$form_data['new_zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'new_zipcode')) }}
-						<span class='help-block hide' id="new_zipcode-duplicate">This is a protected new_zipcode please choose another new_zipcode</span>
+						{{ Form::text('new_zipcode', isset($preview_data)?$preview_data['new_zipcode']:null, array('class'=>'form-control', 'placeholder'=>'Zipcode','id'=>'new_zipcode')) }}
+						<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+						<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+						<span class='help-block val-help hide'></span>
 						@foreach($errors->get('new_zipcode') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
@@ -282,7 +336,11 @@
 			</div>
 			<div class="panel-footer clearfix">
 				<button type="button" class="previous btn btn-default" step="1"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
-				<button type="button" id="next-btn" class="btn btn-primary pull-right next disabled" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="next-btn" class="btn btn-primary pull-right next
+
+				 disabled
+
+				 " >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 		<div id="content" class="steps panel panel-success hide">
@@ -293,13 +351,9 @@
 				<span class="empty-order-error help-block hide" style="color:#a94442;">Nothing to preview. In order to continue please add an order</span>
 
 				<div class="content-area">
-					<div class="content-area-session  {{isset($form_data['html'])?'':'hide'}}">
-						@if(!empty($form_data['html']))
-						@foreach($form_data['html'] as $data)
-						{{$data}}
-						@endforeach
-						@endif
-					</div>
+					@if(isset($orders_html))
+						{{$orders_html}}
+					@endif
 				</div>
 			</div>
 			<div class="panel-footer">
@@ -314,6 +368,17 @@
 {{ Form::hidden('checklist', null,array('id'=>'checklist')) }}
 {{ Form::hidden('tabs_checklist', "address",array('id'=>'tabs_checklist')) }}
 
+<!-- ASSIGNING NEW VARIABLE -->
+{{--*/ $session_ind = false /*--}}
+{{--*/ $isset_new_address = false /*--}}
+@if(isset($preview_data))
+		{{--*/ $session_ind = true /*--}}
+	@if($preview_data['is_new'] == true)
+		{{--*/ $isset_new_address = true /*--}}
+	@endif
+@endif
+{{ Form::hidden('isset_session', $session_ind,array('id'=>'isset_session')) }}
+{{ Form::hidden('isset_new_address', $isset_new_address,array('id'=>'isset_new_address')) }}
 {{ Form::hidden('service_count', 0,array('id'=>'service_count')) }}
 
 {{ Form::close() }}

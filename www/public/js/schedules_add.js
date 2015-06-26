@@ -1,6 +1,8 @@
 $(document).ready(function() {
     page.page_load();
     page.events();
+    //KEEO EYES ON THIS *MAY CAUSE BUGS IN FUTURE
+    page.events_after();
     page.stepy();
     page.validation();
 });
@@ -11,6 +13,19 @@ page = {
                 'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
             }
         });
+        //CHECK IF SESSION EXISTS
+        if ($('#isset_session').val() == true) {
+            //IF THERE WAS A SESSION AND NO NEW ADDRESS THEN
+            if ($('#isset_new_address').val() != true) {
+                setTimeout(function(){ 
+                    check_all_inputs(false);
+                }, 500);
+            }
+            //IF THERE WAS A SESSION AND NEW ADDRESS THEN
+            if ($('#isset_new_address').val() == true) {
+                checklist_force_true();
+            };
+        }
     },
     stepy: function() {
         $("#deliveryStepy li a").click(function(e) {
@@ -29,7 +44,7 @@ page = {
                 }
             } else {
                 if ((href == "#content")) {
-                    check_all_inputs();
+                    check_all_inputs(false);
                 }
             }
         });
@@ -51,6 +66,15 @@ page = {
                 // check_all_inputs();
             };
         });
+        
+        $("#set-forgotten-btn").click(function() {
+            //NAVIGATE TO ADDRESS TAB, IN ORDER TO FILL NAME, EMAIL OR PHONE
+            $('#member-tab').addClass('active');
+            $('#new-address-tab').removeClass('active');
+            $('#address').removeClass('hide');
+            $('#newaddress').removeClass('show').addClass('hide');
+        });
+
         $(".previous").click(function() {
             $("#deliveryStepy .active").prev('li').addClass('row-active');
             $("#deliveryStepy li").removeClass('active');
@@ -224,7 +248,7 @@ events_after: function() {
         });
 $('.radio-option').click(function() {
 
-            var this_id = $(this).attr('id');
+    var this_id = $(this).attr('id');
             //changed here 
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             reset_select_boxes(parents);
@@ -254,17 +278,17 @@ $('.radio-option').click(function() {
         //QTY---
         //
 
-        $(".height").keyup(function() {
-            var height = $(this).val();
-            if (height.match(/^\d+$/) && height != "0") { //CHECK IF IT IS NUMERIC
+$(".height").keyup(function() {
+            var height = parseInt($(this).val());
+            if (height != "0") { //CHECK IF IT IS NUMERIC
                 var parents = $(this).parents('.panel:first').attr('this_set');
-                var length = $('#length-' + parents).val();
-                if (length.match(/^\d+$/) && length != "0") { //CHECK IF IT IS NUMERIC
+                var length = parseInt($('#length-' + parents).val());
+                if (length != "0") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
                     var element_item = $("option:selected", $('#select-item-' + parents));
                     var rate = parseFloat(element.attr("rate"));
-
+                    console.log(rate);
                     var total = get_total(rate, height, length);
 
                     $('#total-' + parents).val(total + ' $');
@@ -283,10 +307,10 @@ $('.radio-option').click(function() {
 
 $(".length").keyup(function() {
     var length = $(this).val();
-            if (length.match(/^\d+$/) && length != "0") { //CHECK IF IT IS NUMERIC
+            if (length != "0") { //CHECK IF IT IS NUMERIC
                 var parents = $(this).parents('.panel:first').attr('this_set');
                 var height = $('#height-' + parents).val();
-                if (height.match(/^\d+$/) && height != "0") { //CHECK IF IT IS NUMERIC
+                if (height != "0") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
 
@@ -376,42 +400,42 @@ $('.add-q').click(function() {
             		$('#select-make-' + parents).parents('.form-group:first').addClass('has-error');
             		setTimeout(function(){ 
             			$('#select-make-' + parents).parents('.form-group:first').removeClass('has-error');
-                   }, 1000);
+                 }, 1000);
             	} else {
             		$('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
             		setTimeout(function(){ 
             			$('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
-                   }, 1000);
+                 }, 1000);
             	}
             }
 
         });
 
 $(".qty").keyup(function() {
- var parents = $(this).parents('.panel:first').attr('this_set');
+   var parents = $(this).parents('.panel:first').attr('this_set');
             if ($(this).val().match(/^\d+$/)) { //CHECK IF IT IS NUMERIC
             	if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
-                 var this_category = find_category($(this));
+                   var this_category = find_category($(this));
 	                //THIS_CATEGOR 0 = SERVICES, 1 = ITEMS
 	                if (this_category == 0) {
 
 	                } else if (this_category == 1) {
-                     var parents = $(this).parents('.panel:first').attr('this_set');
-                     var this_e = $(this).parents('.panel:first').find('.select-item');
-                     var this_rate = $("option:selected", this_e).attr('rate');
-                     var this_qty = parseInt($(this).val());
-                     set_price(this_rate, this_qty, parents);
-                 };
-             } else {
-              if (this_category == 1) {
-               $('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
-               setTimeout(function(){ 
-                $('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
-            }, 1000);
-           } 
-       }
-   };
-});
+                       var parents = $(this).parents('.panel:first').attr('this_set');
+                       var this_e = $(this).parents('.panel:first').find('.select-item');
+                       var this_rate = $("option:selected", this_e).attr('rate');
+                       var this_qty = parseInt($(this).val());
+                       set_price(this_rate, this_qty, parents);
+                   };
+               } else {
+                  if (this_category == 1) {
+                     $('#select-item-' + parents).parents('.form-group:first').addClass('has-error');
+                     setTimeout(function(){ 
+                        $('#select-item-' + parents).parents('.form-group:first').removeClass('has-error');
+                    }, 1000);
+                 } 
+             }
+         };
+     });
 
 },
 validation: function() {
@@ -491,6 +515,73 @@ validation: function() {
             uni_show_validation(_this, message, 2, type);
         }
     });
+
+    //NEW ADDRESSES
+
+    $("#new_street").blur(function() {
+        var form_value = $(this).val();
+        var _this = $(this);
+        var type = "street";
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        user_reminder_new_address()
+    });
+    $("#new_unit").blur(function() {
+        var form_value = $(this).val();
+        var _this = $(this);
+        var type = "unit";
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        user_reminder_new_address()
+    });
+    $("#new_city").blur(function() {
+        var form_value = $(this).val();
+        var _this = $(this);
+        var type = "city";
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        user_reminder_new_address()
+    });
+    $("#new_state").blur(function() {
+        var form_value = $(this).val();
+        var _this = $(this);
+        var type = "state";
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        user_reminder_new_address()
+    });
+    $("#new_zipcode").blur(function() {
+
+        var form_value = $(this).val();
+        var _this = $(this);
+        var type = "zipcode";
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        user_reminder_new_address()
+    });
+
+    //END OF NEW ADDRESSES
+
 }
 };
 request = {
@@ -573,9 +664,9 @@ search_users: function(company_id, search) {
             );
 },
 add_content: function(content_set_count) {
- var count_form = parseInt($('#service_count').val());
- var token = $('meta[name=_token]').attr('content');
- $.post(
+   var count_form = parseInt($('#service_count').val());
+   var token = $('meta[name=_token]').attr('content');
+   $.post(
     '/schedules/order-add', {
         "_token": token,
         "content_set_count": content_set_count,
@@ -634,7 +725,7 @@ set_user: function(user_id) {
                     $("#unit").val(unit);
                     $("#state").val(state);
                     $("#zipcode").val(zipcode);
-                    check_all_inputs();
+                    check_all_inputs(false);
                     break;
                     case 400: // Approved
 
@@ -699,7 +790,7 @@ function urlfriendly(url) {
         }
         return result;
     }
-
+    //SHOWING THE VALIDATION RESULTS
     function uni_show_validation(_this, message, status, type) {
         switch (status) {
         case 1: //SUCCESS
@@ -740,7 +831,6 @@ function validate_company_checklist() {
         $('#next-btn').removeClass('disabled');
     $('.content-step').removeClass('disabled');
 
-
 } else {
     $('#next-btn').addClass('disabled');
     $('.content-step').addClass('disabled');
@@ -748,10 +838,24 @@ function validate_company_checklist() {
 }
 
 }
+//SET ALL ATTR TO TRUE, ONLY IF COMING BACK FROM SESSION AND NEW ADDRESS WAS USED
+function checklist_force_true() {
+    var ch = $('#checklist');
+    ch.attr('name',"true");
+    ch.attr('phone',"true");
+    ch.attr('email',"true");
+    ch.attr('street',"true");
+    ch.attr('zipcode',"true");
+    ch.attr('city',"true");
+    ch.attr('unit',"true");
+    ch.attr('state',"true");
+    validate_company_checklist();
+}
 
 
 
-function check_all_inputs() {
+function check_all_inputs(new_address) {
+
     var type = "name";
     var value = $('#' + type).val();
     var _this = $('#' + type);
@@ -767,66 +871,69 @@ function check_all_inputs() {
     var _this = $('#telephone');
     request.ajax_validation(value, type, _this);
 
+    if (new_address == false) {
+        var type = "street";
+        var value = $('#' + type).val();
+        var _this = $('#' + type);
+        var form_value = _this.val();
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
 
-    var type = "street";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
-    var form_value = _this.val();
-    var message = type + ' is required.'
-    if (form_value != '') {
-        uni_show_validation(_this, message, 1, type);
-    } else {
-        uni_show_validation(_this, message, 2, type);
-    }
+        var type = "unit";
+        var value = $('#' + type).val();
+        var _this = $('#' + type);
+        var form_value = _this.val();
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
 
-    var type = "unit";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
-    var form_value = _this.val();
-    var message = type + ' is required.'
-    if (form_value != '') {
-        uni_show_validation(_this, message, 1, type);
-    } else {
-        uni_show_validation(_this, message, 2, type);
-    }
+        var type = "city";
+        var value = $('#' + type).val();
+        var _this = $('#' + type);
+        var form_value = _this.val();
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
 
-    var type = "city";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
-    var form_value = _this.val();
-    var message = type + ' is required.'
-    if (form_value != '') {
-        uni_show_validation(_this, message, 1, type);
-    } else {
-        uni_show_validation(_this, message, 2, type);
-    }
+        var type = "state";
+        var value = $('#' + type).val();
+        var _this = $('#' + type);
+        var form_value = _this.val();
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
 
-    var type = "state";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
-    var form_value = _this.val();
-    var message = type + ' is required.'
-    if (form_value != '') {
-        uni_show_validation(_this, message, 1, type);
-    } else {
-        uni_show_validation(_this, message, 2, type);
-    }
-
-    var type = "zipcode";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
-    var form_value = _this.val();
-    var message = type + ' is required.'
-    if (form_value != '') {
-        uni_show_validation(_this, message, 1, type);
-    } else {
-        uni_show_validation(_this, message, 2, type);
-    }
+        var type = "zipcode";
+        var value = $('#' + type).val();
+        var _this = $('#' + type);
+        var form_value = _this.val();
+        var message = type + ' is required.'
+        if (form_value != '') {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
+        };
+   
 
     validate_company_checklist();
 }
 
 function get_total(rate, height, length) {
+    console.log(rate);
     var di = height * length;
     var total = rate * di;
     var fixed_total = total.toFixed(2);
@@ -842,11 +949,12 @@ function wipe_user_information() {
     $('#city').val('');
     $('#state').val('');
     $('#zipcode').val('');
-    check_all_inputs();
+    check_all_inputs(false);
 }
 
 function store_items(this_category, new_qty, parents, this_order_id, di, this_item) {//THIS ITEM IS FOR SERVICES ONLY
     var category_name = this_category == 1 ? "item" : "service";
+
     if (this_category == 0) { //SERVICE
         var count_s = $('#service_count').val();
         if ($('.service-by-count-' + count_s).length != 0) {
@@ -929,18 +1037,18 @@ function check_orders_for_preview() {
 
     //CHECK IF THE NEW ADDRESS WAS SET, IF SO MAKE SURE IT IS A COMPETE ADDRESS IF NOW SHOW ERROR
     if (    (($('#new_street').val() == '') && 
-                    ($('#new_unit').val() == '') && 
-                    ($('#new_city').val() == '') &&
-                    ($('#new_state').val() == '') &&
-                    ($('#new_zipcode').val() == '')) ||
-            (($('#new_street').val() != '') && 
-                        ($('#new_unit').val() != '') && 
-                        ($('#new_city').val() != '') &&
-                        ($('#new_state').val() != '') &&
-                        ($('#new_zipcode').val() != ''))
+        ($('#new_unit').val() == '') && 
+        ($('#new_city').val() == '') &&
+        ($('#new_state').val() == '') &&
+        ($('#new_zipcode').val() == '')) ||
+        (($('#new_street').val() != '') && 
+            ($('#new_unit').val() != '') && 
+            ($('#new_city').val() != '') &&
+            ($('#new_state').val() != '') &&
+            ($('#new_zipcode').val() != ''))
 
         ) { //SUCCESS
-        
+
     } else { //NEW ADDRESSES WERE ENTERED BUT WERE INCOMPLETE, SHOW THEM WITH ERROR
         $('.new-address-error').removeClass('hide').addClass('show');
 
@@ -959,7 +1067,7 @@ function check_orders_for_preview() {
         //SHOW AND HIDE TABS
         $('#address').addClass('hide');
         $('#newaddress').removeClass('hide');
-         flag = true;
+        flag = true;
     }
 
     
@@ -1117,12 +1225,29 @@ function remove_single_order(parents) {
     var new_count = item_count - 1;
     $('#item-'+parents+'-'+new_count).remove();
 }
-
 function clear_new_address() {
-$('#new_street').val('');
-$('#new_unit').val('');
-$('#new_state').val('');
-$('#new_city').val('');
-$('#new_zipcode').val('');
-
+    $('#new_street').val('');
+    $('#new_unit').val('');
+    $('#new_state').val('');
+    $('#new_city').val('');
+    $('#new_zipcode').val('');
+}
+//REMIND USER TO SET NAME, PHONE AND EMAIL IF THE NEW ADDRESS IS SET
+function user_reminder_new_address() {
+    //IF ALL FIELDS OF [NEW ADDRESS] ARE SET
+    if ($('#new_street').val() != "" &&
+        $('#new_zipcode').val() != "" &&
+        $('#new_city').val() != "" &&
+        $('#new_unit').val() != "" && 
+        $('#new_state').val() != "") {
+        //IF NAME, PHONE OR EMAIL ARE NOT SET
+        if ($('#name').val() == "" ||
+            $('#telephone').val() == "" ||
+            $('#email').val() == "") {
+            //SHOW ALERT
+            $('#alert-forgotten').removeClass('hide');
+        };
+        //true = new address
+        check_all_inputs(true);
+    }
 }

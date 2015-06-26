@@ -32,11 +32,22 @@
                     <div class="panel panel-default height">
                         <div class="panel-heading">Billing address</div>
                         <div class="panel-body">
-							<strong>{{$input_all['name']}}</strong><br>
-                            {{$input_all['unit']}} {{$input_all['street']}}<br>
-                            {{$input_all['city']}}<br>
-                            {{$input_all['state']}}<br>
-                            <strong>{{$input_all['zipcode']}}</strong><br>
+                            <!-- CHECK WHETHER NEW ADDRESS WAS SET OR NOW -->
+                            @if(isset($input_all))
+                                @if($input_all['is_new'] == true)
+                                    <strong>{{$input_all['name']}}</strong><br>
+                                    {{$input_all['new_unit']}} {{$input_all['new_street']}}<br>
+                                    {{$input_all['new_city']}}<br>
+                                    {{$input_all['new_state']}}<br>
+                                    <strong>{{$input_all['new_zipcode']}}</strong><br>
+                                @else
+                                    <strong>{{$input_all['name']}}</strong><br>
+                                    {{$input_all['unit']}} {{$input_all['street']}}<br>
+                                    {{$input_all['city']}}<br>
+                                    {{$input_all['state']}}<br>
+                                    <strong>{{$input_all['zipcode']}}</strong><br>
+                                @endif
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -137,7 +148,7 @@
                     </div>
                 </div>
 	            <div class="panel-footer">
-					<button type="button" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</button>
+					<a href="{{ action('SchedulesController@getAdd') }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
 					<button type="button" class="btn btn-primary pull-right submit-btn">Confirm</button>
 				</div>
             </div>
