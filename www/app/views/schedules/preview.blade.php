@@ -11,14 +11,14 @@
 		<li class="active">Schedules Preview</li>
 	</ol>
 </div>
-
+{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-12 col-md-3 col-lg-3 pull-left">
                     <div class="panel panel-default height">
-                        <div class="panel-heading">Customer Details</div>
+                        <div class="panel-heading"><strong>Customer Details</strong></div>
                         <div class="panel-body">
                             @if(isset($input_all))
 								{{$input_all['name']}}<br>
@@ -30,7 +30,7 @@
                 </div>
                 <div class="col-xs-12 col-md-3 col-lg-3">
                     <div class="panel panel-default height">
-                        <div class="panel-heading">Billing address</div>
+                        <div class="panel-heading"><strong>Billing address</strong></div>
                         <div class="panel-body">
                             <!-- CHECK WHETHER NEW ADDRESS WAS SET OR NOW -->
                             @if(isset($input_all))
@@ -149,13 +149,13 @@
                 </div>
 	            <div class="panel-footer">
 					<a href="{{ action('SchedulesController@getAdd') }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
-					<button type="button" class="btn btn-primary pull-right submit-btn">Confirm</button>
+					<button type="submit" class="btn btn-primary pull-right submit-btn">Confirm</button>
 				</div>
             </div>
         </div>
     </div>
 </div>
-
+{{ Form::close() }}
 <style>
 .height {
     min-height: 200px;

@@ -456,9 +456,16 @@ class Schedule extends \Eloquent {
 	}
 
 	public static function prepareAllForPreview($Input_all) {
+		//ALL PREPARED DATA GOES IN HERE
 		$data = [];
 
 		if(isset($Input_all)) {
+			//IF USER, SET USER ID
+			if (isset($Input_all['user_id'])) {
+				$data['user_id'] = $Input_all['user_id'];
+			} else {
+				$data['user_id'] = null;
+			}
 
 			// CHECK IF THE ADDRESS WAS NEW
 			if ( 	$Input_all['new_street'] &&
@@ -468,17 +475,17 @@ class Schedule extends \Eloquent {
 				$Input_all['new_zipcode']
 				) { //NEW ADDRESS WAS SET
 				$data['is_new'] = true;
-			$data['new_street'] = Input::get('new_street') ;
-			$data['new_unit'] = Input::get('new_unit') ;
-			$data['new_city'] = Input::get('new_city') ;
-			$data['new_state'] = Input::get('new_state') ;
-			$data['new_zipcode'] = Input::get('new_zipcode') ;
+				$data['new_street'] = Input::get('new_street') ;
+				$data['new_unit'] = Input::get('new_unit') ;
+				$data['new_city'] = Input::get('new_city') ;
+				$data['new_state'] = Input::get('new_state') ;
+				$data['new_zipcode'] = Input::get('new_zipcode') ;
 
-			$data['street'] = "";
-			$data['unit'] = "";
-			$data['city'] = "";
-			$data['state'] = "";
-			$data['zipcode'] = "";
+				$data['street'] = "";
+				$data['unit'] = "";
+				$data['city'] = "";
+				$data['state'] = "";
+				$data['zipcode'] = "";
 
 			} else { //OLD ADDRESS
 				$data['is_new'] = false;
@@ -499,9 +506,11 @@ class Schedule extends \Eloquent {
 			if (Input::get('estimate_or_order')) {
 
 				if (Input::get('estimate_or_order') == 1) {
+					$data['estimate_or_order'] = 1;
 					$data['estimate'] = "checked";
 					$data['order'] = "";
 				} else {
+					$data['estimate_or_order'] = 0;
 					$data['order'] = "checked";
 					$data['estimate'] = "";
 				}
@@ -580,6 +589,9 @@ class Schedule extends \Eloquent {
 				$data['tax'] = number_format($taxed, 2);
 				//GET TOTAL AFTER TAX
 				$total_after_tax = $data['tax'] + $data['subtotal'];
+				//REDUNDANT
+				$data['total_befor_tax'] = $data['subtotal'];
+				
 				$data['total_after_tax'] = $total_after_tax;
 			}//END OF ORDERS
 		}

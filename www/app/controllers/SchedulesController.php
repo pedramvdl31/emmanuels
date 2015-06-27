@@ -62,50 +62,20 @@ class SchedulesController extends \BaseController {
 			->with('search_by',$searchBy);
 		}
 	}
-	public function postAdd()
+
+	public function postPreview()
 	{
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
 		if ($validator->passes()) { //VALIDATION PASSED
-			
-			// //GET ADDRESS START
-			// if ( 	Input::get('new_street') &&
-			// 		Input::get('new_unit') &&
-			// 		Input::get('new_city') &&
-			// 		Input::get('new_state') &&
-			// 		Input::get('new_zipcode')
-			// 	) { //NEW ADDRESS WAS SET
-			// 	$street = Input::get('new_street') ;
-			// 	$unit = Input::get('new_unit') ;
-			// 	$city = Input::get('new_city') ;
-			// 	$state = Input::get('new_state') ;
-			// 	$zipcode = Input::get('new_zipcode') ;
-
-			// } else { //OLD ADDRESS
-			// 	$street = Input::get('street') ;
-			// 	$unit = Input::get('unit') ;
-			// 	$city = Input::get('city') ;
-			// 	$state = Input::get('state') ;
-			// 	$zipcode = Input::get('zipcode') ;
-			// } 
-			// //GET ADDRESS END
-
-			// //GET OTHER INFORMATION
-
-			// $will_phone = (Input::get('will_phone') == 1)?true:false;
-			// $estimate_or_order = Input::get('estimate_or_order');
 
 			if (Session::get('preview_data'))
 				Session::forget('preview_data');
-
 			$prepared_data = Schedule::prepareAllForPreview(Input::all());
-
 			//SAVE ALL THE DATA IN SESSION FOR EDITING PURPOSES
 			Session::put('preview_data', $prepared_data);
 			//EVERYTHING LOOKS GOOD FORWARD TO PREVIEW PAGE FOR APPROVAL
 			$this->layout->content = View::make('schedules.preview')
 			->with('input_all',$prepared_data);
-
-			
 		} 	else {
 		// validation has failed, display error messages    
 			return Redirect::back()
@@ -115,6 +85,103 @@ class SchedulesController extends \BaseController {
 			->withInput();	    	
 
 		}	
+	}
+
+		public function postAdd()
+	{
+		if (Session::get('preview_data')) {
+			//GET ALL DATA
+			$all_inputs = Session::get('preview_data');
+
+			//GET ADDRESS START
+			$street = $all_inputs['street'];
+			$unit = $all_inputs['unit'];
+			$city = $all_inputs['city'];
+			$state = $all_inputs['state'];
+			$zipcode = $all_inputs['zipcode'];
+			//GET USER INFO
+			if (isset($all_inputs['user_id'])) {
+				$user_id = $all_inputs['user_id'];
+			} else {
+				$user_id = null;
+			}
+			$name = $all_inputs['name'];
+			$email = $all_inputs['email'];
+			$phone = $all_inputs['phone'];
+			//GET OTHER INFORMATION
+			$will_phone = ($all_inputs['will_phone'] == 1)?true:false;
+			//WILL BE SAVE AS TYPE
+			$estimate_or_order = $all_inputs['estimate_or_order'];
+
+			//COUNT THE TOTAL NUMBER OF ORDERS, INCLUDING BOTH SERVICES AND ITEMS
+			$orders_count = 0;
+			if (isset($all_inputs['service_order'])) {//SERVICES
+				$services_count = count($all_inputs['service_order']);
+				$orders_count = $orders_count + $services_count;
+			}
+			if (isset($all_inputs['item_order'])) {//ITEM
+				$items_count = count($all_inputs['item_order']);
+				$orders_count = $orders_count + $items_count;
+			}
+
+			//SET PRICES
+			$total_before_tax = $all_inputs['total_befor_tax'];
+			$total_after_tax = $all_inputs['total_after_tax'];
+			$tax = $all_inputs['tax'];
+
+
+			//PROCESSING THE INVOICE AND INVOICE ITEMS
+			if (isset($all_inputs['service_order']) || isset($all_inputs['item_order'])) {
+				$invoice = new Invoice;
+				//WORK ORDER OR ESTIMATE
+				$invoice->type = $estimate_or_order;
+				//EMPTY FOR NOW
+				$invoice->description = null;
+				//TOTAL ORDERS
+				$invoice->quantity = $orders_count;
+				$invoice->pretax = $total_before_tax;
+				$invoice->tax = $tax;
+				//TOTAL AFTER TAX
+				$invoice->total = $total_after_tax;
+				$invoice->status = 1;
+				if($invoice->save()) { //IF SUCCESS, SAVE EACH ORDERS SEPARATELY
+					if (isset($all_inputs['service_order'])) {//SERVICES
+
+						foreach ($all_inputs['service_order'] as $so_key => $so_value) {
+							$invoice_item = new InvoiceItem();
+							$invoice_item->invoice_id = $invoice->id;
+							//TYPE 1 IS SERVICE
+							$invoice_item->type = 1;
+							$invoice_item->inventory_item_id = $so_value['id'];
+							$invoice_item->total = $so_value['total'];
+							$invoice_item->height = $so_value['height'];
+							$invoice_item->length = $so_value['length'];
+							$invoice_item->status = 1;
+							$invoice_item->save();
+						}
+
+					}
+					if (isset($all_inputs['item_order'])) {//ITEM
+						foreach ($all_inputs['item_order'] as $io_key => $io_value) {
+							$invoice_item = new InvoiceItem();
+							$invoice_item->invoice_id = $invoice->id;
+							//TYPE 2 IS ITEM
+							$invoice_item->type = 2;
+							$invoice_item->inventory_item_id = $io_value['id'];
+							$invoice_item->total = $io_value['total'];
+							$invoice_item->quantity = $io_value['qty'];
+							$invoice_item->status = 1;
+							$invoice_item->save();
+						}
+					}
+				}
+				
+			}
+
+
+		} else {
+			//SOMTHING WENT WRONG SESSION NOT SUPPOSED TO BE EMPTY
+		}
 	}
 
 	public function getEdit($id = null)

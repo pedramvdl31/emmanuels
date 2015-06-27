@@ -11,10 +11,7 @@
 		<li><a href="{{ action('SchedulesController@getIndex') }}">Schedules Overview</a></li>
 	</ol>
 </div>
-{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
-@if(isset($preview_data))
-	{{Job::dump($preview_data)}}
-@endif
+{{ Form::open(array('action' => 'SchedulesController@postPreview', 'class'=>'','id'=>'add-form','role'=>"form")) }}
 <div class="row" id="this-body"> 
 	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">

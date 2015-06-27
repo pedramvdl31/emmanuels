@@ -958,9 +958,12 @@ function store_items(this_category, new_qty, parents, this_order_id, di, this_it
 
     if (this_category == 0) { //SERVICE
         var count_s = $('#service_count').val();
-        if ($('.service-by-count-' + count_s).length != 0) {
-            $('.service-by-count-' + count_s).remove();
-        };
+        // if ($('.service-by-count-' + count_s).length != 0) {
+        //     $('.service-by-count-' + count_s).remove();
+        // };
+        //DELETE PREVIOUS ORDERS
+        $('.service-group-' + parents).remove();
+
         var height = di['height'];
         var length = di['length'];
         var html_i = '<input type="hidden" class="service-group-' + parents + ' service-group service-by-count-' + count_s + '" value="' + this_order_id + '" name="service_order[' + parents + '][id]" id="service-' + count_s + '" >';
