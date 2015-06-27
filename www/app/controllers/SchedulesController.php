@@ -66,7 +66,7 @@ class SchedulesController extends \BaseController {
 	{
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
 		if ($validator->passes()) { //VALIDATION PASSED
-			// Job::dump(Input::all());
+			
 			// //GET ADDRESS START
 			// if ( 	Input::get('new_street') &&
 			// 		Input::get('new_unit') &&

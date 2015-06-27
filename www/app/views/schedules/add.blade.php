@@ -371,15 +371,19 @@
 <!-- ASSIGNING NEW VARIABLE -->
 {{--*/ $session_ind = false /*--}}
 {{--*/ $isset_new_address = false /*--}}
+{{--*/ $count_orders = 0 /*--}}
 @if(isset($preview_data))
 		{{--*/ $session_ind = true /*--}}
 	@if($preview_data['is_new'] == true)
 		{{--*/ $isset_new_address = true /*--}}
 	@endif
 @endif
+@if(isset($preview_data))
+	{{--*/ $count_orders = $preview_data['count_all'] /*--}}
+@endif
 {{ Form::hidden('isset_session', $session_ind,array('id'=>'isset_session')) }}
 {{ Form::hidden('isset_new_address', $isset_new_address,array('id'=>'isset_new_address')) }}
-{{ Form::hidden('service_count', 0,array('id'=>'service_count')) }}
+{{ Form::hidden('service_count', $count_orders,array('id'=>'service_count')) }}
 
 {{ Form::close() }}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

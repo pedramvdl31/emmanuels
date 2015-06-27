@@ -288,7 +288,7 @@ $(".height").keyup(function() {
                     var element = $("option:selected", $('#select-make-' + parents));
                     var element_item = $("option:selected", $('#select-item-' + parents));
                     var rate = parseFloat(element.attr("rate"));
-                    console.log(rate);
+  
                     var total = get_total(rate, height, length);
 
                     $('#total-' + parents).val(total + ' $');
@@ -376,13 +376,13 @@ $('.add-q').click(function() {
 
                 //THIS_CATEGOR 0 = SERVICES, 1 = ITEMS
                 if (this_category == 0) {//SERVICE
-                	
-                    var this_e = $(this).parents('.panel:first').find('.select-make');
-                    var this_rate = $("option:selected", this_e).attr('rate');
-                    var qty = parseInt($(this).parents('.input-group:first').find('input').val());
-                    var new_qty = 0;
-                    var new_qty = qty + 1;
-                    $(this).parents('.input-group:first').find('input').val(new_qty);
+                	//CCC
+                    // var this_e = $(this).parents('.panel:first').find('.select-make');
+                    // var this_rate = $("option:selected", this_e).attr('rate');
+                    // var qty = parseInt($(this).parents('.input-group:first').find('input').val());
+                    // var new_qty = 0;
+                    // var new_qty = qty + 1;
+                    // $(this).parents('.input-group:first').find('input').val(new_qty);
                 } else if (this_category == 1) {//ITEM
 
                     var this_e = $(this).parents('.panel:first').find('.select-item');
@@ -391,6 +391,7 @@ $('.add-q').click(function() {
                     var new_qty = 0;
                     var new_qty = qty + 1;
                     $(this).parents('.input-group:first').find('input').val(new_qty);
+                    console.log();
                     set_price(this_rate, new_qty, parents);
                     var this_item_id = this_e.val();
                     store_items(this_category, new_qty, parents, this_item_id, null ,null);
@@ -933,7 +934,7 @@ function check_all_inputs(new_address) {
 }
 
 function get_total(rate, height, length) {
-    console.log(rate);
+
     var di = height * length;
     var total = rate * di;
     var fixed_total = total.toFixed(2);

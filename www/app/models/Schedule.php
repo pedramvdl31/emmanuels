@@ -139,7 +139,7 @@ class Schedule extends \Eloquent {
 		<div class=" col-sm-2">
 		<label class="control-label">Length</label>
 		</div>
-		<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left"">
+		<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left">
 		<input type="text" disabled="disabled" class="form-control length" id="length-'.$count_form.'" name="length-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
 		<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
 		</div>
@@ -168,6 +168,7 @@ class Schedule extends \Eloquent {
 		$html .= '</div>';
 		return $html;
 	}
+
 	//PREPARE ORDERS FROM SESSION
 	public static function prepareOrderFromSession($preview_data){
 		$services = Service::all();
@@ -175,11 +176,12 @@ class Schedule extends \Eloquent {
 		$inventory_items = InventoryItem::all();
 		$html = '';
 		$count_form = 0;
+		$parents = 0;
 		if (isset($preview_data)) {
+
+			//ORDER(SERVICES)
 			if (isset($preview_data['service_order'])) {
 				foreach ($preview_data['service_order'] as $pd_key => $pd_value) {
-
-					$count_form = $count_form + 1;
 					$html .= '<div class="panel panel-success content-set" this_set="'.$count_form.'" style="margin-top:10px;">';
 
 					$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
@@ -187,7 +189,7 @@ class Schedule extends \Eloquent {
 					$html .= 'style="cursor: pointer;">';
 					$html .= '<h4 class="panel-title">';
 					$html .= '<a class="this-title">';
-					$html .= 'Order '.($count_form);
+					$html .= 'Order '.($count_form+1);
 					$html .= '</a>';
 					$html .= '<a>';
 					$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
@@ -215,21 +217,21 @@ class Schedule extends \Eloquent {
 
 					//RADIO ERROR
 					$html .= '<span class="radio-error help-block hide" style="color:#a94442;">Please complete the order</span>';
-//xxx
+				
 					$html .= '<div class="form-group form-group-make  make-form-'.$count_form.' ">';
 					$html .= '<label class="control-label" for="make">MAKE</label>';
 					$html .= '<select class="form-control select-make" status=""  name="select-make-'.$count_form.'" id="select-make-'.$count_form.'">';
 					$html .= '<option rate="'.$pd_value['rate'].'" value="'.$pd_value['id'].'">'.$pd_value['name'].'</option>';
-					foreach ($services as $key => $value) {
+					foreach ($services as $service_key => $service_value) {
 						//ADD THE ITEMS EXCEPT FOR THE ONE THAT IS CHOSEN
-						if ($pd_value['id'] != $value->id) {
-							$html .=	'<option value="'.$value->id.'" rate="'.$value->rate.'">'.$value->name.'</option>';
+						if ($pd_value['id'] != $service_value->id) {
+							$html .=	'<option value="'.$service_value->id.'" rate="'.$service_value->rate.'">'.$service_value->name.'</option>';
 						}
+					}
 					$html .= '</select>';
 					$html .= '</div>';
 					//MAKE ERROR
 					$html .= '<span class="make-error help-block hide" style="color:#a94442;">Service must be selected!</span>';
-
 
 					$html .= '<div class="form-group form-group-item  item-form-'.$count_form.'">';
 					$html .= '<label class="control-label" for="item">ITEM</label>';
@@ -262,8 +264,6 @@ class Schedule extends \Eloquent {
 					//QTY ERROR
 					$html .= '<span class="qty-error help-block hide" style="color:#a94442;">Please add an item</span>';
 
-
-
 					$html .= '												
 					<div class="form-group form-group-di form-inline di-form-'.$count_form.'" >
 					<div class="col-sm-2" style="padding-left:0;">
@@ -276,13 +276,13 @@ class Schedule extends \Eloquent {
 					<div class=" col-sm-2">
 					<label class="control-label">Length</label>
 					</div>
-					<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left"">
+					<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left">
 					<input type="text" value="'.$pd_value['length'].'" class="form-control length" id="length-'.$count_form.'" name="length-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
 					<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
 					</div>
 
 					</div>';
-//xxxx
+				
 					$html .= '<span class="di-error help-block hide" style="color:#a94442;">height and lenght are required</span>';
 
 					$html .= '<div class="form-group form-group-rate rate-form-'.$count_form.'">';
@@ -298,14 +298,159 @@ class Schedule extends \Eloquent {
 					$html .= '</div>';
 					$html .= '</div>';
 					$html .= '';
+
+					//ADD THE ORDERS HIDDEN FORM
+					$html .=	'<input type="hidden" class="service-group-' . $parents . ' service-group service-by-count-' . $count_form . '" value="' . $pd_value['id'] . '" name="service_order[' . $parents . '][id]" id="service-' . $count_form . '" >
+        						<input type="hidden" class="service-group-' . $parents . ' service-group service-by-count-' . $count_form . '" value="' . $pd_value['item_id'] . '" name="service_order[' . $parents . '][item_id]" id="service-' . $count_form . '" >
+         						<input type="hidden" class="service-group-' . $parents . ' service-group service-by-count-' . $count_form . '" value="' . $pd_value['height'] . '" name="service_order[' . $parents . '][height]" id="service-' . $count_form . '" >
+         						<input type="hidden" class="service-group-' . $parents . ' service-group service-by-count-' . $count_form . '" value="' . $pd_value['length'] . '" name="service_order[' . $parents . '][length]" id="service-' . $count_form . '" >';
+         			//END OF FORMS
+
 					$html .= '<div class="panel-footer clearfix">';
 					$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
 					$html .= '</div>';
-
 					$html .= '</div>';
+
+					//INCREMENT PARENT BY ONE
+					$parents = $parents + 1;
+					$count_form = $count_form + 1;
 				}
 				
+			}//END OF SERVICES
+
+			//ORDER(ITEMS)
+			if (isset($preview_data['item_order'])) {
+				foreach ($preview_data['item_order'] as $pd_i_key => $pd_i_value) {
+					$html .= '<div class="panel panel-success content-set" this_set="'.$count_form.'" style="margin-top:10px;">';
+
+					$html .= '<div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse"';
+					$html .= 'data-parent="#accordion" href="#accordion-'.$count_form.'" aria-expanded="true" aria-controls="collapseOne"';
+					$html .= 'style="cursor: pointer;">';
+					$html .= '<h4 class="panel-title">';
+					$html .= '<a class="this-title">';
+					$html .= 'Order '.($count_form+1);
+					$html .= '</a>';
+					$html .= '<a>';
+					$html .= '<i class="glyphicon glyphicon-chevron-down pull-right"></i>';
+					$html .= '</a>';
+					$html .= '</h4>';
+					$html .= '</div>';
+					
+					$html .= '<div id="accordion-'.$count_form.'" this_set="'.$count_form.'" class="panel-collapse collapse in collapse-'.$count_form.'" role="tabpanel" aria-labelledby="headingOne">';
+					$html .= '<div class="panel-body panel-input">';
+
+					$html .= '	<div class="form-group">
+					<div class="radio">
+					<label>
+					<input type="radio" class="radio-option "  name="content_radio_'.$count_form.'" id="service-radio" value="1">
+					Services
+					</label>
+					</div>
+					<div class="radio " >
+					<label>
+					<input type="radio" class="radio-option" checked name="content_radio_'.$count_form.'" id="item-radio" value="2">
+					Items
+					</label>
+					</div>
+					</div>';
+
+					//RADIO ERROR
+					$html .= '<span class="radio-error help-block hide" style="color:#a94442;">Please complete the order</span>';
+				
+					$html .= '<div class="hide form-group form-group-make  make-form-'.$count_form.' ">';
+					$html .= '<label class="control-label" for="make">MAKE</label>';
+					$html .= '<select class="form-control select-make" status=""  name="select-make-'.$count_form.'" id="select-make-'.$count_form.'">';
+					foreach ($services as $service_key => $service_value) {
+							$html .=	'<option value="'.$service_value->id.'" rate="'.$service_value->rate.'">'.$service_value->name.'</option>';
+					}
+					$html .= '</select>';
+					$html .= '</div>';
+					//MAKE ERROR
+					$html .= '<span class="make-error help-block hide" style="color:#a94442;">Service must be selected!</span>';
+
+					$html .= '<div class="form-group form-group-item  item-form-'.$count_form.'">';
+					$html .= '<label class="control-label" for="item">ITEM</label>';
+					$html .= '<select class="form-control select-item" status="" name="select-item-'.$count_form.'" id="select-item-'.$count_form.'">';
+					$html .= '<option rate="'.$pd_i_value['price'].'" value="'.$pd_i_value['id'].'">'.$pd_i_value['name'].' </option>';
+					foreach ($inventories as $key => $value) {
+						$html .= '<optgroup label='.$value->name.'>';
+						foreach ($inventory_items as $ikey => $ivalue) {
+							if ($ivalue->inventory_id == $value->id) {
+								if ($pd_i_value['id'] != $ivalue->id) {
+								$html .=	'<option value="'.$ivalue->id.'" rate="'.$ivalue->price.'">'.$ivalue->name.'</option>';
+								}
+							}
+						}
+						$html .= '</optgroup>';
+					}
+					$html .= '</select>';
+					$html .= '</div>';
+					//ITEM ERROR
+					$html .= '<span class="item-error help-block hide" style="color:#a94442;">at least 1 Item must be selected!</span>';
+
+					$html .= '<div class="form-group form-group-qty qty-form-'.$count_form.'">';
+					$html .= '<label class="control-label" for="quantity">QUANTITY</label>';
+					$html .= '<div class="input-group">
+					<span class="input-group-addon minus-q" parents="'.$count_form.'"><i class="glyphicon glyphicon-minus" > </i></span>
+					<input type="text" class="form-control qty" value="'.$pd_i_value['qty'].'" id="qty-'.$count_form.'" aria-label="Amount (to the nearest dollar)"  name="qty-'.$count_form.'" placeholder="0">
+					<span class="input-group-addon add-q" parents="'.$count_form.'"><i class="glyphicon glyphicon-plus" > </i></span>
+					</div>';
+					$html .= '</div>';
+					//QTY ERROR
+					$html .= '<span class="qty-error help-block hide" style="color:#a94442;">Please add an item</span>';
+					$html .= '												
+					<div class="form-group hide form-group-di form-inline di-form-'.$count_form.'" >
+					<div class="col-sm-2" style="padding-left:0;">
+					<label class="control-label" >Height</label>
+					</div>
+					<div class="input-group form-group-height col-sm-4 col-xs-12 pull-left">
+					<input type="text" class="form-control height"  id="height-'.$count_form.'" name="height-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
+					<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-vertical"></i></span>
+					</div>
+					<div class=" col-sm-2">
+					<label class="control-label">Length</label>
+					</div>
+					<div class="input-group form-group-length col-sm-4 col-xs-12 pull-left">
+					<input type="text"  class="form-control length" id="length-'.$count_form.'" name="length-'.$count_form.'" placeholder="0" aria-describedby="basic-addon2">
+					<span class="input-group-addon" id="basic-addon2"><i class="glyphicon glyphicon-resize-horizontal"></i></span>
+					</div>
+					</div>';
+				
+					$html .= '<span class="di-error help-block hide" style="color:#a94442;">height and lenght are required</span>';
+					$html .= '<div class="form-group hide form-group-rate rate-form-'.$count_form.'">';
+					$html .= '<label class="control-label" for="rate">RATE</label>';
+					$html .= '<input id="rate-'.$count_form.'"   type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="00.0 $">';
+					$html .= '</div>';
+
+					$html .= '<div class="form-group form-group-price price-form-'.$count_form.'">';
+					$html .= '<label class="control-label" for="price">PRICE</label>';
+					$html .= '<input type="text" value="'.$pd_i_value['total'].'$" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="00.0 $">';
+					$html .= '</div>';
+
+					$html .= '</div>';
+					$html .= '</div>';
+					$html .= '';
+					
+					//ADD THE ORDERS HIDDEN FORM
+					for ($i_c=0; $i_c < $pd_i_value['qty']; $i_c++) { 
+						$html .=	'<input type="hidden" class="item-group-' . $parents . ' item-group item-by-count-' . $i_c . '" value="' . $pd_i_value['id'] . '" name="item_order[' . $parents . '][' . $i_c . ']" id="item-' . $parents . '-' . $i_c . '" >';
+
+					}
+         			//END OF FORMS
+
+					$html .= '<div class="panel-footer clearfix">';
+					$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
+					$html .= '</div>';
+					$html .= '</div>';
+
+
+
+					//INCREMENT PARENT BY ONE
+					$parents = $parents + 1;
+					$count_form = $count_form + 1;
+				}
 			}
+
 		}
 		return $html;
 	}
@@ -370,11 +515,12 @@ class Schedule extends \Eloquent {
 			}
 
 			//GET AND SET USER INFORMATION
-
 			$data['name']= Input::get('name');
 			$data['email']= Input::get('email');
 			$data['phone']= Input::get('telephone');
 			
+			//COUNTING ALL ORDERS
+			$data['count_all'] = 0;
 			//PREPARES ORDERS
 			if (Input::get('service_order') || Input::get('item_order')) {
 				$data['subtotal'] = 0;
@@ -382,6 +528,8 @@ class Schedule extends \Eloquent {
 				if (Input::get('service_order')) {
 					$service_orders = Input::get('service_order');
 					foreach ($service_orders as $key => $s_o) {
+						$data['count_all'] = $data['count_all'] + 1;
+
 						$services = Service::find($s_o['id']);
 						$data['service_order'][$key]['type']= "Services";
 						$data['service_order'][$key]['id']= $services->id;
@@ -401,13 +549,14 @@ class Schedule extends \Eloquent {
 						$data['service_order'][$key]['total']= $s_o['length'] * $s_o['height'] * $services->rate;
 
 						//CALCULATE SUBTOTAL
-						$data['subtotal'] = $data['subtotal'] + $services->rate;
+						$data['subtotal'] = $data['subtotal'] + $data['service_order'][$key]['total'];
 					}
 				}
 				//PREPARE ITEM ORDERS
 				if (Input::get('item_order')) {
 					$item_orders = Input::get('item_order');
 					foreach ($item_orders as $ikey => $i_o) {
+						$data['count_all'] = $data['count_all'] + 1;
 						//GET ITEM ID
 						$items = InventoryItem::find($i_o[0]);
 						$data['item_order'][$ikey]['id']= $items->id;
@@ -433,8 +582,6 @@ class Schedule extends \Eloquent {
 				$total_after_tax = $data['tax'] + $data['subtotal'];
 				$data['total_after_tax'] = $total_after_tax;
 			}//END OF ORDERS
-
-			
 		}
 		return $data;
 	}

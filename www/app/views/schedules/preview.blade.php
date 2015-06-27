@@ -87,7 +87,7 @@
 			                                    <td class="text-center">{{$s_o['length']}}</td>
 			                                    <td class="text-center">${{$s_o['rate']}}</td>
 			                                    <td class="text-center"></td>
-			                                    <td class="text-right">${{$s_o['rate']}}</td>
+			                                    <td class="text-right">${{$s_o['total']}}</td>
 			                                </tr>
 										@endforeach
 									@endif
