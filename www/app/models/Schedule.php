@@ -20,7 +20,18 @@ class Schedule extends \Eloquent {
 	public static function prepareSchedules($data) {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {
-				
+				if(isset($data[$key]['type'])) {
+					switch($data[$key]['type']) {
+						case 0:
+						$data[$key]['type'] = 'Work Order';
+						break;
+
+						case 1:
+						$data[$key]['type'] = 'Estimate';
+						break;
+					}
+				}
+					
 				if(isset($data[$key]['status'])) {
 					switch($data[$key]['status']) {
 						case 1:
@@ -483,7 +494,12 @@ class Schedule extends \Eloquent {
 
 		//OTHER
 		$data['estimate_or_order'] = $schedules->type;
-		$data['will_phone'] = $schedules->will_phone;
+		if ($schedules->will_phone == 1) {
+			$data['will_phone'] = "checked";
+		} else {
+			$data['will_phone'] = null;
+		}
+
 		if ($schedules->type == 0) {//SET RADIO BUTTON, WORK
 			$data['order'] = "checked";
 			$data['estimate'] = "";

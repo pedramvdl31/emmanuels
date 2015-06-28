@@ -254,7 +254,7 @@ class SchedulesController extends \BaseController {
 			$email = $all_inputs['email'];
 			$phone = $all_inputs['phone'];
 			//GET OTHER INFORMATION
-			$will_phone = ($all_inputs['will_phone'] == 1)?true:false;
+			$will_phone = ($all_inputs['will_phone'] == "checked")?true:false;
 			//WILL BE SAVE AS TYPE
 			$estimate_or_order = $all_inputs['estimate_or_order'];
 

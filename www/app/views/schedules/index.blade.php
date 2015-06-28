@@ -15,10 +15,14 @@
 		<thead>
 			<tr>
 				<th>Id</th>
-				<th>Company name</th>
-				<th>Schedule Group</th>
-				<th>Description</th>
-				<th>Schedule Items</th>
+				<th>Type</th>
+				<th>Name</th>
+				<th>Email</th>
+				<th>Phone</th>
+				<th>Street</th>
+				<th>Unit</th>
+				<th>City</th>
+				<th>Zipcode</th>
 				<th>Status</th>
 				<th>Action</th>
 			</tr>
@@ -27,10 +31,14 @@
 			@foreach($schedules as $schedule)
 			<tr>
 				<td>{{ $schedule->id }}</td>
-				<td>{{ $schedule->company_name }}</td>
-				<td>{{ $schedule->name }}</td>
-				<td>{{ $schedule->description }}</td>
-				<td>{{ $schedule->item_count }}</td>
+				<td>{{ $schedule->type }}</td>
+				<td>{{ $schedule->firstname }}</td>
+				<td>{{ $schedule->email }}</td>
+				<td>{{ $schedule->phone }}</td>
+				<td>{{ $schedule->street }}</td>
+				<td>{{ $schedule->unit }}</td>
+				<td>{{ $schedule->city }}</td>
+				<td>{{ $schedule->zipcode }}</td>
 				<td>{{ $schedule->status_html }}</td>
 				<td><a href="{{ action('SchedulesController@getEdit',$schedule->id) }}">Edit</a>/
 					{{ Form::open(array('action' => 'SchedulesController@postDelete', 'class'=>'remove-form','id'=>'form-'.$schedule->id,'role'=>"form",'files'=> true)) }}

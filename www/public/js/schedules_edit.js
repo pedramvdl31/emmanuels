@@ -252,8 +252,11 @@ $('.radio-option').click(function() {
             //changed here 
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             reset_select_boxes(parents);
-            if (this_id == "service-radio") {
+            //remove previous orders
+            $('.service-group-' + parents).remove();
+            $('.item-group-' + parents).remove();
 
+            if (this_id == "service-radio") {
                 $('#select-item-' + parents).attr('disabled', 'disabled');
                 $('.make-form-' + parents).removeClass('hide').addClass('show');
                 $('.item-form-' + parents).removeClass('hide').addClass('show');
@@ -261,10 +264,7 @@ $('.radio-option').click(function() {
                 $('.di-form-' + parents).removeClass('hide').addClass('show');
                 $('.rate-form-' + parents).removeClass('hide').addClass('show');
                 $('.price-form-' + parents).removeClass('hide').addClass('show');
-
-
             } else if (this_id == "item-radio") {
-
                 $('#select-item-' + parents).removeAttr('disabled');
                 $('.make-form-' + parents).removeClass('show').addClass('hide');
                 $('.item-form-' + parents).removeClass('hide').addClass('show');

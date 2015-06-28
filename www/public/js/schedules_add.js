@@ -252,7 +252,13 @@ $('.radio-option').click(function() {
             //changed here 
             var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             reset_select_boxes(parents);
+
+
+
+            //BUG IS HERE, DELETE PREVIOUS ORDER AFTER USER CLICKED HERE
             if (this_id == "service-radio") {
+                //remove previous orders
+                $('.service-group-' + parents).remove();
 
                 $('#select-item-' + parents).attr('disabled', 'disabled');
                 $('.make-form-' + parents).removeClass('hide').addClass('show');
@@ -264,6 +270,9 @@ $('.radio-option').click(function() {
 
 
             } else if (this_id == "item-radio") {
+
+                //remove previous orders
+                $('.service-group-' + parents).remove();
 
                 $('#select-item-' + parents).removeAttr('disabled');
                 $('.make-form-' + parents).removeClass('show').addClass('hide');
