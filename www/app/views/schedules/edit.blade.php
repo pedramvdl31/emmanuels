@@ -381,6 +381,10 @@
 {{ Form::hidden('isset_session', $session_ind,array('id'=>'isset_session')) }}
 {{ Form::hidden('isset_new_address', $isset_new_address,array('id'=>'isset_new_address')) }}
 {{ Form::hidden('service_count', $count_orders,array('id'=>'service_count')) }}
+{{ Form::hidden('is_edit', true,array('id'=>'is_edit')) }}
+
+{{ Form::hidden('schedule_id', $preview_data['schedule_id'],array('id'=>'is_edit')) }}
+{{ Form::hidden('invoice_id', $preview_data['invoice_id'],array('id'=>'is_edit')) }}
 
 {{ Form::close() }}
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

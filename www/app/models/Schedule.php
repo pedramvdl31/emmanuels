@@ -458,9 +458,9 @@ class Schedule extends \Eloquent {
 	public static function prepareDataForEdit($id) {
 		//ALL PREPARED DATA GOES IN HERE
 		$data = [];
-
 		//EXTRACT DATA FROM SCHEDULES
 		$schedules = Schedule::find($id);
+		$data['schedule_id'] = $schedules->id;
 		$data['invoice_id'] = $schedules->invoice_id;
 		//USER INFORMAION
 		$data['user_id'] = $schedules->user_id;
@@ -474,6 +474,12 @@ class Schedule extends \Eloquent {
 		$data['city'] = $schedules->city;
 		$data['state'] = $schedules->state;
 		$data['zipcode'] = $schedules->zipcode;
+		$data['new_street'] = "";
+		$data['new_unit'] = "";
+		$data['new_city'] = "";
+		$data['new_state'] = "";
+		$data['new_zipcode'] = "";
+		$data['is_new'] = null;
 
 		//OTHER
 		$data['estimate_or_order'] = $schedules->type;
@@ -491,6 +497,8 @@ class Schedule extends \Eloquent {
 		$invoices = Invoice::find($schedules->invoice_id);
 		$data['count_all'] = $invoices->quantity;
 		$data['total_befor_tax'] = $invoices->pretax;
+
+		$data['total'] = $invoices->pretax;
 		//REDUNDANT 
 		$data['subtotal'] = $invoices->pretax;
 		$data['total_after_tax'] = $invoices->total;
@@ -514,10 +522,11 @@ class Schedule extends \Eloquent {
 				$data['service_order'][$ii_key]['name']= $services->name;
 				$data['service_order'][$ii_key]['description']= $services->description;
 				//FIND THE ITEM
-				//ITEMS ID IS NOT SET MAKE SURE YOU SET THAT XXXXXXX
-				$data['service_order'][$ii_key]['item_name']= "test item";
-				$data['service_order'][$ii_key]['item_id']= 1;
-				$data['service_order'][$ii_key]['rate']= $ii_value->rate;
+				$s_items = InventoryItem::find($ii_value->item_id);
+				$data['service_order'][$ii_key]['item_name']= $s_items->name;
+				$data['service_order'][$ii_key]['item_id']= $ii_value->item_id;
+
+				$data['service_order'][$ii_key]['rate']= number_format($services->rate, 2);
 				//SET HEIGHT AND LENGTH
 				$data['service_order'][$ii_key]['height']= $ii_value->height;
 				$data['service_order'][$ii_key]['length']= $ii_value->length;
@@ -531,7 +540,7 @@ class Schedule extends \Eloquent {
 				$data['item_order'][$ii_key]['price']= $inventory_items->price;
 				$data['item_order'][$ii_key]['description']= $inventory_items->description;
 				$data['item_order'][$ii_key]['qty']= $ii_value->quantity;
-				$data['item_order'][$ii_key]['qty']= $ii_value->total;
+				$data['item_order'][$ii_key]['total']= $ii_value->total;
 			}
 		}
 		return $data;
@@ -547,6 +556,17 @@ class Schedule extends \Eloquent {
 				$data['user_id'] = $Input_all['user_id'];
 			} else {
 				$data['user_id'] = null;
+			}
+
+			//EDIT PAGE
+			if (isset($Input_all['is_edit'])) {
+				$data['is_edit'] = $Input_all['is_edit'];
+				$data['schedule_id'] = $Input_all['schedule_id'];
+				$data['invoice_id'] = $Input_all['invoice_id'];
+			} else {
+				$data['is_id'] = false;
+				$data['schedule_id'] = null;
+				$data['invoice_id'] = null;
 			}
 
 			// CHECK IF THE ADDRESS WAS NEW

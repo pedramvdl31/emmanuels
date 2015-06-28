@@ -11,7 +11,13 @@
 		<li class="active">Schedules Preview</li>
 	</ol>
 </div>
-{{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
+@if(isset($input_all['is_edit']))
+    @if($input_all['is_edit'] == true)
+    {{ Form::open(array('action' => 'SchedulesController@postEdit', 'class'=>'','id'=>'add-form','role'=>"form")) }}
+    @endif
+@else
+    {{ Form::open(array('action' => 'SchedulesController@postAdd', 'class'=>'','id'=>'add-form','role'=>"form")) }}
+@endif
 <div class="container">
     <div class="row">
         <div class="col-xs-12">
@@ -148,7 +154,13 @@
                     </div>
                 </div>
 	            <div class="panel-footer">
-					<a href="{{ action('SchedulesController@getAdd') }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                    @if(isset($input_all['is_edit']))
+                        @if($input_all['is_edit'] == true)
+					        <a href="{{ action('SchedulesController@getEdit',$input_all['schedule_id']) }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                        @endif
+                    @else
+                            <a href="{{ action('SchedulesController@getAdd') }}" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+                    @endif
 					<button type="submit" class="btn btn-primary pull-right submit-btn">Confirm</button>
 				</div>
             </div>
