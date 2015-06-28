@@ -174,11 +174,42 @@ class SchedulesController extends \BaseController {
 							$invoice_item->save();
 						}
 					}
+					//SAVE THE SCHEDULE
+					$schedules = new Schedule();
+					//INVOICE ID
+					$schedules->invoice_id = $invoice->id;
+					//FOR NOW FIRSTNAME HOLDS BOTH FIRST NAME AND LAST NAME
+					//INFO
+					$schedules->user_id = $user_id;
+					$schedules->firstname = $name;
+					$schedules->email = $email;
+					$schedules->phone = $phone;
+					//ADDRESS
+					$schedules->street = $street;
+					$schedules->unit = $unit;
+					$schedules->city = $city;
+					$schedules->state = $state;
+					$schedules->zipcode = $zipcode;
+					//OTHER INFO
+					//TYPE 1 = SERVICE, 2 = ITEM
+					$schedules->type = $estimate_or_order;
+					$schedules->will_phone = $will_phone;
+					$schedules->status = 1;
+
+					if ($schedules->save()) { // Save
+						//FORGET THE SESSION
+		            	if (Session::get('preview_data'))
+		            		Session::forget('preview_data');
+		            	return Redirect::action('SchedulesController@getIndex')
+		            	->with('message', 'Successfully added a Schedule')
+		            	->with('alert_type', 'alert-success');
+		            } else {
+		            	return Redirect::back()
+		            	->with('message', 'Oops, somthing went wrong. Please try again.')
+		            	->with('alert_type', 'alert-danger');
+		            }
 				}
-				
 			}
-
-
 		} else {
 			//SOMTHING WENT WRONG SESSION NOT SUPPOSED TO BE EMPTY
 		}
@@ -186,7 +217,14 @@ class SchedulesController extends \BaseController {
 
 	public function getEdit($id = null)
 	{
-		$this->layout->content = View::make('schedules.edit');
+		if (isset($id)) {
+
+			$prepared_data = Schedule::prepareDataForEdit($id);
+			Job::dump($prepared_data);
+
+			// $this->layout->content = View::make('schedules.edit');
+		}
+		
 	}
 	public function postEdit()
 	{

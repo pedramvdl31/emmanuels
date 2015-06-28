@@ -455,6 +455,88 @@ class Schedule extends \Eloquent {
 		return $html;
 	}
 
+	public static function prepareDataForEdit($id) {
+		//ALL PREPARED DATA GOES IN HERE
+		$data = [];
+
+		//EXTRACT DATA FROM SCHEDULES
+		$schedules = Schedule::find($id);
+		$data['invoice_id'] = $schedules->invoice_id;
+		//USER INFORMAION
+		$data['user_id'] = $schedules->user_id;
+		//FOR NOW FIRSTNAME HOLDS BOTH FIRST NAME AND LAST NAME
+		$data['name'] = $schedules->firstname;
+		$data['email'] = $schedules->email;
+		$data['phone'] = $schedules->phone;
+		//ADDRESS
+		$data['street'] = $schedules->street;
+		$data['unit'] = $schedules->unit;
+		$data['city'] = $schedules->city;
+		$data['state'] = $schedules->state;
+		$data['zipcode'] = $schedules->zipcode;
+
+		//OTHER
+		$data['estimate_or_order'] = $schedules->type;
+		$data['will_phone'] = $schedules->will_phone;
+		if ($schedules->type == 0) {//SET RADIO BUTTON, WORK
+			$data['order'] = "checked";
+			$data['estimate'] = "";
+		} else {//ESTIMATE
+			$data['order'] = "";
+			$data['estimate'] = "checked";
+		}
+		//EXTRACT DATA FROM SCHEDULES **END
+
+		//EXTRACT DATA FROM INVOICE
+		$invoices = Invoice::find($schedules->invoice_id);
+		$data['count_all'] = $invoices->quantity;
+		$data['total_befor_tax'] = $invoices->pretax;
+		//REDUNDANT 
+		$data['subtotal'] = $invoices->pretax;
+		$data['total_after_tax'] = $invoices->total;
+		$data['tax'] = $invoices->tax;
+
+		//xxx
+		//GET STATIC TAX RATE
+		$taxes = Tax::find(1);
+		$tax_rate = $taxes->rate;
+		$data['tax_rate'] = $tax_rate * 100;
+
+		//GET INVOICE ITEMS , ORDERS
+		$invoice_items = InvoiceItem::where('invoice_id',$schedules->invoice_id)->get();
+
+		foreach ($invoice_items as $ii_key => $ii_value) {
+			if ($ii_value->type == 1) {//SERVICES
+				$data['service_order'][$ii_key]['type']= "Services";
+				$data['service_order'][$ii_key]['id']= $ii_value->inventory_item_id;
+				//GET SERVICES NAME
+				$services = Service::find($ii_value->inventory_item_id);
+				$data['service_order'][$ii_key]['name']= $services->name;
+				$data['service_order'][$ii_key]['description']= $services->description;
+				//FIND THE ITEM
+				//ITEMS ID IS NOT SET MAKE SURE YOU SET THAT XXXXXXX
+				$data['service_order'][$ii_key]['item_name']= "test item";
+				$data['service_order'][$ii_key]['item_id']= 1;
+				$data['service_order'][$ii_key]['rate']= $ii_value->rate;
+				//SET HEIGHT AND LENGTH
+				$data['service_order'][$ii_key]['height']= $ii_value->height;
+				$data['service_order'][$ii_key]['length']= $ii_value->length;
+				//TOTAL
+				$data['service_order'][$ii_key]['total']= $ii_value->total;
+
+			} else {//ITEMS
+				$inventory_items = InventoryItem::find($ii_value->inventory_item_id);
+				$data['item_order'][$ii_key]['id']= $inventory_items->id;
+				$data['item_order'][$ii_key]['name']= $inventory_items->name;
+				$data['item_order'][$ii_key]['price']= $inventory_items->price;
+				$data['item_order'][$ii_key]['description']= $inventory_items->description;
+				$data['item_order'][$ii_key]['qty']= $ii_value->quantity;
+				$data['item_order'][$ii_key]['qty']= $ii_value->total;
+			}
+		}
+		return $data;
+	}
+
 	public static function prepareAllForPreview($Input_all) {
 		//ALL PREPARED DATA GOES IN HERE
 		$data = [];
