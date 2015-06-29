@@ -65,6 +65,7 @@ class SchedulesController extends \BaseController {
 
 	public function postPreview()
 	{
+
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
 		if ($validator->passes()) { //VALIDATION PASSED
 			if (Session::get('preview_data'))
@@ -216,6 +217,12 @@ class SchedulesController extends \BaseController {
 
 					//IN-STORE, IN-HOUSE
 					$schedules->place = $store_or_house;
+
+					//PICKUP, DELIVERY DATE
+					$pickup_date = $all_inputs['pickup_date'];
+					$delivery_date = $all_inputs['delivery_date'];
+					$schedules->pickup_date = date("Y-m-d H:i:s",strtotime($pickup_date));
+					$schedules->delivery_date = date("Y-m-d H:i:s",strtotime($delivery_date));
 
 					$schedules->status = 1;
 
@@ -396,6 +403,12 @@ class SchedulesController extends \BaseController {
 
 					//IN-STORE, IN-HOUSE
 					$schedules->place = $store_or_house;
+
+					//PICKUP, DELIVERY DATE
+					$pickup_date = $all_inputs['pickup_date'];
+					$delivery_date = $all_inputs['delivery_date'];
+					$schedules->pickup_date = date("Y-m-d H:i:s",strtotime($pickup_date));
+					$schedules->delivery_date = date("Y-m-d H:i:s",strtotime($delivery_date));
 
 					$schedules->status = 1;
 

@@ -63,11 +63,26 @@
                         <div class="panel-body">
                             <!-- CHECK WHETHER NEW ADDRESS WAS SET OR NOW -->
                             @if(isset($input_all))
+                                <!-- ISSET IS NOT NECESSARY SINCE EVERYTHING HAS BEEN VALIDATED PREVIOUSLY  -->
+                                @if(isset($input_all['pickup_date']))
+                                    Pick up date &nbsp  <span class="label label-success">{{$input_all['pickup_date']}}</span><br>
+                                    Delivery date &nbsp<span class="label label-success">{{$input_all['delivery_date']}}</span><br>
+                                @endif 
                                 @if($input_all['estimate_or_order'] == 0)
                                     Work Order &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
                                 @else
                                     Estimate &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
                                 @endif
+                                @if(isset($input_all['store_or_house']))
+                                    <!-- IN STORE -->
+                                    @if($input_all['store_or_house'] == 1)
+                                        In-Store &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
+                                    <!-- IN HOUSE -->
+                                    @else
+                                        In-House &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
+                                    @endif                                
+                                @endif
+
                                 @if($input_all['will_phone'] == "checked")
                                     Will Phone &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
                                 @endif

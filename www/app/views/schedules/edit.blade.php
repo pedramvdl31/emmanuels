@@ -1,6 +1,9 @@
 @section('stylesheets')
 @stop
 @section('scripts')
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 {{ HTML::script('js/schedules_edit.js') }}
 @stop
 @section('content')
@@ -177,19 +180,6 @@
 					<div class="form-group">
 						<div class="radio">
 							<label>
-								<!-- CHECKING THE SESSION -->
-								<input type="radio" name="store_or_house" id="in-store" value="1"
-									@if(isset($preview_data['in_store']))
-										{{$preview_data['in_store']}}
-									@endif
-								>
-								In-Store
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="radio">
-							<label>
 								<input type="radio" name="store_or_house" id="in-house" value="2" 
 									@if(isset($preview_data['in_house']))
 										{{$preview_data['in_house']}}
@@ -197,6 +187,19 @@
 										checked
 									@endif>
 								In-House
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<!-- CHECKING THE SESSION -->
+								<input type="radio" name="store_or_house" id="in-store" value="1"
+									@if(isset($preview_data['in_store']))
+										{{$preview_data['in_store']}}
+									@endif
+								>
+								In-Store
 							</label>
 						</div>
 					</div>
@@ -233,7 +236,6 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<hr>
 					<div class="form-group {{ $errors->has('street') ? 'has-error' : false }}">
 						<label class="control-label" for="street">Street&nbsp;&nbsp;</label>
 						{{ Form::text('street', isset($preview_data['street'])?$preview_data['street']:null, array('class'=>'form-control', 'placeholder'=>'Street','id'=>'street')) }}
@@ -284,7 +286,30 @@
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
-					<hr>
+
+					<h4 class="group-title">Schedule dates</h4>
+					<hr class="title-hr">
+					<!-- PICK UP DATE -->
+					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
+						<label class="control-label" for="pick_up">PICK UP DATE&nbsp;&nbsp;</label>
+						<div class="input-group pickup-content">
+							<input type="text" value="{{isset($preview_data['pickup_date'])?$preview_data['pickup_date']:null}}" class="form-control  set-date " id="pickup-date" name="pickup_date" readonly="readonly" this-group="pickup" style="cursor:pointer;background-color:#fff"  placeholder="" aria-describedby="basic-addon2">
+							<span class="input-group-addon calendar" style="cursor:pointer" id="basic-addon2"><i class="glyphicon glyphicon-calendar"></i></span>
+						</div>
+						<!-- PICKUP ERROR -->
+						<span class="pickup-date-error help-block hide" style="color:#a94442;">Pick-Up date is required</span>
+					</div>
+
+					<!-- DELIVERY DATE -->
+					<div class="form-group {{ $errors->has('zipcode') ? 'has-error' : false }}">
+						<label class="control-label" for="delivery">DELIVERY DATE&nbsp;&nbsp;</label>
+						<div class="input-group delivery-content">
+							<input type="text" value="{{isset($preview_data['delivery_date'])?$preview_data['delivery_date']:null}}" class="form-control set-date" id="delivery-date" readonly="readonly" name="delivery_date" this-group="delivery" style="cursor:pointer;background-color:#fff"  placeholder="" aria-describedby="basic-addon2">
+							<span class="input-group-addon calendar" style="cursor:pointer" id="basic-addon2"><i class="glyphicon glyphicon-calendar"></i></span>
+						</div>
+						<!-- DELIVERY ERROR -->
+						<span class="delivery-date-error help-block hide" style="color:#a94442;">Delivery date is required</span>
+					</div>
 					<div class="form-group {{ $errors->has('will_phone') ? 'has-error' : false }}">
 						<div class="checkbox">
 							<label>
@@ -435,7 +460,7 @@ margin-top: 10px;
 margin-bottom: 10px;
 }
 .group-title{
-margin-top: 20px;
+margin-top: 25px;
 }
 .first-group-title{
 margin-top: 0px;

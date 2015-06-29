@@ -31,7 +31,23 @@ class Schedule extends \Eloquent {
 						break;
 					}
 				}
-					
+
+				if(isset($data[$key]['pickup_date'])) {
+					$data[$key]['pickup_date'] = date("l, d F, Y",strtotime($data[$key]['pickup_date']));
+				}
+				if(isset($data[$key]['delivery_date'])) {
+					$data[$key]['delivery_date'] = date("l, d F, Y",strtotime($data[$key]['delivery_date']));
+				}
+
+				if(isset($data[$key]['created_at'])) {
+					$data[$key]['created_html'] = date("l, d F, Y",strtotime($data[$key]['created_at']));
+				}
+
+
+				if(isset($data[$key]['street'],$data[$key]['street'],$data[$key]['unit'],$data[$key]['zipcode'],$data[$key]['city'])) {
+					$data[$key]['address'] = $data[$key]['unit'].' '.$data[$key]['street'].', '.$data[$key]['city'].', '.$data[$key]['state'].', '.$data[$key]['zipcode'];
+				}
+
 				if(isset($data[$key]['status'])) {
 					switch($data[$key]['status']) {
 						case 1:
@@ -161,12 +177,12 @@ class Schedule extends \Eloquent {
 
 		$html .= '<div class="form-group form-group-rate hide rate-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="rate">RATE</label>';
-		$html .= '<input id="rate-'.$count_form.'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="00.0 $">';
+		$html .= '<input id="rate-'.$count_form.'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="$00.0">';
 		$html .= '</div>';
 
 		$html .= '<div class="form-group form-group-price hide price-form-'.$count_form.'">';
 		$html .= '<label class="control-label" for="price">PRICE</label>';
-		$html .= '<input type="text" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="00.0 $">';
+		$html .= '<input type="text" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="$00.0">';
 		$html .= '</div>';
 
 		$html .= '</div>';
@@ -298,12 +314,12 @@ class Schedule extends \Eloquent {
 
 					$html .= '<div class="form-group form-group-rate rate-form-'.$count_form.'">';
 					$html .= '<label class="control-label" for="rate">RATE</label>';
-					$html .= '<input id="rate-'.$count_form.'" value="'.$pd_value['rate'].'$" rate="'.$pd_value['rate'].'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="00.0 $">';
+					$html .= '<input id="rate-'.$count_form.'" value="$'.$pd_value['rate'].'" rate="'.$pd_value['rate'].'" type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="$00.0 ">';
 					$html .= '</div>';
 
 					$html .= '<div class="form-group form-group-price price-form-'.$count_form.'">';
 					$html .= '<label class="control-label" for="price">PRICE</label>';
-					$html .= '<input type="text" value="'.$pd_value['total'].'$" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="00.0 $">';
+					$html .= '<input type="text" value="$'.$pd_value['total'].'" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="$00.0">';
 					$html .= '</div>';
 
 					$html .= '</div>';
@@ -430,12 +446,12 @@ class Schedule extends \Eloquent {
 					$html .= '<span class="di-error help-block hide" style="color:#a94442;">height and lenght are required</span>';
 					$html .= '<div class="form-group hide form-group-rate rate-form-'.$count_form.'">';
 					$html .= '<label class="control-label" for="rate">RATE</label>';
-					$html .= '<input id="rate-'.$count_form.'"   type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="00.0 $">';
+					$html .= '<input id="rate-'.$count_form.'"   type="text" name="rate-'.$count_form.'" class="form-control content-rate" disabled="disabled" placeholder="$00.0">';
 					$html .= '</div>';
 
 					$html .= '<div class="form-group form-group-price price-form-'.$count_form.'">';
 					$html .= '<label class="control-label" for="price">PRICE</label>';
-					$html .= '<input type="text" value="'.$pd_i_value['total'].'$" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="00.0 $">';
+					$html .= '<input type="text" value="$'.$pd_i_value['total'].'" name="total-'.$count_form.'" class="form-control content-price" id="total-'.$count_form.'" disabled="disabled" placeholder="$00.0">';
 					$html .= '</div>';
 
 					$html .= '</div>';
@@ -491,6 +507,9 @@ class Schedule extends \Eloquent {
 		$data['new_state'] = "";
 		$data['new_zipcode'] = "";
 		$data['is_new'] = null;
+
+		$data['pickup_date'] = date("l, d F, Y",strtotime($schedules->pickup_date));
+		$data['delivery_date'] = date("l, d F, Y",strtotime($schedules->delivery_date));
 
 		//OTHER
 		$data['estimate_or_order'] = $schedules->type;
@@ -643,6 +662,11 @@ class Schedule extends \Eloquent {
 				$data['new_zipcode'] = "";
 			} 
 
+			if (Input::get('pickup_date') && Input::get('delivery_date')) {
+				$data['pickup_date'] = Input::get('pickup_date');
+				$data['delivery_date'] = Input::get('delivery_date');
+			}
+
 			//IS IT ORDER OR ESTIMATE, ESTIMATE=1, ORDER=2
 			if (Input::get('estimate_or_order')) {
 
@@ -718,25 +742,45 @@ class Schedule extends \Eloquent {
 						$total = count($i_o) * $items->price;
 						//SET TWO DECIMAL PLACES
 						$data['item_order'][$ikey]['total'] = number_format($total, 2) ;
+
 						$data['subtotal'] = $data['subtotal'] + $total;
+
+
 					}
 				}
-				//SET TAX PRICE, SEATTLE 9.5%
-				$taxes = Tax::find(1);
-				$tax_rate = $taxes->rate;
-				$data['tax_rate'] = $tax_rate * 100;
-				//TAX FOR SALE
-				$taxed = $tax_rate * $data['subtotal'];
-				$data['tax'] = number_format($taxed, 2);
-				//GET TOTAL AFTER TAX
-				$total_after_tax = $data['tax'] + $data['subtotal'];
-				//REDUNDANT
-				$data['total_befor_tax'] = $data['subtotal'];
-				
-				$data['total_after_tax'] = $total_after_tax;
+				//IN-HOUSE = NO TAX, IN-STORE = TAX APPLIES
+					if ($Input_all['store_or_house'] == 1) {//IN STORE
+						//SET TAX PRICE, SEATTLE 9.5%
+						$taxes = Tax::find(1);
+						$tax_rate = $taxes->rate;
+						$data['tax_rate'] = $tax_rate * 100;
+						//TAX FOR SALE
+						$taxed = $tax_rate * $data['subtotal'];
+						$data['tax'] = number_format($taxed, 2);
+						//GET TOTAL AFTER TAX
+						$total_after_tax = $data['tax'] + $data['subtotal'];
+						//REDUNDANT
+						$data['total_befor_tax'] = $data['subtotal'];
+						
+						$data['total_after_tax'] = $total_after_tax;
+					} else {//IN HOUSE
+						//SET TAX PRICE, SEATTLE 9.5%
+						$tax_rate = 0;
+						$data['tax_rate'] = 0;
+						//TAX FOR SALE
+						$taxed = 0;
+						$data['tax'] = number_format($taxed, 2);
+						//GET TOTAL AFTER TAX
+						$total_after_tax = $data['tax'] + $data['subtotal'];
+						//REDUNDANT
+						$data['total_befor_tax'] = $data['subtotal'];
+						
+						$data['total_after_tax'] = number_format($total_after_tax, 2);
+					}
+
 			}//END OF ORDERS
 		}
-
+		$data['subtotal'] = number_format($data['subtotal'], 2);
 		return $data;
 	}
 

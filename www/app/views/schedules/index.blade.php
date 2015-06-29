@@ -19,10 +19,10 @@
 				<th>Name</th>
 				<th>Email</th>
 				<th>Phone</th>
-				<th>Street</th>
-				<th>Unit</th>
-				<th>City</th>
-				<th>Zipcode</th>
+				<th>Address</th>
+				<th>Pickup</th>
+				<th>Delivery</th>
+				<th>Created At</th>
 				<th>Status</th>
 				<th>Action</th>
 			</tr>
@@ -35,10 +35,10 @@
 				<td>{{ $schedule->firstname }}</td>
 				<td>{{ $schedule->email }}</td>
 				<td>{{ $schedule->phone }}</td>
-				<td>{{ $schedule->street }}</td>
-				<td>{{ $schedule->unit }}</td>
-				<td>{{ $schedule->city }}</td>
-				<td>{{ $schedule->zipcode }}</td>
+				<td>{{ $schedule->address }}</td>
+				<td>{{ $schedule->pickup_date }}</td>
+				<td>{{ $schedule->delivery_date }}</td>
+				<td>{{ $schedule->created_html }}</td>
 				<td>{{ $schedule->status_html }}</td>
 				<td><a href="{{ action('SchedulesController@getEdit',$schedule->id) }}">Edit</a>/
 					{{ Form::open(array('action' => 'SchedulesController@postDelete', 'class'=>'remove-form','id'=>'form-'.$schedule->id,'role'=>"form",'files'=> true)) }}

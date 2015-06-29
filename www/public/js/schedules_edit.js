@@ -26,6 +26,11 @@ page = {
                 checklist_force_true();
             };
         }
+
+        $(".set-date").datepicker({
+            dateFormat: 'DD, d MM, yy',
+            minDate:0
+        });
     },
     stepy: function() {
         $("#deliveryStepy li a").click(function(e) {
@@ -88,7 +93,10 @@ page = {
         });
     },
     events: function() {
-
+        //OPEN CALENDARE IF USER CLICKED ON CALENDAR ICON
+        $(document).on('click','.calendar',function(e){
+            $(this).parents('.input-group:first').find('.set-date').focus();
+        });
 
         //CLICKED ON PREVIEW BTN, CHECK ALL THE ORDERS, ONLY IF ALL ORDERS ARE COMPLETE PROCEED TO NXT PAGE
         $(".submit-btn").click(function(e) {
@@ -210,7 +218,7 @@ events_after: function() {
         if ($(this).find('option:selected').val() != '') {
             $('#select-item-' + parents).removeAttr('disabled');
             var new_rate = rate.toFixed(2)
-            $('#rate-' + parents).val(new_rate + ' $');
+            $('#rate-' + parents).val('$'+new_rate);
         } else {
             $('#select-item-' + parents).attr('disabled', 'disabled');
             $('#rate-' + parents).val('-');
@@ -293,7 +301,7 @@ $(".height").keyup(function() {
   
                     var total = get_total(rate, height, length);
 
-                    $('#total-' + parents).val(total + ' $');
+                    $('#total-' + parents).val('$'+total);
 
                     var di = {
                         height: height,
@@ -320,7 +328,7 @@ $(".length").keyup(function() {
                     var rate = parseFloat(element.attr("rate"));
 
                     var total = get_total(rate, height, length);
-                    $('#total-' + parents).val(total + ' $');
+                    $('#total-' + parents).val('$'+total);
 
                     var di = {
                         height: height,
@@ -781,7 +789,7 @@ function urlfriendly(url) {
         if (qty > 0) {
             var total = rate * qty;
             var fixed_total = total.toFixed(2);
-            $('#total-' + parents).val(fixed_total + ' $');
+            $('#total-' + parents).val('$'+fixed_total);
         } else {
             $('#total-' + parents).val('00.0 $');
         }
@@ -1021,7 +1029,9 @@ function reorder_orders() {
 }
 
 function check_orders_for_preview() {
-    var flag = false;
+   var flag = false;
+    //ERROR IS ON WHICH STEPY 1 = CONFIRMATION, 0 = INFORMATION
+    var which_page = 1;
     //INIT ALL ERRORS
     $('#content .panel').removeClass('panel-danger').addClass('panel-success');
 
@@ -1038,11 +1048,13 @@ function check_orders_for_preview() {
     $('.item-error').removeClass('show').addClass('hide');
     $('.qty-error').removeClass('show').addClass('hide');
     $('.di-error').removeClass('show').addClass('hide');
-
     $('.empty-order-error').removeClass('show').addClass('hide');
-
     $('.new-address-error').removeClass('show').addClass('hide');
 
+    $('.pickup-date-error').removeClass('show').addClass('hide');
+    $('.pickup-content').removeClass('has-error');
+    $('.delivery-date-error').removeClass('show').addClass('hide');
+    $('.delivery-content').removeClass('has-error');
 
     //CHECK IF THE NEW ADDRESS WAS SET, IF SO MAKE SURE IT IS A COMPETE ADDRESS IF NOW SHOW ERROR
     if (    (($('#new_street').val() == '') && 
@@ -1055,7 +1067,6 @@ function check_orders_for_preview() {
             ($('#new_city').val() != '') &&
             ($('#new_state').val() != '') &&
             ($('#new_zipcode').val() != ''))
-
         ) { //SUCCESS
 
     } else { //NEW ADDRESSES WERE ENTERED BUT WERE INCOMPLETE, SHOW THEM WITH ERROR
@@ -1077,9 +1088,51 @@ function check_orders_for_preview() {
         $('#address').addClass('hide');
         $('#newaddress').removeClass('hide');
         flag = true;
+        which_page = 0;
     }
 
-    
+    //PICKUP DATE AND DELIVERY DATE
+    if ($('#pickup-date').val() == "") {
+        $('.pickup-content').addClass('has-error');
+
+        //ACTIVATE THE SIDEBAR STEPY
+        $('#user-info').addClass('active');
+        $('#order-step').removeClass('active');
+
+        //SHOW AND HIDE THE STEPY PAGES
+        $('#content').removeClass('show').addClass('hide');
+        $('#information').removeClass('hide');
+
+        $('.pickup-date-error').removeClass('hide').addClass('show');
+        flag = true;
+
+        //SCROLL TO THAT SECTION
+        $('html,body').animate({
+          scrollTop: $('.pickup-content').offset().top
+        }, 1000);
+        which_page = 0;
+    };
+
+    if ($('#delivery-date').val() == "") {
+        $('.delivery-content').addClass('has-error');
+
+        //ACTIVATE THE SIDEBAR STEPY
+        $('#user-info').addClass('active');
+        $('#order-step').removeClass('active');
+
+        //SHOW AND HIDE THE STEPY PAGES
+        $('#content').removeClass('show').addClass('hide');
+        $('#information').removeClass('hide');
+
+        $('.delivery-date-error').removeClass('hide').addClass('show');
+        flag = true;
+
+        //SCROLL TO THAT SECTION
+        $('html,body').animate({
+          scrollTop: $('.delivery-content').offset().top
+        }, 1000);
+        which_page = 0;
+    };
 
     if ( $('.this-title').length > 0 ) {
 
@@ -1179,7 +1232,6 @@ function check_orders_for_preview() {
                 $(this).parents('.panel:first').find('.form-group-item').
                 addClass('has-feedback has-error');
             };
-
             //CHECKING QTY
             if ($(this).parents('.panel:first').find('.qty').val() == 0) {//QTY IS 0
                 flag = true;
@@ -1190,8 +1242,6 @@ function check_orders_for_preview() {
                 $(this).parents('.panel:first').find('.form-group-qty').
                 addClass('has-feedback has-error');
             };
-
-
         } else {//THERE WAS AN UNSET ORDER, NON OF THE RADIO-BOXES WAS SELECTED
             flag = true;
             $(this).parents('.panel:first')
@@ -1207,14 +1257,15 @@ function check_orders_for_preview() {
             $(this).parents('.panel:first').find('.radio').
             addClass('has-feedback has-error');
         }
-
-
     });
 
     if(flag == true){ //THERE WAS AN INCOMPLETE ORDER
-        $('html,body').animate({
-          scrollTop: $('.panel-danger').offset().top
-      }, 1000);
+        if (which_page == 1) {
+            $('html,body').animate({
+            scrollTop: $('.panel-danger').offset().top
+            }, 1000);
+        };
+
     } else {//THERE WAS NO ERROR, PROCEED TO POST ADD
         $('#add-form').submit();
     }
@@ -1222,9 +1273,6 @@ function check_orders_for_preview() {
     } else { //THERE IN NO ORDER CREATED YET
         $('.empty-order-error').removeClass('hide').addClass('show');
     }
-
-
-
 }
 
 function remove_single_order(parents) {
