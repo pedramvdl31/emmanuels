@@ -500,6 +500,17 @@ class Schedule extends \Eloquent {
 			$data['will_phone'] = null;
 		}
 
+		//1 = IN-STORE, 2 = IN-HOME
+		if (isset($schedules->place)) {
+			if ($schedules->place == 1) {
+				$data['in_store'] = "checked";
+				$data['in_house'] = "";
+			} else {
+				$data['in_store'] = "";
+				$data['in_house'] = "checked";
+			}
+		}
+
 		if ($schedules->type == 0) {//SET RADIO BUTTON, WORK
 			$data['order'] = "checked";
 			$data['estimate'] = "";
@@ -565,7 +576,6 @@ class Schedule extends \Eloquent {
 	public static function prepareAllForPreview($Input_all) {
 		//ALL PREPARED DATA GOES IN HERE
 		$data = [];
-
 		if(isset($Input_all)) {
 			//IF USER, SET USER ID
 			if (isset($Input_all['user_id'])) {
@@ -584,6 +594,19 @@ class Schedule extends \Eloquent {
 				$data['schedule_id'] = null;
 				$data['invoice_id'] = null;
 			}
+
+			//IN-HOUSE OR IN-STORE
+			if (isset($Input_all['store_or_house'])) {
+				if ($Input_all['store_or_house'] == 1) {//IN STORE
+					$data['store_or_house'] = $Input_all['store_or_house'];
+					$data['in_store'] = "checked";
+					$data['in_house'] = "";
+				} else {//IN HOUSE
+					$data['store_or_house'] = $Input_all['store_or_house'];
+					$data['in_house'] = "checked";
+					$data['in_store'] = "";
+				}
+			} 
 
 			// CHECK IF THE ADDRESS WAS NEW
 			if ( 	$Input_all['new_street'] &&
@@ -713,6 +736,7 @@ class Schedule extends \Eloquent {
 				$data['total_after_tax'] = $total_after_tax;
 			}//END OF ORDERS
 		}
+
 		return $data;
 	}
 

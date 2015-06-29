@@ -1,6 +1,6 @@
-/vagrant/www/app/views/schedules/index.blade.php@section('stylesheets')
 @stop
 @section('scripts')
+{{ HTML::script('js/schedules_index.js') }}
 @stop
 @section('content')
 	<div class="jumbotron">

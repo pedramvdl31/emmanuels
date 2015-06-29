@@ -202,7 +202,8 @@ events_after: function() {
 
     $(".select-make").change(function() {
         var this_category = find_category($(this));
-        var parents = $(this).parents('.panel:first').attr('this_set');
+        //CCC
+        var parents = $(this).parents('.panel-collapse:first').attr('this_set');
         reset_order_form(parents);
         var element = $("option:selected", this);
         var rate = parseFloat(element.attr("rate"));
@@ -220,8 +221,10 @@ events_after: function() {
             }
         });
     $(".select-item").change(function() {
+
         var this_category = find_category($(this));
-        var parents = $(this).parents('.panel:first').attr('this_set');
+        //CCC
+        var parents = $(this).parents('.panel-collapse:first').attr('this_set');
         reset_order_form(parents);
             if ($(this).find('option:selected').val() != '') { //ITEM SELECTED
                 $('#height-' + parents).removeAttr('disabled');
@@ -290,9 +293,9 @@ $('.radio-option').click(function() {
 $(".height").keyup(function() {
             var height = parseInt($(this).val());
             if (height != "0") { //CHECK IF IT IS NUMERIC
-                var parents = $(this).parents('.panel:first').attr('this_set');
+                var parents = $(this).parents('.panel-collapse:first').attr('this_set');
                 var length = parseInt($('#length-' + parents).val());
-                if (length != "0") { //CHECK IF IT IS NUMERIC
+                if ($('#length-' + parents).val() != "") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
                     var element_item = $("option:selected", $('#select-item-' + parents));
@@ -317,9 +320,9 @@ $(".height").keyup(function() {
 $(".length").keyup(function() {
     var length = $(this).val();
             if (length != "0") { //CHECK IF IT IS NUMERIC
-                var parents = $(this).parents('.panel:first').attr('this_set');
-                var height = $('#height-' + parents).val();
-                if (height != "0") { //CHECK IF IT IS NUMERIC
+                var parents = $(this).parents('.panel-collapse:first').attr('this_set');
+                var height = parseInt($('#height-' + parents).val());
+                if ($('#height-' + parents).val() != "") { //CHECK IF IT IS NUMERIC
                     var this_category = find_category($(this));
                     var element = $("option:selected", $('#select-make-' + parents));
 
@@ -422,7 +425,7 @@ $('.add-q').click(function() {
         });
 
 $(".qty").keyup(function() {
-   var parents = $(this).parents('.panel:first').attr('this_set');
+   var parents = $(this).parents('.panel-collapse:first').attr('this_set');
             if ($(this).val().match(/^\d+$/)) { //CHECK IF IT IS NUMERIC
             	if (($('#select-make-' + parents).val() != "") || ($('#select-item-' + parents).val() != "")) {
                    var this_category = find_category($(this));
@@ -430,7 +433,7 @@ $(".qty").keyup(function() {
 	                if (this_category == 0) {
 
 	                } else if (this_category == 1) {
-                       var parents = $(this).parents('.panel:first').attr('this_set');
+                       var parents = $(this).parents('.panel-collapse:first').attr('this_set');
                        var this_e = $(this).parents('.panel:first').find('.select-item');
                        var this_rate = $("option:selected", this_e).attr('rate');
                        var this_qty = parseInt($(this).val());
@@ -726,7 +729,6 @@ set_user: function(user_id) {
             switch (status) {
                     case 200: // Approved
                     $('#user_id').val(user_id);
-
                     $("#name").val(first_name + ' ' + last_name);
                     $("#telephone").val(phone);
                     $("#email").val(email);
@@ -735,6 +737,10 @@ set_user: function(user_id) {
                     $("#unit").val(unit);
                     $("#state").val(state);
                     $("#zipcode").val(zipcode);
+
+                    //REDIRECT TO USER INFORMATION STEPY
+                    redirect_to_user_information();
+
                     check_all_inputs(false);
                     break;
                     case 400: // Approved
@@ -1263,4 +1269,11 @@ function user_reminder_new_address() {
         //true = new address
         check_all_inputs(true);
     }
+}
+
+function redirect_to_user_information() {
+    $('#search').addClass('hide');
+    $('#information').removeClass('hide');
+    $('#search-stepy').removeClass('active');
+    $('#user-info').addClass('active');
 }

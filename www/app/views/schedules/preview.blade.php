@@ -57,6 +57,24 @@
                         </div>
                     </div>
                 </div>
+                    <div class="col-xs-12 col-md-3 col-lg-3">
+                    <div class="panel panel-default height">
+                        <div class="panel-heading"><strong>Schedule Details</strong></div>
+                        <div class="panel-body">
+                            <!-- CHECK WHETHER NEW ADDRESS WAS SET OR NOW -->
+                            @if(isset($input_all))
+                                @if($input_all['estimate_or_order'] == 0)
+                                    Work Order &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
+                                @else
+                                    Estimate &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
+                                @endif
+                                @if($input_all['will_phone'] == "checked")
+                                    Will Phone &nbsp<i style="color:#5cb85c"  class="glyphicon glyphicon-check"></i><br>
+                                @endif
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

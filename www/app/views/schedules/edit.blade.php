@@ -110,7 +110,7 @@
 				</tbody>
 			</table>
 			<div class="panel-footer clearfix">
-				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Continue As Guest <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 		<div id="information" class="steps panel panel-success {{isset($preview_data)?'':'hide'}}">
@@ -144,6 +144,8 @@
 							@endif
 						@endif
 				 ">
+				 	<h4 class="first-group-title">Type</h4>
+					<hr class="title-hr">
 					<div class="form-group">
 						<div class="radio">
 							<label>
@@ -170,6 +172,37 @@
 							</label>
 						</div>
 					</div>
+					<h4 class="group-title">Place</h4>
+					<hr class="title-hr">
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<!-- CHECKING THE SESSION -->
+								<input type="radio" name="store_or_house" id="in-store" value="1"
+									@if(isset($preview_data['in_store']))
+										{{$preview_data['in_store']}}
+									@endif
+								>
+								In-Store
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<input type="radio" name="store_or_house" id="in-house" value="2" 
+									@if(isset($preview_data['in_house']))
+										{{$preview_data['in_house']}}
+									@else
+										checked
+									@endif>
+								In-House
+							</label>
+						</div>
+					</div>
+
+					<h4 class="group-title">User Information</h4>
+					<hr class="title-hr">
 					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
 						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
 						{{ Form::text('name', isset($preview_data['name'])?$preview_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
@@ -396,4 +429,16 @@
 		</div>
 	</div>
 </div>
+<style>
+.title-hr{
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.group-title{
+margin-top: 20px;
+}
+.first-group-title{
+margin-top: 0px;
+}
+</style>
 @stop

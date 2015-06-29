@@ -67,7 +67,6 @@ class SchedulesController extends \BaseController {
 	{
 		$validator = Validator::make(Input::all(), Schedule::$rules_add);
 		if ($validator->passes()) { //VALIDATION PASSED
-
 			if (Session::get('preview_data'))
 				Session::forget('preview_data');
 			$prepared_data = Schedule::prepareAllForPreview(Input::all());
@@ -75,7 +74,7 @@ class SchedulesController extends \BaseController {
 			Session::put('preview_data', $prepared_data);
 			//EVERYTHING LOOKS GOOD FORWARD TO PREVIEW PAGE FOR APPROVAL
 			$this->layout->content = View::make('schedules.preview')
-			->with('input_all',$prepared_data);
+				->with('input_all',$prepared_data);
 		} 	else {
 		// validation has failed, display error messages    
 			return Redirect::back()
@@ -85,19 +84,38 @@ class SchedulesController extends \BaseController {
 			->withInput();	    	
 		}	
 	}
-
 		public function postAdd()
 	{
+
 		if (Session::get('preview_data')) {
 			//GET ALL DATA
 			$all_inputs = Session::get('preview_data');
+			// CHECK IF THE ADDRESS WAS NEW
+			if ($all_inputs['new_street'] &&
+				$all_inputs['new_unit'] &&
+				$all_inputs['new_city'] &&
+				$all_inputs['new_state'] &&
+				$all_inputs['new_zipcode']) { 
+				//NEW ADDRESS WAS SET
+				$street = $all_inputs['new_street'];
+				$unit = $all_inputs['new_unit'];
+				$city = $all_inputs['new_city'];
+				$state = $all_inputs['new_state'];
+				$zipcode = $all_inputs['new_zipcode'];
+			} else {
+				$street = $all_inputs['street'];
+				$unit = $all_inputs['unit'];
+				$city = $all_inputs['city'];
+				$state = $all_inputs['state'];
+				$zipcode = $all_inputs['zipcode'];
+			}
 
-			//GET ADDRESS START
-			$street = $all_inputs['street'];
-			$unit = $all_inputs['unit'];
-			$city = $all_inputs['city'];
-			$state = $all_inputs['state'];
-			$zipcode = $all_inputs['zipcode'];
+			//SET IN-STORE IN-HOUSE
+			if (isset($all_inputs['store_or_house'])) {
+				//1 IN-STORE, 2 IN-HOUSE
+				$store_or_house = $all_inputs['store_or_house'];
+			}
+
 			//GET USER INFO
 			if (isset($all_inputs['user_id'])) {
 				$user_id = $all_inputs['user_id'];
@@ -108,7 +126,7 @@ class SchedulesController extends \BaseController {
 			$email = $all_inputs['email'];
 			$phone = $all_inputs['phone'];
 			//GET OTHER INFORMATION
-			$will_phone = ($all_inputs['will_phone'] == 1)?true:false;
+			$will_phone = ($all_inputs['will_phone'] == "checked")?true:false;
 			//WILL BE SAVE AS TYPE
 			$estimate_or_order = $all_inputs['estimate_or_order'];
 
@@ -195,6 +213,10 @@ class SchedulesController extends \BaseController {
 					//TYPE 1 = SERVICE, 2 = ITEM
 					$schedules->type = $estimate_or_order;
 					$schedules->will_phone = $will_phone;
+
+					//IN-STORE, IN-HOUSE
+					$schedules->place = $store_or_house;
+
 					$schedules->status = 1;
 
 					if ($schedules->save()) { // Save
@@ -237,19 +259,39 @@ class SchedulesController extends \BaseController {
 		if (Session::get('preview_data')) {
 			//GET ALL DATA
 			$all_inputs = Session::get('preview_data');
+			// CHECK IF THE ADDRESS WAS NEW
+			if ($all_inputs['new_street'] &&
+				$all_inputs['new_unit'] &&
+				$all_inputs['new_city'] &&
+				$all_inputs['new_state'] &&
+				$all_inputs['new_zipcode']) { 
+				//NEW ADDRESS WAS SET
+				$street = $all_inputs['new_street'];
+				$unit = $all_inputs['new_unit'];
+				$city = $all_inputs['new_city'];
+				$state = $all_inputs['new_state'];
+				$zipcode = $all_inputs['new_zipcode'];
+			} else {
+				$street = $all_inputs['street'];
+				$unit = $all_inputs['unit'];
+				$city = $all_inputs['city'];
+				$state = $all_inputs['state'];
+				$zipcode = $all_inputs['zipcode'];
+			}
 
-			//GET ADDRESS START
-			$street = $all_inputs['street'];
-			$unit = $all_inputs['unit'];
-			$city = $all_inputs['city'];
-			$state = $all_inputs['state'];
-			$zipcode = $all_inputs['zipcode'];
 			//GET USER INFO
 			if (isset($all_inputs['user_id'])) {
 				$user_id = $all_inputs['user_id'];
 			} else {
 				$user_id = null;
 			}
+
+			//SET IN-STORE IN-HOUSE
+			if (isset($all_inputs['store_or_house'])) {
+				//1 IN-STORE, 2 IN-HOUSE
+				$store_or_house = $all_inputs['store_or_house'];
+			}
+
 			$name = $all_inputs['name'];
 			$email = $all_inputs['email'];
 			$phone = $all_inputs['phone'];
@@ -351,6 +393,10 @@ class SchedulesController extends \BaseController {
 					//TYPE 1 = SERVICE, 2 = ITEM
 					$schedules->type = $estimate_or_order;
 					$schedules->will_phone = $will_phone;
+
+					//IN-STORE, IN-HOUSE
+					$schedules->place = $store_or_house;
+
 					$schedules->status = 1;
 
 					if ($schedules->save()) { // Save
@@ -374,7 +420,17 @@ class SchedulesController extends \BaseController {
 
 	public function postDelete()
 	{
-		
+		$id = Input::get('schedule_id');
+		$schedules = Schedule::find($id);
+		if($schedules->delete()) {
+			return Redirect::action('SchedulesController@getIndex')
+			->with('message', 'Successfully deleted!')
+			->with('alert_type','alert-success');
+		} else {
+			return Redirect::back()
+			->with('message', 'Oops, somthing went wrong. Please try again.')
+			->with('alert_type','alert-danger');	
+		}
 	}
 
 	public function postOrderAdd()

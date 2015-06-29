@@ -15,18 +15,15 @@
 <div class="row" id="this-body"> 
 	<div class="col-md-3" style="margin-bottom:5px;">
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
-			<li  class="{{isset($preview_data)?'':'active'}}" role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
+			<li id="search-stepy" class="{{isset($preview_data)?'':'active'}}" role="presentation"><a href="#search"><span class="badge">1</span> User Search</a></li>
 			<li id="user-info" class="{{isset($preview_data)?'active':''}}" role="presentation"><a href="#information"><span class="badge">2</span> User Information</a></li>
 			<li id="order-step" class="content-step disabled" role="presentation"><a href="#content"><span class="badge">3</span> Order</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
-
-
 		<div id="search" class="steps panel panel-success {{isset($preview_data)?'hide':''}}">
 			<div class="panel-heading" style="font-size:17px;"><strong>Search</strong></div>
 			<div class="panel-body">
-
 				<div id="customerMembers" class="">
 					<div class="form-group">
 						<label class="control-label" for="id">Find By:</label>
@@ -110,7 +107,7 @@
 				</tbody>
 			</table>
 			<div class="panel-footer clearfix">
-				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Continue As Guest <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 		</div>
 		<div id="information" class="steps panel panel-success {{isset($preview_data)?'':'hide'}}">
@@ -144,6 +141,8 @@
 							@endif
 						@endif
 				 ">
+				 	<h4 class="first-group-title">Type</h4>
+					<hr class="title-hr">
 					<div class="form-group">
 						<div class="radio">
 							<label>
@@ -170,6 +169,37 @@
 							</label>
 						</div>
 					</div>
+					<h4 class="group-title">Place</h4>
+					<hr class="title-hr">
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<!-- CHECKING THE SESSION -->
+								<input type="radio" name="store_or_house" id="in-store" value="1"
+									@if(isset($preview_data['in_store']))
+										{{$preview_data['in_store']}}
+									@endif
+								>
+								In-Store
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="radio">
+							<label>
+								<input type="radio" name="store_or_house" id="in-house" value="2" 
+									@if(isset($preview_data['in_house']))
+										{{$preview_data['in_house']}}
+									@else
+										checked
+									@endif>
+								In-House
+							</label>
+						</div>
+					</div>
+					
+					<h4 class="group-title">User Information</h4>
+					<hr class="title-hr">
 					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
 						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
 						{{ Form::text('name', isset($preview_data['name'])?$preview_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
@@ -392,4 +422,16 @@
 		</div>
 	</div>
 </div>
+<style>
+.title-hr{
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.group-title{
+margin-top: 20px;
+}
+.first-group-title{
+margin-top: 0px;
+}
+</style>
 @stop
