@@ -51,7 +51,7 @@
 					<div id="searchBy-username" class="searchByFormGroup form-group {{ $errors->has('username') ? 'has-error' : false }} well well-sm">
 						<label class="control-label" for="email">Username</label>
 						<div class="input-group">
-							{{ Form::text('username', "pedram", array('class'=>'form-control searchInputItem', 'placeholder'=>'username','status'=>false)) }}
+							{{ Form::text('username', null, array('class'=>'form-control searchInputItem', 'placeholder'=>'username','status'=>false)) }}
 							<a class="searchByButton input-group-addon" style="cursor:pointer"><i class="glyphicon glyphicon-search"></i></a>
 						</div>
 						@foreach($errors->get('email') as $message)
@@ -206,13 +206,23 @@
 
 					<h4 class="group-title">User Information</h4>
 					<hr class="title-hr">
-					<div class="form-group  {{ $errors->has('name') ? 'has-error' : false }}">
-						<label class="control-label" for="name">Name&nbsp;&nbsp;</label>
-						{{ Form::text('name', isset($preview_data['name'])?$preview_data['name']:null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')) }}
+					<div class="form-group  {{ $errors->has('first_name') ? 'has-error' : false }}">
+						<label class="control-label" for="first_name">First Name&nbsp;&nbsp;</label>
+						{{ Form::text('first_name', isset($preview_data['first_name'])?$preview_data['first_name']:null, array('class'=>'form-control', 'placeholder'=>'First Name','id'=>'first_name')) }}
 						  	<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
   							<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
 							<span class='help-block val-help hide'></span>
-						@foreach($errors->get('name') as $message)
+						@foreach($errors->get('first_name') as $message)
+						<span class='help-block'>{{ $message }}</span>
+						@endforeach
+					</div>
+					<div class="form-group  {{ $errors->has('last_name') ? 'has-error' : false }}">
+						<label class="control-label" for="last_name">Last Name&nbsp;&nbsp;</label>
+						{{ Form::text('last_name', isset($preview_data['last_name'])?$preview_data['last_name']:null, array('class'=>'form-control', 'placeholder'=>'Last Name','id'=>'last_name')) }}
+						  	<span class="glyphicon glyphicon-remove form-control-feedback val-error hide" aria-hidden="true"></span>
+  							<span class="glyphicon glyphicon-ok form-control-feedback val-success hide" aria-hidden="true"></span>
+							<span class='help-block val-help hide'></span>
+						@foreach($errors->get('last_name') as $message)
 						<span class='help-block'>{{ $message }}</span>
 						@endforeach
 					</div>
@@ -419,7 +429,7 @@
 	</div>
 </div>
 {{ Form::hidden('content_count',null,['id'=>'content_count'])}}
-{{ Form::hidden('user_id',null,['id'=>'user_id'])}}
+{{ Form::hidden('user_id',$preview_data['user_id'],['id'=>'user_id'])}}
 {{ Form::hidden('checklist', null,array('id'=>'checklist')) }}
 {{ Form::hidden('tabs_checklist', "address",array('id'=>'tabs_checklist')) }}
 

@@ -27,7 +27,7 @@
                         <div class="panel-heading"><strong>Customer Details</strong></div>
                         <div class="panel-body">
                             @if(isset($input_all))
-								{{$input_all['name']}}<br>
+								{{$input_all['first_name']}} {{$input_all['last_name']}}<br>
 								{{$input_all['email']}}<br>
 								{{$input_all['phone']}}
                             @endif
@@ -41,13 +41,13 @@
                             <!-- CHECK WHETHER NEW ADDRESS WAS SET OR NOW -->
                             @if(isset($input_all))
                                 @if($input_all['is_new'] == true)
-                                    <strong>{{$input_all['name']}}</strong><br>
+                                    <strong>{{$input_all['first_name']}} {{$input_all['last_name']}}</strong><br>
                                     {{$input_all['new_unit']}} {{$input_all['new_street']}}<br>
                                     {{$input_all['new_city']}}<br>
                                     {{$input_all['new_state']}}<br>
                                     <strong>{{$input_all['new_zipcode']}}</strong><br>
                                 @else
-                                    <strong>{{$input_all['name']}}</strong><br>
+                                    <strong>{{$input_all['first_name']}} {{$input_all['last_name']}}</strong><br>
                                     {{$input_all['unit']}} {{$input_all['street']}}<br>
                                     {{$input_all['city']}}<br>
                                     {{$input_all['state']}}<br>
@@ -125,7 +125,7 @@
 			                                    <td class="text-center">{{$s_o['height']}}</td>
 			                                    <td class="text-center">{{$s_o['length']}}</td>
 			                                    <td class="text-center">${{$s_o['rate']}}</td>
-			                                    <td class="text-center"></td>
+			                                    <td class="text-center">-</td>
 			                                    <td class="text-right">${{$s_o['total']}}</td>
 			                                </tr>
 										@endforeach

@@ -95,6 +95,10 @@
 		Route::controller('schedules', 'SchedulesController');
 		Route::post('/schedules/order-add','SchedulesController@postOrderAdd');
 		Route::post('/schedules/ajax-validation', 'SchedulesController@postAjaxValidation');
+		//FRONTEND PORTION
+		//**
+		//**
+		Route::get('/schedule/new', 'SchedulesController@getNew');
 		
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');

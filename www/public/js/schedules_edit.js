@@ -450,7 +450,13 @@ $(".qty").keyup(function() {
 
 },
 validation: function() {
-    $("#name").blur(function() {
+    $("#first_name").blur(function() {
+        var type = "name";
+        var value = $(this).val();
+        var _this = $(this);
+        request.ajax_validation(value, type, _this);
+    });
+   $("#last_name").blur(function() {
         var type = "name";
         var value = $(this).val();
         var _this = $(this);
@@ -465,10 +471,18 @@ validation: function() {
     });
 
     $("#telephone").blur(function() {
-        var type = "phone";
-        var value = $(this).val();
+        var form_value = $(this).val();
         var _this = $(this);
-        request.ajax_validation(value, type, _this);
+        var type = "phone";
+        var message = 'Invalid Format'
+
+         var filter = /^[0-9-+]+$/;
+
+        if (filter.test(form_value)) {
+            uni_show_validation(_this, message, 1, type);
+        } else {
+            uni_show_validation(_this, message, 2, type);
+        }
     });
 
     $("#street").blur(function() {
@@ -728,7 +742,9 @@ set_user: function(user_id) {
                     case 200: // Approved
                     $('#user_id').val(user_id);
 
-                    $("#name").val(first_name + ' ' + last_name);
+                    $("#first_name").val(first_name);
+                    $("#last_name").val(last_name);
+                    
                     $("#telephone").val(phone);
                     $("#email").val(email);
                     $("#street").val(street);
@@ -871,8 +887,13 @@ function checklist_force_true() {
 function check_all_inputs(new_address) {
 
     var type = "name";
-    var value = $('#' + type).val();
-    var _this = $('#' + type);
+    var value = $('#first_name').val();
+    var _this = $('#first_name');
+    request.ajax_validation(value, type, _this);
+
+    var type = "name";
+    var value = $('#last_name').val();
+    var _this = $('#last_name');
     request.ajax_validation(value, type, _this);
 
     var type = "email";
@@ -955,7 +976,8 @@ function get_total(rate, height, length) {
 }
 
 function wipe_user_information() {
-    $('#name').val('');
+    $('#first_name').val('');
+    $('#last_name').val('');
     $('#telephone').val('');
     $('#email').val('');
     $('#street').val('');
@@ -1298,7 +1320,8 @@ function user_reminder_new_address() {
         $('#new_unit').val() != "" && 
         $('#new_state').val() != "") {
         //IF NAME, PHONE OR EMAIL ARE NOT SET
-        if ($('#name').val() == "" ||
+        if ($('#first_name').val() == "" ||
+            $('#last_name').val() == "" ||
             $('#telephone').val() == "" ||
             $('#email').val() == "") {
             //SHOW ALERT

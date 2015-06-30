@@ -32,6 +32,9 @@ class SchedulesController extends \BaseController {
 
 	public function getIndex()
 	{
+
+
+		
 		//CLEAROUT ALL SESSIONS
 		if (Session::get('preview_data'))
 			Session::forget('preview_data');
@@ -43,6 +46,7 @@ class SchedulesController extends \BaseController {
 
 	public function getAdd()
 	{
+
 		//CHECK IF PREVIEW SESSION EXISTS, IF SO THE USER IS COMING BACK FROM PREVIEW PAGE
 		if (Session::get('preview_data')){
 			$searchBy = Delivery::search_by();
@@ -123,7 +127,11 @@ class SchedulesController extends \BaseController {
 			} else {
 				$user_id = null;
 			}
-			$name = $all_inputs['name'];
+
+
+			$first_name = $all_inputs['first_name'];
+			$last_name = $all_inputs['last_name'];
+
 			$email = $all_inputs['email'];
 			$phone = $all_inputs['phone'];
 			//GET OTHER INFORMATION
@@ -146,7 +154,6 @@ class SchedulesController extends \BaseController {
 			$total_before_tax = $all_inputs['total_befor_tax'];
 			$total_after_tax = $all_inputs['total_after_tax'];
 			$tax = $all_inputs['tax'];
-
 
 			//PROCESSING THE INVOICE AND INVOICE ITEMS
 			if (isset($all_inputs['service_order']) || isset($all_inputs['item_order'])) {
@@ -201,7 +208,8 @@ class SchedulesController extends \BaseController {
 					//FOR NOW FIRSTNAME HOLDS BOTH FIRST NAME AND LAST NAME
 					//INFO
 					$schedules->user_id = $user_id;
-					$schedules->firstname = $name;
+					$schedules->firstname = $first_name;
+					$schedules->lastname = $last_name;
 					$schedules->email = $email;
 					$schedules->phone = $phone;
 					//ADDRESS
@@ -299,7 +307,8 @@ class SchedulesController extends \BaseController {
 				$store_or_house = $all_inputs['store_or_house'];
 			}
 
-			$name = $all_inputs['name'];
+			$first_name = $all_inputs['first_name'];
+			$last_name = $all_inputs['last_name'];
 			$email = $all_inputs['email'];
 			$phone = $all_inputs['phone'];
 			//GET OTHER INFORMATION
@@ -387,7 +396,11 @@ class SchedulesController extends \BaseController {
 					//FOR NOW FIRSTNAME HOLDS BOTH FIRST NAME AND LAST NAME
 					//INFO
 					$schedules->user_id = $user_id;
-					$schedules->firstname = $name;
+
+
+					$schedules->firstname = $first_name;
+					$schedules->lastname = $last_name;
+
 					$schedules->email = $email;
 					$schedules->phone = $phone;
 					//ADDRESS
@@ -429,6 +442,14 @@ class SchedulesController extends \BaseController {
 		} else {
 			//SOMTHING WENT WRONG SESSION NOT SUPPOSED TO BE EMPTY
 		}
+	}
+
+	//FRONTEND PORTION
+	//**
+	//**
+		public function getNew()
+	{
+		$this->layout->content = View::make('schedules.new');
 	}
 
 	public function postDelete()

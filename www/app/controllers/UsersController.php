@@ -222,7 +222,10 @@ class UsersController extends BaseController {
 				$user_data['firstname'] = $users->firstname;
 				$user_data['lastname']  = $users->lastname;
 				$user_data['email'] = $users->email;
-				$user_data['phone'] = $users->phone;
+
+				//GET THE PHONE NUMBER AND RE-FORMATE IT
+				$user_data['phone'] = Job::format_phone($users->phone,'US');
+
 				$user_data['roles'] = $users->roles;
 
 				$user_data['street']  = $users->street;

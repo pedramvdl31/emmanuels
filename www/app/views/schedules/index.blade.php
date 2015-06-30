@@ -32,7 +32,7 @@
 			<tr>
 				<td>{{ $schedule->id }}</td>
 				<td>{{ $schedule->type }}</td>
-				<td>{{ $schedule->firstname }}</td>
+				<td>{{ $schedule->firstname}} {{$schedule->lastname}}</td>
 				<td>{{ $schedule->email }}</td>
 				<td>{{ $schedule->phone }}</td>
 				<td>{{ $schedule->address }}</td>

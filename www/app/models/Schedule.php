@@ -5,8 +5,7 @@ class Schedule extends \Eloquent {
 	use SoftDeletingTrait;
 
 	public static $rules_add = array(
-			//DISABLED FOR NOW, UNTIL ADDING CONDITION FROM NEW ADDRESS
-
+		//DISABLED FOR NOW, UNTIL ADDING CONDITION FROM NEW ADDRESS
 		// 'name'=>'required|min:1',
 		// 'telephone'=>'required|min:1',
 		// 'street'=>'required|min:1',
@@ -14,7 +13,6 @@ class Schedule extends \Eloquent {
 		// 'city'=>'required|min:1',
 		// 'state'=>'required|min:1',
 		// 'zipcode'=>'required|min:1',
-
 		);
 
 	public static function prepareSchedules($data) {
@@ -31,6 +29,11 @@ class Schedule extends \Eloquent {
 						break;
 					}
 				}
+
+				if(isset($data[$key]['phone'])) {
+					$data[$key]['phone'] = Job::format_phone($data[$key]['phone'],'US');
+				}
+
 
 				if(isset($data[$key]['pickup_date'])) {
 					$data[$key]['pickup_date'] = date("l, d F, Y",strtotime($data[$key]['pickup_date']));
@@ -469,9 +472,6 @@ class Schedule extends \Eloquent {
 					$html .= '<button type="button" class="remove-collapse btn btn-danger pull-right"><i class="glyphicon glyphicon-remove"></i> Remove</button>';
 					$html .= '</div>';
 					$html .= '</div>';
-
-
-
 					//INCREMENT PARENT BY ONE
 					$parents = $parents + 1;
 					$count_form = $count_form + 1;
@@ -492,7 +492,8 @@ class Schedule extends \Eloquent {
 		//USER INFORMAION
 		$data['user_id'] = $schedules->user_id;
 		//FOR NOW FIRSTNAME HOLDS BOTH FIRST NAME AND LAST NAME
-		$data['name'] = $schedules->firstname;
+		$data['first_name'] = $schedules->firstname;
+		$data['last_name'] = $schedules->lastname;
 		$data['email'] = $schedules->email;
 		$data['phone'] = $schedules->phone;
 		//ADDRESS
@@ -689,7 +690,8 @@ class Schedule extends \Eloquent {
 			}
 
 			//GET AND SET USER INFORMATION
-			$data['name']= Input::get('name');
+			$data['first_name']= Input::get('first_name');
+			$data['last_name']= Input::get('last_name');
 			$data['email']= Input::get('email');
 			$data['phone']= Input::get('telephone');
 			
@@ -720,10 +722,11 @@ class Schedule extends \Eloquent {
 						$data['service_order'][$key]['length']= $s_o['length'];
 
 						// ONLY FOR SESSION
-						$data['service_order'][$key]['total']= $s_o['length'] * $s_o['height'] * $services->rate;
+						$total_var = $s_o['length'] * $s_o['height'] * $services->rate;
+						$data['service_order'][$key]['total']= number_format($total_var, 2);
 
 						//CALCULATE SUBTOTAL
-						$data['subtotal'] = $data['subtotal'] + $data['service_order'][$key]['total'];
+						$data['subtotal'] = $data['subtotal'] + $total_var;
 					}
 				}
 				//PREPARE ITEM ORDERS
@@ -742,10 +745,7 @@ class Schedule extends \Eloquent {
 						$total = count($i_o) * $items->price;
 						//SET TWO DECIMAL PLACES
 						$data['item_order'][$ikey]['total'] = number_format($total, 2) ;
-
 						$data['subtotal'] = $data['subtotal'] + $total;
-
-
 					}
 				}
 				//IN-HOUSE = NO TAX, IN-STORE = TAX APPLIES
@@ -762,7 +762,7 @@ class Schedule extends \Eloquent {
 						//REDUNDANT
 						$data['total_befor_tax'] = $data['subtotal'];
 						
-						$data['total_after_tax'] = $total_after_tax;
+						$data['total_after_tax'] = number_format($total_after_tax, 2);
 					} else {//IN HOUSE
 						//SET TAX PRICE, SEATTLE 9.5%
 						$tax_rate = 0;

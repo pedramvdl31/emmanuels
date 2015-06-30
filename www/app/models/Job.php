@@ -56,9 +56,7 @@ public static function format_phone($phone_number, $country_code)
 		    } else {
 		    	return null;
 		    }
-
 		    // get formatted phone number
-		    
 		} catch (\libphonenumber\NumberParseException $e) {
 			return $e;
 		}
@@ -203,7 +201,7 @@ public static function AjaxValidation($input_all, $type) {
     ];
     switch ($type) {
         case 'name':
-        if ( strlen($input_all[$type]) > 3 && preg_match('/^[a-z .\-]+$/i', $input_all[$type])) {
+        if ( strlen($input_all[$type]) > 1 && preg_match('/^[a-z .\-]+$/i', $input_all[$type])) {
             $data['status'] = 200;
         } else {
             $data['validator'] = ['name'=> 'Invalid Format'];
@@ -231,7 +229,9 @@ public static function AjaxValidation($input_all, $type) {
         break;
 
         case 'phone':
-            if ( preg_match( '/^[0-9-+]+$/', $input_all[$type]) ){
+        //US PHONE, VALIDATION
+        $regex = '/^(?:1(?:[. -])?)?(?:\((?=\d{3}\)))?([2-9]\d{2})(?:(?<=\(\d{3})\))? ?(?:(?<=\d{3})[.-])?([2-9]\d{2})[. -]?(\d{4})(?: (?i:ext)\.? ?(\d{1,5}))?$/';
+            if ( preg_match( $regex, $input_all[$type]) ){
                 $data['status'] = 200;
             } else {
                 $data['validator']  = ['phone'=> 'Invalid Phone Number'];
