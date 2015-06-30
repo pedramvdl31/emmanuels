@@ -15,6 +15,18 @@ class Schedule extends \Eloquent {
 		// 'zipcode'=>'required|min:1',
 		);
 
+		public static $schedules_add_frontend = array(
+		'first_name'=>'required|min:1',
+		'last_name'=>'required|min:1',
+		'phone'=>'required|min:1',
+		'email'=>'required|min:1',
+		'street'=>'required|min:1',
+		'unit'=>'required|min:1',
+		'city'=>'required|min:1',
+		'state'=>'required|min:1',
+		'zipcode'=>'required|min:1',
+		);
+
 	public static function prepareSchedules($data) {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {

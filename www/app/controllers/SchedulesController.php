@@ -28,6 +28,8 @@ class SchedulesController extends \BaseController {
 		$this->beforeFilter('csrf', array('on'=>'post'));
 		$this->role_id = (isset(Auth::user()->roles)) ? Auth::user()->roles : null;
 
+		$nav_html = Website::prepareNavBar();
+    	View::share('nav_html', $nav_html);
 	}
 
 	public function getIndex()
@@ -449,7 +451,80 @@ class SchedulesController extends \BaseController {
 	//**
 		public function getNew()
 	{
-		$this->layout->content = View::make('schedules.new');
+		$this->layout = View::make('layouts.frontend');
+		if (Auth::check()) {//THE USER IS LOGGED IN PROCEED TO DETAILS
+			return Redirect::to('/schedule/details');
+		} else {
+			$this->layout->content = View::make('schedules.new');
+		}
+	}
+	public function postNew()
+	{
+		$this->layout = View::make('layouts.frontend');
+
+		$member = Input::get('member');//IF TRUE, MEMBER FORM WERE SUBMITED
+		$guest = Input::get('guest');//IF TRUE, GUEST FORM WERE SUBMITED
+
+		if ($member == true) {
+			if (Auth::attempt(array('username'=>Input::get('username'), 'password'=>Input::get('password')))) {
+				return Redirect::to('/schedule/details')
+					->with('message', 'You are now logged in!')
+					->with('alert_type', 'alert-success');
+			} else {
+				return Redirect::back()
+				->with('message', 'Your username/password combination was incorrect')
+				->with('alert_type','alert-danger')
+				->withInput();
+			}
+		}
+
+		if ($guest == true) {
+			$validator = Validator::make(Input::all(), Schedule::$schedules_add_frontend);
+			if ($validator->passes()) {
+
+				$user_info = [
+				"first_name" => Input::get('first_name'),
+				"last_name" => Input::get('last_name'),
+				"phone" => Input::get('phone'),
+				"email" => Input::get('email'),
+				"street" => Input::get('street'),
+				"unit" => Input::get('unit'),
+				"city" => Input::get('city'),
+				"state" => Input::get('state'),
+				"zipcode" => Input::get('zipcode')
+				];
+
+				//GUEST INFORMATION IS SAVED, PROCEED TO NEXT PAGE
+				Session::put('guest_info', $user_info);
+
+				if (Session::get('guest_info')) {
+					return Redirect::to('/schedule/details');
+				} else {
+					return Redirect::back()
+					->with('message', 'Oops, somthing went wrong. Please try again. items and inventories')
+					->with('alert_type','alert-danger');	
+				}
+				
+			} else {
+	        // validation has failed, display error messages    
+				return Redirect::back()
+				->with('alert_type','alert-danger')
+				->withErrors($validator)
+				->withInput();	
+			}
+		}
+	
+	}
+
+	public function getDetails()
+	{
+		$this->layout = View::make('layouts.frontend');
+		$this->layout->content = View::make('schedules.details');
+	}
+
+	public function postDetails()
+	{
+	
 	}
 
 	public function postDelete()

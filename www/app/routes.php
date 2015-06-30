@@ -13,12 +13,14 @@
 	/**
 	* Frontend Routing with filter
 	*/
+
 	Route::get('/', array('as' => 'home', 'uses' => 'HomeController@home'));
 
 	Route::get('/admins/login', 'AdminsController@getLogin');
 	Route::post('/admins/login','AdminsController@postLogin');
 	Route::get('/admins/logout', 'AdminsController@getLogout');
 	Route::get('/admins/forgot', 'AdminsController@getForgot');
+	Route::get('/forgets/index', 'ForgetsController@getIndex');
 	Route::get('/services', 'HomeController@services');
 	Route::get('/marketplace', 'HomeController@marketplace');
 	Route::get('/aboutus', 'HomeController@aboutus');
@@ -28,6 +30,11 @@
 	Route::get('/reminders/forgot', 'RemindersController@getForgot');
 	Route::get('/reminders/reset/{token}', 'RemindersController@getReset');
 	Route::post('/reminders/reset', 'RemindersController@postReset');
+
+
+	Route::get('/schedule/new', 'SchedulesController@getNew');
+	Route::post('/schedule/new', 'SchedulesController@postNew');
+	Route::get('/schedule/details', 'SchedulesController@getDetails');
 
 	// // API CONTROLLER
 	// Route::controller('api','ApisController');
@@ -95,10 +102,7 @@
 		Route::controller('schedules', 'SchedulesController');
 		Route::post('/schedules/order-add','SchedulesController@postOrderAdd');
 		Route::post('/schedules/ajax-validation', 'SchedulesController@postAjaxValidation');
-		//FRONTEND PORTION
-		//**
-		//**
-		Route::get('/schedule/new', 'SchedulesController@getNew');
+
 		
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');
