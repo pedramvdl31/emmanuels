@@ -27,6 +27,7 @@ class Schedule extends \Eloquent {
 		'zipcode'=>'required|min:1',
 		);
 
+
 	public static function prepareSchedules($data) {
 		if(isset($data)) {
 			foreach ($data as $key => $value) {

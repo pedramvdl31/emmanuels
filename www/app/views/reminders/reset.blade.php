@@ -3,43 +3,46 @@
 @stop
 
 @section('content')
-<div class="jumbotron">
-<h1>Password Reset</h1>
-</div>
-<div id="admin-info" class="panel panel-info">
-	<div class="panel-heading">Password Reset</div>
-	<div class="panel-body">	
-
+<div id="admin-info" class="well clearfix">
+	<h4 class="group-title">Password Reset</h4>
+	<hr class="title-hr">
+	<span class="info-span" style="font-size:13px;">You recently request to reset your password. If you didn't request a password reset, <a href="">click here</a></span>
 	{{ Form::open(array('action' => 'RemindersController@postReset', 'class'=>'','role'=>"form")) }}
-		<input type="hidden" name="token" value="{{ $token }}">
-	  	<div class="form-group {{ $errors->has('email') ? 'has-error' : false }}">
-	    	<label class="control-label" for="email">Email</label>
-	    	{{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'(ex: example@example.com) ')) }}
-	        @foreach($errors->get('email') as $message)
-	        <span class='help-block'>{{ $message }}</span>
-	        @endforeach
-	  	</div>	
-		<div class="form-group {{ $errors->has('password') ? 'has-error' : false }}">
-			<label class="control-label" for="password">New Password</label>
-			{{ Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')) }}
-			@foreach($errors->get('password') as $message)
-			<span class='help-block'>{{ $message }}</span>
-			@endforeach
-		</div>	
-		<div class="form-group {{ $errors->has('password') ? 'has-error' : false }}">
-				<label class="control-label" for="password_confirmation">Re-enter New Password</label>
-				{{ Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')) }}
-				@foreach($errors->get('password_confirmation') as $message)
-				<span class='help-block'>{{ $message }}</span>
-				@endforeach
-		</div>
-		<div class="panel-footer">
-			{{ Form::submit('Reset Password', array('class'=>'btn btn-large btn-warnning'))}}
-			{{ Form::close() }}
-		</div>	
+	<div class="info-space form-group {{ $errors->has('email') ? 'has-error' : false }}">
+		<label class="control-label" for="email">Email</label>
+		{{ Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'(ex: example@example.com) ')) }}
+		@foreach($errors->get('email') as $message)
+		<span class='help-block'>{{ $message }}</span>
+		@endforeach
+	</div>	
+	<div class=" info-space form-group">
+		<label class="control-label" for="Password">Password</label>
+		<input name="password" class="form-control" id="Password"
+		placeholder="Enter Password" type="password">
 	</div>
+	<div class=" info-space form-group">
+		<label class="control-label" for="password_confirmation">Password Confirmation</label>
+		<input name="password_confirmation" class="form-control" id="password_confirmation"
+		placeholder="Re-Enter Password" type="password">
+	</div>	
+	<button type="submit" class="btn btn-primary pull-right">Reset Password</button>
+	{{ Form::hidden('token',$reminder_token,['id'=>'reminder_token'])}}
+	{{ Form::close() }}
 </div>
 
-@stop
-
+<style>
+.title-hr{
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.group-title{
+	margin-top: 25px;
+}
+.main-group-title{
+	margin-top: 0px;
+}
+.info-space{
+	margin-top: 10px;
+}
+</style>
 @stop

@@ -2,53 +2,14 @@
 
 class RemindersController extends BaseController {
 	//set layout
-	protected $layout = 'layouts.admin';
+	protected $layout = 'layouts.frontend';
 	
 	public function __construct() {
-		if(Auth::check() == true){
-			// Set the layout
-			switch(Auth::user()->roles){
-				case 3:
-					$this->layout = "layouts.admin_owner";
-				break;
-				case 4:
-					$this->layout = "layouts.admin_employees";
-				break;
-				case 5:
-					$this->layout = "layouts.admin_members";
-				break;
-				case 6:
-					$this->layout = "layouts.admin";
-				break;
-				default:
-					$this->layout = "layouts.admin";
-				break;
-			}
 
-			// Check if user is authorized to view the page
-			$routes = explode("@", Route::currentRouteAction(), 2);     
-	        $this->controller = strtolower(str_replace('Controller', '', $routes[0]));
-	        $this->method = $routes[1];
-	        $this->parameters = Route::current()->parameters();
+        $this->beforeFilter('csrf', array('on'=>'post'));
 
-	     
-	     	// Page content setup
-
-	        $owner_id = User::getOwnerId(Auth::user()->id,'2');
-	        $company_id = (Auth::user()->roles == 3) ? Company::where('owner_id',$owner_id)->pluck('id') : null;
-	        
-	        $role_id = (isset($member_id)) ? Auth::user()->roles : null;
-	        $role_name = Admin::getRoleName($role_id);
-		
-	        View::share('role',$role_name);
-	        View::share('company_id',$company_id);
-	       	View::share('controller',$this->controller);
-			View::share('action',$this->method);
-		} 
-		else{
-			$this->layout="layouts.admin_guest";
-		}
-
+	    $nav_html = Website::prepareNavBar();
+    	View::share('nav_html', $nav_html);
 		// Set protection
 		$this->beforeFilter('csrf', array('on'=>'post'));
 	}
@@ -59,7 +20,7 @@ class RemindersController extends BaseController {
 	 */
 	public function getForgot()
 	{
-		$this->layout->content = View::make('reminders.password');
+		$this->layout->content = View::make('reminders.index');
 	}
 
 	/**
@@ -70,7 +31,7 @@ class RemindersController extends BaseController {
 	public function postForgot()
 	{
 		$response = Password::remind(Input::only('email'), function($message){
-		$message->subject('Reset your password'); 
+			$message->subject('Reset your password'); 
 		});
 		switch ($response)
 		{
@@ -79,15 +40,14 @@ class RemindersController extends BaseController {
 					->with('message', Lang::get($response))
 					->with('alert_type','alert-warning');
 			break;
-
 			case Password::REMINDER_SENT:
 				//update users table with token
+
 				return Redirect::back()
 					->with('message', Lang::get($response))
 					->with('alert_type','alert-success');
 			break;
 		}
-	
 	}
 	/**
 	 * Display the password reset view for the given token.
@@ -97,10 +57,11 @@ class RemindersController extends BaseController {
 	 */
 	public function getReset($token = null)
 	{
+		//IF TOKEN WAS EMPTY REDIRECT TO 404
 		if (is_null($token)) App::abort(404);
 		
 		$this->layout->content = View::make('reminders.reset')
-				->with('token', $token);
+				->with('reminder_token', $token);
 		
 	}
 

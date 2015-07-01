@@ -12,7 +12,6 @@
   {{ HTML::style('packages/bootstrap/css/bootstrap.min.css') }}
   {{ HTML::style('css/admin_layout.css')}}
   {{ HTML::style('packages/totop/css/ui.totop.css') }}
-  {{ HTML::style('packages/datepicker/css/datepicker3.css') }}
   @yield('stylesheets')
 </head>
 <body >
@@ -71,7 +70,6 @@
 {{ HTML::script('js/global_setup.js') }}
 {{ HTML::script('packages/totop/js/easing.js') }}
 {{ HTML::script('packages/totop/js/jquery.ui.totop.min.js') }}
-{{ HTML::script('packages/datepicker/js/bootstrap-datepicker.js') }}
 @yield('scripts')
 
 <script type="text/javascript">

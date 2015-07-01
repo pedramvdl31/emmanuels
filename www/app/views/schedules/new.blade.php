@@ -23,7 +23,7 @@
                   <input name="password" class="form-control" id="Password"
                   placeholder="Password" type="password">
                 </div>
-                <a href="{{ action('ForgetsController@getIndex') }}">Forgot your password?</a>
+                <a href="{{ action('RemindersController@getForgot') }}">Forgot your password?</a>
 
                 <button type="submit" class="btn btn-primary pull-right">Log In</button>
             	</br>

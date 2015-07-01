@@ -26,8 +26,8 @@
 	Route::get('/aboutus', 'HomeController@aboutus');
 	Route::get('/advice', 'HomeController@advice');
 	Route::get('/contactus', 'HomeController@contactus'); 
-	Route::post('/reminders/forgot', 'RemindersController@postForgot');
 	Route::get('/reminders/forgot', 'RemindersController@getForgot');
+	Route::post('/reminders/forgot', 'RemindersController@postForgot');
 	Route::get('/reminders/reset/{token}', 'RemindersController@getReset');
 	Route::post('/reminders/reset', 'RemindersController@postReset');
 
@@ -35,6 +35,9 @@
 	Route::get('/schedule/new', 'SchedulesController@getNew');
 	Route::post('/schedule/new', 'SchedulesController@postNew');
 	Route::get('/schedule/details', 'SchedulesController@getDetails');
+	Route::post('/schedule/details', 'SchedulesController@postDetails');
+	Route::get('/schedule/confirmation', 'SchedulesController@getConfirmation');
+	Route::post('/schedule/confirmation', 'SchedulesController@postConfirmation');
 
 	// // API CONTROLLER
 	// Route::controller('api','ApisController');

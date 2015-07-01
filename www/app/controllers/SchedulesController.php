@@ -451,6 +451,10 @@ class SchedulesController extends \BaseController {
 	//**
 		public function getNew()
 	{
+		//FORGET ALL SESSIONS
+    	if (Session::get('guest_info'))
+			Session::forget('guest_info');
+
 		$this->layout = View::make('layouts.frontend');
 		if (Auth::check()) {//THE USER IS LOGGED IN PROCEED TO DETAILS
 			return Redirect::to('/schedule/details');
@@ -519,12 +523,138 @@ class SchedulesController extends \BaseController {
 	public function getDetails()
 	{
 		$this->layout = View::make('layouts.frontend');
-		$this->layout->content = View::make('schedules.details');
+		//SESSION WAS SET CONTINUE TO DETAILES PAGE
+		if (Session::get('guest_info') || Auth::check()) {
+			$this->layout = View::make('layouts.frontend');
+			$this->layout->content = View::make('schedules.details');
+		} else { // THERE WAS NOT USER OR A GUEST SESSION GO BACK TO /SCHEDULE/NEW
+			return Redirect::to('/schedule/new');
+		}
+
 	}
 
 	public function postDetails()
+	{	
+		$this->layout = View::make('layouts.frontend');
+		//GET ALL THE INPUTS
+		$inputs = Input::only('estimate_or_order','house_or_store','estimate_date','cleaning_date','_token');
+
+		$estimate_or_order = $inputs['estimate_or_order'];
+		$house_or_store = $inputs['house_or_store'];
+		$estimate_date = $inputs['estimate_date'];
+		$cleaning_date = $inputs['cleaning_date'];
+
+		//IF USER WAS SIGNED IN GET ID, IF NOT GET THE ADDRESS INFORMATION FROM SESSION
+		if(Auth::check()){//USER IS SIGN-IN
+			//MEMBER
+			$users = User::find(Auth::user()->id);
+			/**
+			* STATUS 1 = FORM COMPLETE, 
+			*        2 = FORM INCOMPLETE(FRONTEND),
+			*		 3 = SCHEDULE CANCELLED
+			*		 4 = SCHEDULE COMPLETED
+			**/
+
+			$schedules = [];
+			$schedules['user_id'] = Auth::user()->id;
+			$schedules['firstname'] = Auth::user()->firstname;
+			$schedules['lastname'] = Auth::user()->lastname;
+			$schedules['email'] = Auth::user()->email;
+			$schedules['phone'] = Auth::user()->phone;
+			$schedules['street'] = Auth::user()->street;
+			$schedules['unit'] = Auth::user()->unit;
+			$schedules['city'] = Auth::user()->city;
+			$schedules['state'] = Auth::user()->state;
+			$schedules['zipcode'] = Auth::user()->zipcode;
+			//
+			$schedules['status'] = 3;
+			//
+
+			//ESTIMATE OR CLEANING 
+			switch ($estimate_or_order) {
+				case 1://ESTIMATE
+					$schedules['type'] = 1;
+					$schedules['pickup_date'] = date("Y-m-d H:i:s",strtotime($estimate_date));
+					$schedules['place'] = $house_or_store;
+					break;
+				case 2://CLEANING
+					$schedules['type'] = 2;
+					$schedules['pickup_date'] = date("Y-m-d H:i:s",strtotime($cleaning_date));
+					$schedules['place'] = $house_or_store;
+					break;
+				default:
+					# code...
+					break;
+			}
+
+
+			//SAVE ALL THE INFORMATION INTO THE SESSION
+			Session::put('confirmation_data', $schedules);
+
+		} else if(Session::get('guest_info')) {
+			//GUEST
+
+			$session_inputs = Session::get('guest_info');
+			/**
+			* STATUS 1 = FORM COMPLETE, 
+			*        2 = FORM INCOMPLETE(FRONTEND),
+			*		 3 = SCHEDULE CANCELLED
+			*		 4 = SCHEDULE COMPLETED
+			**/
+
+			$schedules = [];
+			$schedules['user_id'] = null;
+			$schedules['firstname'] = $session_inputs['first_name'];
+			$schedules['lastname'] = $session_inputs['last_name'];
+			$schedules['email'] = $session_inputs['email'];
+			$schedules['phone'] = $session_inputs['phone'];
+			$schedules['street'] = $session_inputs['street'];
+			$schedules['unit'] = $session_inputs['unit'];
+			$schedules['city'] = $session_inputs['city'];
+			$schedules['state'] = $session_inputs['state'];
+			$schedules['zipcode'] = $session_inputs['zipcode'];
+			//
+			$schedules['status'] = 3;
+			//
+
+			//ESTIMATE OR CLEANING 
+			switch ($estimate_or_order) {
+				case 1://ESTIMATE
+					$schedules['type'] = 1;
+					$schedules['pickup_date'] = date("Y-m-d H:i:s",strtotime($estimate_date));
+					$schedules['place'] = $house_or_store;
+					break;
+				case 2://CLEANING
+					$schedules['type'] = 2;
+					$schedules['pickup_date'] = date("Y-m-d H:i:s",strtotime($cleaning_date));
+					$schedules['place'] = $house_or_store;
+					break;
+				default:
+					# code...
+					break;
+			}
+
+			//SAVE ALL THE INFORMATION INTO THE SESSION
+			Session::put('confirmation_data', $schedules);
+
+		} else { //SOMTHING WENT WRONG NEITHER USER NOR GUEST
+			return Redirect::back()
+			->with('message', 'Oops, somthing went wrong. Please try again. items and inventories')
+			->with('alert_type','alert-danger');	
+		}
+
+		return Redirect::action('SchedulesController@getConfirmation');
+	}
+
+	public function getConfirmation()
 	{
-	
+		$this->layout = View::make('layouts.frontend');
+		$this->layout->content = View::make('schedules.confirmation');
+	}
+
+	public function postConfirmation()
+	{
+
 	}
 
 	public function postDelete()

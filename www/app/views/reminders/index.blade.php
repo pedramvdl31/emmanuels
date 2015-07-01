@@ -16,6 +16,7 @@
 			@endforeach
 		</div>	
 	<button type="submit" class="btn btn-primary pull-right">Submit</button>
+	{{ Form::close() }}
 </div>
 
 <style>
@@ -33,5 +34,4 @@ margin-top: 0px;
 margin-top: 10px;
 }
 </style>
-
 @stop
