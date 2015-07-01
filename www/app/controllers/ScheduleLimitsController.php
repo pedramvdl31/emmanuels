@@ -2,85 +2,82 @@
 
 class ScheduleLimitsController extends \BaseController {
 
+	//set layout
+	protected $layout = "layouts.admin";
 	/**
 	 * Display a listing of the resource.
-	 * GET /schedulelimits
 	 *
 	 * @return Response
 	 */
-	public function index()
-	{
-		//
+	public function __construct() {
+		// Set protection
+		$this->beforeFilter('csrf', array('on'=>'post'));
+
+
+		// Check if user is authorized to view the page
+		$routes = explode("@", Route::currentRouteAction(), 2);     
+        $this->controller = strtolower(str_replace('Controller', '', $routes[0]));
+        $this->method = $routes[1];
+        $this->parameters = Route::current()->parameters();
+
+		// Set the layout
+		switch(Auth::user()->roles){
+			case 2:
+				$this->layout = "layouts.admin";
+			break;
+			case 3:
+				$this->layout = "layouts.admin_owner";
+			break;
+			case 4:
+				$this->layout = "layouts.admin_employees";
+			break;
+			case 5:
+				$this->layout = "layouts.admin_members";
+			break;
+			case 6:
+				$this->layout = "layouts.admin";
+			break;
+		}
+     
+     	// Page content setup
+
+        $this->company_id = 1;
+        
+        $role_id = (isset($member_id)) ? Auth::user()->roles : null;
+        $role_name = Admin::getRoleName($role_id);
+	
+        View::share('role',$role_name);
+       	View::share('controller',$this->controller);
+		View::share('action',$this->method);
+	    
 	}
 
-	/**
-	 * Show the form for creating a new resource.
-	 * GET /schedulelimits/create
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function getIndex()
 	{
-		//
+		$this->layout->content = View::make('schedule_limits.index');
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 * POST /schedulelimits
-	 *
-	 * @return Response
-	 */
-	public function store()
+	public function getAdd()
 	{
-		//
+		$this->layout->content = View::make('schedule_rules.add');
+	}
+	public function postAdd()
+	{
+		
 	}
 
-	/**
-	 * Display the specified resource.
-	 * GET /schedulelimits/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
+	public function getEdit($id = null)
 	{
-		//
+		$this->layout->content = View::make('schedule_rules.edit');
+	}
+	public function postEdit()
+	{
+		
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 * GET /schedulelimits/{id}/edit
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+	public function postDelete()
 	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 * PUT /schedulelimits/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 * DELETE /schedulelimits/{id}
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		
 	}
 
 }

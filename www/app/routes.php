@@ -99,14 +99,16 @@
 
 			Route::post('/pages/test-session','PagesController@postTestSession');
 
-
+		//SCHEDULE LIMIT SETUP PAGE
+		Route::get('/schedules/setup', 'ScheduleLimitsController@getIndex');
 
 		//SCHEDULES CONTROLLER
 		Route::controller('schedules', 'SchedulesController');
 		Route::post('/schedules/order-add','SchedulesController@postOrderAdd');
 		Route::post('/schedules/ajax-validation', 'SchedulesController@postAjaxValidation');
 
-		
+
+
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');
 
