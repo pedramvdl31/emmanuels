@@ -216,9 +216,7 @@
 									</div>
 			  					</td>
 			  					<td class="list-group">
-
 			  						<fieldset {{ $make_disabled }}>
-
 										<div class="list-group-item" style="height:90px;">
 											<h4 class="list-group-item-heading">Opens at</h4>
 											<div class="col-xs-4">

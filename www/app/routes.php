@@ -107,12 +107,15 @@
 		Route::post('/schedules/order-add','SchedulesController@postOrderAdd');
 		Route::post('/schedules/ajax-validation', 'SchedulesController@postAjaxValidation');
 
-
+		//SCHEDULE LIMITS CONTROLLER
+		Route::controller('/schedule-limits', 'ScheduleLimitsController');
+			Route::post('/limits/overwrite', 'ScheduleLimitsController@postAddOverwrite');
+		
 
 		//SCHEDULE RULES CONTROLLER
 		Route::controller('schedule-rules', 'ScheduleRulesController');
 
-		//SCHEDULE RULES CONTROLLER
+		//SCHEDULE  CONTROLLER
 		Route::controller('/services', 'ServicesController');
 
 		// RESOURCES CONTROLLER

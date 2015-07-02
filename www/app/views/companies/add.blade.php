@@ -150,7 +150,7 @@
 		  	</div>
 		  	<div class="form-group">
 		  		<label class="control-label">Company Hours</label>
-		  		{{ View::make('partials.companies.store_hours') }}
+		  		{{ View::make('partials.companies.store_hours_schedule_limits') }}
 		  	</div>
 		</div>
 	</div>

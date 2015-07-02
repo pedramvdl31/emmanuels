@@ -56,6 +56,10 @@ class ScheduleLimitsController extends \BaseController {
 	{
 		$this->layout->content = View::make('schedule_limits.index');
 	}
+	public function postIndex()
+	{
+		Job::dump(Input::all());
+	}
 
 	public function getAdd()
 	{
@@ -78,6 +82,17 @@ class ScheduleLimitsController extends \BaseController {
 	public function postDelete()
 	{
 		
+	}
+
+	public function postAddOverwrite() {
+		if(Request::ajax()) {
+			$current_count = Input::get('count');
+			$html = ScheduleLimit::prepareNewOverwrite($current_count);
+
+			return Response::json(array(
+				'html' => $html,
+				));
+		}
 	}
 
 }
