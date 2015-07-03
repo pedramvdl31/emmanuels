@@ -20,17 +20,17 @@
 		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
 			<li id="schedule-stepy" class="active" role="presentation"><a href="#type"><span class="badge">1</span> Schedules</a></li>
 			<li id="overwrite-stepy" class="" role="presentation"><a href="#overwrite"><span class="badge">2</span> Overwrite Dates </a></li>
-			<li id="blackout-stepy" class="" role="presentation"><a href="#date"><span class="badge">3</span> Blackout Dates</a></li>
+			<li id="blackout-stepy" class="" role="presentation"><a href="#blackout_date"><span class="badge">3</span> Blackout Dates</a></li>
 		</ul>
 	</div>
 	<div class="col-md-9 pull-right">
 		<!-- TYPE STEP -->
 		<div id="type" class="steps panel panel-success " >
-			<div class="panel-heading" style="font-size:17px;"><strong>Schedules</strong></div>
+			<div class="panel-heading" style="font-size:17px;"><strong>Default Schedules</strong></div>
 			<div class="panel-body">
 				<!-- FIRST SECTION -->
-				<div class="first_section">
-					{{ View::make('partials.companies.store_hours_schedule_limits') }}
+				<div class="first_section" id="step_1_wrapper">
+					{{ View::make('partials.companies.delivery_hours') }}
 				</div>
 				<!-- FIRST SECTION **END-->
 			</div>
@@ -57,9 +57,9 @@
 
 		?>	
 
-		<!-- PLACE STEP -->
+		<!-- OVERWRITE STEP -->
 		<div id="overwrite" class="steps panel panel-success hide ">
-			<div class="panel-heading clearfix" style="font-size:17px;"><strong>Place</strong>			
+			<div class="panel-heading clearfix" style="font-size:17px;"><strong>Overwrite Date</strong>			
 				<a id="add-overwrite" class="btn btn-primary pull-right">Add Another Overwrite Date &nbsp <i class="glyphicon glyphicon-plus "></i> </a>
 			</div>
 			
@@ -187,27 +187,22 @@
 
 
 <!-- DATE STEP -->
-<div id="date" class="steps panel panel-success hide">
-	<div class="panel-heading" style="font-size:17px;"><strong>Date</strong></div>
+<div id="blackout_date" class="steps panel panel-success hide">
+	<div class="panel-heading" style="font-size:17px;"><strong>Blackout Dates</strong></div>
 	<div class="panel-body">
 		<div class="third_section">
-			<div class="form-group hide" id="estimate_calendar">
-				<label class="control-label" for="pick_up">Estimate Date&nbsp;&nbsp;</label>
-				<div class="input-group ">
-					<input type="text" value="" class="form-control  estimate-date " id="estimate-date" name="estimate_date" readonly="readonly" this-group="estimate" style="cursor:pointer;background-color:#fff"  placeholder="" aria-describedby="basic-addon2">
-					<span class="input-group-addon calendar" style="cursor:pointer" id="basic-addon2"><i class="glyphicon glyphicon-calendar"></i></span>
+			<div class="blackout wrapper">
+				<div class="input-group input-group-md">
+					<span class="input-group-addon" >Pick a Date</span>
+					<input type="text"  id="blackout-input" class="form-control"  aria-describedby="sizing-addon1">
 				</div>
-				<!-- estimate ERROR -->
-				<span class="estimate-date-error help-block hide" style="color:#a94442;">Pick-Up date is required</span>
-			</div>
-			<div class="form-group hide" id="cleaning_calendar">
-				<label class="control-label" for="pick_up">Cleaning Date&nbsp;&nbsp;</label>
-				<div class="input-group ">
-					<input type="text" value="" class="form-control  cleaning-date " id="cleaning-date" name="cleaning_date" readonly="readonly" this-group="cleaning" style="cursor:pointer;background-color:#fff"  placeholder="" aria-describedby="basic-addon2">
-					<span class="input-group-addon calendar" style="cursor:pointer" id="basic-addon2"><i class="glyphicon glyphicon-calendar"></i></span>
+
+				<div id="blackout-group-wrapper">
+
+
+
 				</div>
-				<!-- cleaning ERROR -->
-				<span class="cleaning-date-error help-block hide" style="color:#a94442;">Pick-Up date is required</span>
+
 			</div>
 		</div>
 	</div>
@@ -230,6 +225,12 @@
 }
 .first-group-title{
 	margin-top: 0px;
+}
+.alert-style{
+	margin-top: 10px;
+ 	color: whitesmoke;
+  	background-color: black;
+  	border-color: gray;
 }
 </style>
 @stop

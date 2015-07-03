@@ -95,4 +95,16 @@ class ScheduleLimitsController extends \BaseController {
 		}
 	}
 
+	public function postValidateHours() {
+		if(Request::ajax()) {
+			$data = Input::get('data');
+
+			$validation_result = ScheduleLimit::prepareValidationResults($data);
+
+			return Response::json(array(
+				'validation_result' => $validation_result,
+				));
+		}
+	}
+
 }

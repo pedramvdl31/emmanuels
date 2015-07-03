@@ -3,6 +3,22 @@
 class ScheduleLimit extends \Eloquent {
 	protected $fillable = [];
 
+	public static function prepareValidationResults($data){
+		$message = [];
+		if (isset($data)) {
+			$today = date('m/d/y');
+			foreach ($data as $key => $value) {
+				$message[$key]['start'] =  strtotime($today.' '.$value[0].':'.$value[1].' '.$value[2]);
+				$message[$key]['end'] =  strtotime($today.' '.$value[3].':'.$value[4].' '.$value[5]);
+				if ($message[$key]['end'] < $message[$key]['start']) {
+					$message[$key]['info'] = "error";
+				} else {
+					$message[$key]['info'] = "fine";
+				}
+			}
+		}
+		return $message;
+	}
 
 	public static function prepareNewOverwrite($new_count) {
 			

@@ -110,6 +110,7 @@
 		//SCHEDULE LIMITS CONTROLLER
 		Route::controller('/schedule-limits', 'ScheduleLimitsController');
 			Route::post('/limits/overwrite', 'ScheduleLimitsController@postAddOverwrite');
+			Route::post('/limits/validate-hours', 'ScheduleLimitsController@postValidateHours');
 		
 
 		//SCHEDULE RULES CONTROLLER
