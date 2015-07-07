@@ -20,19 +20,45 @@ class ScheduleLimit extends \Eloquent {
 		return $message;
 	}
 
+	public static function prepareValidationOverWriteResults($data){
+		$message = [];
+		if (isset($data)) {
+			$today = date('m/d/y');
+			foreach ($data as $key => $value) {
+				$message[$key]['start'] =  strtotime($today.' '.$value[0].':'.$value[1].' '.$value[2]);
+				$message[$key]['end'] =  strtotime($today.' '.$value[3].':'.$value[4].' '.$value[5]);
+				if ($message[$key]['end'] < $message[$key]['start']) {
+					$message[$key]['info'] = "error";
+				} else {
+					$message[$key]['info'] = "fine";
+				}
+			}
+		}
+		return $message;
+	}
+
 	public static function prepareNewOverwrite($new_count) {
 			
 		$overwrite_hours = array();
 		$overwrite_minutes = array();
 		$overwrite_ampm = array('am'=>'am','pm'=>'pm');
-		for ($ov_i=0; $ov_i < 13; $ov_i++) { 
-			$overwrite_hours[$ov_i] = ($ov_i == 0) ? 'Select hour' : $ov_i;
-		}
-		for ($ov_i=0; $ov_i <= 60; $ov_i++) {
-			if($ov_i == 0) {
-				$overwrite_minutes[""] = 'Select minute';
+		for ($i=0; $i < 13; $i++) { 
+			if ($i == 0) {
+				$overwrite_hours[$i] = 'Select hour';
+			} else if($i < 10){
+				$overwrite_hours['0'.$i] = $i;
 			} else {
-				$overwrite_minutes[$ov_i-1] = ":".str_pad($ov_i-1, 2, '0', STR_PAD_LEFT);
+				$overwrite_hours[$i] = $i;
+			}
+		}
+		for ($i=0; $i <= 60; $i++) {
+			if($i == 0) {
+				$overwrite_minutes[""] = 'Select minute';
+			} else if($i < 11){
+				$new_i = $i - 1;
+				$overwrite_minutes['0'.$new_i] = ":".str_pad($i-1, 2, '0', STR_PAD_LEFT);
+			} else {
+				$overwrite_minutes[$i-1] = ":".str_pad($i-1, 2, '0', STR_PAD_LEFT);
 			}
 		}
 		if(isset($new_count)) {
@@ -77,26 +103,29 @@ class ScheduleLimit extends \Eloquent {
 										<div class="single-wrapper">
 											<div class="input-group input-group-md">
 												<span class="input-group-addon" >Select Date</span>
-												<input type="text" name="overwrite['.$new_count.'][date]" id="overwrite-date-single-'.$new_count.'" class="form-control"  aria-describedby="sizing-addon1">
+												<input type="text" name="overwrite['.$new_count.'][date]" id="overwrite-date-single-'.$new_count.'" class="form-control overwrite-date-single"  aria-describedby="sizing-addon1">
 											</div>
+											<divc class="hide single-date-error" style="color:#a94442">The date field is required</div>
 										</div>
 
 										<div  class=" hide range-wrapper">
 											<div class="input-group input-group-md">
 												<span class="input-group-addon" >Start Date</span>
-												<input type="text" name="overwrite['.$new_count.'][start]"  id="overwrite-date-range-start-'.$new_count.'" class="form-control"  aria-describedby="sizing-addon'.$new_count.'">
+												<input type="text" name="overwrite['.$new_count.'][start]"  id="overwrite-date-range-start-'.$new_count.'" class="form-control overwrite-date-range-start"  aria-describedby="sizing-addon'.$new_count.'">
 											</div>
+											<div class="hide start-date-error" style="color:#a94442">The start field is required</div>
 											<div class="input-group input-group-md" style="margin-top:10px;">
 												<span class="input-group-addon" >End Date</span>
-												<input type="text" name="overwrite['.$new_count.'][end]"  id="overwrite-date-range-end-'.$new_count.'" class="form-control"  aria-describedby="sizing-addon'.$new_count.'">
+												<input type="text" name="overwrite['.$new_count.'][end]"  id="overwrite-date-range-end-'.$new_count.'" class="form-control overwrite-date-range-end"  aria-describedby="sizing-addon'.$new_count.'">
 											</div>
+											<div class="hide end-date-error" style="color:#a94442">The end field is required</div>
 										</div>
 
 										<h4 class="group-title">Schedules</h4>
 										<hr class="title-hr">
 
 										<!-- TABLE START -->
-										<table class="table table-bordered table-condensed" style="border:none">
+										<table class="table table-bordered table-condensed overwrite_hours_container" style="border:none">
 											<tbody>
 												<tr>
 													<td class="list-group" style="border:none;">
@@ -104,56 +133,75 @@ class ScheduleLimit extends \Eloquent {
 															<div class="list-group-item" style="height:90px;">
 																<h4 class="list-group-item-heading">Start</h4>
 																<div class="col-xs-4">
-																	<select class="form-control" placeholder="Select Hour" status="" name="overwrite['.$new_count.'][open_hour]">';
+																<div class="form-group ">
+																	<select class="form-control form-selects overwrite-select-hour-open" placeholder="Select Hour" this_category="'.$new_count.'" status="" name="overwrite['.$new_count.'][open_hour]">';
 																		foreach ($overwrite_hours as $key => $value) {
 																			$html .= '<option value="'.$key.'">'.$value.'</option>';
 																		}
 																		$html .= '
 																	</select>
+																	<div class="select-error hide" style="color:#a94442">The hour field is required</div>
+																</div>
 																</div>
 																<div class="col-xs-4">
-																	<select class="form-control" placeholder="Select Hour" status="" name="overwrite['.$new_count.'][open_minute]">';
+																<div class="form-group ">
+																	<select class="form-control form-selects overwrite-select-minute-open" placeholder="Select Minutes" this_category="'.$new_count.'" status="" name="overwrite['.$new_count.'][open_minute]">';
 																		foreach ($overwrite_minutes as $key => $value) {
 																			$html .= '<option value="'.$key.'">'.$value.'</option>';
 																		}
 																		$html .= '
-																	</select>																
+																	</select>	
+																	<div class="select-error hide" style="color:#a94442">The minute field is required</div>															
+																	</div>
 																	</div>
 																<div class="col-xs-4">
-																	<select class="form-control" placeholder="" status="" name="overwrite['.$new_count.'][open_ampm]">';
+																<div class="form-group ">
+																	<select class="form-control form-selects overwrite-select-ampm-open" placeholder="" status="" this_category="'.$new_count.'" name="overwrite['.$new_count.'][open_ampm]">';
 																		foreach ($overwrite_ampm as $key => $value) {
 																			$html .= '<option value="'.$key.'">'.$value.'</option>';
 																		}
 																		$html .= '
-																	</select>																
+																	</select>	
+																	<div class="select-error hide" style="color:#a94442">This field is required</div>															
+																	</div>
 																	</div>
 															</div>
 															<div class="list-group-item" style="height:90px;">
 																<h4 class="list-group-item-heading">End</h4>
 																<div class="col-xs-4">
-																	<select class="form-control" placeholder="Select Hour" status="" name="overwrite['.$new_count.'][close_hour]">';
+																<div class="form-group ">
+																	<select class="form-control form-selects overwrite-select-hour-close" placeholder="Select Hour" this_category="'.$new_count.'" status="" name="overwrite['.$new_count.'][close_hour]">';
 																	foreach ($overwrite_hours as $key => $value) {
 																		$html .= '<option value="'.$key.'">'.$value.'</option>';
 																	}
 																	$html .= '
-																	</select>																
+																	</select>	
+																	<div class="select-error hide" style="color:#a94442">The hour field is required</div>															
+																	</div>
 																	</div>
 																<div class="col-xs-4">
-																	<select class="form-control" placeholder="Select Hour" status="" name="overwrite['.$new_count.'][close_minute]">';
-																	foreach ($overwrite_minutes as $key => $value) {
-																		$html .= '<option value="'.$key.'">'.$value.'</option>';
-																	}
-																	$html .= '
-																	</select>																
-																	</div>
-																<div class="col-xs-4">
-																	<select class="form-control" placeholder="" status="" name="overwrite['.$new_count.'][close_ampm]">';
-																		foreach ($overwrite_ampm as $key => $value) {
+																	<div class="form-group ">
+																		<select class="form-control form-selects overwrite-select-minute-close" placeholder="Select Minutes" this_category="'.$new_count.'" status="" name="overwrite['.$new_count.'][close_minute]">';
+																		foreach ($overwrite_minutes as $key => $value) {
 																			$html .= '<option value="'.$key.'">'.$value.'</option>';
 																		}
 																		$html .= '
-																	</select>																
+																		</select>
+																		<div class="select-error hide" style="color:#a94442">The minute field is required</div>																
 																	</div>
+																</div>
+																<div class="col-xs-4">
+																	<div class="form-group ">
+																		<select class="form-control form-selects overwrite-select-ampm-close" placeholder="" status="" this_category="'.$new_count.'" name="overwrite['.$new_count.'][close_ampm]">';
+																			foreach ($overwrite_ampm as $key => $value) {
+																				$html .= '<option value="'.$key.'">'.$value.'</option>';
+																			}
+																			$html .= '
+																		</select>	
+																		<div class="select-error hide" style="color:#a94442">This field is required</div>															
+																	</div>
+																</div>
+																<span id="time-error-overwrite-'.$new_count.'" class=" time-error-overwrite hide" style="color:#a94442;width:50px;">End time cannot be before start time</span>
 															</div>
 														</fieldset>
 													</td>
@@ -167,8 +215,10 @@ class ScheduleLimit extends \Eloquent {
 
 										<div class="input-group input-group-md">
 											<span class="input-group-addon" >Number Of Employees</span>
-											<input type="text" name="overwrite[0][number_of_employee]" id="overwrite-date-single-1" class="form-control"  aria-describedby="sizing-addon1">
+											<input type="text" name="overwrite[0][number_of_employee]" class="form-control employees-no"  aria-describedby="sizing-addon1">
 										</div>
+										<span class="hide employees-no-error" style="color:#a94442;width:50px;">This field is required</span>
+										<span class="hide employees-no-error-numeric" style="color:#a94442;width:50px;">This field must only contain number</span>
 
 
 									</div>
@@ -176,7 +226,11 @@ class ScheduleLimit extends \Eloquent {
 								</div>
 								<!-- PANEL END -->
 							</div>
+							<div class="panel-footer clearfix">
+								<button type="button" class="btn btn-danger btn-sm pull-right remove-overwrite" >Remove <i class="glyphicon glyphicon-trash"></i></button>
+							</div>
 						</div>
+
 					</div>
 					';
 		}
