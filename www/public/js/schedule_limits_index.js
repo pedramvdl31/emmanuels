@@ -11,36 +11,56 @@ pages = {
                 'X-CSRF-Token': $('meta[name=csrf-token]').attr('content')
             }
         });
+        
         $("#overwrite-date-single-0").datepicker({
             dateFormat: 'DD, d MM, yy',
-            minDate: 0
+            minDate: 0,
+            onSelect: function(date) {
+                remove_calendar_error($(this));
+            }
         });
         $("#overwrite-date-range-start-0").datepicker({
             dateFormat: 'DD, d MM, yy',
-            minDate: 0
+            minDate: 0,
+            onSelect: function(date) {
+                remove_calendar_error($(this));
+            }
         });
         $("#overwrite-date-range-end-0").datepicker({
             dateFormat: 'DD, d MM, yy',
-            minDate: 0
+            minDate: 0,
+            onSelect: function(date) {
+                remove_calendar_error($(this));
+            }
         });
         $("#blackout-input").datepicker({
             dateFormat: 'DD, d MM, yy',
             minDate: 0,
             onSelect: function(date) {
+                remove_calendar_error($(this));
                 add_new_blackout_date(date);
+                //CLEAR OUT THE SELECTED DATE AFTER TIMEOUT
+                setTimeout(function(){ $('#blackout-input').val(''); }, 500);
+                
             }
 
         });
     },
     events: function() {
-        $(document).on('click', '#add-overwrite', function() {
 
+        $(document).find(".form-selects").change(function() {
+            //THE THE SELECTED WASNT THE FIRST ONE
+           if ($(this).val() != 0) {
+            $(this).parents('.form-group:first').removeClass('has-error');
+            $(this).parents('.form-group:first').find('.select-error:first').addClass('hide');
+           };
+        });
+
+        $(document).on('click', '#add-overwrite', function() {
             //CLOSE ALL ACCORDIONS
             $('#overwrite').find('.panel-collapse').removeClass('in');
-
             //COUNT NUMBER OF SETS
             var count = $('.overwrite-wrapper').length;
-
             request.add_overwrite(count);
         });
 
@@ -52,7 +72,7 @@ pages = {
             $('.this-wrapper').each(function(index) {
                 reindex_count = reindex_count + 1;
                 //RENAME THE TITLE 
-                $(this).find('.this-title').html('OverWrite Date '+reindex_count);
+                $(this).find('.this-title').html('OverWrite Date '+reindex_count+ ' '+'<span style="color:#d9534f" class="hide glyphicon glyphicon-warning-sign this-error-sign this-error-sign-'+reindex_count+'"></span>');
 
                 // TRAVERSE THROUGHT ALL FORMS AND CLASSES TO CHANGE THE NUMBER
 
@@ -335,6 +355,8 @@ request = {
                                 error = 1;
                                 $('#time-error-overwrite-' + i).removeClass('hide');
                                 $('#time-error-overwrite-' + i).parents('.list-group-item:first').find('.form-group').addClass('has-error');
+
+                                $('.this-error-sign-'+ i).removeClass('hide');
                             };
                         });
                         if (error == 0) {
@@ -404,9 +426,7 @@ function validate_step_1(_this, href, type) {
         }, 1000);
         };
         //IF THERE WAS NOW ERRORS THEN PROCEED TO NEXT STEPY
-
-        //DISABLED FOR DEBUGGING
-        if (flag == 1) {
+        if (flag == 0) {
             //VALIDATE HOURS
             var data = [];
             // INIT ALL ARRAYS
@@ -521,9 +541,9 @@ function validate_step_2(_this, href, type){
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+                this_element = $(this).find('.overwrite-date-single:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
             };
         } else {
@@ -532,39 +552,38 @@ function validate_step_2(_this, href, type){
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+                this_element = $(this).find('.overwrite-date-range-start:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             };
             if ($(this).find('.overwrite-date-range-end:first').val() == "") {
                 $(this).find('.end-date-error:first').removeClass('hide');
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+                this_element = $(this).find('.overwrite-date-range-end:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             };
         }
-
         //VALIDATE NUMBER OF EMPLOYEES FIELD
         var this_employees_no = $(this).find('.employees-no:first').val();
         if (this_employees_no == '') {
             flag = 1;
             //USED THIS TO SCROLL TO THE FIRST ERROR
             error_count = error_count + 1;
-            if (error_count == 1) {
-                    this_element = $(this);
-                };
+            this_element = $(this).find('.employees-no:first');
+            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+
             $(this).find('.employees-no-error').removeClass('hide');
+
 
         } else if (!$.isNumeric( this_employees_no ) ) {
             flag = 1;
             //USED THIS TO SCROLL TO THE FIRST ERROR
             error_count = error_count + 1;
-            if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+            this_element = $(this).find('.employees-no:first');
+            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             $(this).find('.employees-no-error-numeric').removeClass('hide');
         };
 
@@ -582,9 +601,9 @@ function validate_step_2(_this, href, type){
 
                             //USED THIS TO SCROLL TO THE FIRST ERROR
                             error_count = error_count + 1;
-                            if (error_count == 1) {
-                                this_element = $(this);
-                            };
+
+                            this_element = $(this).find('.form-selects');
+                            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
                             //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
                             $(this).parents('.form-group:first').addClass('has-error')
                             .find('.select-error').removeClass('hide');
@@ -594,13 +613,11 @@ function validate_step_2(_this, href, type){
 
     });
 
-        if (flag == 1) {
-            console.log($('.this_element').attr('id'));
-
-        $('html,body').animate({
-          scrollTop: $(this_element).offset().top - 20
-        }, 1000);
-        };
+        // if (flag == 1) {
+        // $('html,body').animate({
+        //       scrollTop: $(this_element).offset().top - 20
+        //     }, 1000);
+        // };
         //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
         if (flag == 0) {
             var overwrite_container = $('.overwrite_hours_container').length;
@@ -627,12 +644,12 @@ function validate_step_2(_this, href, type){
                     });
                
             });
-            request.validate_hours_ajax_2(data, _this, href);
+            //XXX
+            request.validate_hours_ajax_2(data, null, href);
         };
     } 
 // NEXT BTN WAS CLICKED
     else {
-
 
         clear_all_validation_errors_2();
         $('.this-wrapper').each(function(index) {
@@ -647,9 +664,9 @@ function validate_step_2(_this, href, type){
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+                this_element = $(this).find('.overwrite-date-single:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
 
             };
         } else {
@@ -658,39 +675,38 @@ function validate_step_2(_this, href, type){
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+                this_element = $(this).find('.overwrite-date-range-start:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             };
             if ($(this).find('.overwrite-date-range-end:first').val() == "") {
                 $(this).find('.end-date-error:first').removeClass('hide');
                 flag = 1;
                 //USED THIS TO SCROLL TO THE FIRST ERROR
                 error_count = error_count + 1;
-                if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+                this_element = $(this).find('.overwrite-date-range-end:first');
+                this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             };
         }
-
         //VALIDATE NUMBER OF EMPLOYEES FIELD
         var this_employees_no = $(this).find('.employees-no:first').val();
         if (this_employees_no == '') {
             flag = 1;
             //USED THIS TO SCROLL TO THE FIRST ERROR
             error_count = error_count + 1;
-            if (error_count == 1) {
-                    this_element = $(this);
-                };
+            this_element = $(this).find('.employees-no:first');
+            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
+
             $(this).find('.employees-no-error').removeClass('hide');
+
 
         } else if (!$.isNumeric( this_employees_no ) ) {
             flag = 1;
             //USED THIS TO SCROLL TO THE FIRST ERROR
             error_count = error_count + 1;
-            if (error_count == 1) {
-                    this_element = $(this);
-                };
+
+            this_element = $(this).find('.employees-no:first');
+            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
             $(this).find('.employees-no-error-numeric').removeClass('hide');
         };
 
@@ -708,9 +724,9 @@ function validate_step_2(_this, href, type){
 
                             //USED THIS TO SCROLL TO THE FIRST ERROR
                             error_count = error_count + 1;
-                            if (error_count == 1) {
-                                this_element = $(this);
-                            };
+
+                            this_element = $(this).find('.form-selects');
+                            this_element.parents('.content-set').find('.this-error-sign').removeClass('hide');
                             //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
                             $(this).parents('.form-group:first').addClass('has-error')
                             .find('.select-error').removeClass('hide');
@@ -720,13 +736,11 @@ function validate_step_2(_this, href, type){
 
     });
 
-        if (flag == 1) {
-            console.log($('.this_element').attr('id'));
-
-        $('html,body').animate({
-          scrollTop: $(this_element).offset().top - 20
-        }, 1000);
-        };
+        // if (flag == 1) {
+        // $('html,body').animate({
+        //       scrollTop: $(this_element).offset().top - 20
+        //     }, 1000);
+        // };
         //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
         if (flag == 0) {
             var overwrite_container = $('.overwrite_hours_container').length;
@@ -753,7 +767,8 @@ function validate_step_2(_this, href, type){
                     });
                
             });
-            request.validate_hours_ajax_2(data, _this, href);
+            //XXX
+            request.validate_hours_ajax_2(data, null, href);
         };
 
     }
@@ -772,6 +787,10 @@ function clear_all_validation_errors() {
 }
 
 function clear_all_validation_errors_2() {
+    //PANEL ERROR GLYPHICON
+    $('.this-error-sign').addClass('hide');
+
+
     $('.first_section').find('tr').each(function(index) {
         $('select').each(function(index) {
             $(this).parents('.form-group:first').removeClass('has-error')
@@ -843,4 +862,9 @@ function reindex_blackouts(count) {
         //REIDEX FORM NAMES
         $(this).find('.blackout-form:first').attr('name', 'blackoutdates[' + new_index + ']');
     });
+}
+
+//REINDEX AFTER REMOVE
+function remove_calendar_error(_this) {
+    _this.parents('.box:first').find('.error:first').addClass('hide');
 }

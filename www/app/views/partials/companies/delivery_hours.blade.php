@@ -49,7 +49,6 @@ for ($i=0; $i <= 60; $i++) {
 							<div class="form-group ">
 								{{ Form::select('hours[0][open_hour]', $hours, '', array('class'=>'form-control form-selects','this_category'=>'1','not_empty'=>'true','placeholder'=>'Select Hour')); }}
 								<div class="select-error hide" style="color:#a94442">The hour field is required</div>
-								
 							</div>
 						</div>
 						<div class="col-xs-4">

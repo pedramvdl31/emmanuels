@@ -72,7 +72,7 @@ class ScheduleLimit extends \Eloquent {
 						style="cursor: pointer;border:none;">
 						<h4 class="panel-title">
 							<a class="this-title">
-								OverWrite Date '.($new_count+1).'
+								OverWrite Date '.($new_count+1).' <span style="color:#d9534f" class="hide glyphicon glyphicon-warning-sign this-error-sign this-error-sign-'.$new_count.'"></span>
 							</a>
 							<a>
 								<i class="glyphicon glyphicon-chevron-down pull-right"></i>
@@ -100,25 +100,27 @@ class ScheduleLimit extends \Eloquent {
 										<h4 class="group-title">Date</h4>
 										<hr class="title-hr">
 
-										<div class="single-wrapper">
+										<div class="single-wrapper box">
 											<div class="input-group input-group-md">
 												<span class="input-group-addon" >Select Date</span>
 												<input type="text" name="overwrite['.$new_count.'][date]" id="overwrite-date-single-'.$new_count.'" class="form-control overwrite-date-single"  aria-describedby="sizing-addon1">
 											</div>
-											<divc class="hide single-date-error" style="color:#a94442">The date field is required</div>
+											<divc class="hide single-date-error error" style="color:#a94442">The date field is required</div>
 										</div>
 
-										<div  class=" hide range-wrapper">
+										<div  class=" hide range-wrapper box">
 											<div class="input-group input-group-md">
 												<span class="input-group-addon" >Start Date</span>
 												<input type="text" name="overwrite['.$new_count.'][start]"  id="overwrite-date-range-start-'.$new_count.'" class="form-control overwrite-date-range-start"  aria-describedby="sizing-addon'.$new_count.'">
 											</div>
-											<div class="hide start-date-error" style="color:#a94442">The start field is required</div>
-											<div class="input-group input-group-md" style="margin-top:10px;">
-												<span class="input-group-addon" >End Date</span>
-												<input type="text" name="overwrite['.$new_count.'][end]"  id="overwrite-date-range-end-'.$new_count.'" class="form-control overwrite-date-range-end"  aria-describedby="sizing-addon'.$new_count.'">
+											<div class="hide start-date-error error" style="color:#a94442">The start field is required</div>
+											<div class="box">
+												<div class="input-group input-group-md" style="margin-top:10px;">
+													<span class="input-group-addon" >End Date</span>
+													<input type="text" name="overwrite['.$new_count.'][end]"  id="overwrite-date-range-end-'.$new_count.'" class="form-control overwrite-date-range-end"  aria-describedby="sizing-addon'.$new_count.'">
+												</div>
+												<div class="hide end-date-error error" style="color:#a94442">The end field is required</div>
 											</div>
-											<div class="hide end-date-error" style="color:#a94442">The end field is required</div>
 										</div>
 
 										<h4 class="group-title">Schedules</h4>

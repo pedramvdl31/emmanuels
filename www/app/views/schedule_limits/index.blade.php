@@ -81,7 +81,7 @@
 				style="cursor: pointer;border:none;">
 				<h4 class="panel-title">
 					<a class="this-title">
-						OverWrite Date 1
+						OverWrite Date 1 <span style="color:#d9534f" class="hide glyphicon glyphicon-warning-sign this-error-sign this-error-sign-0"></span>
 					</a>
 					<a>
 						<i class="glyphicon glyphicon-chevron-down pull-right"></i>
@@ -91,11 +91,9 @@
 			<div id="accordion-0" this-set="0" class="panel-collapse collapse in collapse-0" role="tabpanel" aria-labelledby="headingOne">
 				<div class="panel-body panel-input">
 					<!-- PANEL START -->
-
 					<div class="overwrite-container">
 						<!-- PANEL START -->
 						<div class="panel-body overwrite-wrapper"  style="padding: 6px;">
-
 							<h4 class="first-group-title">Type</h4>
 							<hr class="title-hr">
 							<div class="form-group">
@@ -104,30 +102,30 @@
 									<option value="range">Range</option>
 								</select>
 							</div>
-
-
 							<h4 class="group-title">Date</h4>
 							<hr class="title-hr">
-
-							<div class="single-wrapper">
+							<div class="single-wrapper box">
 								<div class="input-group input-group-md">
 									<span class="input-group-addon" >Select Date</span>
 									<input type="text" name="overwrite[0][date]" id="overwrite-date-single-0" class="form-control overwrite-date-single"  aria-describedby="sizing-addon1">
 								</div>
-								<div  class="hide single-date-error" style="color:#a94442">The date field is required</div>
+								<div  class="hide single-date-error error" style="color:#a94442">The date field is required</div>
 							</div>
 
-							<div class=" hide range-wrapper">
+							<div class=" hide range-wrapper box">
 								<div class="input-group input-group-md">
 									<span class="input-group-addon" >Start Date</span>
 									<input type="text" name="overwrite[0][start]"  id="overwrite-date-range-start-0" class="form-control overwrite-date-range-start"  aria-describedby="sizing-addon1">
 								</div>
-								<div  class="hide start-date-error" style="color:#a94442">The start field is required</div>
-								<div class="input-group input-group-md" style="margin-top:10px;">
-									<span class="input-group-addon" >End Date</span>
-									<input type="text" name="overwrite[0][end]"  id="overwrite-date-range-end-0" class="form-control overwrite-date-range-end"  aria-describedby="sizing-addon1">
+								<div  class="hide start-date-error error " style="color:#a94442">The start field is required</div>
+								<div class="box">
+									<div class="input-group input-group-md" style="margin-top:10px;">
+										<span class="input-group-addon" >End Date</span>
+										<input type="text" name="overwrite[0][end]"  id="overwrite-date-range-end-0" class="form-control overwrite-date-range-end"  aria-describedby="sizing-addon1">
+									</div>
+									<div  class="hide end-date-error error" style="color:#a94442">The end field is required</div>
 								</div>
-								<div  class="hide end-date-error" style="color:#a94442">The end field is required</div>
+
 							</div>
 
 							<h4 class="group-title">Schedules</h4>
@@ -139,7 +137,7 @@
 									<tr>
 										<td class="list-group" style="border:none;">
 											<fieldset>
-												<div class="list-group-item" style="height:90px;">
+												<div class="list-group-item" style="height:107px;">
 													<h4 class="list-group-item-heading">Start</h4>
 													<div class="col-xs-4">
 														<div class="form-group ">
@@ -160,7 +158,7 @@
 														</div>	
 													</div>
 												</div>
-												<div class="list-group-item" style="height:90px;">
+												<div class="list-group-item" style="height:107px;">
 													<h4 class="list-group-item-heading">End</h4>
 													<div class="col-xs-4">
 														<div class="form-group ">
