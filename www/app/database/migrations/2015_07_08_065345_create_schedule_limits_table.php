@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateScheduleBlackoutsTable extends Migration {
+class CreateScheduleLimitsTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,10 +12,11 @@ class CreateScheduleBlackoutsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('schedule_blackouts', function(Blueprint $table)
+		Schema::create('schedule_limits', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->dateTime('blackout_date')->nullable();
+			$table->dateTime('schedule_hours_open')->nullable();
+			$table->dateTime('schedule_hours_close')->nullable();
 			$table->text('description')->nullable();
 			$table->tinyInteger('status');
 			$table->softDeletes();
@@ -31,7 +32,7 @@ class CreateScheduleBlackoutsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('schedule_blackouts');
+		Schema::drop('schedule_limits');
 	}
 
 }

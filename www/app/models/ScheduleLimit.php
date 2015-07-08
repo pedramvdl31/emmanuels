@@ -217,7 +217,7 @@ class ScheduleLimit extends \Eloquent {
 
 										<div class="input-group input-group-md">
 											<span class="input-group-addon" >Number Of Employees</span>
-											<input type="text" name="overwrite[0][number_of_employee]" class="form-control employees-no"  aria-describedby="sizing-addon1">
+											<input type="text" name="overwrite['.$new_count.'][number_of_employee]" class="form-control employees-no"  aria-describedby="sizing-addon1">
 										</div>
 										<span class="hide employees-no-error" style="color:#a94442;width:50px;">This field is required</span>
 										<span class="hide employees-no-error-numeric" style="color:#a94442;width:50px;">This field must only contain number</span>
