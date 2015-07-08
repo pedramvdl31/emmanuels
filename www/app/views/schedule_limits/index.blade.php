@@ -35,7 +35,7 @@
 				<!-- FIRST SECTION **END-->
 			</div>
 			<div class="panel-footer clearfix">
-				<button type="button" id="first-next" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+				<button type="button" id="first-next" step="1" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 			</div>
 			
 		</div>
@@ -209,7 +209,7 @@
 
 			</div>
 			<div class="panel-footer clearfix">
-				<button type="button" class="btn btn-danger btn-sm pull-right remove-overwrite" >Remove <i class="glyphicon glyphicon-trash"></i></button>
+				<button type="button"  class="btn btn-danger btn-sm pull-right remove-overwrite" >Remove <i class="glyphicon glyphicon-trash"></i></button>
 			</div>
 		</div>
 	</div>
@@ -217,7 +217,7 @@
 
 	<div class="panel-footer clearfix">
 		<button type="button" class="previous btn btn-default" step="1"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
-		<button type="button" id="next-btn" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
+		<button type="button" id="next-btn" step="2" class="btn btn-primary pull-right next" >Next <i class="glyphicon glyphicon-chevron-right"></i></button>
 	</div>
 
 </div>

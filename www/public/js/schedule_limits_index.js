@@ -63,14 +63,38 @@ pages = {
                 $(this).find('.overwrite-date-single:first').attr('name','overwrite['+reindex_count+'][date]');
                 $(this).find('.overwrite-date-single:first').attr('id','overwrite-date-single-'+reindex_count);
 
+                //THE ID IS CHANGE, RE-INITIATE THE DATEPICKER
+                $('#overwrite-date-single-'+reindex_count).datepicker("destroy");
+
+                $(document).find('#overwrite-date-single-'+reindex_count).datepicker({
+                    dateFormat: 'DD, d MM, yy',
+                    minDate: 0
+                });
+
                 //REINDEX RANGE DATE SELECT BOX
 
                 //START
                 $(this).find('.overwrite-date-range-start:first').attr('name','overwrite['+reindex_count+'][start]');
                 $(this).find('.overwrite-date-range-start:first').attr('id','overwrite-date-range-start-'+reindex_count);
+
+                //THE ID IS CHANGE, RE-INITIATE THE DATEPICKER
+                $('#overwrite-date-range-start-'+reindex_count).datepicker("destroy");
+
+                $(document).find('#overwrite-date-range-start-'+reindex_count).datepicker({
+                    dateFormat: 'DD, d MM, yy',
+                    minDate: 0
+                });
                 //END
                 $(this).find('.overwrite-date-range-end:first').attr('name','overwrite['+reindex_count+'][end]');
                 $(this).find('.overwrite-date-range-end:first').attr('id','overwrite-date-range-end-'+reindex_count);
+
+                //THE ID IS CHANGE, RE-INITIATE THE DATEPICKER
+                $('#overwrite-date-range-end-'+reindex_count).datepicker("destroy");
+
+                $(document).find('#overwrite-date-range-end-'+reindex_count).datepicker({
+                    dateFormat: 'DD, d MM, yy',
+                    minDate: 0
+                });
 
                 //REINDEXING CATEGORY
                 $(this).find('.overwrite_hours_container .form-selects').attr('this_category',reindex_count);
@@ -86,6 +110,9 @@ pages = {
             
                 //REINDEX TIME ERROR (END TIME IS SMALLER THAN START TIME)
                 $(this).find('.time-error-overwrite:first').attr('id','time-error-overwrite-'+reindex_count);
+
+                //REINDEX NUMBER OF EMPLOYEES
+                $(this).find('.employees-no:first').attr('name','overwrite['+reindex_count+'][number_of_employee]');
                 
             });
 
@@ -127,11 +154,16 @@ pages = {
 
         $(".next").click(function() {
             var _this = $(this);
-            validate_step_1(_this, null, "btn");
-
-            if ($('#user_id').val() != "") {
-                // check_all_inputs();
-            };
+            var this_step = parseInt($(this).attr('step'));
+            switch(this_step){
+                case 1:
+                    validate_step_1(_this, null, "btn");
+                break;
+                case 2:
+                    validate_step_2(_this, null, "btn");
+                break;
+            }
+            
         });
 
         $("#set-forgotten-btn").click(function() {
@@ -436,7 +468,7 @@ function validate_step_1(_this, href, type) {
           scrollTop: $(last_this).offset().top - 20
         }, 1000);
         };
-        //IF THERE WAS NOW ERRORS THEN PROCEED TO NEXT STEPY
+        //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
         if (flag == 0) {
             //VALIDATE HOURS
             var data = [];
@@ -470,6 +502,8 @@ function validate_step_1(_this, href, type) {
 function validate_step_2(_this, href, type){
     var error_count = 0;
     var flag = 0;
+    //USE TO FIND THE LOCATION OF ELEMENT FOR SCROLLING
+    var this_element = null;
     //STEPY WAS CLICKED
     if (type == "stepy") {
 
@@ -485,15 +519,31 @@ function validate_step_2(_this, href, type){
             if ($(this).find('.overwrite-date-single:first').val() == "") {
                 $(this).find('.single-date-error:first').removeClass('hide');
                 flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
+
             };
         } else {
             if ($(this).find('.overwrite-date-range-start:first').val() == "") {
                 $(this).find('.start-date-error:first').removeClass('hide');
                 flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
             };
             if ($(this).find('.overwrite-date-range-end:first').val() == "") {
                 $(this).find('.end-date-error:first').removeClass('hide');
                 flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
             };
         }
 
@@ -501,10 +551,20 @@ function validate_step_2(_this, href, type){
         var this_employees_no = $(this).find('.employees-no:first').val();
         if (this_employees_no == '') {
             flag = 1;
+            //USED THIS TO SCROLL TO THE FIRST ERROR
+            error_count = error_count + 1;
+            if (error_count == 1) {
+                    this_element = $(this);
+                };
             $(this).find('.employees-no-error').removeClass('hide');
 
         } else if (!$.isNumeric( this_employees_no ) ) {
             flag = 1;
+            //USED THIS TO SCROLL TO THE FIRST ERROR
+            error_count = error_count + 1;
+            if (error_count == 1) {
+                    this_element = $(this);
+                };
             $(this).find('.employees-no-error-numeric').removeClass('hide');
         };
 
@@ -519,6 +579,12 @@ function validate_step_2(_this, href, type){
 
                         if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
                             flag = 1;
+
+                            //USED THIS TO SCROLL TO THE FIRST ERROR
+                            error_count = error_count + 1;
+                            if (error_count == 1) {
+                                this_element = $(this);
+                            };
                             //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
                             $(this).parents('.form-group:first').addClass('has-error')
                             .find('.select-error').removeClass('hide');
@@ -527,8 +593,15 @@ function validate_step_2(_this, href, type){
             });
 
     });
-        //IF THERE WAS NOW ERRORS THEN PROCEED TO NEXT STEPY
-        //DISABLED FOR DEBUGGING
+
+        if (flag == 1) {
+            console.log($('.this_element').attr('id'));
+
+        $('html,body').animate({
+          scrollTop: $(this_element).offset().top - 20
+        }, 1000);
+        };
+        //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
         if (flag == 0) {
             var overwrite_container = $('.overwrite_hours_container').length;
 
@@ -560,6 +633,129 @@ function validate_step_2(_this, href, type){
 // NEXT BTN WAS CLICKED
     else {
 
+
+        clear_all_validation_errors_2();
+        $('.this-wrapper').each(function(index) {
+
+        //SELETED TYPE, SINGLE OR RANGE
+        var select = $(this).find('.type-select:first');
+        var selected_type = $("option:selected", select).val();
+       //VALIDATE SELECTED DATES BASED ON THE TYPE
+        if (selected_type == 'single') {
+            if ($(this).find('.overwrite-date-single:first').val() == "") {
+                $(this).find('.single-date-error:first').removeClass('hide');
+                flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
+
+            };
+        } else {
+            if ($(this).find('.overwrite-date-range-start:first').val() == "") {
+                $(this).find('.start-date-error:first').removeClass('hide');
+                flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
+            };
+            if ($(this).find('.overwrite-date-range-end:first').val() == "") {
+                $(this).find('.end-date-error:first').removeClass('hide');
+                flag = 1;
+                //USED THIS TO SCROLL TO THE FIRST ERROR
+                error_count = error_count + 1;
+                if (error_count == 1) {
+                    this_element = $(this);
+                };
+            };
+        }
+
+        //VALIDATE NUMBER OF EMPLOYEES FIELD
+        var this_employees_no = $(this).find('.employees-no:first').val();
+        if (this_employees_no == '') {
+            flag = 1;
+            //USED THIS TO SCROLL TO THE FIRST ERROR
+            error_count = error_count + 1;
+            if (error_count == 1) {
+                    this_element = $(this);
+                };
+            $(this).find('.employees-no-error').removeClass('hide');
+
+        } else if (!$.isNumeric( this_employees_no ) ) {
+            flag = 1;
+            //USED THIS TO SCROLL TO THE FIRST ERROR
+            error_count = error_count + 1;
+            if (error_count == 1) {
+                    this_element = $(this);
+                };
+            $(this).find('.employees-no-error-numeric').removeClass('hide');
+        };
+
+            //VALIDATE OVERWRITE HOURS
+            $('.overwrite_hours_container').find('tr').each(function(index) {
+
+                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+                    $(this).find('.form-selects').each(function(index) {
+
+                        var this_value = $("option:selected", this).val();
+
+
+                        if ($("option:selected", this).val() == '' || $("option:selected", this).val() == '0') {
+                            flag = 1;
+
+                            //USED THIS TO SCROLL TO THE FIRST ERROR
+                            error_count = error_count + 1;
+                            if (error_count == 1) {
+                                this_element = $(this);
+                            };
+                            //IF THE SELECT WAS NOT SELECTED ADD HAS-ERROR TO IT
+                            $(this).parents('.form-group:first').addClass('has-error')
+                            .find('.select-error').removeClass('hide');
+                        };
+                     });
+            });
+
+    });
+
+        if (flag == 1) {
+            console.log($('.this_element').attr('id'));
+
+        $('html,body').animate({
+          scrollTop: $(this_element).offset().top - 20
+        }, 1000);
+        };
+        //IF THERE WAS NO ERRORS THEN PROCEED TO NEXT STEPY
+        if (flag == 0) {
+            var overwrite_container = $('.overwrite_hours_container').length;
+
+
+            //VALIDATE HOURS
+            var data = [];
+            // INIT ARRAYS
+            for (var i = 0; i <= overwrite_container; i++) {
+                data[i] = [];
+            };
+            var f_count = 0;
+            $('.overwrite_hours_container').find('tr').each(function(index) {
+
+                    //GO THROUHT AND .. CHECK IF EVERY INPUT IS SET
+                    $(this).find('.form-selects').each(function(index) {
+
+                        var this_value = $("option:selected", this).val();
+
+                        //THIS KEEP THE DAYS NUMBER, IN THIS CASE ONLY 1
+                        var this_category = $(this).attr('this_category');
+                        data[this_category].push(this_value);
+                        f_count = f_count + 1;
+                    });
+               
+            });
+            request.validate_hours_ajax_2(data, _this, href);
+        };
+
     }
 
 }
@@ -570,7 +766,9 @@ function clear_all_validation_errors() {
             $(this).parents('.form-group:first').removeClass('has-error');
         });
     });
+    $('.select-error').addClass('hide');
     $('.time-error').addClass('hide');
+
 }
 
 function clear_all_validation_errors_2() {
@@ -600,21 +798,30 @@ function add_new_blackout_date(date) {
     $('.blackout-form').each(function(index) {
         if ($(this).val() == date) {
             duplicate_flag = true;
+            var this_id = $(this).attr('alert_id');
+
+            $('#'+this_id).css('text-decoration','underline');
+
+            setTimeout(function(){ 
+
+               $('#'+this_id).css('text-decoration','');
+
+             }, 2000);
         };
     });
 
-    //THERE WAS NOW DUPLICATE
+    //THERE WAS NO DUPLICATE
     if (duplicate_flag == false) {
         //COUNT THE BLACKOUTS
         var count = ($('.blackout-date').length) + 1;
 
         var html = '<div class="blackout-single-wrapper">' +
-            '<div class="alert alert-danger alert-style blackout-date clearfix" role="alert" >' +
+            '<div class="alert alert-danger alert-style blackout-date clearfix" id="blackout-'+count+'" role="alert" >' +
             '<span class="badge">' + count + '</span>' +
             '   ' + date +
             '<a class="btn btn-danger btn-sm pull-right " id="remove-blackout-' + count + '" >Remove</a>' +
             '</div>' +
-            '<input type="hidden" name="blackoutdates[' + count + ']"  class="blackout-form"  value="' + date + '">' +
+            '<input type="hidden" name="blackoutdates[' + count + ']" alert_id="blackout-'+count+'"  class="blackout-form"  value="' + date + '">' +
             '</div>';
         $('#blackout-group-wrapper').append(html);
         //ADD EVENT LISTENER
@@ -624,8 +831,6 @@ function add_new_blackout_date(date) {
             reindex_blackouts();
         });
     };
-
-
 }
 
 //REINDEX AFTER REMOVE
