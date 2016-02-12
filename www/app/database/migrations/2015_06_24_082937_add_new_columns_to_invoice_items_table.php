@@ -25,6 +25,9 @@ class AddNewColumnsToInvoiceItemsTable extends Migration {
 			$table->decimal('total', 9,2)->nullable();
 			$table->tinyInteger('status');
 			$table->dateTime('completed_on')->nullable();
+			$table->integer('height',false,true)->nullable()->after('total');
+			$table->integer('length',false,true)->nullable()->after('total');
+			$table->unsignedInteger('item_id', false)->nullable();
 			$table->softDeletes();
 		});
 	}

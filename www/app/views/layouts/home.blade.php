@@ -32,6 +32,14 @@
 
   <header class="site-header">
     <div id="headerNav" class="container col-md-8 col-md-offset-2">
+      <div class="pull-right" style="z-index:1000;">
+        <!--Start Customer Lobby-->
+        <a href="https://www.customerlobby.com/reviews/5424/emmanuels-rug--upholstery-cleaners/" 
+            onclick="window.open('https://www.customerlobby.com/reviews/5424/emmanuels-rug--upholstery-cleaners/', 'ReviewPage', 'statusbar=no,menubar=no,toolbar=no, scrollbars=yes,resizable=yes,width=768, height=817,left=570,top=200,screenX=570,screenY=200'); return false;" 
+            target="_blank">
+          <img src="http://www.customerlobby.com/ctrack-5424" alt="Statistics" style="display: none; border: none;" /><img alt="Review of Emmanuel's Rug & Upholstery" src="http://www.customerlobby.com/img/5424/compact" style="border: none;" />
+        </a> <!--End Customer Lobby-->
+      </div>
       <a href="/" class="my-svg-container">
         <img src="/img/emmanuels_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_logo.jpg'" alt="..." >
       </a>
@@ -82,7 +90,7 @@
 
 
   <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-  <div class="contaidner" >
+  <div class="container" >
     <!-- Jssor Slider Begin -->
     <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
     <!-- ================================================== -->
@@ -201,7 +209,10 @@
   </div>
 </div>
 <footer class="row-fluid clearfix">
-  <p>&copy; emmanuel's {{ date('Y') }}</p>
+
+  <p>
+    &copy; emmanuel's {{ date('Y') }}
+  </p>
 </footer>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
