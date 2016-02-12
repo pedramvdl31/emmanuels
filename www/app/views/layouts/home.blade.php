@@ -90,7 +90,7 @@
 
 
   <!-- Use a container to wrap the slider, the purpose is to enable slider to always fit width of the wrapper while window resize -->
-  <div class="container" >
+  <div class="container"  style="margin:0; padding-top:10; padding-left:0px; padding-right:0px;">
     <!-- Jssor Slider Begin -->
     <!-- To move inline styles to css file/block, please specify a class name for each element. --> 
     <!-- ================================================== -->
