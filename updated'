@@ -1,4 +1,0 @@
-[deliveries bb6ca66] 'delivery/rules/edit-
- 8 files changed, 201 insertions(+), 87 deletions(-)
- create mode 100644 www/app/database/migrations/2015_04_07_052234_remove_drop_of_from_delivery_rules_table.php
- create mode 100644 www/app/database/migrations/2015_04_07_052407_add_drop_off_to_delivery_rules_table.php
