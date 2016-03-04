@@ -187,10 +187,13 @@ class CompaniesController extends Controller {
 		View::share('companies',$companies);
 		$website = array();
 		// $website = Website::prepare(Website::where('company_id', '=', $this->company_id)->first());
-		return view('companies.view')
-			->with('owners',$owners)
-			->with('layout',$this->layout)
-			->with('websites',$website);
+		if (isset($companies)) {
+			return view('companies.view')
+				->with('owners',$owners)
+				->with('layout',$this->layout)
+				->with('websites',$website);
+		}
+
 	}
 
 }

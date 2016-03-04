@@ -440,6 +440,20 @@
           <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
           <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
         </ul>
+        <li style=" padding: 16px;
+                    color: white !important;
+                    font-size: 17px;
+                    font-weight: 900;">
+            @if(Auth::user())
+            <a style="color: inherit;" href="/admins/logout">
+                <i class="fa fa-sign-out pull-right"></i> Log Out
+            </a>
+            @else
+            <a style="color: inherit;" href="/admins/login">
+                <i class="fa fa-sign-out pull-right"></i> Log In
+            </a>
+            @endif
+        </li>
         <!-- Tab panes -->
         <div class="tab-content">
           <!-- Home tab content -->

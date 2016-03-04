@@ -114,7 +114,7 @@ class PagesController extends Controller
         ->with('user_role', $user_role)
         ->with('count', $count)
         ->with('layout',$this->layout)
-        ->with('company_id', $companies->id);
+        ->with('company_id', isset($companies->id)?$companies->id:null);
 
     }
     

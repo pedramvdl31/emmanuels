@@ -122,6 +122,13 @@ public static $rules_add = array(
      */
     protected function checkPermission($perm)
     {
+        $UserRole = RoleUser::where('user_id',Auth::user()->id)->first();
+        if ($UserRole->role_id==1) {//before check
+            $grant_access = true;
+            return $grant_access;
+        }
+
+
         $grant_access = false;
         $permissions = $this->getUserPermission(); // Returns a list of permission slugs for the specified user role
         $permissionArray = is_array($perm) ? $perm : [$perm]; // Returns uri of current page as an array

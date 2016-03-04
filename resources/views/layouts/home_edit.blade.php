@@ -115,16 +115,15 @@
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> {!!Auth::user()->username!!} <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
             @if(!Auth::check())
-            <li>{!! Html::link('users/register', 'Register') !!}</li>   
+            <li>{!!route('registration_view')!!}</li>   
             <li>{!! Html::link('admins/login', 'Login') !!}</li>   
             @else
-            @if(Auth::user()->roles == 3) 
+            @if(Auth::user()->role == 3) 
             <li><a href="/owners/edit/{!! Auth::user()->id !!}">Edit User</a></li>
             @endif
-            @if(Auth::user()->roles == 4)
+            @if(Auth::user()->role == 4)
             <li><a href="/employees/edit/{!! Auth::user()->id !!}">Edit User</a></li>
             @endif
-
             <li>{!! Html::link('admins/logout', 'Logout') !!}</li>
             @endif
           </ul>
