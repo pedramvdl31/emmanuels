@@ -1,0 +1,32 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php echo HTML::style('packages/Nestable-master/css.nestable.css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php echo HTML::script('packages/Nestable-master/jquery.nestable.js'); ?>
+
+<?php echo HTML::script('js/menus_order.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="jumbotron">
+	<h1>Pages Order</h1>
+	<ol class="breadcrumb">
+		<li class="active">Pages Order</li>
+		<li><a href="<?php echo action('MenusController@getIndex'); ?>">Menus Overview</a></li>
+	</ol>
+</div>
+<?php echo Form::open(array('action' => 'MenusController@postOrder', 'class'=>'','role'=>"form")); ?>
+
+<div  class="panel panel-success">
+	<div class="panel-body">
+		<?php echo $list_html; ?>
+
+	</div>
+	<div class="panel-footer clearfix">
+		<button type="submit" class="btn btn-primary pull-right">Save</button>
+	</div>
+</div>
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,257 @@
+<?php $__env->startSection('stylesheets'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+
+	<?php echo HTML::script('packages/numeric/jquery.numeric.js'); ?>
+
+	<?php echo HTML::script('js/company_view.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('sidebar'); ?>
+<div class="nav nav-stacked hide list-group" id="sidebar-inner">
+	<a href="#top" class="list-group-item scrollto">Top of page</a>
+	<a href="#owner-info" class="list-group-item scrollto">Owner Info</a>
+	<a href="#company-info" class="list-group-item scrollto">Company Info</a>
+	<a href="#menu-info" class="list-group-item scrollto">Menu Info</a>
+	<a href="#website-info" class="list-group-item scrollto">Website Info</a>
+	<a href="#payment-info" class="list-group-item">Payment Info</a>
+</div>    
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div id="top" class="jumbotron">
+	<h1>Company Overview</h1>
+	<p><samp><?php echo $companies->name; ?> <small>(<?php echo $companies->nick_name; ?>)</small></samp></p>
+	<ol class="breadcrumb">
+		<li><a href="#owner-info">Owner Info</a></li>
+		<li><a href="#company-info">Company Info</a></li>
+		<li><a href="#menu-info">Menu Info</a></li>
+		<li><a href="#website-info">Website Info</a></li>
+		<li><a href="#payment-info">Payment Info</a></li>
+	</ol>
+</div>
+<div data-spy="scroll" data-target="#navbar-1" data-offset="0" class="scrollspy">
+	<div id="owner-info" class="panel panel-default">
+		<div class="panel-heading"><h3 style="margin-top:10px;">Owner Information</h3></div>
+		<ol class="breadcrumb" style="border-radius:0">
+		  	<li class="active">Owner home</li>
+		  	<li><a href="/owners/edit/<?php echo $owners->id; ?>">Edit Owner</a></li>
+		</ol>
+		<div class="panel-body">
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="username" class="col-sm-2 control-label">Username</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><samp><?php echo $owners->username; ?></samp></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="firstname" class="col-sm-2 control-label">First Name</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><samp><?php echo $owners->firstname; ?></samp></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="lastname" class="col-sm-2 control-label">Last Name</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><samp><?php echo $owners->lastname; ?></samp></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="phone" class="col-sm-2 control-label">Phone Number</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><samp><?php echo $owners->phone; ?></samp></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="email" class="col-sm-2 control-label">Email Address</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><samp><?php echo $owners->email; ?></samp></p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="panel-footer">
+	  		<a href="/owners/edit/<?php echo $owners['id']; ?>" class="btn btn-primary">Edit Owner</a>
+	  	</div>
+	</div>
+	<div id="company-info" class="panel panel-default">
+		<div class="panel-heading"><h3 style="margin-top:10px;">Company Information</h3></div>
+		<ol class="breadcrumb" style="border-radius:0">
+		  <li class="active">View Company</li>
+		  <li><a href="/companies/edit/<?php echo $companies['id']; ?>">Edit Company</a></li>
+		</ol>
+		<div class="panel-body">
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="company_address" class="col-sm-2 control-label">Company Address</label>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+							<address>
+								<?php echo $companies->street; ?> 
+								<br/>
+								<?php if(isset($companies->state)): ?>
+								<?php echo $companies->city.', '.$companies->state.' '.$companies->zipcode; ?>
+
+								<?php else: ?>
+								<?php echo $companies->city.', '.$companies->region.' '.$companies->zipcode; ?>
+
+								<?php endif; ?>
+								<br/>
+								<abbr title="Phone">P:</abbr> <?php echo $companies->phone; ?>
+
+							</address>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="company_hours" class="col-sm-2 control-label">Company Hours</label>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+				    	<?php if(!empty($companies['store_hours'])): ?>
+				    		<table class="table table-bordered table-condensed">
+				    			<thead>
+				    				<tr>
+				    					<th>Day</th>
+				    					<th>Hours</th>
+				    				</tr>
+				    			</thead>
+				    			<tbody>
+				    			<?php foreach($companies['store_hours'] as $key => $value): ?>
+				    			<tr>
+				    				<td><?php echo $key; ?></td>
+				    				<?php if($value['status'] == 'open'): ?>
+				    				<td><?php echo $value['open'].' - '.$value['close']; ?></td>
+				    				<?php else: ?>
+				    				<td>Closed</td>
+				    				<?php endif; ?>
+				    			</tr>
+				    			<?php endforeach; ?>
+				    			</tbody>
+				    		</table>
+				    	<?php else: ?>
+				    	<span class="label label-danger">Store hours not set</span>
+				    	<?php endif; ?>
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="company_email" class="col-sm-2 control-label">Company Email</label>
+					<div class="col-sm-10">
+						<p class="form-control-static"><a href="mailto:#"><?php echo $companies['email']; ?></a></p>
+					</div>
+				</div>
+			</div>
+			<div class="form-horizontal">
+				<div class="form-group">
+					<label for="company_email" class="col-sm-2 control-label">Company Status</label>
+					<div class="col-sm-10">
+						<p class="form-control-static">
+					    	<?php if($companies['status'] == 1): ?>
+					    	<span class="label label-success">Active</span>
+					    	<?php else: ?>
+					    	<span class="label label-danger">Not Active</span>
+					    	<?php endif; ?>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	  	<div class="panel-footer">
+	  		<a href="/companies/edit/<?php echo $companies['id']; ?>" class="btn btn-primary">Edit Company Info</a>
+	  	</div>
+		
+  	</div>		
+  	<div id="menu-info" class="panel panel-default">
+		<div class="panel-heading"><h3 style="margin-top:10px;">Menu Information</h3></div>
+		<ol class="breadcrumb" style="border-radius:0; margin:0px;">
+		  	<li><a href="">Menu Groups Edit</a></li>
+		  	<li><a href="">Menu Items Edit</a></li>
+		</ol>
+		<ul class="list-group">
+			<?php if(isset($menus)): ?>
+				<?php foreach($menus as $menu): ?>
+				<li class="list-group-item">
+					<legend class="list-group-item-heading heading"><?php echo $menu['name']; ?> <small><a class="btn btn-link" href=""><i class="glyphicon glyphicon-pencil"></i></a></small></legend>
+					<div class="table-responsive">
+						<table class="table table-striped">
+							<thead style="background-color:#e5e5e5;">
+								<tr>
+									<th>id</th>
+									<th>order</th>
+									<th>name</th>
+									<th>desc</th>
+									<th>price</th>
+									<th>imgs</th>
+									<th>status</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php if(isset($menu['menu_items'])): ?>
+								<?php foreach($menu['menu_items'] as $items): ?>
+								<tr>
+									<td><?php echo $items['id']; ?></td>
+									<td><?php echo $items['order_number']; ?></td>
+									<td><?php echo $items['name']; ?></td>
+									<td><?php echo $items['description']; ?></td>
+									<td><?php echo $items['price']; ?></td>
+									<td>
+											<div class="col-xs-6 col-md-3">
+												<a href="#" class="thumbnail">
+													<img src="/<?php echo $items['thumbnail']; ?>" alt="...">
+												</a>
+											</div>
+											<div class="col-xs-6 col-md-3">
+												<a href="#" class="thumbnail">
+													<img src="/<?php echo $items['image_address']; ?>" alt="...">
+												</a>
+											</div>	
+									</td>
+									<td>
+										<?php if($items['status'] == 1): ?>
+										<span class="label label-success">active</span>
+										<?php else: ?>
+										<span class="label label-danger">not active</span>
+										<?php endif; ?>
+									</td>
+									<td>
+										<a class="btn btn-info btn-sm" href="<?php echo action('MenuItemsController@getEdit',$companies['id']); ?>"><i class="glyphicon glyphicon-pencil"></i></a>
+									</td>
+								</tr>
+								<?php endforeach; ?>
+							<?php endif; ?>
+							</tbody>
+						</table>
+					</div>
+				</li>
+				<?php endforeach; ?>
+
+			<?php endif; ?>
+		</ul>
+
+
+		<div class="panel-footer">
+			<a class="btn btn-primary" href="">Edit Menu Groups</a>
+			<a class="btn btn-info" href="">Edit Menu Items</a>
+		</div>
+	</div>
+
+
+</div>
+<br/><br/><br/><br/>
+
+<?php $__env->stopSection(); ?>
+

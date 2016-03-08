@@ -1,0 +1,97 @@
+<?php $__env->startSection('stylesheets'); ?>
+	<?php echo HTML::style('packages/DataTables-Bootstrap3/BS3/assets/css/datatables.css'); ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('scripts'); ?>
+	<?php echo HTML::script('packages/DataTables-1.9.4/media/js/jquery.dataTables.min.js'); ?>
+
+	<?php echo HTML::script('packages/DataTables-Bootstrap3/BS3/assets/js/datatables.js'); ?>	
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+	<div class="jumbotron">
+		<h1>Admin Setup</h1>
+		<ol class="breadcrumb">
+			<li><a href="/admins">Admin Overview</a></li>
+			<li class="active">Edit Admin</li>
+		</ol>
+	</div>
+	<?php echo Form::open(array('action' => 'AdminsController@postEdit', 'class'=>'','role'=>"form")); ?>
+
+	<?php echo Form::hidden('id',$admins['id']); ?>
+
+	<div id="admin-info" class="panel panel-info">
+	<div class="panel-heading">Admin Edit Personal Info</div>
+	<div class="panel-body">
+	<div class="form-group <?php echo $errors->has('roles') ? 'has-error' : false; ?>">
+	    <label class="control-label" for="roles">Roles</label>
+    	<!-- <?php echo Form::select('roles', $roles, '1'); ?> -->
+    	<?php echo Form::select('roles', $roles, $admins->roles, array('class'=>'form-control','not_empty'=>'true'));; ?>
+
+	</div>
+	<div class="form-group <?php echo $errors->has('username') ? 'has-error' : false; ?>">
+		<label class="control-label" for="username">Username</label>
+		<?php echo Form::text('username', $admins->username, array('class'=>'form-control', 'placeholder'=>'Username')); ?>
+
+		<?php foreach($errors->get('username') as $message): ?>
+		<span class='help-block'><?php echo $message; ?></span>
+		<?php endforeach; ?>
+	</div>
+		  	
+	<div class="form-group <?php echo $errors->has('firstname') ? 'has-error' : false; ?>">
+	<label class="control-label" for="firstname">First Name</label>
+		<?php echo Form::text('firstname', $admins->firstname, array('class'=>'form-control', 'placeholder'=>'First Name')); ?>
+
+		<?php foreach($errors->get('firstname') as $message): ?>
+		<span class='help-block'><?php echo $message; ?></span>
+		<?php endforeach; ?>
+	</div>
+
+	<div class="form-group <?php echo $errors->has('lastname') ? 'has-error' : false; ?>">
+		<label class="control-label" for="lastname">Last Name</label>
+		<?php echo Form::text('lastname', $admins->lastname, array('class'=>'form-control', 'placeholder'=>'Last Name')); ?>
+
+		<?php foreach($errors->get('lastname') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+		<?php endforeach; ?>
+	</div>	 	
+		  	
+	<div class="form-group <?php echo $errors->has('email') ? 'has-error' : false; ?>">
+	  <label class="control-label" for="email">Email</label>
+	  	<?php echo Form::text('email', $admins->email, array('class'=>'form-control', 'placeholder'=>'Email Address')); ?>
+
+	  	<?php foreach($errors->get('email') as $message): ?>
+	    <span class='help-block'><?php echo $message; ?></span>
+		<?php endforeach; ?>
+	</div>	  
+	<div class="well well-sm">
+		<kbd><em>Update Password</em></kbd><br/><br/>
+		<div class="form-group <?php echo $errors->has('password') ? 'has-error' : false; ?>">
+			<label class="control-label" for="password">New Password</label>
+			<?php echo Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')); ?>
+
+			<?php foreach($errors->get('password') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>	
+		<div class="form-group <?php echo $errors->has('password') ? 'has-error' : false; ?>">
+			<label class="control-label" for="password_confirmation">Re-enter New Password</label>
+			<?php echo Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')); ?>
+
+			<?php foreach($errors->get('password_confirmation') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		</div>    	
+	</div>
+
+	</div>
+		<div class="panel-footer">
+			<?php echo Form::submit('Update', array('class'=>'btn btn-large btn-primary')); ?>
+
+		</div>
+	</div>
+
+
+<?php $__env->stopSection(); ?>

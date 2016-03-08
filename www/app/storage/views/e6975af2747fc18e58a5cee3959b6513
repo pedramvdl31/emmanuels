@@ -1,0 +1,122 @@
+<?php
+/**
+* Declare or set any page wide variables here
+*/
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="shortcut icon" href="img/yongs_red.svg" type="image/icon">
+    <title>Emmanuel's</title>
+    <?php echo HTML::style('http://fonts.googleapis.com/css?family=Lobster|Oswald:400,300,700'); ?>
+
+    <!-- Bootstrap -->
+
+    <?php echo HTML::style('packages/bootstrap/css/bootstrap.min.css'); ?>
+
+    <?php echo HTML::style('css/image_lightbox.css'); ?>
+
+    <?php echo HTML::style('packages/totop/css/ui.totop.css'); ?>
+
+    <?php echo HTML::style('css/pages_layout.css'); ?>
+
+    <?php echo $__env->yieldContent('stylesheets'); ?>
+
+<!--[if lt IE 9]>
+<script src="http://css3-mediaqueries-js.googlecode.com/files/css3-mediaqueries.js"></script>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+</head>
+<body >
+
+<header>
+  <nav id="nav" class="navbar navbar-inverse navbar-static-top" role="navigation">
+    <div class="container">
+
+      <div class="navbar-header">
+
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/" style="position:absolute; top:-10px; left:10px;">          
+          <img src="/img/emmanuels_compact_logo.png" onerror="this.onerror=null; this.src='/img/emmanuels_compact_logo.jpg'" alt="..." style="height:40px; width:136px;"/>
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <?php echo $nav_html; ?>
+
+      </div>
+    </div>
+  </nav>   
+</header> 
+
+<!-- stickyNav -->  
+<section id="start-offset" class="section" style="padding:0px; margin:0px;" data-url="/"></section> <!-- Home Waypoint Trigger -->
+<?php echo $__env->yieldContent('slider'); ?>
+<div class="container-fluid">
+    <div id="startContent" class="row" data-parallax="scroll" data-image-src="/img/parallax_rug2.jpg">
+        <div id="contentDiv" class="col-md-8 col-md-offset-2" >
+            <?php if(Session::has('message')): ?>
+            <div class="alert <?php echo Session::get('alert_type'); ?> alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                <?php echo Session::get('message'); ?>
+
+            </div>
+            <?php endif; ?>
+            
+            <?php echo $__env->yieldContent('content'); ?>
+        </div><!--/row-->
+    </div>
+</div>
+<footer class="row-fluid clearfix">
+    <p>&copy; emmanuel's <?php echo date('Y'); ?></p>
+</footer>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<?php echo HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jquery-1.9.1.min.js'); ?>
+
+<?php echo HTML::script('packages/bootstrap/js/bootstrap.min.js'); ?>
+
+<?php echo HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/docs.min.js'); ?>
+
+<?php echo HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/examples-bootstrap/ie10-viewport-bug-workaround.js'); ?>
+
+<?php echo HTML::script('packages/jssor.carousel.slider.for.bootstrap.example/js/jssor.slider.mini.js'); ?>
+
+<?php echo HTML::script('packages/modernizr/modernizr.custom.20702.js'); ?>
+
+
+<?php echo HTML::script('packages/waypoints/waypoints.min.js'); ?>
+
+<?php echo HTML::script('packages/history/scripts/compressed/history.js'); ?>
+
+<?php echo HTML::script('packages/lazyload/jquery.lazyload.min.js'); ?>
+
+<?php echo HTML::script('packages/parallax/parallax.min.js'); ?>
+
+<?php echo HTML::script('packages/lightbox/lightbox.min.js'); ?>
+
+<?php echo HTML::script('packages/totop/js/easing.js'); ?>
+
+<?php echo HTML::script('packages/totop/js/jquery.ui.totop.min.js'); ?>
+
+<?php echo HTML::script('js/pages_layout.js'); ?>
+
+<?php echo $__env->yieldContent('scripts'); ?>
+<script type="text/javascript">
+$(document).ready(function() {      
+    $().UItoTop({ easingType: 'easeOutQuart' });
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,14 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div class="" style="padding-top:8px;">
+		<?php echo $content; ?>
+
+	</div>
+	<div class="panel-footer" style="border: 1px solid rgb(231, 231, 231);">
+		<a href="<?php echo action('PagesController@getEdit'); ?>" class="previous btn btn-default"><i class="glyphicon glyphicon-chevron-left"></i> Back</a>
+		<a href="<?php echo action('PagesController@getPreviewEdit'); ?>" class="btn btn-primary pull-right">Save &nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-ok"></i></a>
+	</div>
+<?php $__env->stopSection(); ?>

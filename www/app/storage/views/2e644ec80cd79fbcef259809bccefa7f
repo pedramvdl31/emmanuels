@@ -1,0 +1,69 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<div class="jumbotron">
+		<h1>Users Setup</h1>
+		<ol class="breadcrumb">
+			<li class="active">Users Overview</li>
+			<li><a href="<?php echo action('UsersController@getAdd'); ?>">Create New User</a></li>
+		</ol>
+	</div>
+	<?php echo Form::open(array('action'=>'UsersController@postAdd', 'class'=>'form-signup','role'=>"form")); ?>
+
+	    <h2 class="form-signup-heading">Please Register</h2>
+
+	  	<div class="form-group <?php echo $errors->has('username') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="username">Username</label>
+	    	<?php echo Form::text('username', null, array('class'=>'form-control', 'placeholder'=>'Username')); ?>
+
+	        <?php foreach($errors->get('username') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>
+	  	<div class="form-group <?php echo $errors->has('firstname') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="firstname">First Name</label>
+	    	<?php echo Form::text('firstname', null, array('class'=>'form-control', 'placeholder'=>'First Name')); ?>
+
+	        <?php foreach($errors->get('firstname') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>
+	  	<div class="form-group <?php echo $errors->has('lastname') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="lastname">Last Name</label>
+	    	<?php echo Form::text('lastname', null, array('class'=>'form-control', 'placeholder'=>'Last Name')); ?>
+
+	        <?php foreach($errors->get('lastname') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>	 	
+	  	<div class="form-group <?php echo $errors->has('email') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="email">Email</label>
+	    	<?php echo Form::text('email', null, array('class'=>'form-control', 'placeholder'=>'Email Address')); ?>
+
+	        <?php foreach($errors->get('email') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>	    
+	  	<div class="form-group <?php echo $errors->has('password') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="password">Password</label>
+	    	<?php echo Form::password('password', array('class'=>'form-control', 'placeholder'=>'Password')); ?>
+
+	        <?php foreach($errors->get('password') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>	
+	  	<div class="form-group <?php echo $errors->has('password') ? 'has-error' : false; ?>">
+	    	<label class="control-label" for="password_confirmation">Password</label>
+	    	<?php echo Form::password('password_confirmation', array('class'=>'form-control', 'placeholder'=>'Confirm Password')); ?>
+
+	        <?php foreach($errors->get('password_confirmation') as $message): ?>
+	            <span class='help-block'><?php echo $message; ?></span>
+	        <?php endforeach; ?>
+	  	</div>
+	    <?php echo Form::submit('Register', array('class'=>'btn btn-large btn-primary btn-block')); ?>
+
+	<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
