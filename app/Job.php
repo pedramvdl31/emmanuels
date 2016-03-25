@@ -565,12 +565,15 @@ public static function country_code(){
 	}
 
 	static public function imageValidator($image_path) {
-		$full_path = public_path("/assets/images/profile-images/perm/".$image_path);
-		if (!file_exists($full_path)) {
-		    $image_path = "blank_male.png";
+		if (isset($image_path)) {
+			$full_path = public_path("/assets/images/profile-images/perm/".$image_path);
+			if (file_exists($full_path)) {
+				return $image_path;
+			}
 		}
-		return $image_path;
+		return "blank_male.png";
 	}
+
 	static public function humanTiming ($time)
 	{
 
