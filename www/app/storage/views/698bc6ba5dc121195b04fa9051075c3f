@@ -1,0 +1,14 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<section class="section">
+		<?php if(isset($home_content)): ?>
+			<?php foreach($home_content as $content): ?>
+				<h3><?php echo $content->content_title; ?></h3>
+				<p><?php echo $content->content_body; ?></p>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	</section>
+<?php $__env->stopSection(); ?>

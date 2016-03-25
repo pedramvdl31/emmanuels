@@ -1,0 +1,11 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="" style="min-height:600px;">
+	<div class="alert alert-danger " style="margin-top:19px;" role="alert">
+	  <h3>404 Error</h3> </br>Sorry, but we can't seem to find the page you are looking for.
+	</div>
+</div>
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,63 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php echo HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js'); ?>
+
+<?php echo HTML::script('js/menus_edit.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="jumbotron">
+	<h1>Menus Edit</h1>
+	<ol class="breadcrumb">
+		<li class="active">Menus Edit</li>
+		<li><a href="<?php echo action('MenusController@getIndex'); ?>">Menus Overview</a></li>
+	</ol>
+</div>
+<?php echo Form::open(array('action' => 'MenusController@postEdit', 'class'=>'','role'=>"form")); ?>
+
+<div  class="panel panel-success">
+	<div class="panel-body">
+		<div class="form-group <?php echo $errors->has('name') ? 'has-error' : false; ?>">
+			<label class="control-label" for="name">Name</label>
+			<?php echo Form::text('name', $menus->name, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')); ?>
+
+			<?php foreach($errors->get('name') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<div class="form-group <?php echo $errors->has('kind') ? 'has-error' : false; ?>">
+			<label class="control-label" for="kind">Kind</label>
+			<?php echo Form::select('kind', $prepared_select, $is_link, array('class'=>'form-control kind','not_empty'=>'true','kind'=>false));; ?>
+
+			<?php foreach($errors->get('keyword') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<div class="form-group page-field <?php echo (!isset($menus->page_id)&&(!$errors->has('page_id')))?'hide':''; ?> <?php echo $errors->has('page_id') ? 'has-error' : false; ?>">
+			<label class="control-label" for="page_id">Page_id</label>
+			<?php echo Form::select('page_id', $pages_prepared, (isset($menus->page_id)?$menus->page_id:0), array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false));; ?>
+
+			<?php foreach($errors->get('page_id') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+
+		<div class="form-group <?php echo $errors->has('url') ? 'has-error' : false; ?>">
+			<label class="control-label" for="url">Url</label>
+			<?php echo Form::text('url', "/".$menus->url, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')); ?>
+
+			<?php foreach($errors->get('url') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<div class="panel-footer clearfix">
+		<button type="submit" class="btn btn-primary pull-right">Update</button>
+	</div>
+</div>
+<?php echo Form::hidden('menu_id',$menu_id,['id'=>'menu_id']);; ?>
+
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>

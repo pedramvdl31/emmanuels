@@ -1,0 +1,17 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php echo HTML::style('packages/DataTables-Bootstrap3/BS3/assets/css/datatables.css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php echo HTML::script('js/users_index.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="jumbotron">
+	<h1>Admins</h1>
+	<ol class="breadcrumb">
+		<li class="active">Admins</li>
+		<li><a href="<?php echo action('AdminsController@getAdd'); ?>"></a></li>
+	</ol>
+</div>
+<?php $__env->stopSection(); ?>

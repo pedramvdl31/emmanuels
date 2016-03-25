@@ -1,0 +1,96 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php echo HTML::script('packages/tinymce2/js/tinymce/tinymce.min.js'); ?>
+
+<?php echo HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js'); ?>
+
+<?php echo HTML::script('js/pages_add.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="jumbotron">
+	<h1>Pages Add</h1>
+	<ol class="breadcrumb">
+		<li class="active">Pages Add</li>
+		<li><a href="<?php echo action('PagesController@getIndex'); ?>">Pages Overview</a></li>
+	</ol>
+</div>
+<?php echo Form::open(array('action' => 'PagesController@postAdd', 'class'=>'','role'=>"form")); ?>
+
+
+<div class="row">
+	<div class="col-md-2">
+		<ul id="deliveryStepy" class="nav nav-pills nav-stacked">
+			<li class="active " role="presentation"><a href="#marketing"><span class="badge">1</span> Marketing</a></li>
+			<li class="content-step" role="presentation"><a href="#content"><span class="badge">2</span> Content</a></li>
+		</ul>
+	</div>
+	<div class="col-md-10">
+		<div id="marketing" class="steps panel panel-success">
+			
+			<div class="panel-body">
+				<div class="form-group <?php echo $errors->has('title') ? 'has-error' : false; ?>">
+					<label class="control-label" for="title">Title</label>
+					<?php echo Form::text('title', isset($form_data['title'])?$form_data['title']:null, array('class'=>'form-control', 'placeholder'=>'Title','id'=>'title')); ?>
+
+					<?php foreach($errors->get('title') as $message): ?>
+					<span class='help-block'><?php echo $message; ?></span>
+					<?php endforeach; ?>
+				</div>
+				<div class="form-group <?php echo $errors->has('description') ? 'has-error' : false; ?>">
+					<label class="control-label" for="description">Description</label>
+					<?php echo Form::textarea('description', isset($form_data['description'])?$form_data['description']:null, array('class'=>'form-control','style'=>'resize: none;', 'placeholder'=>'Description')); ?>
+
+					<?php foreach($errors->get('description') as $message): ?>
+					<span class='help-block'><?php echo $message; ?></span>
+					<?php endforeach; ?>
+				</div>
+				<div class="form-group <?php echo $errors->has('url') ? 'has-error' : false; ?>">
+					<label class="control-label" for="url">Url</label>
+					<?php echo Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('class'=>'form-control','placeholder'=>'Url','id'=>'url')); ?>
+
+					<?php foreach($errors->get('url') as $message): ?>
+					<span class='help-block'><?php echo $message; ?></span>
+					<?php endforeach; ?>
+				</div>
+				<div class="form-group <?php echo $errors->has('keywords') ? 'has-error' : false; ?>">
+					<label class="control-label" for="keywords">Keywords</label>
+					<?php echo Form::textarea('keywords', isset($form_data['keywords'])?$form_data['keywords']:null, array('class'=>'form-control','style'=>'resize: none;', 'placeholder'=>'Keywords')); ?>
+
+					<?php foreach($errors->get('keywords') as $message): ?>
+					<span class='help-block'><?php echo $message; ?></span>
+					<?php endforeach; ?>
+				</div>
+			</div>
+			<div class="panel-footer clearfix">
+				<button type="button" class="btn btn-primary pull-right submit-btn next" >Next</button>
+			</div>
+		</div>
+		<div id="content" class="steps panel panel-success hide">
+			<div class="panel-heading" style="font-size:17px;"><strong>Content Management</strong></div>
+			<div class="panel-body">
+				<button type="button" id="add-content" class=" btn btn-success btn-block" >Add Section&nbsp;&nbsp;&nbsp;<i class="glyphicon glyphicon-plus"></i></button>
+				<div class="content-area">
+					<div class="content-area-session  <?php echo isset($form_data['html'])?'':'hide'; ?>">
+						<?php if(!empty($form_data['html'])): ?>
+							<?php foreach($form_data['html'] as $data): ?>
+								<?php echo $data; ?>
+
+							<?php endforeach; ?>
+						<?php endif; ?>
+					</div>
+				</div>
+			</div>
+			<div class="panel-footer">
+				<button type="button" class="previous btn btn-default" step="2"><i class="glyphicon glyphicon-chevron-left"></i> Previous</button>
+				<button type="submit" class="btn btn-primary pull-right submit-btn">Preview</button>
+			</div>
+		</div>
+	</div>
+</div>
+<?php echo Form::hidden('content_count',null,['id'=>'content_count']);; ?>
+
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,65 @@
+<?php $__env->startSection('stylesheets'); ?>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+<?php echo HTML::script('packages/riverside-friendurl-e3d8b63/jquery.friendurl.js'); ?>
+
+<?php echo HTML::script('js/menus_add.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+<div class="jumbotron">
+	<h1>Menus Add</h1>
+	<ol class="breadcrumb">
+		<li class="active">Menus Add</li>
+		<li><a href="<?php echo action('MenusController@getIndex'); ?>">Menus Overview</a></li>
+	</ol>
+</div>
+<?php echo Form::open(array('action' => 'MenusController@postAdd', 'class'=>'','role'=>"form")); ?>
+
+<div  class="panel panel-success">
+	<div class="panel-body">
+		<div class="form-group <?php echo $errors->has('name') ? 'has-error' : false; ?>">
+			<label class="control-label" for="name">Name</label>
+			<?php echo Form::text('name', null, array('class'=>'form-control', 'placeholder'=>'Name','id'=>'name')); ?>
+
+			<?php foreach($errors->get('name') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<div class="form-group <?php echo $errors->has('kind') ? 'has-error' : false; ?>">
+			<label class="control-label" for="kind">Kind</label>
+			<?php echo Form::select('kind', $prepared_select, null, array('class'=>'form-control kind','not_empty'=>'true','id'=>false));; ?>
+
+			<?php foreach($errors->get('keyword') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<div class="form-group page-field <?php echo $errors->has('page_id') ? 'has-error' : false; ?>" style="margin-bottom: 10px;">
+			<label class="control-label" for="page_id">Page_id</label>
+			<?php echo Form::select('page_id', $pages_prepared, null, array('class'=>'form-control page_id','not_empty'=>'true','page_id'=>false));; ?>
+
+			<?php foreach($errors->get('page_id') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+		<p>&nbsp;
+			<i class="glyphicon glyphicon-info-sign"style="color:#5bc0de;"></i>&nbsp;If you're having trouble viewing some pages click here to add or change the statuses
+			<i class="btn btn-sm btn-default" id="page-index" this-url="<?php echo action('PagesController@getIndex'); ?>" href="#">Pages</i>
+			<button type="button" class="btn btn-primary btn-sm" id="reload-pages"><i class="glyphicon glyphicon-refresh"></i>&nbsp;Reload Pages</button> 
+		</p>
+		<div class="form-group <?php echo $errors->has('url') ? 'has-error' : false; ?>">
+			<label class="control-label" for="url">Url</label>
+			<?php echo Form::text('url', isset($form_data['url'])?$form_data['url']:null, array('readonly'=>'readonly' ,'class'=>'form-control','placeholder'=>'Url','id'=>'url')); ?>
+
+			<?php foreach($errors->get('url') as $message): ?>
+			<span class='help-block'><?php echo $message; ?></span>
+			<?php endforeach; ?>
+		</div>
+	</div>
+	<div class="panel-footer clearfix">
+		<button type="submit" class="btn btn-primary pull-right">Submit</button>
+	</div>
+</div>
+<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>

@@ -1,0 +1,189 @@
+<?php $__env->startSection('stylesheets'); ?>
+	<?php echo HTML::style('packages/intl-tel-input/build/css/intlTelInput.css'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('scripts'); ?>
+	<?php echo HTML::script('packages/intl-tel-input/lib/libphonenumber/build/isValidNumber.js'); ?>
+
+	<?php echo HTML::script('packages/intl-tel-input/build/js/intlTelInput.js'); ?>
+
+	<?php echo HTML::script('packages/numeric/jquery.numeric.js'); ?>
+
+	
+	<?php echo HTML::script('js/company_edit.js'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
+	<?php echo Form::open(array('action' => 'CompaniesController@postAdd', 'class'=>'','role'=>"form")); ?>
+
+	<div id="step1" class="panel panel-default">
+		
+		<div class="panel-heading">
+			<h4>General Company Information <span class="glyphicon glyphicon-info-sign"></span></h4>
+		</div>
+		<div id="step1_panel" class="panel-body">
+		
+
+		  	<div class="form-group <?php echo $errors->has('name') ? 'has-error has-feedback' : false; ?>">
+		  		<?php echo Form::label('name', 'Company Name', array('class' => 'control-label','style="width:100%;')); ?>
+
+		    	<?php echo Form::text('name', null, array('class'=>'form-control', 'not_empty'=>'true', 'placeholder'=>'Official Name of Company')); ?>
+
+		        <?php foreach($errors->get('name') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>
+		  	<div class="form-group <?php echo $errors->has('phone') ? 'has-error has-feedback' : false; ?>">
+		    	<?php echo Form::label('phone', 'Phone Number', array('class' => 'control-label')); ?>
+
+		    	<?php echo Form::text('phone', null, array('class'=>'form-control form-phone', 'placeholder'=>'eg ### ### ####')); ?>
+
+		        <?php foreach($errors->get('phone') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>
+		  	<div class="form-group <?php echo $errors->has('email') ? 'has-error has-feedback' : false; ?>">
+		    	<label class="control-label" for="nick_name">Company Email </label>
+		    	<?php echo Form::text('email', null, array('class'=>'form-control', 'not_empty'=>'false', 'placeholder'=>'example xxxx@xxx.com')); ?>
+
+		        <?php foreach($errors->get('email') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>
+		  	<div class="form-group <?php echo $errors->has('street') ? 'has-error has-feedback' : false; ?>">
+		    	<?php echo Form::label('street', 'Street Address', array('class' => 'control-label')); ?>
+
+		    	<?php echo Form::text('street', null, array('class'=>'form-control','not_empty'=>'true', 'placeholder'=>'Street Address')); ?>
+
+		        <?php foreach($errors->get('street') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		       	<?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>	  
+		  	<div class="form-group <?php echo $errors->has('zipcode') ? 'has-error has-feedback' : false; ?>">
+		    	<?php echo Form::label('zipcode', 'Zipcode / Postal Code', array('class' => 'control-label')); ?>
+
+		    	<?php echo Form::text('zipcode', null, array('class'=>'form-control', 'not_empty'=>'true', 'placeholder'=>'Zipcode')); ?>
+
+		        <?php foreach($errors->get('zipcode') as $message): ?>
+		            <span class='help-block hide'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>
+		  	<div class="form-group <?php echo $errors->has('city') ? 'has-error has-feedback' : false; ?>">
+		    	<?php echo Form::label('city', 'City', array('class' => 'control-label')); ?>
+
+		    	<?php echo Form::text('city', null, array('class'=>'form-control', 'not_empty'=>'true', 'placeholder'=>'City','data-provide'=>'typeahead', 'autocomplete'=>'off')); ?>
+
+		        <?php foreach($errors->get('city') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>	
+		  	<div class="form-group <?php echo $errors->has('state') ? 'has-error has-feedback' : false; ?>">
+		    	<label class="control-label" for="state">State <small><em>(If applicable)</em></small></label>
+		    	<?php echo Form::text('state', null, array('class'=>'form-control','not_empty'=>'true', 'placeholder'=>'State')); ?>
+
+		        <?php foreach($errors->get('state') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>	
+		  	<div class="form-group <?php echo $errors->has('region') ? 'has-error has-feedback' : false; ?>">
+		    	<label class="control-label" for="region">Region / Territory <small><em>(If applicable)</em></small></label>
+		    	<?php echo Form::text('region', null, array('class'=>'form-control', 'placeholder'=>'region')); ?>
+
+		        <?php foreach($errors->get('region') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>	
+		  	<div class="form-group <?php echo $errors->has('country') ? 'has-error has-feedback' : false; ?>">
+		    	<?php echo Form::label('country', 'Country', array('class' => 'control-label')); ?>
+
+		    	<?php echo Form::select('country', $country_code, 'US', array('class'=>'form-control','not_empty'=>'true'));; ?>
+
+
+		        <?php foreach($errors->get('country') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>	
+
+		</div>
+	</div>
+	<div id="step2" class="panel panel-default">
+		
+		<div class="panel-heading">
+			<h4>Detailed Company Information <span class="glyphicon glyphicon-info-sign"></span></h4>
+		</div>
+		<div id="step2_panel" class="panel-body">
+		  	<div class="form-group <?php echo $errors->has('url') ? 'has-error has-feedback' : false; ?>">
+		    	<label class="control-label" for="url">Company Url</label>
+		    	<?php echo Form::text('url', '', array('class'=>'form-control', 'not_empty'=>'false', 'placeholder'=>'Please enter a valid url','readonly'=>true)); ?>
+
+		        <?php foreach($errors->get('url') as $message): ?>
+		            <span class='help-block'><?php echo $message; ?></span>
+		            <span class="glyphicon glyphicon-ok form-control-feedback"></span>
+		        <?php endforeach; ?>
+		        <?php if(count($errors) == 0): ?>
+		        <span class='help-block hide'></span>
+		        <span class="glyphicon glyphicon-ok form-control-feedback hide"></span>
+		  		<?php endif; ?>
+		  	</div>
+		  	<div class="form-group">
+		  		<label class="control-label">Company Hours</label>
+		  		<?php echo View::make('partials.companies.store_hours'); ?>
+
+		  	</div>
+		</div>
+	</div>
+
+	<div id="step4" class="row-fluid clearfix" >
+		<input type="submit" value="Validate Company" class="btn btn-primary btn-large pull-right"/>
+
+	</div>
+	<br/>
+
+	<?php echo Form::close(); ?>
+
+<?php $__env->stopSection(); ?>
